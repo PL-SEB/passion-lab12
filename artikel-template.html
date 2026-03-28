@@ -27,10 +27,11 @@ h1, h2, h3 { font-weight: 500; }
 #cursor.big { width: 48px; height: 48px; background: rgba(240,85,40,.15); border: 1px solid rgba(240,85,40,.5); }
 #cursor-glow { width: 36px; height: 36px; border: 1px solid rgba(240,85,40,.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
 
-/* NAV */
+/* NAV — light (artikel är ljus sida) */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; background: rgba(255,255,255,.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,.06); transition: padding .4s; }
 nav.scrolled { padding: 14px 48px; }
-.nav-logo { font-size: 18px; font-weight: 800; letter-spacing: -.5px; color: var(--black); }
+.nav-logo { display: flex; align-items: center; }
+.nav-logo img { height: 28px; display: block; }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-link-wrap { position: relative; overflow: hidden; }
 .nav-links a { font-size: 13px; font-weight: 500; color: #999; transition: color .25s; display: block; }
@@ -62,13 +63,13 @@ nav.scrolled { padding: 14px 48px; }
 .share-link:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
 /* HERO IMAGE */
-.article-hero-img { margin: 56px 48px 0; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 48px; }
+.article-hero-img { margin-top: 56px; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 48px; }
 .article-hero-img-inner { aspect-ratio: 16/7; border-radius: 8px; overflow: hidden; background: #f0ede8; }
 .article-hero-img-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .article-hero-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 80px; background: linear-gradient(135deg,#1a0800,#3d1200); }
 
 /* ARTICLE BODY */
-.article-body { max-width: 1200px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 1fr 260px; gap: 64px; margin-top: 64px; }
+.article-body { max-width: 1200px; margin: 64px auto 0; padding: 0 48px; display: grid; grid-template-columns: 1fr 260px; gap: 64px; }
 .article-content { max-width: 680px; padding-bottom: 120px; }
 .article-content h2 { font-size: clamp(22px,2.5vw,30px); font-weight: 500; letter-spacing: -.5px; color: var(--black); margin: 48px 0 16px; }
 .article-content p { font-size: 17px; line-height: 1.8; color: #333; margin-bottom: 24px; }
@@ -76,15 +77,14 @@ nav.scrolled { padding: 14px 48px; }
 .article-content blockquote { border-left: 3px solid var(--orange); padding-left: 28px; margin: 40px 0; }
 .article-content blockquote p { font-size: 20px; font-style: italic; font-weight: 500; color: var(--black); line-height: 1.5; margin-bottom: 0; }
 .article-content hr { border: none; border-top: 1px solid rgba(0,0,0,.08); margin: 48px 0; }
-.article-sidebar { padding-top: 0; border-left: 1px solid rgba(0,0,0,.08); padding-left: 40px; }
+.article-sidebar { border-left: 1px solid rgba(0,0,0,.08); padding-left: 40px; }
 .sidebar-author { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(0,0,0,.08); }
 .author-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ccc; margin-bottom: 12px; }
 .author-name { font-size: 15px; font-weight: 500; color: var(--black); margin-bottom: 6px; }
 .author-role { font-size: 12px; color: #999; margin-bottom: 12px; }
 .author-bio { font-size: 13px; color: #aaa; line-height: 1.65; }
-.sidebar-related { }
 .related-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ccc; margin-bottom: 20px; }
-.related-item { padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,.06); }
+.related-item { padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,.06); display: block; }
 .related-item:last-child { border-bottom: none; }
 .related-cat { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
 .related-title { font-size: 14px; font-weight: 500; color: var(--black); line-height: 1.3; transition: color .25s; }
@@ -100,9 +100,7 @@ nav.scrolled { padding: 14px 48px; }
 .more-link:hover { color: var(--orange); gap: 10px; }
 .more-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
 .more-card { cursor: none; }
-.more-card:hover .more-img img { transform: scale(1.04); }
 .more-img { aspect-ratio: 3/2; border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
-.more-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.16,1,.3,1); }
 .more-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 36px; }
 .more-cat { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
 .more-card-title { font-size: 16px; font-weight: 500; letter-spacing: -.2px; color: var(--black); line-height: 1.25; transition: color .25s; }
@@ -113,7 +111,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
 .footer-inner { max-width: 1200px; margin: 0 auto; }
 .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; margin-bottom: 56px; }
 .footer-brand { max-width: 280px; }
-.footer-logo { font-size: 19px; font-weight: 800; color: var(--black); display: block; margin-bottom: 14px; }
 .footer-tagline { font-size: 13px; color: #aaa; line-height: 1.65; }
 .footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 18px; }
 .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
@@ -126,9 +123,9 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
 .footer-social a:hover { color: var(--orange); }
 
 @media (max-width: 900px) {
-  .article-header,.article-body{grid-template-columns:1fr}
-  .article-meta-sidebar,.article-sidebar{display:none}
-  .more-grid{grid-template-columns:1fr 1fr}
+  .article-header,.article-body { grid-template-columns: 1fr; }
+  .article-meta-sidebar,.article-sidebar { display: none; }
+  .more-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 768px) {
   nav{padding:18px 24px} .nav-links{display:none} .hamburger{display:flex}
@@ -139,11 +136,37 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
 }
 </style>
 </head>
-<body data-page="artiklar">
-<script src="nav.js"></script>
+<body>
 
 <div id="cursor"></div>
 <div id="cursor-glow"></div>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Passion Lab" style="height:28px;display:block;filter:brightness(0)">
+  </a>
+  <div class="nav-links">
+    <span class="nav-link-wrap"><a href="om-oss.html">Om oss</a></span>
+    <span class="nav-link-wrap"><a href="reklam.html">Reklam</a></span>
+    <span class="nav-link-wrap"><a href="sponsring.html">Sponsring</a></span>
+    <span class="nav-link-wrap"><a href="event.html">Event</a></span>
+    <span class="nav-link-wrap active"><a href="artiklar.html" class="active">Artiklar</a></span>
+    <a href="kontakt.html" class="nav-cta">Kontakt</a>
+  </div>
+  <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Meny">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu">
+  <button class="mobile-close" onclick="document.querySelector('.mobile-menu').classList.remove('open')">✕</button>
+  <a href="om-oss.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Om oss</a>
+  <a href="reklam.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Reklam</a>
+  <a href="sponsring.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Sponsring</a>
+  <a href="event.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Event</a>
+  <a href="artiklar.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Artiklar</a>
+  <a href="kontakt.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
+</div>
 
 <!-- ARTICLE HEADER -->
 <div class="article-header">
@@ -221,17 +244,17 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
     </div>
     <div class="sidebar-related">
       <p class="related-label">Relaterade artiklar</p>
-      <a href="artikel-template.html" class="related-item" style="display:block">
+      <a href="artikel-template.html" class="related-item">
         <p class="related-cat">Sponsring</p>
         <p class="related-title">Så hittar du rätt sponsringspartner för ditt varumärke</p>
         <p class="related-date">4 mar 2026</p>
       </a>
-      <a href="artikel-template.html" class="related-item" style="display:block">
+      <a href="artikel-template.html" class="related-item">
         <p class="related-cat">Sponsring</p>
         <p class="related-title">Rättighetsoptimering — får du ut vad du betalar för?</p>
         <p class="related-date">14 feb 2026</p>
       </a>
-      <a href="artikel-template.html" class="related-item" style="display:block">
+      <a href="artikel-template.html" class="related-item">
         <p class="related-cat">Strategi</p>
         <p class="related-title">Brand emotion — vad det är och varför det funkar</p>
         <p class="related-date">10 jan 2026</p>
@@ -249,7 +272,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
     </div>
     <div class="more-grid">
       <a href="artikel-template.html" class="more-card">
-        <div class="more-img"><div class="more-img-placeholder p4" style="background:linear-gradient(135deg,#1a0008,#3a0020)">🏟️</div></div>
+        <div class="more-img"><div class="more-img-placeholder" style="background:linear-gradient(135deg,#1a0008,#3a0020)">🏟️</div></div>
         <p class="more-cat">Event</p>
         <h3 class="more-card-title">5 saker som skiljer bra event från legendariska</h3>
       </a>
@@ -267,7 +290,50 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
   </div>
 </div>
 
-
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" style="display:block;margin-bottom:16px">
+          <img src="logo.png" alt="Passion Lab" style="height:22px;display:block;filter:brightness(0);opacity:.4">
+        </a>
+        <p class="footer-tagline">Älska sånt folk älskar. Sveriges ledande byrå inom sponsring och event.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Vad vi gör</h4>
+        <ul>
+          <li><a href="sponsring.html">Sponsring</a></li>
+          <li><a href="event.html">Event</a></li>
+          <li><a href="reklam.html">Reklam</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Företaget</h4>
+        <ul>
+          <li><a href="om-oss.html">Om oss</a></li>
+          <li><a href="artiklar.html">Artiklar</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="mailto:hello@passionlab.se">hello@passionlab.se</a></li>
+          <li><a href="#">Stockholm, Sverige</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Passion Lab. Alla rättigheter förbehållna.</p>
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
 const cur = document.getElementById('cursor');
@@ -289,6 +355,5 @@ window.addEventListener('scroll',()=>{
   document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);
 });
 </script>
-<script src="footer.js"></script>
 </body>
 </html>
