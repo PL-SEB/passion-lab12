@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="nav.js"></script>
 <title>Varför sponsring slår traditionell reklam 2026 – Passion Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,10 +139,35 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
 }
 </style>
 </head>
-<body data-page="artikel-template">
-  
+<body>
+
 <div id="cursor"></div>
 <div id="cursor-glow"></div>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">Passion Lab</a>
+  <div class="nav-links">
+    <span class="nav-link-wrap"><a href="om-oss.html">Om oss</a></span>
+    <span class="nav-link-wrap"><a href="reklam.html">Reklam</a></span>
+    <span class="nav-link-wrap"><a href="sponsring.html">Sponsring</a></span>
+    <span class="nav-link-wrap"><a href="event.html">Event</a></span>
+    <span class="nav-link-wrap"><a href="artiklar.html">Artiklar</a></span>
+    <a href="kontakt.html" class="nav-cta">Kontakt</a>
+  </div>
+  <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Meny">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu">
+  <button class="mobile-close" onclick="document.querySelector('.mobile-menu').classList.remove('open')">✕</button>
+  <a href="om-oss.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Om oss</a>
+  <a href="reklam.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Reklam</a>
+  <a href="sponsring.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Sponsring</a>
+  <a href="event.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Event</a>
+  <a href="artiklar.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Artiklar</a>
+  <a href="kontakt.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
+</div>
 
 <!-- ARTICLE HEADER -->
 <div class="article-header">
@@ -267,6 +291,33 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.08); backgro
   </div>
 </div>
 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo">Passion Lab</span>
+        <p class="footer-tagline">Älska sånt folk älskar. Sveriges ledande byrå inom sponsring och event.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Vad vi gör</h4>
+        <ul><li><a href="sponsring.html">Sponsring</a></li><li><a href="event.html">Event</a></li><li><a href="reklam.html">Reklam</a></li></ul>
+      </div>
+      <div class="footer-links">
+        <h4>Företaget</h4>
+        <ul><li><a href="om-oss.html">Om oss</a></li><li><a href="artiklar.html">Artiklar</a></li><li><a href="kontakt.html">Kontakt</a></li></ul>
+      </div>
+      <div class="footer-links">
+        <h4>Kontakt</h4>
+        <ul><li><a href="mailto:hello@passionlab.se">hello@passionlab.se</a></li><li><a href="#">Stockholm, Sverige</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Passion Lab. Alla rättigheter förbehållna.</p>
+      <div class="footer-social"><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">TikTok</a></div>
+    </div>
+  </div>
+</footer>
 
 <script>
 const cur = document.getElementById('cursor');
@@ -287,5 +338,6 @@ document.querySelectorAll('a,button').forEach(el => {
 window.addEventListener('scroll',()=>{
   document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);
 });
-<script src="footer.js"></script></body>
+</script>
+</body>
 </html>
