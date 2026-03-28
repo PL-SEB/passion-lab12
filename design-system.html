@@ -38,21 +38,21 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .nav-logo img { height: 26px; display: block; }
 .nav-right { display: flex; align-items: center; gap: 20px; }
 .nav-badge { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); border: 1px solid rgba(240,85,40,.3); padding: 4px 12px; border-radius: 100px; }
-.nav-back { font-size: 13px; font-weight: 500; color: #333; transition: color .25s; }
+.nav-back { font-size: 13px; font-weight: 500; color: #555; transition: color .25s; }
 .nav-back:hover { color: var(--white); }
 
-/* LAYOUT — key fix: main gets margin-left equal to sidebar width */
+/* LAYOUT */
 .layout { display: flex; min-height: 100vh; padding-top: var(--nav-h); }
 
 /* SIDEBAR */
-.sidebar { position: fixed; top: var(--nav-h); left: 0; bottom: 0; width: var(--sidebar-w); border-right: 1px solid rgba(255,255,255,.04); padding: 48px 0; overflow-y: auto; flex-shrink: 0; }
+.sidebar { position: fixed; top: var(--nav-h); left: 0; bottom: 0; width: var(--sidebar-w); border-right: 1px solid rgba(255,255,255,.04); padding: 48px 0; overflow-y: auto; }
 .sidebar-group { margin-bottom: 36px; }
 .sidebar-group-label { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #555; padding: 0 28px; margin-bottom: 6px; }
 .sidebar-link { display: block; font-size: 13px; font-weight: 400; color: #666; padding: 7px 28px; transition: color .2s; }
 .sidebar-link:hover { color: #aaa; }
 .sidebar-link.active { color: var(--white); }
 
-/* MAIN — gets left margin so sidebar doesn't overlap */
+/* MAIN */
 .main { margin-left: var(--sidebar-w); flex: 1; padding: 80px 80px 160px; min-width: 0; }
 .main-inner { max-width: 900px; }
 
@@ -66,38 +66,39 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 /* SUB LABEL */
 .sub-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 20px; }
 
-/* LOGO SECTION */
+/* LOGO */
 .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border-radius: 16px; overflow: hidden; }
 .logo-tile { padding: 56px 48px; display: flex; align-items: center; justify-content: center; }
 .logo-tile-dark { background: #080808; }
 .logo-tile-light { background: var(--whatever-white); }
 .logo-tile img { height: 32px; display: block; }
-.logo-tile-light img { filter: brightness(0); }
 .logo-meta { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .logo-meta-item { background: #080808; padding: 20px 24px; }
 .logo-meta-item:first-child { border-radius: 0 0 0 12px; }
 .logo-meta-item:last-child { border-radius: 0 0 12px 0; }
-.logo-meta-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #222; margin-bottom: 6px; }
-.logo-meta-val { font-size: 13px; color: #444; line-height: 1.6; }
+.logo-meta-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+.logo-meta-val { font-size: 13px; color: #888; line-height: 1.6; }
 
 /* COLORS */
 .color-section { margin-bottom: 48px; }
-.color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.color-row { display: flex; gap: 16px; flex-wrap: wrap; }
 .color-chip-wrap { display: flex; flex-direction: column; gap: 8px; position: relative; }
-.color-chip { width: 72px; height: 72px; border-radius: 12px; border: 1px solid rgba(255,255,255,.04); transition: transform .35s cubic-bezier(.34,1.56,.64,1); cursor: none; }
+.color-chip { width: 80px; height: 80px; border-radius: 16px; border: 1px solid rgba(255,255,255,.06); transition: transform .35s cubic-bezier(.34,1.56,.64,1); cursor: none; }
 .color-chip:hover { transform: translateY(-6px) scale(1.06); }
 .color-chip-name { font-size: 11px; font-weight: 500; color: var(--white); }
-.color-chip-hex { font-size: 10px; color: #555; font-family: monospace; }
+.color-chip-hex { font-size: 10px; color: #666; font-family: monospace; }
+
+/* COLOR SCALE POPUP */
+.scale-popup { display: none; position: absolute; top: 96px; left: 0; z-index: 50; background: #111; border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 10px; flex-direction: column; gap: 3px; width: 170px; box-shadow: 0 24px 64px rgba(0,0,0,.7); }
+.color-chip-wrap.open .scale-popup { display: flex; }
+.scale-swatch { height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; cursor: none; transition: transform .2s cubic-bezier(.34,1.2,.64,1); }
+.scale-swatch:hover { transform: scaleX(1.03); }
+.scale-hex { font-size: 9px; font-family: monospace; color: rgba(255,255,255,.55); }
+
+/* GRAY SCALE */
 .gray-strip { display: flex; gap: 3px; margin-top: 8px; }
 .gray-chip { flex: 1; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,.03); transition: transform .3s cubic-bezier(.34,1.56,.64,1); cursor: none; }
 .gray-chip:hover { transform: translateY(-4px); }
-
-/* COLOR SCALE POPUP */
-.scale-popup { display: none; position: absolute; top: 84px; left: 0; z-index: 50; background: #111; border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 12px; flex-direction: column; gap: 3px; width: 160px; box-shadow: 0 24px 64px rgba(0,0,0,.6); }
-.color-chip-wrap.open .scale-popup { display: flex; }
-.scale-swatch { height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; cursor: none; transition: transform .2s cubic-bezier(.34,1.2,.64,1); }
-.scale-swatch:hover { transform: scaleX(1.04); }
-.scale-hex { font-size: 9px; font-family: monospace; color: rgba(255,255,255,.5); mix-blend-mode: difference; }
 
 /* TYPOGRAPHY */
 .type-row { display: grid; grid-template-columns: 140px 1fr; gap: 40px; align-items: baseline; padding: 36px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
@@ -108,16 +109,16 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 /* BUTTONS */
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 40px; }
 .btn-row-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; width: 100%; margin-bottom: 4px; }
-.ds-btn { padding: 13px 28px; border-radius: 100px; font-family: var(--font); font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: none; border: none; transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, background .25s, border-color .25s, opacity .25s; }
+.ds-btn { padding: 13px 28px; border-radius: 100px; font-family: var(--font); font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: none; border: none; transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, opacity .25s; }
 .btn-primary { background: var(--orange); color: var(--white); }
 .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 40px rgba(240,85,40,.3); }
-.btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,.15); }
-.btn-outline:hover { border-color: rgba(255,255,255,.5); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,.2); }
+.btn-outline:hover { border-color: rgba(255,255,255,.6); transform: translateY(-2px); }
 .btn-pink { background: var(--pink); color: var(--black); }
-.btn-pink:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 40px rgba(250,179,255,.3); }
+.btn-pink:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 40px rgba(250,179,255,.25); }
+.btn-ghost { background: transparent; color: #999; padding: 13px 0; border: none; }
 .btn-ghost:hover { color: var(--white); }
 .btn-sm { padding: 8px 18px; font-size: 12px; }
-.btn-ghost:hover { color: var(--white); }
 .btn-disabled { opacity: .25; pointer-events: none; }
 
 /* TAGS */
@@ -125,7 +126,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .ds-tag { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; transition: transform .3s cubic-bezier(.34,1.56,.64,1); cursor: none; }
 .ds-tag:hover { transform: translateY(-3px) scale(1.05); }
 .tag-orange { background: rgba(240,85,40,.1); color: var(--orange); border: 1px solid rgba(240,85,40,.2); }
-.tag-outline { background: transparent; color: #333; border: 1px solid rgba(255,255,255,.08); }
+.tag-outline { background: transparent; color: #666; border: 1px solid rgba(255,255,255,.1); }
 .tag-solid { background: var(--orange); color: var(--white); }
 .tag-pink { background: rgba(250,179,255,.08); color: var(--pink); border: 1px solid rgba(250,179,255,.15); }
 .tag-blue { background: rgba(69,89,251,.12); color: #7b8fff; border: 1px solid rgba(69,89,251,.2); }
@@ -137,16 +138,16 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .ds-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(240,85,40,.07) 0%, transparent 60%); opacity: 0; transition: opacity .4s; pointer-events: none; }
 .ds-card:hover { background: #0d0d0d; transform: translateY(-2px); }
 .ds-card:hover::after { opacity: 1; }
-.ds-card-num { font-size: 10px; font-weight: 600; color: #1a1a1a; letter-spacing: 1px; margin-bottom: 20px; font-family: monospace; }
+.ds-card-num { font-size: 10px; font-weight: 600; color: #555; letter-spacing: 1px; margin-bottom: 20px; font-family: monospace; }
 .ds-card h4 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
-.ds-card p { font-size: 13px; color: #333; line-height: 1.65; }
+.ds-card p { font-size: 13px; color: #666; line-height: 1.65; }
 
 /* RADIUS */
 .radius-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
 .radius-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .radius-box { width: 56px; height: 56px; background: #0d0d0d; border: 1px solid rgba(255,255,255,.08); transition: background .3s, transform .3s cubic-bezier(.34,1.56,.64,1); cursor: none; }
 .radius-box:hover { background: #161616; transform: scale(1.1); }
-.radius-val { font-size: 10px; color: #2a2a2a; font-family: monospace; }
+.radius-val { font-size: 10px; color: #666; font-family: monospace; }
 
 /* SPACING */
 .spacing-row { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
@@ -157,7 +158,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 /* ANIMATIONS */
 .anim-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; border-radius: 16px; overflow: hidden; }
 .anim-tile { background: #080808; padding: 48px 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; min-height: 160px; }
-.anim-tile-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #1a1a1a; text-align: center; }
+.anim-tile-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #555; text-align: center; }
 .a-dot { width: 32px; height: 32px; background: var(--orange); border-radius: 50%; }
 .a-pulse { animation: aPulse 2s ease-in-out infinite; }
 @keyframes aPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.6);opacity:.3} }
@@ -189,8 +190,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .tone-item { margin-bottom: 24px; }
 .tone-item:last-child { margin-bottom: 0; }
 .tone-quote { font-size: 14px; font-weight: 500; color: var(--white); line-height: 1.5; margin-bottom: 4px; }
-.tone-dont .tone-quote { color: #2a2a2a; text-decoration: line-through; text-decoration-color: rgba(255,64,64,.3); }
-.tone-note { font-size: 12px; color: #222; line-height: 1.6; }
+.tone-dont .tone-quote { color: #444; text-decoration: line-through; text-decoration-color: rgba(255,64,64,.3); }
+.tone-note { font-size: 12px; color: #555; line-height: 1.6; }
 
 /* REVEAL */
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
@@ -220,7 +221,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 </nav>
 
 <div class="layout">
-
   <aside class="sidebar">
     <div class="sidebar-group">
       <p class="sidebar-group-label">Identitet</p>
@@ -253,7 +253,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
       <div style="margin-bottom:100px" class="reveal">
         <p style="font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:20px">Passion Lab — Internt</p>
         <h1 style="font-size:clamp(52px,7vw,88px);font-weight:500;letter-spacing:-2px;line-height:.9;margin-bottom:20px">Design<br><span style="font-family:var(--font-display);font-weight:300;font-style:italic;color:var(--orange)">System</span></h1>
-        <p style="font-size:15px;color:#333;max-width:440px;line-height:1.75">Passion Labs visuella språk. Referens för alla som designar, bygger eller kommunicerar för byrån.</p>
+        <p style="font-size:15px;color:#888;max-width:440px;line-height:1.75">Passion Labs visuella språk. Referens för alla som designar, bygger eller kommunicerar för byrån.</p>
       </div>
 
       <!-- LOGGA -->
@@ -267,7 +267,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           <div class="logo-tile logo-tile-dark">
             <img src="logo.png" alt="Passion Lab — vit på svart">
           </div>
-          <div class="logo-tile logo-tile-light" style="background:var(--whatever-white)">
+          <div class="logo-tile logo-tile-light">
             <img src="Logo_black.png" alt="Passion Lab — svart på ljus" style="height:32px;display:block">
           </div>
         </div>
@@ -295,7 +295,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           <p class="sub-label">Primär</p>
           <div class="color-row">
             <div class="color-chip-wrap">
-              <div class="color-chip" style="background:#000;border:1px solid rgba(255,255,255,.1)" title="#000000"></div>
+              <div class="color-chip" style="background:#000;border:1px solid rgba(255,255,255,.12)" title="#000000"></div>
               <p class="color-chip-name">Svart</p>
               <p class="color-chip-hex">#000000</p>
             </div>
@@ -307,9 +307,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           </div>
         </div>
 
-          <div class="color-section">
-          <p class="sub-label">Sekundär</p>
+        <div class="color-section">
+          <p class="sub-label">Sekundär — klicka för nyansskala</p>
           <div class="color-row">
+
+            <!-- ORANGE -->
             <div class="color-chip-wrap" id="chip-orange">
               <div class="color-chip" style="background:#f05528" title="#f05528" onclick="toggleScale('chip-orange')"></div>
               <p class="color-chip-name">Passion tangerine</p>
@@ -326,6 +328,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#fdddd0"><span class="scale-hex">#fdddd0</span></div>
               </div>
             </div>
+
+            <!-- PINK -->
             <div class="color-chip-wrap" id="chip-pink">
               <div class="color-chip" style="background:#fab3ff" title="#fab3ff" onclick="toggleScale('chip-pink')"></div>
               <p class="color-chip-name">Poppy pink</p>
@@ -342,6 +346,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#feeeff"><span class="scale-hex">#feeeff</span></div>
               </div>
             </div>
+
+            <!-- BLUE -->
             <div class="color-chip-wrap" id="chip-blue">
               <div class="color-chip" style="background:#4559fb" title="#4559fb" onclick="toggleScale('chip-blue')"></div>
               <p class="color-chip-name">Mellow blue</p>
@@ -358,6 +364,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#e0e5ff"><span class="scale-hex">#e0e5ff</span></div>
               </div>
             </div>
+
+            <!-- GREEN -->
             <div class="color-chip-wrap" id="chip-green">
               <div class="color-chip" style="background:#02b99f" title="#02b99f" onclick="toggleScale('chip-green')"></div>
               <p class="color-chip-name">Something green</p>
@@ -374,6 +382,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#ccf2ed"><span class="scale-hex">#ccf2ed</span></div>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -388,12 +397,12 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
             <div class="gray-chip" style="background:#2A2E34" title="Gray 600"></div>
           </div>
           <div style="display:flex;gap:3px;margin-top:6px">
-            <p style="flex:1;font-size:10px;color:#1e1e1e;font-family:monospace;text-align:center">100</p>
-            <p style="flex:1;font-size:10px;color:#1e1e1e;font-family:monospace;text-align:center">200</p>
-            <p style="flex:1;font-size:10px;color:#1e1e1e;font-family:monospace;text-align:center">300</p>
-            <p style="flex:1;font-size:10px;color:#1e1e1e;font-family:monospace;text-align:center">400</p>
-            <p style="flex:1;font-size:10px;color:#1e1e1e;font-family:monospace;text-align:center">500</p>
-            <p style="flex:1;font-size:10px;color:#1e1e1e;font-family:monospace;text-align:center">600</p>
+            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">100</p>
+            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">200</p>
+            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">300</p>
+            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">400</p>
+            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">500</p>
+            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">600</p>
           </div>
         </div>
       </div>
@@ -409,11 +418,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
         <div class="type-row">
           <div>
             <p class="type-meta-name">Display</p>
-            <p class="type-meta-spec">Ivypresto Display<br>Italic Light / 300<br>Hero & accent</p>
+            <p class="type-meta-spec">Ivypresto Display<br>Italic Light / 300<br>+ Inter Tight 500<br>Hero & accent</p>
           </div>
-          <p style="font-size:clamp(40px,6vw,80px);letter-spacing:-2px;line-height:.95;color:var(--orange)">
-            <span style="font-family:var(--font-display);font-weight:300;font-style:italic">Älska </span><span style="font-family:var(--font);font-weight:500">sånt folk </span><span style="font-family:var(--font-display);font-weight:300;font-style:italic">älskar.</span>
-          </p>
+          <p style="font-size:clamp(36px,5.5vw,72px);letter-spacing:-2px;line-height:.95;color:var(--orange)"><span style="font-family:var(--font-display);font-weight:300;font-style:italic">Älska </span><span style="font-family:var(--font);font-weight:500">sånt folk </span><span style="font-family:var(--font-display);font-weight:300;font-style:italic">älskar.</span></p>
         </div>
 
         <div class="type-row">
@@ -445,7 +452,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
             <p class="type-meta-name">Body large</p>
             <p class="type-meta-spec">Inter Tight<br>Regular / 400<br>17–19px</p>
           </div>
-          <p style="font-size:17px;color:#555;line-height:1.75;max-width:480px">Vi hjälper Sveriges ledande varumärken att engagera sig i sånt som människor bryr sig om — och visa det.</p>
+          <p style="font-size:17px;color:#999;line-height:1.75;max-width:480px">Vi hjälper Sveriges ledande varumärken att engagera sig i sånt som människor bryr sig om — och visa det.</p>
         </div>
 
         <div class="type-row">
@@ -453,7 +460,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
             <p class="type-meta-name">Body</p>
             <p class="type-meta-spec">Inter Tight<br>Regular / 400<br>14–16px</p>
           </div>
-          <p style="font-size:15px;color:#444;line-height:1.75;max-width:460px">Sponsring är inte en kanal. Det är ett förhållningssätt — ett sätt att visa vad ditt varumärke faktiskt bryr sig om.</p>
+          <p style="font-size:15px;color:#777;line-height:1.75;max-width:460px">Sponsring är inte en kanal. Det är ett förhållningssätt — ett sätt att visa vad ditt varumärke faktiskt bryr sig om.</p>
         </div>
 
         <div class="type-row">
@@ -519,9 +526,10 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           <button class="ds-btn btn-primary btn-disabled">Disabled</button>
         </div>
         <div class="btn-row">
-          <p class="btn-row-label">Ghost</p>
-          <button class="ds-btn btn-outline">Se vårt arbete</button>
-          <button class="ds-btn btn-outline">Kontakta oss →</button>
+          <p class="btn-row-label">Outline</p>
+          <button class="ds-btn btn-outline btn-sm">Liten</button>
+          <button class="ds-btn btn-outline">Standard</button>
+          <button class="ds-btn btn-outline" style="padding:18px 40px;font-size:16px">Stor</button>
           <button class="ds-btn btn-outline btn-disabled">Disabled</button>
         </div>
         <div class="btn-row">
@@ -531,6 +539,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           <button class="ds-btn btn-pink" style="padding:18px 40px;font-size:16px">Stor</button>
           <button class="ds-btn btn-pink btn-disabled">Disabled</button>
         </div>
+        <div class="btn-row">
+          <p class="btn-row-label">Ghost</p>
           <button class="ds-btn btn-ghost">Läs artikel →</button>
           <button class="ds-btn btn-ghost">Visa alla case →</button>
         </div>
@@ -624,7 +634,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           <h2 class="section-title">Röst & Ton</h2>
           <div class="divider"></div>
         </div>
-        <p style="font-size:14px;color:#333;line-height:1.75;max-width:500px;margin-bottom:36px">Direkt, personlig och orädd. Vi har åsikter. Vi pratar som en människa, inte som en institution.</p>
+        <p style="font-size:14px;color:#888;line-height:1.75;max-width:500px;margin-bottom:36px">Direkt, personlig och orädd. Vi har åsikter. Vi pratar som en människa, inte som en institution.</p>
         <div class="tone-grid">
           <div class="tone-tile tone-do">
             <p class="tone-header"><span class="tone-dot"></span>Gör så här</p>
@@ -664,6 +674,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 </div>
 
 <script>
+// Cursor
 const cur = document.getElementById('cursor');
 const glow = document.getElementById('cursor-glow');
 let mx=0,my=0,gx=0,gy=0;
@@ -680,6 +691,7 @@ document.querySelectorAll('a,button,.ds-card,.ds-tag,.color-chip,.gray-chip,.rad
   el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
 
+// Card glow
 document.querySelectorAll('.ds-card').forEach(c => {
   c.addEventListener('mousemove', e => {
     const r = c.getBoundingClientRect();
@@ -688,6 +700,25 @@ document.querySelectorAll('.ds-card').forEach(c => {
   });
 });
 
+// Color scale toggle
+function toggleScale(id) {
+  const el = document.getElementById(id);
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.color-chip-wrap.open').forEach(e => e.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.color-chip-wrap')) {
+    document.querySelectorAll('.color-chip-wrap.open').forEach(e => e.classList.remove('open'));
+  }
+});
+
+// Copy hex on click (gray chips)
+document.querySelectorAll('.color-chip').forEach(c => {
+  c.addEventListener('click', () => { if(c.title) navigator.clipboard?.writeText(c.title); });
+});
+
+// Sidebar active on scroll
 const sections = document.querySelectorAll('.section[id]');
 const links = document.querySelectorAll('.sidebar-link');
 const obs = new IntersectionObserver(entries => {
@@ -701,10 +732,7 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.3 });
 sections.forEach(s => obs.observe(s));
 
-document.querySelectorAll('.color-chip').forEach(c => {
-  c.addEventListener('click', () => { if(c.title) navigator.clipboard?.writeText(c.title); });
-});
-
+// Reveal
 const revObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.05 });
