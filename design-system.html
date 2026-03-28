@@ -64,7 +64,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .divider { flex: 1; height: 1px; background: rgba(255,255,255,.05); }
 
 /* SUB LABEL */
-.sub-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; margin-bottom: 20px; }
+.sub-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 20px; }
 
 /* LOGO SECTION */
 .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border-radius: 16px; overflow: hidden; }
@@ -83,7 +83,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 /* COLORS */
 .color-section { margin-bottom: 48px; }
 .color-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.color-chip-wrap { display: flex; flex-direction: column; gap: 8px; }
+.color-chip-wrap { display: flex; flex-direction: column; gap: 8px; position: relative; }
 .color-chip { width: 72px; height: 72px; border-radius: 12px; border: 1px solid rgba(255,255,255,.04); transition: transform .35s cubic-bezier(.34,1.56,.64,1); cursor: none; }
 .color-chip:hover { transform: translateY(-6px) scale(1.06); }
 .color-chip-name { font-size: 11px; font-weight: 500; color: var(--white); }
@@ -92,15 +92,22 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .gray-chip { flex: 1; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,.03); transition: transform .3s cubic-bezier(.34,1.56,.64,1); cursor: none; }
 .gray-chip:hover { transform: translateY(-4px); }
 
+/* COLOR SCALE POPUP */
+.scale-popup { display: none; position: absolute; top: 84px; left: 0; z-index: 50; background: #111; border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 12px; flex-direction: column; gap: 3px; width: 160px; box-shadow: 0 24px 64px rgba(0,0,0,.6); }
+.color-chip-wrap.open .scale-popup { display: flex; }
+.scale-swatch { height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; cursor: none; transition: transform .2s cubic-bezier(.34,1.2,.64,1); }
+.scale-swatch:hover { transform: scaleX(1.04); }
+.scale-hex { font-size: 9px; font-family: monospace; color: rgba(255,255,255,.5); mix-blend-mode: difference; }
+
 /* TYPOGRAPHY */
 .type-row { display: grid; grid-template-columns: 140px 1fr; gap: 40px; align-items: baseline; padding: 36px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
 .type-row:last-child { border-bottom: none; }
-.type-meta-name { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #666; margin-bottom: 4px; }
-.type-meta-spec { font-size: 11px; color: #444; font-family: monospace; line-height: 1.7; }
+.type-meta-name { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+.type-meta-spec { font-size: 11px; color: #666; font-family: monospace; line-height: 1.7; }
 
 /* BUTTONS */
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 40px; }
-.btn-row-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; width: 100%; margin-bottom: 4px; }
+.btn-row-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; width: 100%; margin-bottom: 4px; }
 .ds-btn { padding: 13px 28px; border-radius: 100px; font-family: var(--font); font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: none; border: none; transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, background .25s, border-color .25s, opacity .25s; }
 .btn-primary { background: var(--orange); color: var(--white); }
 .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 40px rgba(240,85,40,.3); }
@@ -260,8 +267,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           <div class="logo-tile logo-tile-dark">
             <img src="logo.png" alt="Passion Lab — vit på svart">
           </div>
-          <div class="logo-tile logo-tile-light">
-            <img src="Logo_black.png" alt="Passion Lab — svart på ljus">
+          <div class="logo-tile logo-tile-light" style="background:var(--whatever-white)">
+            <img src="Logo_black.png" alt="Passion Lab — svart på ljus" style="height:32px;display:block">
           </div>
         </div>
         <div class="logo-meta">
@@ -300,28 +307,72 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           </div>
         </div>
 
-        <div class="color-section">
+          <div class="color-section">
           <p class="sub-label">Sekundär</p>
           <div class="color-row">
-            <div class="color-chip-wrap">
-              <div class="color-chip" style="background:#f05528" title="#f05528"></div>
+            <div class="color-chip-wrap" id="chip-orange">
+              <div class="color-chip" style="background:#f05528" title="#f05528" onclick="toggleScale('chip-orange')"></div>
               <p class="color-chip-name">Passion tangerine</p>
               <p class="color-chip-hex">#f05528</p>
+              <div class="scale-popup">
+                <div class="scale-swatch" style="background:#3d1200"><span class="scale-hex">#3d1200</span></div>
+                <div class="scale-swatch" style="background:#6b1f00"><span class="scale-hex">#6b1f00</span></div>
+                <div class="scale-swatch" style="background:#a03010"><span class="scale-hex">#a03010</span></div>
+                <div class="scale-swatch" style="background:#c94020"><span class="scale-hex">#c94020</span></div>
+                <div class="scale-swatch" style="background:#f05528"><span class="scale-hex">#f05528</span></div>
+                <div class="scale-swatch" style="background:#f47752"><span class="scale-hex">#f47752</span></div>
+                <div class="scale-swatch" style="background:#f8997c"><span class="scale-hex">#f8997c</span></div>
+                <div class="scale-swatch" style="background:#fbbba6"><span class="scale-hex">#fbbba6</span></div>
+                <div class="scale-swatch" style="background:#fdddd0"><span class="scale-hex">#fdddd0</span></div>
+              </div>
             </div>
-            <div class="color-chip-wrap">
-              <div class="color-chip" style="background:#fab3ff" title="#fab3ff"></div>
+            <div class="color-chip-wrap" id="chip-pink">
+              <div class="color-chip" style="background:#fab3ff" title="#fab3ff" onclick="toggleScale('chip-pink')"></div>
               <p class="color-chip-name">Poppy pink</p>
               <p class="color-chip-hex">#fab3ff</p>
+              <div class="scale-popup">
+                <div class="scale-swatch" style="background:#3d0045"><span class="scale-hex">#3d0045</span></div>
+                <div class="scale-swatch" style="background:#6b007a"><span class="scale-hex">#6b007a</span></div>
+                <div class="scale-swatch" style="background:#9900b0"><span class="scale-hex">#9900b0</span></div>
+                <div class="scale-swatch" style="background:#cc44dd"><span class="scale-hex">#cc44dd</span></div>
+                <div class="scale-swatch" style="background:#f07af8"><span class="scale-hex">#f07af8</span></div>
+                <div class="scale-swatch" style="background:#fab3ff"><span class="scale-hex">#fab3ff</span></div>
+                <div class="scale-swatch" style="background:#fcc8ff"><span class="scale-hex">#fcc8ff</span></div>
+                <div class="scale-swatch" style="background:#fddbff"><span class="scale-hex">#fddbff</span></div>
+                <div class="scale-swatch" style="background:#feeeff"><span class="scale-hex">#feeeff</span></div>
+              </div>
             </div>
-            <div class="color-chip-wrap">
-              <div class="color-chip" style="background:#4559fb" title="#4559fb"></div>
+            <div class="color-chip-wrap" id="chip-blue">
+              <div class="color-chip" style="background:#4559fb" title="#4559fb" onclick="toggleScale('chip-blue')"></div>
               <p class="color-chip-name">Mellow blue</p>
               <p class="color-chip-hex">#4559fb</p>
+              <div class="scale-popup">
+                <div class="scale-swatch" style="background:#06093d"><span class="scale-hex">#06093d</span></div>
+                <div class="scale-swatch" style="background:#0f166b"><span class="scale-hex">#0f166b</span></div>
+                <div class="scale-swatch" style="background:#1e2fa0"><span class="scale-hex">#1e2fa0</span></div>
+                <div class="scale-swatch" style="background:#3044d0"><span class="scale-hex">#3044d0</span></div>
+                <div class="scale-swatch" style="background:#4559fb"><span class="scale-hex">#4559fb</span></div>
+                <div class="scale-swatch" style="background:#7580fc"><span class="scale-hex">#7580fc</span></div>
+                <div class="scale-swatch" style="background:#9aa4fd"><span class="scale-hex">#9aa4fd</span></div>
+                <div class="scale-swatch" style="background:#bfc7fe"><span class="scale-hex">#bfc7fe</span></div>
+                <div class="scale-swatch" style="background:#e0e5ff"><span class="scale-hex">#e0e5ff</span></div>
+              </div>
             </div>
-            <div class="color-chip-wrap">
-              <div class="color-chip" style="background:#02b99f" title="#02b99f"></div>
+            <div class="color-chip-wrap" id="chip-green">
+              <div class="color-chip" style="background:#02b99f" title="#02b99f" onclick="toggleScale('chip-green')"></div>
               <p class="color-chip-name">Something green</p>
               <p class="color-chip-hex">#02b99f</p>
+              <div class="scale-popup">
+                <div class="scale-swatch" style="background:#012e28"><span class="scale-hex">#012e28</span></div>
+                <div class="scale-swatch" style="background:#015045"><span class="scale-hex">#015045</span></div>
+                <div class="scale-swatch" style="background:#017a66"><span class="scale-hex">#017a66</span></div>
+                <div class="scale-swatch" style="background:#02a088"><span class="scale-hex">#02a088</span></div>
+                <div class="scale-swatch" style="background:#02b99f"><span class="scale-hex">#02b99f</span></div>
+                <div class="scale-swatch" style="background:#33ccb5"><span class="scale-hex">#33ccb5</span></div>
+                <div class="scale-swatch" style="background:#66d9c8"><span class="scale-hex">#66d9c8</span></div>
+                <div class="scale-swatch" style="background:#99e6db"><span class="scale-hex">#99e6db</span></div>
+                <div class="scale-swatch" style="background:#ccf2ed"><span class="scale-hex">#ccf2ed</span></div>
+              </div>
             </div>
           </div>
         </div>
