@@ -304,7 +304,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   <div class="team-inner">
     <div class="team-header reveal">
       <p class="section-label">Teamet</p>
-      <h2 class="section-title" style="color:var(--black)">30 personer som<br><em style="color:var(--orange)">älskar sitt jobb.</em></h2>
+      <h2 class="section-title">30 personer som<br><em>älskar sitt jobb.</em></h2>
     </div>
     <div class="team-grid">
 
@@ -529,7 +529,7 @@ document.querySelectorAll('a,button,.founder-card,.team-card,.perk').forEach(el 
   el.addEventListener('mouseenter', () => cur.classList.add('big'));
   el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
-const lightSections = document.querySelectorAll('.history-wrap,.team-wrap');
+const lightSections = document.querySelectorAll('.history-wrap');
 const cursorLightObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) cur.classList.add('on-light'); else cur.classList.remove('on-light'); });
 }, { threshold: 0.5 });
