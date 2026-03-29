@@ -7,15 +7,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/prr7bwp.css">
 <style>
 :root {
   --black: #000;
   --white: #fff;
   --orange: #f05528;
   --pink: #fab3ff;
-  --pink-bg: #f5c6ff;
   --cream: #f0ece4;
   --font: 'Inter Tight', sans-serif;
+  --fd: 'ivypresto-display', serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -33,8 +34,6 @@ p { font-weight: 400; }
 /* NAV */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; transition: padding .4s cubic-bezier(.16,1,.3,1), background .4s; }
 nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,.05); padding: 14px 48px; }
-.nav-logo { display: flex; align-items: center; }
-.nav-logo img { height: 28px; display: block; }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-link-wrap { position: relative; overflow: hidden; }
 .nav-links a { font-size: 13px; font-weight: 500; color: #666; transition: color .25s; display: block; }
@@ -76,8 +75,10 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .history-body p:last-child { margin-bottom: 0; }
 .history-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .hstat { background: rgba(0,0,0,.06); padding: 36px 28px; text-align: center; transition: background .3s; }
-.hstat:first-child { border-radius: 20px 0 0 20px; }
-.hstat:last-child { border-radius: 0 20px 20px 0; }
+.hstat:first-child { border-radius: 20px 0 0 0; }
+.hstat:nth-child(2) { border-radius: 0 20px 0 0; }
+.hstat:nth-child(3) { border-radius: 0 0 0 20px; }
+.hstat:last-child { border-radius: 0 0 20px 0; }
 .hstat:hover { background: rgba(0,0,0,.1); }
 .hstat-num { font-size: 56px; font-weight: 800; letter-spacing: -2px; color: var(--black); display: block; line-height: 1; }
 .hstat-label { font-size: 13px; font-weight: 500; color: rgba(0,0,0,.45); margin-top: 8px; }
@@ -97,14 +98,13 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .value-card p { font-size: 14px; line-height: 1.7; color: #444; }
 
 /* FOUNDERS */
-.founders-wrap { padding: 0 48px 0; background: var(--black); }
+.founders-wrap { padding: 0 48px 120px; }
 .founders-inner { max-width: 1200px; margin: 0 auto; }
 .founders-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
 .founder-card { position: relative; border-radius: 16px; overflow: hidden; background: #0a0a0a; border: 1px solid rgba(255,255,255,.04); transition: border-color .4s; }
 .founder-card:hover { border-color: rgba(240,85,40,.15); }
-.founder-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; filter: grayscale(100%); transition: filter .6s cubic-bezier(.16,1,.3,1); }
+.founder-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top; display: block; filter: grayscale(100%); transition: filter .6s cubic-bezier(.16,1,.3,1); }
 .founder-card:hover .founder-img { filter: grayscale(0%); }
-.founder-img-placeholder { width: 100%; aspect-ratio: 3/4; background: #111; display: flex; align-items: center; justify-content: center; font-size: 64px; color: #222; }
 .founder-info { padding: 28px 32px 32px; }
 .founder-info h3 { font-size: 22px; font-weight: 500; letter-spacing: -.3px; margin-bottom: 4px; }
 .founder-role { font-size: 13px; font-weight: 500; color: var(--orange); margin-bottom: 16px; letter-spacing: .3px; }
@@ -117,30 +117,23 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .team-wrap { padding: 100px 48px 120px; background: var(--cream); }
 .team-inner { max-width: 1200px; margin: 0 auto; }
 .team-header { margin-bottom: 56px; }
-.team-header .section-title { color: var(--black); }
-.team-header .section-label { color: var(--orange); }
 .team-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 2px; }
-.team-card { background: #e8e4dc; transition: background .3s; overflow: hidden; }
+.team-card { background: #e8e4dc; overflow: hidden; transition: background .3s; }
 .team-card:hover { background: #dedad2; }
 .team-img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: top; display: block; filter: grayscale(100%); transition: filter .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
 .team-card:hover .team-img { filter: grayscale(0%); transform: scale(1.04); }
-.team-img-placeholder { width: 100%; aspect-ratio: 1; background: #dedad2; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #bbb; }
 .team-info { padding: 14px 16px 18px; }
 .team-info h4 { font-size: 13px; font-weight: 500; color: var(--black); letter-spacing: -.2px; margin-bottom: 2px; }
-.team-info p { font-size: 11px; color: #888; font-weight: 400; }
+.team-info p { font-size: 11px; color: #888; }
 
 /* CAREER */
 .career-wrap { padding: 120px 48px; }
 .career-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-.career-content .section-label { margin-bottom: 18px; }
-.career-content .section-title { margin-bottom: 24px; }
 .career-content p { font-size: 16px; color: #555; line-height: 1.75; margin-bottom: 36px; }
 .btn-primary { background: var(--orange); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: box-shadow .3s; }
 .btn-primary:hover { box-shadow: 0 16px 40px rgba(240,85,40,.4); }
-.btn-outline { background: transparent; color: var(--white); padding: 15px 36px; border-radius: 100px; border: 1px solid rgba(255,255,255,.15); font-size: 15px; font-weight: 500; display: inline-block; transition: border-color .25s; }
-.btn-outline:hover { border-color: rgba(255,255,255,.4); }
 .career-perks { display: flex; flex-direction: column; gap: 2px; }
-.perk { background: #0a0a0a; border-radius: 0; padding: 28px 32px; border: 1px solid rgba(255,255,255,.04); transition: background .3s; display: flex; align-items: center; gap: 20px; }
+.perk { background: #0a0a0a; padding: 28px 32px; border: 1px solid rgba(255,255,255,.04); transition: background .3s; display: flex; align-items: center; gap: 20px; }
 .perk:first-child { border-radius: 16px 16px 0 0; }
 .perk:last-child { border-radius: 0 0 16px 16px; }
 .perk:hover { background: #111; }
@@ -156,8 +149,8 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 .footer-tagline { font-size: 13px; color: #2a2a2a; line-height: 1.65; }
 .footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2a2a2a; margin-bottom: 18px; }
 .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-links ul li a { font-size: 14px; font-weight: 500; color: #333; display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
-.footer-links ul li a:hover { color: var(--white); gap: 6px; }
+.footer-links ul li a { font-size: 14px; font-weight: 500; color: #333; transition: color .25s; }
+.footer-links ul li a:hover { color: var(--white); }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.04); }
 .footer-copy { font-size: 12px; color: #1e1e1e; }
 .footer-social { display: flex; gap: 16px; }
@@ -234,22 +227,10 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     </div>
     <div class="reveal reveal-delay-2">
       <div class="history-stats">
-        <div class="hstat">
-          <span class="hstat-num">25</span>
-          <div class="hstat-label">År i branschen</div>
-        </div>
-        <div class="hstat">
-          <span class="hstat-num">30</span>
-          <div class="hstat-label">Passionerade kollegor</div>
-        </div>
-        <div class="hstat" style="border-radius:0 0 0 20px">
-          <span class="hstat-num">3×</span>
-          <div class="hstat-label">Årets sponsringsbyrå</div>
-        </div>
-        <div class="hstat" style="border-radius:0 0 20px 0">
-          <span class="hstat-num">400+</span>
-          <div class="hstat-label">Event producerade</div>
-        </div>
+        <div class="hstat"><span class="hstat-num">25</span><div class="hstat-label">År i branschen</div></div>
+        <div class="hstat"><span class="hstat-num">30</span><div class="hstat-label">Passionerade kollegor</div></div>
+        <div class="hstat"><span class="hstat-num">3×</span><div class="hstat-label">Årets sponsringsbyrå</div></div>
+        <div class="hstat"><span class="hstat-num">400+</span><div class="hstat-label">Event producerade</div></div>
       </div>
     </div>
   </div>
@@ -291,19 +272,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     </div>
     <div class="founders-grid">
       <div class="founder-card reveal reveal-delay-1">
-        <div class="founder-img-placeholder">👤</div>
-        <div class="founder-info">
-          <h3>Niklas Turner Olovzon</h3>
-          <p class="founder-role">VD / Creative Director / Grundare</p>
-          <p class="founder-bio">Niklas grundade Passion Lab år 2000 med övertygelsen att kreativitet och strategi inte är varandras motsatser — de är varandras förutsättning. Som Creative Director sätter han tonen för byråns arbete och driver de idéer som folk faktiskt pratar om efteråt.</p>
-          <div class="founder-contact">
-            <a href="tel:+46706704845">+46 70 670 48 45</a>
-            <a href="mailto:niklas@passionlab.se">niklas@passionlab.se</a>
-          </div>
-        </div>
-      </div>
-      <div class="founder-card reveal reveal-delay-2">
-        <div class="founder-img-placeholder">👤</div>
+        <img src="danielA7405299.JPG" alt="Daniel Hegborn" class="founder-img">
         <div class="founder-info">
           <h3>Daniel Hegborn</h3>
           <p class="founder-role">Business Director / Strateg / Grundare</p>
@@ -311,6 +280,18 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
           <div class="founder-contact">
             <a href="tel:+46709932523">+46 70 993 25 23</a>
             <a href="mailto:daniel@passionlab.se">daniel@passionlab.se</a>
+          </div>
+        </div>
+      </div>
+      <div class="founder-card reveal reveal-delay-2">
+        <img src="Niklas_A7404855.JPG" alt="Niklas Turner Olovzon" class="founder-img">
+        <div class="founder-info">
+          <h3>Niklas Turner Olovzon</h3>
+          <p class="founder-role">VD / Creative Director / Grundare</p>
+          <p class="founder-bio">Niklas grundade Passion Lab år 2000 med övertygelsen att kreativitet och strategi inte är varandras motsatser — de är varandras förutsättning. Som Creative Director sätter han tonen för byråns arbete och driver de idéer som folk faktiskt pratar om efteråt.</p>
+          <div class="founder-contact">
+            <a href="tel:+46706704845">+46 70 670 48 45</a>
+            <a href="mailto:niklas@passionlab.se">niklas@passionlab.se</a>
           </div>
         </div>
       </div>
@@ -326,28 +307,133 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
       <h2 class="section-title" style="color:var(--black)">30 personer som<br><em style="color:var(--orange)">älskar sitt jobb.</em></h2>
     </div>
     <div class="team-grid">
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Carolina Gahns</h4><p>Byråchef</p></div></div>
-      <div class="team-card reveal reveal-delay-2"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Christofer Wikmark</h4><p>Head of Production</p></div></div>
-      <div class="team-card reveal reveal-delay-3"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Amanda Bladh</h4><p>Grafisk designer</p></div></div>
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Anton Green</h4><p>Grafisk designer</p></div></div>
-      <div class="team-card reveal reveal-delay-2"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Christian Edoff</h4><p>Produktionsledare</p></div></div>
-      <div class="team-card reveal reveal-delay-3"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>David Söfting Nädele</h4><p>Copywriter</p></div></div>
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Emelie Jägstål</h4><p>Produktionsledare</p></div></div>
-      <div class="team-card reveal reveal-delay-2"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Eric Jonsson</h4><p>Planner och Strateg</p></div></div>
-      <div class="team-card reveal reveal-delay-3"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-2"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-3"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-2"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-3"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-2"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-3"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-2"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-3"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
-      <div class="team-card reveal reveal-delay-1"><div class="team-img-placeholder">👤</div><div class="team-info"><h4>Namn Efternamn</h4><p>Roll</p></div></div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="carro1_A7404751.JPG" alt="Carolina Gahns" class="team-img">
+        <div class="team-info"><h4>Carolina Gahns</h4><p>Byråchef</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="chrickeA7405242.JPG" alt="Christofer Wikmark" class="team-img">
+        <div class="team-info"><h4>Christofer Wikmark</h4><p>Head of Production</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <img src="amandaA7404929.JPG" alt="Amanda Bladh" class="team-img">
+        <div class="team-info"><h4>Amanda Bladh</h4><p>Grafisk designer</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="anton1_A7405400.JPG" alt="Anton Green" class="team-img">
+        <div class="team-info"><h4>Anton Green</h4><p>Grafisk designer</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="christianA7404947.JPG" alt="Christian Edoff" class="team-img">
+        <div class="team-info"><h4>Christian Edoff</h4><p>Produktionsledare</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <img src="davidA7404761.JPG" alt="David Söfting Nädele" class="team-img">
+        <div class="team-info"><h4>David Söfting Nädele</h4><p>Copywriter</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="emelie1_A7404988.JPG" alt="Emelie Jägstål" class="team-img">
+        <div class="team-info"><h4>Emelie Jägstål</h4><p>Produktionsledare</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="ericA7405165.JPG" alt="Eric Jonsson" class="team-img">
+        <div class="team-info"><h4>Eric Jonsson</h4><p>Planner och Strateg</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <img src="hannahA7404872_2.JPG" alt="Hannah Nachemson" class="team-img">
+        <div class="team-info"><h4>Hannah Nachemson</h4><p>Copywriter</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="jakobA7405153.JPG" alt="Jakob Eriksson" class="team-img">
+        <div class="team-info"><h4>Jakob Eriksson</h4><p>Produktionsledare</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="johanA7404904.JPG" alt="Johan Javelius" class="team-img">
+        <div class="team-info"><h4>Johan Javelius</h4><p>Copywriter</p></div>
+      </div>
+
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="kristofferA7405116.JPG" alt="Kristoffer Hultgren" class="team-img">
+        <div class="team-info"><h4>Kristoffer Hultgren</h4><p>Produktionsledare</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="Linusb_A7405352.JPG" alt="Linus Bolander" class="team-img">
+        <div class="team-info"><h4>Linus Bolander</h4><p>Copywriter</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <img src="LinusH_A7405065.JPG" alt="Linus Hallberg" class="team-img">
+        <div class="team-info"><h4>Linus Hallberg</h4><p>Produktionsledare</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="Marie_A7405030.JPG" alt="Marie Swahn" class="team-img">
+        <div class="team-info"><h4>Marie Swahn</h4><p>Copywriter</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="Patrik_A7404807.JPG" alt="Patrik Buch" class="team-img">
+        <div class="team-info"><h4>Patrik Buch</h4><p>Motion Designer</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <img src="PeterD_A7405573.JPG" alt="Peter Danielsson" class="team-img">
+        <div class="team-info"><h4>Peter Danielsson</h4><p>Art Director (föräldraledig)</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="PeterK_A7404821.JPG" alt="Peter Kaller" class="team-img">
+        <div class="team-info"><h4>Peter Kaller</h4><p>Art Director</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="Sebastian_A7405185.JPG" alt="Sebastian Dafteke" class="team-img">
+        <div class="team-info"><h4>Sebastian Dafteke</h4><p>Art Director (föräldraledig)</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <img src="Stina_A7404833.JPG" alt="Stina Hedegard" class="team-img">
+        <div class="team-info"><h4>Stina Hedegard</h4><p>Kundansvarig projektledare</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="Susanne_A7405574.JPG" alt="Susanne Zabrodsky" class="team-img">
+        <div class="team-info"><h4>Susanne Zabrodsky</h4><p>Kundansvarig och strateg</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="Terese_A7404881.JPG" alt="Terese Hansén" class="team-img">
+        <div class="team-info"><h4>Terese Hansén</h4><p>Projekt- och produktionsledare</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <img src="Tilda_A7405431.JPG" alt="Tilda Bråtenius" class="team-img">
+        <div class="team-info"><h4>Tilda Bråtenius</h4><p>Varumärkesambassadör 1664</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <img src="Victoria_A7405086.JPG" alt="Victoria Jansson" class="team-img">
+        <div class="team-info"><h4>Victoria Jansson</h4><p>Projektledare och strateg</p></div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <img src="johannaA7405024.JPG" alt="Johanna Törnblom" class="team-img">
+        <div class="team-info"><h4>Johanna Törnblom</h4><p>Projektledare</p></div>
+      </div>
+
     </div>
   </div>
 </div>
