@@ -443,24 +443,40 @@ window.addEventListener('scroll',()=>{
   document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);
 });
 
-// Payoff bildsnurra
+// Payoff bildsnurra — följer mus + snabb byteeffekt
 (function() {
+  const wrap = document.querySelector('.payoff-wrap');
   const card = document.getElementById('pc');
   const inner = card.querySelector('.payoff-card-inner');
   const bgs = ['pc1','pc2','pc3','pc4'];
-  let idx = 0;
+  let idx = 0, tx=0, ty=0, cx=0, cy=0, raf;
+
+  // Snabb bildsnurra var 0.2s
   setInterval(() => {
     idx = (idx + 1) % bgs.length;
-    card.style.transition = 'transform .12s cubic-bezier(.4,0,.2,1), opacity .12s';
-    card.style.transform = 'translate(-50%, -50%) rotate(-4deg) scale(.88)';
+    card.style.transition = 'opacity .06s';
     card.style.opacity = '0';
     setTimeout(() => {
       inner.className = 'payoff-card-inner ' + bgs[idx];
-      card.style.transition = 'transform .4s cubic-bezier(.34,1.56,.64,1), opacity .25s';
-      card.style.transform = 'translate(-50%, -50%) rotate(-4deg) scale(1)';
       card.style.opacity = '1';
-    }, 140);
-  }, 1600);
+    }, 60);
+  }, 200);
+
+  // Följ muspekaren inom sektionen
+  wrap.addEventListener('mousemove', e => {
+    const r = wrap.getBoundingClientRect();
+    tx = e.clientX - r.left - r.width / 2;
+    ty = e.clientY - r.top - r.height / 2;
+  });
+  wrap.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
+
+  function animate() {
+    cx += (tx - cx) * .1;
+    cy += (ty - cy) * .1;
+    card.style.transform = `translate(calc(-50% + ${cx}px), calc(-50% + ${cy}px)) rotate(-4deg)`;
+    raf = requestAnimationFrame(animate);
+  }
+  animate();
 })();
 </script>
 </body>
