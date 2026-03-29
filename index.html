@@ -246,7 +246,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 
 <!-- PAYOFF + BILDSNURRA -->
 <div class="payoff-wrap reveal">
-  <p class="payoff-text">Älska sånt<br>folk älskar.</p>
+  <p class="payoff-text">Ta en titt på<br>våra roliga<br>projekt.</p>
   <div class="payoff-card" id="pc">
     <div class="payoff-card-inner pc1"></div>
   </div>
@@ -339,24 +339,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
         <a href="artiklar.html" class="article-link">Läs mer →</a>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- FOOTER SWITCHER -->
-<div class="footer-svc">
-  <div class="footer-svc-track">
-    <span class="footer-svc-item">Vi <em>älskar</em> sponsring<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> event<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> reklam<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> sport<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> festivaler<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> kultur<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> sponsring<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> event<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> reklam<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> sport<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> festivaler<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> kultur<span class="footer-svc-dot"></span></span>
   </div>
 </div>
 
@@ -469,12 +451,16 @@ window.addEventListener('scroll',()=>{
   let idx = 0;
   setInterval(() => {
     idx = (idx + 1) % bgs.length;
-    card.classList.add('fade');
+    card.style.transition = 'transform .12s cubic-bezier(.4,0,.2,1), opacity .12s';
+    card.style.transform = 'translate(-50%, -50%) rotate(-4deg) scale(.88)';
+    card.style.opacity = '0';
     setTimeout(() => {
       inner.className = 'payoff-card-inner ' + bgs[idx];
-      card.classList.remove('fade');
-    }, 900);
-  }, 2800);
+      card.style.transition = 'transform .4s cubic-bezier(.34,1.56,.64,1), opacity .25s';
+      card.style.transform = 'translate(-50%, -50%) rotate(-4deg) scale(1)';
+      card.style.opacity = '1';
+    }, 140);
+  }, 1600);
 })();
 </script>
 </body>
