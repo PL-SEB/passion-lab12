@@ -248,7 +248,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 <div class="payoff-wrap reveal">
   <p class="payoff-text">Ta en titt på<br>våra roliga<br>projekt.</p>
   <div class="payoff-card" id="pc">
-    <div class="payoff-card-inner pc1"></div>
+    <div class="payoff-card-inner" style="background-image:url('1.png');background-size:cover;background-position:center"></div>
   </div>
 </div>
 
@@ -448,7 +448,17 @@ window.addEventListener('scroll',()=>{
   const wrap = document.querySelector('.payoff-wrap');
   const card = document.getElementById('pc');
   const inner = card.querySelector('.payoff-card-inner');
-  const bgs = ['pc1','pc2','pc3','pc4'];
+  const bgs = [
+    '1.png',
+    '2.png',
+    'Ajabajacancer_stående.jpg',
+    'LYKO_ELLE 23_COVER.jpg',
+    'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg',
+    'Matchkorv_presskonf.png',
+    'SEF_cover_4x5.png',
+    'TELIA_SHL_KN 22-23_COVER.jpg',
+    'Unibet_NHL_COVER.jpg'
+  ];
   let idx = 0, tx=0, ty=0, cx=0, cy=0, raf;
 
   // Snabb bildsnurra var 0.2s
@@ -457,7 +467,9 @@ window.addEventListener('scroll',()=>{
     card.style.transition = 'opacity .06s';
     card.style.opacity = '0';
     setTimeout(() => {
-      inner.className = 'payoff-card-inner ' + bgs[idx];
+      inner.style.backgroundImage = `url('${bgs[idx]}')`;
+      inner.style.backgroundSize = 'cover';
+      inner.style.backgroundPosition = 'center';
       card.style.opacity = '1';
     }, 60);
   }, 200);
