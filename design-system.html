@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="sv" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,29 +21,14 @@
   --font-display: 'ivypresto-display', serif;
   --nav-h: 66px;
   --sidebar-w: 200px;
-  /* Theme tokens */
-  --bg: #000;
-  --fg: #fff;
-  --bg2: #080808;
-  --bg3: #0d0d0d;
-  --border: rgba(255,255,255,.05);
-  --border2: rgba(255,255,255,.08);
-  --muted1: #888;
-  --muted2: #666;
-  --muted3: #555;
-  --muted4: #444;
+  --bg: #000; --fg: #fff; --bg2: #080808; --bg3: #0d0d0d;
+  --border: rgba(255,255,255,.05); --border2: rgba(255,255,255,.08);
+  --muted1: #888; --muted2: #666; --muted3: #555; --muted4: #444;
 }
 [data-theme="light"] {
-  --bg: #f5f5f0;
-  --fg: #0a0a0a;
-  --bg2: #ececе6;
-  --bg3: #e4e4de;
-  --border: rgba(0,0,0,.07);
-  --border2: rgba(0,0,0,.1);
-  --muted1: #555;
-  --muted2: #666;
-  --muted3: #777;
-  --muted4: #888;
+  --bg: #f5f5f0; --fg: #0a0a0a; --bg2: #eaeae4; --bg3: #e2e2dc;
+  --border: rgba(0,0,0,.07); --border2: rgba(0,0,0,.1);
+  --muted1: #555; --muted2: #666; --muted3: #777; --muted4: #888;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -51,51 +36,55 @@ body { background: var(--bg); color: var(--fg); font-family: var(--font); font-w
 a { color: inherit; text-decoration: none; }
 h1,h2,h3,h4 { font-weight: 500; }
 
+/* PASSION MODE — hide normal content, show passion content */
+[data-theme="passion"] .main-inner > *:not(.passion-page) { display: none; }
+[data-theme="passion"] .passion-page { display: block !important; }
+[data-theme="passion"] { --bg: #000; --fg: #fff; }
+.passion-page { display: none; }
+
 /* CURSOR */
 #cursor { width: 10px; height: 10px; background: var(--orange); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .25s cubic-bezier(.34,1.56,.64,1), height .25s cubic-bezier(.34,1.56,.64,1), background .2s; }
 #cursor.big { width: 48px; height: 48px; background: rgba(240,85,40,.15); border: 1px solid rgba(240,85,40,.5); }
 #cursor-glow { width: 36px; height: 36px; border: 1px solid rgba(240,85,40,.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
 
 /* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); transition: background .4s, border-color .4s; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); transition: background .4s, border-color .4s; }
 .nav-logo img { height: 26px; display: block; }
-[data-theme="light"] .nav-logo img { filter: brightness(0); }
+[data-theme="light"] .nav-logo img, [data-theme="passion"] .nav-logo img { filter: brightness(0); }
+[data-theme="passion"] nav { background: rgba(0,0,0,.92); border-bottom: 1px solid rgba(255,255,255,.05); }
+[data-theme="passion"] .nav-logo img { filter: none; }
 .nav-right { display: flex; align-items: center; gap: 16px; }
 .nav-badge { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); border: 1px solid rgba(240,85,40,.3); padding: 4px 12px; border-radius: 100px; }
 .nav-back { font-size: 13px; font-weight: 500; color: var(--muted2); transition: color .25s; }
 .nav-back:hover { color: var(--fg); }
 
-/* THEME TOGGLE */
-.theme-toggle { display: flex; align-items: center; gap: 8px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 100px; padding: 5px 6px 5px 12px; cursor: none; transition: background .3s, border-color .3s; }
-.theme-toggle-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted1); transition: color .3s; white-space: nowrap; }
-.theme-toggle-track { width: 36px; height: 20px; background: var(--border2); border-radius: 100px; position: relative; transition: background .3s; flex-shrink: 0; }
-[data-theme="light"] .theme-toggle-track { background: var(--orange); }
-.theme-toggle-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--fg); position: absolute; top: 3px; left: 3px; transition: transform .3s cubic-bezier(.34,1.56,.64,1), background .3s; }
-[data-theme="light"] .theme-toggle-thumb { transform: translateX(16px); }
+/* THEME TOGGLE — 3 states */
+.theme-switcher { display: flex; align-items: center; background: var(--bg2); border: 1px solid var(--border2); border-radius: 100px; padding: 4px; gap: 2px; transition: background .3s, border-color .3s; }
+[data-theme="passion"] .theme-switcher { background: #111; border-color: rgba(255,255,255,.08); }
+.theme-btn { font-size: 11px; font-weight: 600; letter-spacing: .5px; padding: 6px 14px; border-radius: 100px; border: none; background: transparent; color: var(--muted2); cursor: none; font-family: var(--font); transition: background .25s, color .25s; white-space: nowrap; }
+.theme-btn:hover { color: var(--fg); }
+.theme-btn.active { background: var(--fg); color: var(--bg); }
+[data-theme="passion"] .theme-btn { color: #555; }
+[data-theme="passion"] .theme-btn:hover { color: #fff; }
+[data-theme="passion"] .theme-btn.active { background: var(--orange); color: #fff; }
 
 /* LAYOUT */
 .layout { display: flex; min-height: 100vh; padding-top: var(--nav-h); }
-
-/* SIDEBAR */
 .sidebar { position: fixed; top: var(--nav-h); left: 0; bottom: 0; width: var(--sidebar-w); border-right: 1px solid var(--border); padding: 48px 0; overflow-y: auto; background: var(--bg); transition: background .4s, border-color .4s; }
+[data-theme="passion"] .sidebar { background: #000; border-color: rgba(255,255,255,.05); }
 .sidebar-group { margin-bottom: 36px; }
 .sidebar-group-label { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted3); padding: 0 28px; margin-bottom: 6px; }
 .sidebar-link { display: block; font-size: 13px; font-weight: 400; color: var(--muted2); padding: 7px 28px; transition: color .2s; }
 .sidebar-link:hover { color: var(--muted1); }
 .sidebar-link.active { color: var(--fg); }
-
-/* MAIN */
+[data-theme="passion"] .sidebar-link.active { color: var(--orange); }
 .main { margin-left: var(--sidebar-w); flex: 1; padding: 80px 80px 160px; min-width: 0; }
 .main-inner { max-width: 900px; }
-
-/* SECTION */
 .section { margin-bottom: 100px; }
 .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 56px; }
 .section-num { font-size: 11px; font-weight: 600; color: var(--muted3); letter-spacing: 1px; font-family: monospace; }
 .section-title { font-size: 28px; font-weight: 500; letter-spacing: -.5px; }
 .divider { flex: 1; height: 1px; background: var(--border); }
-
-/* SUB LABEL */
 .sub-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted1); margin-bottom: 20px; }
 
 /* LOGO */
@@ -119,7 +108,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .color-chip:hover { transform: translateY(-6px) scale(1.06); }
 .color-chip-name { font-size: 11px; font-weight: 500; color: var(--fg); }
 .color-chip-hex { font-size: 10px; color: var(--muted2); font-family: monospace; }
-.scale-popup { display: none; position: absolute; top: 96px; left: 0; z-index: 50; background: var(--bg2); border: 1px solid var(--border2); border-radius: 14px; padding: 10px; flex-direction: column; gap: 3px; width: 170px; box-shadow: 0 24px 64px rgba(0,0,0,.4); transition: background .4s; }
+.scale-popup { display: none; position: absolute; top: 96px; left: 0; z-index: 50; background: var(--bg2); border: 1px solid var(--border2); border-radius: 14px; padding: 10px; flex-direction: column; gap: 3px; width: 170px; box-shadow: 0 24px 64px rgba(0,0,0,.4); }
 .color-chip-wrap.open .scale-popup { display: flex; }
 .scale-swatch { height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; cursor: none; transition: transform .2s cubic-bezier(.34,1.2,.64,1); }
 .scale-swatch:hover { transform: scaleX(1.03); }
@@ -162,7 +151,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 
 /* CARDS */
 .card-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; border-radius: 16px; overflow: hidden; }
-.ds-card { background: var(--bg2); padding: 36px 28px; transition: background .4s, transform .4s cubic-bezier(.16,1,.3,1); cursor: none; position: relative; overflow: hidden; }
+.ds-card { background: var(--bg2); padding: 36px 28px; transition: background .4s, transform .4s; cursor: none; position: relative; overflow: hidden; }
 .ds-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(240,85,40,.07) 0%, transparent 60%); opacity: 0; transition: opacity .4s; pointer-events: none; }
 .ds-card:hover { background: var(--bg3); transform: translateY(-2px); }
 .ds-card:hover::after { opacity: 1; }
@@ -225,11 +214,79 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* ===================== PASSION PAGE ===================== */
+.p-block { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 3px; }
+.p-block:last-child { margin-bottom: 0; }
+
+/* Hero statement */
+.p-hero { background: var(--orange); padding: 80px 64px; }
+.p-hero-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(0,0,0,.45); margin-bottom: 24px; }
+.p-hero-title { font-size: clamp(52px,8vw,96px); font-weight: 500; letter-spacing: -3px; line-height: .9; color: var(--black); }
+.p-hero-title em { font-family: var(--font-display); font-weight: 300; font-style: italic; }
+
+/* Pink block */
+.p-pink { background: var(--pink); padding: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.p-pink-title { font-size: clamp(32px,4vw,52px); font-weight: 500; letter-spacing: -1.5px; line-height: 1; color: var(--black); }
+.p-pink-title em { font-family: var(--font-display); font-weight: 300; font-style: italic; }
+.p-pink-body { font-size: 16px; color: rgba(0,0,0,.6); line-height: 1.7; }
+
+/* Black split */
+.p-black { background: var(--black); padding: 72px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.p-black-left { padding-right: 48px; border-right: 1px solid rgba(255,255,255,.06); }
+.p-black-right { padding-left: 48px; }
+.p-stat-num { font-size: clamp(56px,7vw,88px); font-weight: 800; letter-spacing: -3px; line-height: 1; }
+.p-stat-label { font-size: 13px; color: #444; margin-top: 8px; letter-spacing: .3px; }
+.p-black-left .p-stat-num { color: var(--orange); }
+.p-black-right .p-stat-num { color: var(--pink); }
+
+/* Green block */
+.p-green { background: var(--green); padding: 64px; }
+.p-green-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: 20px; }
+.p-green-title { font-size: clamp(28px,3.5vw,44px); font-weight: 500; letter-spacing: -1px; line-height: 1.05; color: var(--black); max-width: 540px; }
+
+/* Blue block */
+.p-blue { background: var(--blue); padding: 80px 64px; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.p-blue-title { font-size: clamp(36px,5vw,68px); font-weight: 500; letter-spacing: -2px; line-height: .92; color: var(--white); margin-bottom: 28px; }
+.p-blue-title em { font-family: var(--font-display); font-weight: 300; font-style: italic; color: rgba(255,255,255,.6); }
+.p-blue-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); border: 1px solid rgba(255,255,255,.25); padding: 8px 20px; border-radius: 100px; }
+
+/* Orange + black pill row */
+.p-pills { background: var(--black); padding: 48px 64px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.p-pill { padding: 14px 28px; border-radius: 100px; font-size: 15px; font-weight: 700; letter-spacing: -.2px; }
+.p-pill-orange { background: var(--orange); color: var(--black); }
+.p-pill-pink { background: var(--pink); color: var(--black); }
+.p-pill-outline { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,.15); }
+.p-pill-white { background: var(--white); color: var(--black); }
+
+/* Pink + orange split */
+.p-split { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.p-split-orange { background: var(--orange); padding: 64px 48px; }
+.p-split-pink { background: var(--pink); padding: 64px 48px; }
+.p-split-title { font-size: clamp(24px,3vw,38px); font-weight: 500; letter-spacing: -1px; line-height: 1.05; color: var(--black); }
+.p-split-sub { font-size: 14px; color: rgba(0,0,0,.5); margin-top: 16px; line-height: 1.65; }
+
+/* Big black type */
+.p-type { background: var(--black); padding: 80px 64px; }
+.p-type-display { font-size: clamp(48px,8vw,100px); font-weight: 500; letter-spacing: -3px; line-height: .88; }
+.p-type-display .word-italic { font-family: var(--font-display); font-weight: 300; font-style: italic; color: var(--orange); }
+.p-type-display .word-pink { color: var(--pink); }
+.p-type-display .word-normal { color: var(--white); }
+
+/* Cream block */
+.p-cream { background: var(--whatever-white); padding: 64px; }
+.p-cream-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(0,0,0,.35); margin-bottom: 20px; }
+.p-cream-title { font-size: clamp(28px,3.5vw,44px); font-weight: 500; letter-spacing: -1px; color: var(--black); line-height: 1.05; }
+.p-cream-title em { font-family: var(--font-display); font-weight: 300; font-style: italic; color: var(--orange); }
+
 @media (max-width: 900px) {
   .sidebar { display: none; }
   .main { margin-left: 0; padding: 40px 24px 100px; }
   .card-row,.anim-grid,.tone-grid,.logo-grid { grid-template-columns: 1fr; }
   .type-row { grid-template-columns: 1fr; gap: 12px; }
+  .p-pink,.p-black,.p-split { grid-template-columns: 1fr; }
+  .p-black-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); padding-right: 0; padding-bottom: 40px; margin-bottom: 40px; }
+  .p-black-right { padding-left: 0; }
+  .p-hero,.p-pink,.p-green,.p-blue,.p-pills,.p-split-orange,.p-split-pink,.p-type,.p-cream { padding: 48px 32px; }
 }
 </style>
 </head>
@@ -244,12 +301,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
   </a>
   <div class="nav-right">
     <span class="nav-badge">Internt</span>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Byt tema">
-      <span class="theme-toggle-label" id="theme-label">Dark</span>
-      <div class="theme-toggle-track">
-        <div class="theme-toggle-thumb"></div>
-      </div>
-    </button>
+    <div class="theme-switcher">
+      <button class="theme-btn active" onclick="setTheme('dark', this)">Dark</button>
+      <button class="theme-btn" onclick="setTheme('light', this)">Light</button>
+      <button class="theme-btn" onclick="setTheme('passion', this)">✦ Passion</button>
+    </div>
     <a href="index.html" class="nav-back">← Sajten</a>
   </div>
 </nav>
@@ -283,73 +339,124 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
   <main class="main">
     <div class="main-inner">
 
+      <!-- ============ PASSION PAGE ============ -->
+      <div class="passion-page">
+        <p style="font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:48px">Passion Lab — Färger i rörelse</p>
+
+        <!-- Hero orange -->
+        <div class="p-block p-hero">
+          <p class="p-hero-label">Brand emotion</p>
+          <h2 class="p-hero-title"><em>Älska</em> sånt<br>folk <em>älskar.</em></h2>
+        </div>
+
+        <!-- Pink -->
+        <div class="p-block p-pink">
+          <div>
+            <h3 class="p-pink-title">Rätt<br>varumärke.<br>Rätt <em>sammanhang.</em></h3>
+          </div>
+          <div>
+            <p class="p-pink-body">Vi kopplar samman Sveriges ledande varumärken med sport och kultur på ett sätt som skapar verkligt engagemang hos människor som bryr sig på riktigt.</p>
+          </div>
+        </div>
+
+        <!-- Black stats -->
+        <div class="p-block p-black">
+          <div class="p-black-left">
+            <span class="p-stat-num">200+</span>
+            <p class="p-stat-label">Sponsringsdeals</p>
+          </div>
+          <div class="p-black-right">
+            <span class="p-stat-num">400+</span>
+            <p class="p-stat-label" style="color:#2a2a2a">Event producerade</p>
+          </div>
+        </div>
+
+        <!-- Green -->
+        <div class="p-block p-green">
+          <p class="p-green-label">Sponsring</p>
+          <h3 class="p-green-title">Sponsring är inte en kanal. Det är ett förhållningssätt — ett sätt att visa vad ditt varumärke faktiskt bryr sig om.</h3>
+        </div>
+
+        <!-- Big type black -->
+        <div class="p-block p-type">
+          <div class="p-type-display">
+            <span class="word-italic">Passion </span><span class="word-normal">före</span><br>
+            <span class="word-normal">allt </span><span class="word-pink">annat.</span>
+          </div>
+        </div>
+
+        <!-- Blue -->
+        <div class="p-block p-blue">
+          <h3 class="p-blue-title">Känsla som<br><em>ingen annons</em><br>kan köpa.</h3>
+          <span class="p-blue-tag">✦ Brand Emotion sedan 2000</span>
+        </div>
+
+        <!-- Pills row -->
+        <div class="p-block p-pills">
+          <span class="p-pill p-pill-orange">Passion first</span>
+          <span class="p-pill p-pill-pink">Poppy pink</span>
+          <span class="p-pill p-pill-outline">Sport & Kultur</span>
+          <span class="p-pill p-pill-white">Sveriges bästa byrå</span>
+          <span class="p-pill p-pill-outline">✦ Event på riktigt</span>
+        </div>
+
+        <!-- Orange + Pink split -->
+        <div class="p-block p-split">
+          <div class="p-split-orange">
+            <h3 class="p-split-title">Vi mäter oss mot de bästa — och vinner.</h3>
+            <p class="p-split-sub">3× Årets sponsringsbyrå. 25 år i branschen.</p>
+          </div>
+          <div class="p-split-pink">
+            <h3 class="p-split-title">Möten som folk pratar om efteråt.</h3>
+            <p class="p-split-sub">Event som börjar i varumärket och slutar i minnet.</p>
+          </div>
+        </div>
+
+        <!-- Cream -->
+        <div class="p-block p-cream">
+          <p class="p-cream-label">Vår filosofi</p>
+          <h3 class="p-cream-title">Det bästa budskapet<br>når inte fram i <em>fel kontext.</em></h3>
+        </div>
+
+      </div>
+      <!-- ============ END PASSION PAGE ============ -->
+
       <!-- INTRO -->
       <div style="margin-bottom:100px" class="reveal">
         <p style="font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:20px">Passion Lab — Internt</p>
         <h1 style="font-size:clamp(52px,7vw,88px);font-weight:500;letter-spacing:-2px;line-height:.9;margin-bottom:20px">Design<br><span style="font-family:var(--font-display);font-weight:300;font-style:italic;color:var(--orange)">System</span></h1>
-        <p style="font-size:15px;color:#888;max-width:440px;line-height:1.75">Passion Labs visuella språk. Referens för alla som designar, bygger eller kommunicerar för byrån.</p>
+        <p style="font-size:15px;color:var(--muted1);max-width:440px;line-height:1.75">Passion Labs visuella språk. Referens för alla som designar, bygger eller kommunicerar för byrån.</p>
       </div>
 
       <!-- LOGGA -->
       <div class="section reveal" id="logga">
-        <div class="section-header">
-          <span class="section-num">01</span>
-          <h2 class="section-title">Logga</h2>
-          <div class="divider"></div>
-        </div>
+        <div class="section-header"><span class="section-num">01</span><h2 class="section-title">Logga</h2><div class="divider"></div></div>
         <div class="logo-grid">
-          <div class="logo-tile logo-tile-dark">
-            <img src="logo.png" alt="Passion Lab — vit på svart">
-          </div>
-          <div class="logo-tile logo-tile-light">
-            <img src="Logo_black.png" alt="Passion Lab — svart på ljus" style="height:32px;display:block">
-          </div>
+          <div class="logo-tile logo-tile-dark"><img src="logo.png" alt="Passion Lab — vit på svart"></div>
+          <div class="logo-tile logo-tile-light"><img src="Logo_black.png" style="height:32px;display:block" alt="Passion Lab — svart på ljus"></div>
         </div>
         <div class="logo-meta">
-          <div class="logo-meta-item">
-            <p class="logo-meta-label">Primär användning</p>
-            <p class="logo-meta-val">Vit logga på svart eller mörk bakgrund. Standardvarianten.</p>
-          </div>
-          <div class="logo-meta-item">
-            <p class="logo-meta-label">Friyta</p>
-            <p class="logo-meta-val">Minst logotypens höjd som frizon på alla sidor.</p>
-          </div>
+          <div class="logo-meta-item"><p class="logo-meta-label">Primär användning</p><p class="logo-meta-val">Vit logga på svart eller mörk bakgrund. Standardvarianten.</p></div>
+          <div class="logo-meta-item"><p class="logo-meta-label">Friyta</p><p class="logo-meta-val">Minst logotypens höjd som frizon på alla sidor.</p></div>
         </div>
       </div>
 
       <!-- FÄRGER -->
       <div class="section reveal" id="farger">
-        <div class="section-header">
-          <span class="section-num">02</span>
-          <h2 class="section-title">Färger</h2>
-          <div class="divider"></div>
-        </div>
-
+        <div class="section-header"><span class="section-num">02</span><h2 class="section-title">Färger</h2><div class="divider"></div></div>
         <div class="color-section">
           <p class="sub-label">Primär</p>
           <div class="color-row">
-            <div class="color-chip-wrap">
-              <div class="color-chip" style="background:#000;border:1px solid rgba(255,255,255,.12)" title="#000000"></div>
-              <p class="color-chip-name">Svart</p>
-              <p class="color-chip-hex">#000000</p>
-            </div>
-            <div class="color-chip-wrap">
-              <div class="color-chip" style="background:#faf5eb" title="#faf5eb"></div>
-              <p class="color-chip-name">Whatever white</p>
-              <p class="color-chip-hex">#faf5eb</p>
-            </div>
+            <div class="color-chip-wrap"><div class="color-chip" style="background:#000;border:1px solid rgba(255,255,255,.12)" title="#000000"></div><p class="color-chip-name">Svart</p><p class="color-chip-hex">#000000</p></div>
+            <div class="color-chip-wrap"><div class="color-chip" style="background:#faf5eb" title="#faf5eb"></div><p class="color-chip-name">Whatever white</p><p class="color-chip-hex">#faf5eb</p></div>
           </div>
         </div>
-
         <div class="color-section">
           <p class="sub-label">Sekundär — klicka för nyansskala</p>
           <div class="color-row">
-
-            <!-- ORANGE -->
             <div class="color-chip-wrap" id="chip-orange">
-              <div class="color-chip" style="background:#f05528" title="#f05528" onclick="toggleScale('chip-orange')"></div>
-              <p class="color-chip-name">Passion tangerine</p>
-              <p class="color-chip-hex">#f05528</p>
+              <div class="color-chip" style="background:#f05528" onclick="toggleScale('chip-orange')"></div>
+              <p class="color-chip-name">Passion tangerine</p><p class="color-chip-hex">#f05528</p>
               <div class="scale-popup">
                 <div class="scale-swatch" style="background:#3d1200"><span class="scale-hex">#3d1200</span></div>
                 <div class="scale-swatch" style="background:#6b1f00"><span class="scale-hex">#6b1f00</span></div>
@@ -362,12 +469,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#fdddd0"><span class="scale-hex">#fdddd0</span></div>
               </div>
             </div>
-
-            <!-- PINK -->
             <div class="color-chip-wrap" id="chip-pink">
-              <div class="color-chip" style="background:#fab3ff" title="#fab3ff" onclick="toggleScale('chip-pink')"></div>
-              <p class="color-chip-name">Poppy pink</p>
-              <p class="color-chip-hex">#fab3ff</p>
+              <div class="color-chip" style="background:#fab3ff" onclick="toggleScale('chip-pink')"></div>
+              <p class="color-chip-name">Poppy pink</p><p class="color-chip-hex">#fab3ff</p>
               <div class="scale-popup">
                 <div class="scale-swatch" style="background:#3d0045"><span class="scale-hex">#3d0045</span></div>
                 <div class="scale-swatch" style="background:#6b007a"><span class="scale-hex">#6b007a</span></div>
@@ -380,12 +484,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#feeeff"><span class="scale-hex">#feeeff</span></div>
               </div>
             </div>
-
-            <!-- BLUE -->
             <div class="color-chip-wrap" id="chip-blue">
-              <div class="color-chip" style="background:#4559fb" title="#4559fb" onclick="toggleScale('chip-blue')"></div>
-              <p class="color-chip-name">Mellow blue</p>
-              <p class="color-chip-hex">#4559fb</p>
+              <div class="color-chip" style="background:#4559fb" onclick="toggleScale('chip-blue')"></div>
+              <p class="color-chip-name">Mellow blue</p><p class="color-chip-hex">#4559fb</p>
               <div class="scale-popup">
                 <div class="scale-swatch" style="background:#06093d"><span class="scale-hex">#06093d</span></div>
                 <div class="scale-swatch" style="background:#0f166b"><span class="scale-hex">#0f166b</span></div>
@@ -398,12 +499,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#e0e5ff"><span class="scale-hex">#e0e5ff</span></div>
               </div>
             </div>
-
-            <!-- GREEN -->
             <div class="color-chip-wrap" id="chip-green">
-              <div class="color-chip" style="background:#02b99f" title="#02b99f" onclick="toggleScale('chip-green')"></div>
-              <p class="color-chip-name">Something green</p>
-              <p class="color-chip-hex">#02b99f</p>
+              <div class="color-chip" style="background:#02b99f" onclick="toggleScale('chip-green')"></div>
+              <p class="color-chip-name">Something green</p><p class="color-chip-hex">#02b99f</p>
               <div class="scale-popup">
                 <div class="scale-swatch" style="background:#012e28"><span class="scale-hex">#012e28</span></div>
                 <div class="scale-swatch" style="background:#015045"><span class="scale-hex">#015045</span></div>
@@ -416,103 +514,65 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
                 <div class="scale-swatch" style="background:#ccf2ed"><span class="scale-hex">#ccf2ed</span></div>
               </div>
             </div>
-
           </div>
         </div>
-
         <div class="color-section">
           <p class="sub-label">Gray scale</p>
           <div class="gray-strip">
-            <div class="gray-chip" style="background:#F3F4F5" title="Gray 100"></div>
-            <div class="gray-chip" style="background:#D0D4D9" title="Gray 200"></div>
-            <div class="gray-chip" style="background:#AEB3BC" title="Gray 300"></div>
-            <div class="gray-chip" style="background:#7B8493" title="Gray 400"></div>
-            <div class="gray-chip" style="background:#4D545E" title="Gray 500"></div>
-            <div class="gray-chip" style="background:#2A2E34" title="Gray 600"></div>
+            <div class="gray-chip" style="background:#F3F4F5"></div>
+            <div class="gray-chip" style="background:#D0D4D9"></div>
+            <div class="gray-chip" style="background:#AEB3BC"></div>
+            <div class="gray-chip" style="background:#7B8493"></div>
+            <div class="gray-chip" style="background:#4D545E"></div>
+            <div class="gray-chip" style="background:#2A2E34"></div>
           </div>
           <div style="display:flex;gap:3px;margin-top:6px">
-            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">100</p>
-            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">200</p>
-            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">300</p>
-            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">400</p>
-            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">500</p>
-            <p style="flex:1;font-size:10px;color:#555;font-family:monospace;text-align:center">600</p>
+            <p style="flex:1;font-size:10px;color:var(--muted3);font-family:monospace;text-align:center">100</p>
+            <p style="flex:1;font-size:10px;color:var(--muted3);font-family:monospace;text-align:center">200</p>
+            <p style="flex:1;font-size:10px;color:var(--muted3);font-family:monospace;text-align:center">300</p>
+            <p style="flex:1;font-size:10px;color:var(--muted3);font-family:monospace;text-align:center">400</p>
+            <p style="flex:1;font-size:10px;color:var(--muted3);font-family:monospace;text-align:center">500</p>
+            <p style="flex:1;font-size:10px;color:var(--muted3);font-family:monospace;text-align:center">600</p>
           </div>
         </div>
       </div>
 
       <!-- TYPOGRAFI -->
       <div class="section reveal" id="typografi">
-        <div class="section-header">
-          <span class="section-num">03</span>
-          <h2 class="section-title">Typografi</h2>
-          <div class="divider"></div>
-        </div>
-
+        <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Typografi</h2><div class="divider"></div></div>
         <div class="type-row">
-          <div>
-            <p class="type-meta-name">Display</p>
-            <p class="type-meta-spec">Ivypresto Display<br>Italic Light / 300<br>+ Inter Tight 500<br>Hero & accent</p>
-          </div>
+          <div><p class="type-meta-name">Display</p><p class="type-meta-spec">Ivypresto Display<br>Italic Light / 300<br>+ Inter Tight 500<br>Hero & accent</p></div>
           <p style="font-size:clamp(36px,5.5vw,72px);letter-spacing:-2px;line-height:.95;color:var(--orange)"><span style="font-family:var(--font-display);font-weight:300;font-style:italic">Älska </span><span style="font-family:var(--font);font-weight:500">sånt folk </span><span style="font-family:var(--font-display);font-weight:300;font-style:italic">älskar.</span></p>
         </div>
-
         <div class="type-row">
-          <div>
-            <p class="type-meta-name">H1</p>
-            <p class="type-meta-spec">Inter Tight<br>Medium / 500<br>64–140px</p>
-          </div>
+          <div><p class="type-meta-name">H1</p><p class="type-meta-spec">Inter Tight<br>Medium / 500<br>64–140px</p></div>
           <p style="font-size:clamp(36px,5vw,64px);font-weight:500;letter-spacing:-2px;line-height:.92">Sveriges ledande byrå.</p>
         </div>
-
         <div class="type-row">
-          <div>
-            <p class="type-meta-name">H2</p>
-            <p class="type-meta-spec">Inter Tight<br>Medium / 500<br>40–72px</p>
-          </div>
+          <div><p class="type-meta-name">H2</p><p class="type-meta-spec">Inter Tight<br>Medium / 500<br>40–72px</p></div>
           <p style="font-size:clamp(24px,3.5vw,44px);font-weight:500;letter-spacing:-1px;line-height:1.02">Sponsring, event och reklam.</p>
         </div>
-
         <div class="type-row">
-          <div>
-            <p class="type-meta-name">H3</p>
-            <p class="type-meta-spec">Inter Tight<br>Medium / 500<br>20–32px</p>
-          </div>
+          <div><p class="type-meta-name">H3</p><p class="type-meta-spec">Inter Tight<br>Medium / 500<br>20–32px</p></div>
           <p style="font-size:24px;font-weight:500;letter-spacing:-.5px">Rätt varumärke. Rätt sammanhang.</p>
         </div>
-
         <div class="type-row">
-          <div>
-            <p class="type-meta-name">Body large</p>
-            <p class="type-meta-spec">Inter Tight<br>Regular / 400<br>17–19px</p>
-          </div>
-          <p style="font-size:17px;color:#999;line-height:1.75;max-width:480px">Vi hjälper Sveriges ledande varumärken att engagera sig i sånt som människor bryr sig om — och visa det.</p>
+          <div><p class="type-meta-name">Body large</p><p class="type-meta-spec">Inter Tight<br>Regular / 400<br>17–19px</p></div>
+          <p style="font-size:17px;color:var(--muted1);line-height:1.75;max-width:480px">Vi hjälper Sveriges ledande varumärken att engagera sig i sånt som människor bryr sig om — och visa det.</p>
         </div>
-
         <div class="type-row">
-          <div>
-            <p class="type-meta-name">Body</p>
-            <p class="type-meta-spec">Inter Tight<br>Regular / 400<br>14–16px</p>
-          </div>
-          <p style="font-size:15px;color:#777;line-height:1.75;max-width:460px">Sponsring är inte en kanal. Det är ett förhållningssätt — ett sätt att visa vad ditt varumärke faktiskt bryr sig om.</p>
+          <div><p class="type-meta-name">Body</p><p class="type-meta-spec">Inter Tight<br>Regular / 400<br>14–16px</p></div>
+          <p style="font-size:15px;color:var(--muted2);line-height:1.75;max-width:460px">Sponsring är inte en kanal. Det är ett förhållningssätt — ett sätt att visa vad ditt varumärke faktiskt bryr sig om.</p>
         </div>
-
         <div class="type-row">
-          <div>
-            <p class="type-meta-name">Label</p>
-            <p class="type-meta-spec">Inter Tight<br>SemiBold / 600<br>10–11px, uppercase</p>
-          </div>
+          <div><p class="type-meta-name">Label</p><p class="type-meta-spec">Inter Tight<br>SemiBold / 600<br>10–11px, uppercase</p></div>
           <p style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange)">Sveriges ledande byrå inom sponsring och event</p>
         </div>
       </div>
 
       <!-- SPACING -->
       <div class="section reveal" id="spacing">
-        <div class="section-header">
-          <span class="section-num">04</span>
-          <h2 class="section-title">Spacing</h2>
-          <div class="divider"></div>
-        </div>
+        <div class="section-header"><span class="section-num">04</span><h2 class="section-title">Spacing</h2><div class="divider"></div></div>
         <div class="spacing-row">
           <div class="spacing-item"><div class="spacing-block" style="width:4px;height:4px"></div><p class="spacing-val">4</p></div>
           <div class="spacing-item"><div class="spacing-block" style="width:8px;height:8px"></div><p class="spacing-val">8</p></div>
@@ -528,121 +588,52 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 
       <!-- RUNDNING -->
       <div class="section reveal" id="rundning">
-        <div class="section-header">
-          <span class="section-num">05</span>
-          <h2 class="section-title">Rundning</h2>
-          <div class="divider"></div>
-        </div>
+        <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Rundning</h2><div class="divider"></div></div>
         <div class="radius-row">
           <div class="radius-item"><div class="radius-box" style="border-radius:0"></div><p class="radius-val">0</p></div>
           <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><p class="radius-val">4px</p></div>
           <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><p class="radius-val">8px</p></div>
           <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><p class="radius-val">12px</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:16px"></div><p class="radius-val">16px — kort</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:20px"></div><p class="radius-val">20px — grid</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:24px"></div><p class="radius-val">24px — CTA</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:100px;width:72px"></div><p class="radius-val">100px — pill</p></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:16px"></div><p class="radius-val">16px</p></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:20px"></div><p class="radius-val">20px</p></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:24px"></div><p class="radius-val">24px</p></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:100px;width:72px"></div><p class="radius-val">100px</p></div>
         </div>
       </div>
 
       <!-- KNAPPAR -->
       <div class="section reveal" id="knappar">
-        <div class="section-header">
-          <span class="section-num">06</span>
-          <h2 class="section-title">Knappar</h2>
-          <div class="divider"></div>
-        </div>
-        <div class="btn-row">
-          <p class="btn-row-label">Primary</p>
-          <button class="ds-btn btn-primary btn-sm">Liten</button>
-          <button class="ds-btn btn-primary">Standard</button>
-          <button class="ds-btn btn-primary" style="padding:18px 40px;font-size:16px">Stor</button>
-          <button class="ds-btn btn-primary btn-disabled">Disabled</button>
-        </div>
-        <div class="btn-row">
-          <p class="btn-row-label">Outline</p>
-          <button class="ds-btn btn-outline btn-sm">Liten</button>
-          <button class="ds-btn btn-outline">Standard</button>
-          <button class="ds-btn btn-outline" style="padding:18px 40px;font-size:16px">Stor</button>
-          <button class="ds-btn btn-outline btn-disabled">Disabled</button>
-        </div>
-        <div class="btn-row">
-          <p class="btn-row-label">Pink</p>
-          <button class="ds-btn btn-pink btn-sm">Liten</button>
-          <button class="ds-btn btn-pink">Standard</button>
-          <button class="ds-btn btn-pink" style="padding:18px 40px;font-size:16px">Stor</button>
-          <button class="ds-btn btn-pink btn-disabled">Disabled</button>
-        </div>
-        <div class="btn-row">
-          <p class="btn-row-label">Ghost</p>
-          <button class="ds-btn btn-ghost">Läs artikel →</button>
-          <button class="ds-btn btn-ghost">Visa alla case →</button>
-        </div>
+        <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Knappar</h2><div class="divider"></div></div>
+        <div class="btn-row"><p class="btn-row-label">Primary</p><button class="ds-btn btn-primary btn-sm">Liten</button><button class="ds-btn btn-primary">Standard</button><button class="ds-btn btn-primary" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-primary btn-disabled">Disabled</button></div>
+        <div class="btn-row"><p class="btn-row-label">Outline</p><button class="ds-btn btn-outline btn-sm">Liten</button><button class="ds-btn btn-outline">Standard</button><button class="ds-btn btn-outline" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-outline btn-disabled">Disabled</button></div>
+        <div class="btn-row"><p class="btn-row-label">Pink</p><button class="ds-btn btn-pink btn-sm">Liten</button><button class="ds-btn btn-pink">Standard</button><button class="ds-btn btn-pink" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-pink btn-disabled">Disabled</button></div>
+        <div class="btn-row"><p class="btn-row-label">Ghost</p><button class="ds-btn btn-ghost">Läs artikel →</button><button class="ds-btn btn-ghost">Visa alla case →</button></div>
       </div>
 
       <!-- TAGGAR -->
       <div class="section reveal" id="taggar">
-        <div class="section-header">
-          <span class="section-num">07</span>
-          <h2 class="section-title">Taggar</h2>
-          <div class="divider"></div>
-        </div>
+        <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Taggar</h2><div class="divider"></div></div>
         <p class="sub-label" style="margin-bottom:12px">Orange — primär</p>
-        <div class="tag-row">
-          <span class="ds-tag tag-orange">Sponsring</span>
-          <span class="ds-tag tag-orange">Event</span>
-          <span class="ds-tag tag-orange">Reklam</span>
-          <span class="ds-tag tag-orange">Strategi</span>
-        </div>
+        <div class="tag-row"><span class="ds-tag tag-orange">Sponsring</span><span class="ds-tag tag-orange">Event</span><span class="ds-tag tag-orange">Reklam</span><span class="ds-tag tag-orange">Strategi</span></div>
         <p class="sub-label" style="margin-top:28px;margin-bottom:12px">Outline — sekundär</p>
-        <div class="tag-row">
-          <span class="ds-tag tag-outline">Sport</span>
-          <span class="ds-tag tag-outline">Kultur</span>
-          <span class="ds-tag tag-outline">Musik</span>
-          <span class="ds-tag tag-outline">Festival</span>
-        </div>
+        <div class="tag-row"><span class="ds-tag tag-outline">Sport</span><span class="ds-tag tag-outline">Kultur</span><span class="ds-tag tag-outline">Musik</span><span class="ds-tag tag-outline">Festival</span></div>
         <p class="sub-label" style="margin-top:28px;margin-bottom:12px">Accentfärger</p>
-        <div class="tag-row">
-          <span class="ds-tag tag-solid">Passion first</span>
-          <span class="ds-tag tag-pink">Poppy pink</span>
-          <span class="ds-tag tag-blue">Mellow blue</span>
-          <span class="ds-tag tag-green">Something green</span>
-        </div>
+        <div class="tag-row"><span class="ds-tag tag-solid">Passion first</span><span class="ds-tag tag-pink">Poppy pink</span><span class="ds-tag tag-blue">Mellow blue</span><span class="ds-tag tag-green">Something green</span></div>
       </div>
 
       <!-- KORT -->
       <div class="section reveal" id="kort">
-        <div class="section-header">
-          <span class="section-num">08</span>
-          <h2 class="section-title">Kort</h2>
-          <div class="divider"></div>
-        </div>
+        <div class="section-header"><span class="section-num">08</span><h2 class="section-title">Kort</h2><div class="divider"></div></div>
         <div class="card-row">
-          <div class="ds-card">
-            <div class="ds-card-num">01</div>
-            <h4>Sponsring</h4>
-            <p>Vi kopplar samman varumärken med det folk verkligen bryr sig om.</p>
-          </div>
-          <div class="ds-card">
-            <div class="ds-card-num">02</div>
-            <h4>Event</h4>
-            <p>Möten som börjar i varumärket och slutar i minnet.</p>
-          </div>
-          <div class="ds-card">
-            <div class="ds-card-num">03</div>
-            <h4>Reklam</h4>
-            <p>Att sticka ut är bra. Att nå in är bättre.</p>
-          </div>
+          <div class="ds-card"><div class="ds-card-num">01</div><h4>Sponsring</h4><p>Vi kopplar samman varumärken med det folk verkligen bryr sig om.</p></div>
+          <div class="ds-card"><div class="ds-card-num">02</div><h4>Event</h4><p>Möten som börjar i varumärket och slutar i minnet.</p></div>
+          <div class="ds-card"><div class="ds-card-num">03</div><h4>Reklam</h4><p>Att sticka ut är bra. Att nå in är bättre.</p></div>
         </div>
       </div>
 
       <!-- ANIMATIONER -->
       <div class="section reveal" id="animationer">
-        <div class="section-header">
-          <span class="section-num">09</span>
-          <h2 class="section-title">Animationer</h2>
-          <div class="divider"></div>
-        </div>
+        <div class="section-header"><span class="section-num">09</span><h2 class="section-title">Animationer</h2><div class="divider"></div></div>
         <p class="sub-label" style="margin-bottom:20px">Easing — reveal: cubic-bezier(.16,1,.3,1) · spring: cubic-bezier(.34,1.56,.64,1)</p>
         <div class="anim-grid">
           <div class="anim-tile"><div class="a-dot a-pulse"></div><p class="anim-tile-label">Pulse</p></div>
@@ -650,55 +641,26 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
           <div class="anim-tile"><div class="a-float"></div><p class="anim-tile-label">Float</p></div>
           <div class="anim-tile"><div class="a-bar"><div class="a-bar-fill"></div></div><p class="anim-tile-label">Progress</p></div>
           <div class="anim-tile"><div class="a-spin"></div><p class="anim-tile-label">Spin</p></div>
-          <div class="anim-tile">
-            <div class="a-lines">
-              <div class="a-line"><div class="a-line-fill"></div></div>
-              <div class="a-line"><div class="a-line-fill"></div></div>
-              <div class="a-line"><div class="a-line-fill"></div></div>
-            </div>
-            <p class="anim-tile-label">Text reveal</p>
-          </div>
+          <div class="anim-tile"><div class="a-lines"><div class="a-line"><div class="a-line-fill"></div></div><div class="a-line"><div class="a-line-fill"></div></div><div class="a-line"><div class="a-line-fill"></div></div></div><p class="anim-tile-label">Text reveal</p></div>
         </div>
       </div>
 
       <!-- RÖST & TON -->
       <div class="section reveal" id="ton">
-        <div class="section-header">
-          <span class="section-num">10</span>
-          <h2 class="section-title">Röst & Ton</h2>
-          <div class="divider"></div>
-        </div>
-        <p style="font-size:14px;color:#888;line-height:1.75;max-width:500px;margin-bottom:36px">Direkt, personlig och orädd. Vi har åsikter. Vi pratar som en människa, inte som en institution.</p>
+        <div class="section-header"><span class="section-num">10</span><h2 class="section-title">Röst & Ton</h2><div class="divider"></div></div>
+        <p style="font-size:14px;color:var(--muted1);line-height:1.75;max-width:500px;margin-bottom:36px">Direkt, personlig och orädd. Vi har åsikter. Vi pratar som en människa, inte som en institution.</p>
         <div class="tone-grid">
           <div class="tone-tile tone-do">
             <p class="tone-header"><span class="tone-dot"></span>Gör så här</p>
-            <div class="tone-item">
-              <p class="tone-quote">"Att sticka ut är bra. Att nå in är bättre."</p>
-              <p class="tone-note">Kort, direkt. Tar en tydlig position.</p>
-            </div>
-            <div class="tone-item">
-              <p class="tone-quote">"Vi hjälper varumärken att älska sånt folk älskar."</p>
-              <p class="tone-note">Personligt och aktivt.</p>
-            </div>
-            <div class="tone-item">
-              <p class="tone-quote">"Sponsring slår traditionell reklam — och det kan vi bevisa."</p>
-              <p class="tone-note">Confident. Inte blygsam.</p>
-            </div>
+            <div class="tone-item"><p class="tone-quote">"Att sticka ut är bra. Att nå in är bättre."</p><p class="tone-note">Kort, direkt. Tar en tydlig position.</p></div>
+            <div class="tone-item"><p class="tone-quote">"Vi hjälper varumärken att älska sånt folk älskar."</p><p class="tone-note">Personligt och aktivt.</p></div>
+            <div class="tone-item"><p class="tone-quote">"Sponsring slår traditionell reklam — och det kan vi bevisa."</p><p class="tone-note">Confident. Inte blygsam.</p></div>
           </div>
           <div class="tone-tile tone-dont">
             <p class="tone-header"><span class="tone-dot"></span>Undvik</p>
-            <div class="tone-item">
-              <p class="tone-quote">"Vi erbjuder ett brett utbud av kommunikationstjänster."</p>
-              <p class="tone-note">Generiskt. Kan vara vem som helst.</p>
-            </div>
-            <div class="tone-item">
-              <p class="tone-quote">"Med vår holistiska approach maximerar vi era KPI:er."</p>
-              <p class="tone-note">Byråjargong ingen bryr sig om.</p>
-            </div>
-            <div class="tone-item">
-              <p class="tone-quote">"Vi är mycket glada att ha möjligheten att presentera..."</p>
-              <p class="tone-note">För försiktigt. Passion Lab är inte osäker.</p>
-            </div>
+            <div class="tone-item"><p class="tone-quote">"Vi erbjuder ett brett utbud av kommunikationstjänster."</p><p class="tone-note">Generiskt. Kan vara vem som helst.</p></div>
+            <div class="tone-item"><p class="tone-quote">"Med vår holistiska approach maximerar vi era KPI:er."</p><p class="tone-note">Byråjargong ingen bryr sig om.</p></div>
+            <div class="tone-item"><p class="tone-quote">"Vi är mycket glada att ha möjligheten att presentera..."</p><p class="tone-note">För försiktigt. Passion Lab är inte osäker.</p></div>
           </div>
         </div>
       </div>
@@ -708,11 +670,13 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 </div>
 
 <script>
-// Theme toggle
-function toggleTheme() {
-  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-  document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
-  document.getElementById('theme-label').textContent = isLight ? 'Dark' : 'Light';
+function setTheme(theme, btn) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (theme === 'passion') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 // Cursor
@@ -727,7 +691,7 @@ function animCursor() {
   requestAnimationFrame(animCursor);
 }
 animCursor();
-document.querySelectorAll('a,button,.ds-card,.ds-tag,.color-chip,.gray-chip,.radius-box,.spacing-block').forEach(el => {
+document.querySelectorAll('a,button,.ds-card,.ds-tag,.color-chip,.gray-chip,.radius-box').forEach(el => {
   el.addEventListener('mouseenter', () => cur.classList.add('big'));
   el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
@@ -749,17 +713,10 @@ function toggleScale(id) {
   if (!isOpen) el.classList.add('open');
 }
 document.addEventListener('click', e => {
-  if (!e.target.closest('.color-chip-wrap')) {
-    document.querySelectorAll('.color-chip-wrap.open').forEach(e => e.classList.remove('open'));
-  }
+  if (!e.target.closest('.color-chip-wrap')) document.querySelectorAll('.color-chip-wrap.open').forEach(e => e.classList.remove('open'));
 });
 
-// Copy hex on click (gray chips)
-document.querySelectorAll('.color-chip').forEach(c => {
-  c.addEventListener('click', () => { if(c.title) navigator.clipboard?.writeText(c.title); });
-});
-
-// Sidebar active on scroll
+// Sidebar active
 const sections = document.querySelectorAll('.section[id]');
 const links = document.querySelectorAll('.sidebar-link');
 const obs = new IntersectionObserver(entries => {
