@@ -394,7 +394,68 @@ nav {
 /* ============================================================
    RESPONSIVE
 ============================================================ */
-@media (max-width:900px) {
+/* ============================================================
+   PLAYGROUND EXTRAS — 7 nya block
+============================================================ */
+
+/* 1. TICKER */
+.pp-ticker { background:#fab3ff; padding:64px; border-top:1px solid rgba(0,0,0,.07); }
+.pp-ticker .pp-lbl { color:rgba(0,0,0,.35); }
+.ticker-statement { font-size:clamp(16px,2vw,22px); font-weight:500; color:rgba(0,0,0,.4); margin-bottom:16px; }
+.ticker-nums { display:flex; flex-wrap:wrap; gap:32px; margin-top:24px; }
+.ticker-unit { display:flex; flex-direction:column; }
+.ticker-val { font-size:clamp(48px,7vw,88px); font-weight:800; letter-spacing:-3px; line-height:1; color:#000; font-family:var(--font); font-variant-numeric:tabular-nums; }
+.ticker-unit-lbl { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(0,0,0,.35); margin-top:6px; }
+
+/* 2. HOVER-EXPLODER */
+.pp-explode { background:#000; padding:80px 64px; overflow:hidden; }
+.pp-explode .pp-lbl { color:rgba(255,255,255,.25); }
+.explode-word { display:flex; justify-content:center; gap:0; margin-top:24px; }
+.explode-letter { font-size:clamp(64px,12vw,160px); font-weight:800; letter-spacing:-4px; line-height:.88; color:#fff; display:inline-block; cursor:none; transition:transform .6s cubic-bezier(.34,1.56,.64,1), color .3s; will-change:transform; }
+
+/* 3. MAGNETISKA BUBBLOR */
+.pp-bubbles { background:#fab3ff; padding:64px; min-height:420px; position:relative; overflow:hidden; border-top:1px solid rgba(0,0,0,.07); }
+.pp-bubbles .pp-lbl { color:rgba(0,0,0,.35); position:relative; z-index:2; }
+.bubble { position:absolute; border-radius:50%; cursor:none; transition:transform .1s linear; will-change:transform; }
+.bubble-center-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(0,0,0,.5); pointer-events:none; }
+
+/* 4. COUNTDOWN */
+.pp-countdown { background:#f05528; padding:80px 64px; border-top:1px solid rgba(0,0,0,.07); }
+.pp-countdown .pp-lbl { color:rgba(0,0,0,.35); }
+.countdown-pre { font-size:clamp(16px,2vw,22px); font-weight:500; color:rgba(0,0,0,.5); margin-bottom:8px; }
+.countdown-display { display:flex; align-items:baseline; gap:4px; flex-wrap:wrap; }
+.cd-num { font-family:var(--fd); font-weight:300; font-style:italic; font-size:clamp(72px,12vw,160px); line-height:.88; letter-spacing:-4px; color:#000; font-variant-numeric:tabular-nums; }
+.cd-sep { font-size:clamp(32px,5vw,72px); font-weight:300; color:rgba(0,0,0,.2); align-self:center; margin:0 4px; }
+.cd-unit { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(0,0,0,.4); align-self:flex-end; padding-bottom:16px; }
+
+/* 5. SWIPE-KORT */
+.pp-swipe { background:#fab3ff; padding:64px; border-top:1px solid rgba(0,0,0,.07); }
+.pp-swipe .pp-lbl { color:rgba(0,0,0,.35); }
+.swipe-stack { position:relative; height:280px; width:320px; margin:32px auto 0; }
+.swipe-card { position:absolute; inset:0; border-radius:24px; padding:36px; display:flex; flex-direction:column; justify-content:flex-end; cursor:none; user-select:none; transition:transform .5s cubic-bezier(.34,1.2,.64,1), opacity .4s; will-change:transform; }
+.swipe-card.gone { pointer-events:none; }
+.swipe-card-quote { font-size:18px; font-weight:500; letter-spacing:-.3px; line-height:1.35; color:#000; margin-bottom:12px; }
+.swipe-card-src { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(0,0,0,.4); }
+.swipe-hint { text-align:center; margin-top:16px; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(0,0,0,.3); }
+
+/* 6. PARALLAX MOODBOARD */
+.pp-moodboard { background:#000; overflow:hidden; position:relative; height:500px; border-top:1px solid rgba(0,0,0,.07); }
+.mb-layer { position:absolute; inset:0; display:grid; will-change:transform; }
+.mb-cell { display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.mb-text { font-weight:800; letter-spacing:-1px; text-transform:uppercase; white-space:nowrap; }
+
+/* 7. BRAND TEMPERATURE */
+.pp-temp { background:#fab3ff; padding:64px; border-top:1px solid rgba(0,0,0,.07); }
+.pp-temp .pp-lbl { color:rgba(0,0,0,.35); }
+.temp-categories { display:flex; flex-wrap:wrap; gap:10px; margin:28px 0; }
+.temp-cat { padding:10px 20px; border-radius:100px; font-size:12px; font-weight:700; letter-spacing:.5px; border:2px solid rgba(0,0,0,.15); color:#000; background:transparent; cursor:none; font-family:var(--font); transition:background .25s, border-color .25s, transform .4s cubic-bezier(.34,1.56,.64,1); }
+.temp-cat:hover { transform:scale(1.05); }
+.temp-cat.selected { background:#000; color:#fab3ff; border-color:#000; }
+.temp-gauge-wrap { position:relative; height:180px; display:flex; align-items:flex-end; justify-content:center; }
+.temp-gauge-svg { width:320px; height:180px; }
+.temp-needle { transform-origin:160px 160px; transition:transform 1s cubic-bezier(.34,1.56,.64,1); }
+.temp-label { text-align:center; margin-top:16px; font-size:clamp(24px,3vw,40px); font-weight:800; letter-spacing:-1px; color:#000; min-height:48px; transition:opacity .3s; }
+.temp-sublabel { text-align:center; font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(0,0,0,.35); margin-top:4px; }
   :root { --nav-h: 110px; }
   nav { padding:12px 20px; }
   .nav-back { display:none; }
@@ -610,8 +671,110 @@ nav {
         <p>Passion Lab — Stockholm — Brand Emotion sedan 2000</p>
       </div>
 
-    </div>
-    <!-- ========== END PASSION PAGE ========== -->
+      <!-- ============ PLAYGROUND EXTRAS ============ -->
+
+      <!-- 1. TICKER -->
+      <div class="pp pp-ticker">
+        <span class="pp-lbl">Live sedan 2000</span>
+        <p class="ticker-statement">Passion Lab har skapat brand emotion i</p>
+        <div class="ticker-nums">
+          <div class="ticker-unit"><span class="ticker-val" id="tk-y">0</span><span class="ticker-unit-lbl">År</span></div>
+          <div class="ticker-unit"><span class="ticker-val" id="tk-d">0</span><span class="ticker-unit-lbl">Dagar</span></div>
+          <div class="ticker-unit"><span class="ticker-val" id="tk-h">0</span><span class="ticker-unit-lbl">Timmar</span></div>
+          <div class="ticker-unit"><span class="ticker-val" id="tk-m">0</span><span class="ticker-unit-lbl">Minuter</span></div>
+          <div class="ticker-unit"><span class="ticker-val" id="tk-s">0</span><span class="ticker-unit-lbl">Sekunder</span></div>
+        </div>
+      </div>
+
+      <!-- 2. HOVER-EXPLODER -->
+      <div class="pp pp-explode">
+        <span class="pp-lbl">Hovra på bokstäverna</span>
+        <div class="explode-word" id="explode-word">
+          <span class="explode-letter" style="color:#f05528">P</span>
+          <span class="explode-letter">A</span>
+          <span class="explode-letter" style="color:#fab3ff">S</span>
+          <span class="explode-letter">S</span>
+          <span class="explode-letter" style="color:#02b99f">I</span>
+          <span class="explode-letter">O</span>
+          <span class="explode-letter" style="color:#f05528">N</span>
+        </div>
+      </div>
+
+      <!-- 3. MAGNETISKA BUBBLOR -->
+      <div class="pp pp-bubbles" id="bubble-wrap">
+        <span class="pp-lbl">Rör musen</span>
+        <div class="bubble" id="b1" style="width:180px;height:180px;background:#f05528;top:80px;left:10%"><span class="bubble-center-text">Sponsring</span></div>
+        <div class="bubble" id="b2" style="width:140px;height:140px;background:#000;top:60px;left:35%"><span class="bubble-center-text" style="color:#fab3ff">Event</span></div>
+        <div class="bubble" id="b3" style="width:200px;height:200px;background:#fab3ff;top:100px;left:55%"><span class="bubble-center-text">Reklam</span></div>
+        <div class="bubble" id="b4" style="width:120px;height:120px;background:#02b99f;top:200px;left:22%"><span class="bubble-center-text">Sport</span></div>
+        <div class="bubble" id="b5" style="width:160px;height:160px;background:#4559fb;top:180px;left:72%"><span class="bubble-center-text" style="color:#fff">Kultur</span></div>
+      </div>
+
+      <!-- 4. COUNTDOWN -->
+      <div class="pp pp-countdown">
+        <span class="pp-lbl">Nästa möjlighet</span>
+        <p class="countdown-pre">Nästa sponsringsaffär sker om</p>
+        <div class="countdown-display">
+          <span class="cd-num" id="cd-h">00</span><span class="cd-sep">:</span><span class="cd-unit">tim</span>
+          <span class="cd-num" id="cd-m">00</span><span class="cd-sep">:</span><span class="cd-unit">min</span>
+          <span class="cd-num" id="cd-s">00</span><span class="cd-unit">sek</span>
+        </div>
+      </div>
+
+      <!-- 5. SWIPE-KORT -->
+      <div class="pp pp-swipe">
+        <span class="pp-lbl">Svep eller klicka</span>
+        <div class="swipe-stack" id="swipe-stack">
+          <div class="swipe-card" style="background:#f05528;transform:rotate(3deg) translateY(12px)"><p class="swipe-card-quote">"Sponsring är inte en kanal. Det är ett förhållningssätt."</p><span class="swipe-card-src">Passion Lab</span></div>
+          <div class="swipe-card" style="background:#4559fb;transform:rotate(-2deg) translateY(8px)"><p class="swipe-card-quote" style="color:#fff">"Det bästa budskapet når inte fram i fel kontext."</p><span class="swipe-card-src" style="color:rgba(255,255,255,.5)">Passion Lab</span></div>
+          <div class="swipe-card" style="background:#02b99f;transform:rotate(1deg) translateY(4px)"><p class="swipe-card-quote">"Känsla som ingen annons kan köpa."</p><span class="swipe-card-src">Passion Lab</span></div>
+          <div class="swipe-card" style="background:#000;transform:rotate(0deg)"><p class="swipe-card-quote" style="color:#fab3ff">"Vi mäter oss mot de bästa — och vinner."</p><span class="swipe-card-src" style="color:rgba(255,255,255,.4)">Passion Lab</span></div>
+        </div>
+        <p class="swipe-hint">Klicka för att svep →</p>
+      </div>
+
+      <!-- 6. PARALLAX MOODBOARD -->
+      <div class="pp pp-moodboard" id="moodboard">
+        <div class="mb-layer" id="mb-slow" style="grid-template-columns:repeat(4,1fr);gap:3px;padding:3px">
+          <div class="mb-cell" style="background:#f05528;grid-row:span 2"><span class="mb-text" style="font-size:clamp(32px,5vw,72px);color:#000">BRAND</span></div>
+          <div class="mb-cell" style="background:#000"><span class="mb-text" style="font-size:clamp(14px,2vw,24px);color:#fab3ff">SPONSRING</span></div>
+          <div class="mb-cell" style="background:#fab3ff"><span class="mb-text" style="font-size:clamp(14px,2vw,24px);color:#000">EVENT</span></div>
+          <div class="mb-cell" style="background:#02b99f"><span class="mb-text" style="font-size:clamp(14px,2vw,24px);color:#000">REKLAM</span></div>
+          <div class="mb-cell" style="background:#4559fb"><span class="mb-text" style="font-size:clamp(14px,2vw,24px);color:#fff">KULTUR</span></div>
+          <div class="mb-cell" style="background:#fab3ff;grid-column:span 2"><span class="mb-text" style="font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(28px,4vw,56px);color:#000">Älska sånt folk älskar.</span></div>
+        </div>
+      </div>
+
+      <!-- 7. BRAND TEMPERATURE -->
+      <div class="pp pp-temp">
+        <span class="pp-lbl">Hur passionerat är ditt varumärke?</span>
+        <div class="temp-categories">
+          <button class="temp-cat" onclick="setTemp('sport',this)">🏆 Sport</button>
+          <button class="temp-cat" onclick="setTemp('musik',this)">🎵 Musik</button>
+          <button class="temp-cat" onclick="setTemp('kultur',this)">🎭 Kultur</button>
+          <button class="temp-cat" onclick="setTemp('festival',this)">🎪 Festival</button>
+          <button class="temp-cat" onclick="setTemp('esport',this)">🎮 E-sport</button>
+        </div>
+        <div class="temp-gauge-wrap">
+          <svg class="temp-gauge-svg" viewBox="0 0 320 180">
+            <path d="M 30 160 A 130 130 0 0 1 290 160" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="20" stroke-linecap="round"/>
+            <path d="M 30 160 A 130 130 0 0 1 290 160" fill="none" stroke="url(#tg)" stroke-width="20" stroke-linecap="round" stroke-dasharray="408" stroke-dashoffset="0" opacity=".3"/>
+            <defs>
+              <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#fab3ff"/>
+                <stop offset="50%" style="stop-color:#f05528"/>
+                <stop offset="100%" style="stop-color:#f05528"/>
+              </linearGradient>
+            </defs>
+            <line id="temp-needle" class="temp-needle" x1="160" y1="160" x2="160" y2="48" stroke="#000" stroke-width="4" stroke-linecap="round" style="transform:rotate(-90deg)"/>
+            <circle cx="160" cy="160" r="8" fill="#000"/>
+          </svg>
+        </div>
+        <p class="temp-label" id="temp-label">Välj en kategori</p>
+        <p class="temp-sublabel" id="temp-sub">och se din brand temperature</p>
+      </div>
+
+      <!-- ============ END PLAYGROUND EXTRAS ============ -->
 
       <!-- INTRO -->
       <div style="margin-bottom:100px" class="reveal">
@@ -854,7 +1017,165 @@ new IntersectionObserver(entries => {
   }, {threshold: 0.08}).observe(b);
 });
 
-// Card carousel
+// ============================================================
+// PLAYGROUND EXTRAS JS
+// ============================================================
+
+// 1. TICKER — räkna upp från startdatum 2000-01-01
+(function tickerInit() {
+  const start = new Date('2000-01-01T00:00:00');
+  function update() {
+    if (document.documentElement.getAttribute('data-theme') !== 'passion') return;
+    const now = new Date();
+    const diff = now - start;
+    const s = Math.floor(diff/1000)%60;
+    const m = Math.floor(diff/60000)%60;
+    const h = Math.floor(diff/3600000)%24;
+    const d = Math.floor(diff/86400000)%365;
+    const y = Math.floor(diff/(86400000*365));
+    const f = n => String(n).padStart(2,'0');
+    const e = id => document.getElementById(id);
+    if(e('tk-y')) { e('tk-y').textContent=y; e('tk-d').textContent=f(d); e('tk-h').textContent=f(h); e('tk-m').textContent=f(m); e('tk-s').textContent=f(s); }
+    setTimeout(update, 1000);
+  }
+  update();
+})();
+
+// 2. HOVER-EXPLODER
+document.querySelectorAll('.explode-letter').forEach(l => {
+  l.addEventListener('mouseenter', () => {
+    const rx = (Math.random()-0.5)*60;
+    const ry = (Math.random()-0.5)*40;
+    const rot = (Math.random()-0.5)*30;
+    l.style.transform = `translate(${rx}px,${ry}px) rotate(${rot}deg) scale(1.2)`;
+  });
+  l.addEventListener('mouseleave', () => { l.style.transform = ''; });
+});
+
+// 3. MAGNETISKA BUBBLOR
+(function bubblesInit() {
+  const wrap = document.getElementById('bubble-wrap');
+  if (!wrap) return;
+  const bubbles = [
+    {el: document.getElementById('b1'), ox:0, oy:0, vx:0, vy:0},
+    {el: document.getElementById('b2'), ox:0, oy:0, vx:0, vy:0},
+    {el: document.getElementById('b3'), ox:0, oy:0, vx:0, vy:0},
+    {el: document.getElementById('b4'), ox:0, oy:0, vx:0, vy:0},
+    {el: document.getElementById('b5'), ox:0, oy:0, vx:0, vy:0},
+  ];
+  let mx=0, my=0;
+  wrap.addEventListener('mousemove', e => {
+    const r = wrap.getBoundingClientRect();
+    mx = e.clientX - r.left;
+    my = e.clientY - r.top;
+  });
+  wrap.addEventListener('mouseleave', () => { mx=-999; my=-999; });
+  function animBubbles() {
+    if (document.documentElement.getAttribute('data-theme') === 'passion') {
+      bubbles.forEach(b => {
+        if (!b.el) return;
+        const r = b.el.getBoundingClientRect();
+        const wr = wrap.getBoundingClientRect();
+        const bx = r.left - wr.left + r.width/2;
+        const by = r.top - wr.top + r.height/2;
+        const dx = mx - bx, dy = my - by;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        const force = Math.max(0, 1 - dist/200);
+        b.vx += dx * force * 0.04;
+        b.vy += dy * force * 0.04;
+        b.vx *= 0.88; b.vy *= 0.88;
+        b.ox += b.vx; b.oy += b.vy;
+        b.el.style.transform = `translate(${b.ox}px,${b.oy}px)`;
+      });
+    }
+    requestAnimationFrame(animBubbles);
+  }
+  animBubbles();
+})();
+
+// 4. COUNTDOWN till midnatt
+(function cdInit() {
+  function updateCd() {
+    if (document.documentElement.getAttribute('data-theme') !== 'passion') return;
+    const now = new Date();
+    const midnight = new Date(); midnight.setHours(24,0,0,0);
+    const diff = midnight - now;
+    const s = Math.floor(diff/1000)%60;
+    const m = Math.floor(diff/60000)%60;
+    const h = Math.floor(diff/3600000);
+    const f = n => String(n).padStart(2,'0');
+    const eh = document.getElementById('cd-h'), em = document.getElementById('cd-m'), es = document.getElementById('cd-s');
+    if(eh) { eh.textContent=f(h); em.textContent=f(m); es.textContent=f(s); }
+    setTimeout(updateCd, 1000);
+  }
+  updateCd();
+})();
+
+// 5. SWIPE-KORT
+(function swipeInit() {
+  const stack = document.getElementById('swipe-stack');
+  if (!stack) return;
+  function getTop() { return stack.querySelector('.swipe-card:not(.gone)'); }
+  function swipeTop() {
+    const top = getTop();
+    if (!top) return;
+    const dir = Math.random() > 0.5 ? 1 : -1;
+    top.style.transform = `translateX(${dir*120}%) rotate(${dir*20}deg)`;
+    top.style.opacity = '0';
+    top.classList.add('gone');
+    // reset all if all gone
+    setTimeout(() => {
+      const remaining = stack.querySelectorAll('.swipe-card.gone');
+      if (remaining.length === stack.querySelectorAll('.swipe-card').length) {
+        remaining.forEach(c => { c.classList.remove('gone'); c.style.transform=''; c.style.opacity=''; });
+        layoutSwipe();
+      }
+    }, 500);
+  }
+  function layoutSwipe() {
+    const cards = [...stack.querySelectorAll('.swipe-card:not(.gone)')].reverse();
+    const rots = [0, -2, 1, 3];
+    const ys = [0, 4, 8, 12];
+    cards.forEach((c,i) => { c.style.transform = `rotate(${rots[i]||0}deg) translateY(${ys[i]||0}px)`; c.style.opacity='1'; });
+  }
+  stack.addEventListener('click', swipeTop);
+  layoutSwipe();
+})();
+
+// 6. PARALLAX MOODBOARD
+(function mbInit() {
+  const mb = document.getElementById('moodboard');
+  const slow = document.getElementById('mb-slow');
+  if (!mb || !slow) return;
+  window.addEventListener('scroll', () => {
+    if (document.documentElement.getAttribute('data-theme') !== 'passion') return;
+    const r = mb.getBoundingClientRect();
+    const progress = -r.top / (window.innerHeight + r.height);
+    slow.style.transform = `translateY(${progress * -60}px)`;
+  });
+})();
+
+// 7. BRAND TEMPERATURE
+const tempData = {
+  sport:   { deg: 70,  label: 'Glödhet! 🔥',       sub: 'Sport är peak brand emotion' },
+  musik:   { deg: 55,  label: 'Varmt! 🎵',           sub: 'Musik skapar starka kopplingar' },
+  kultur:  { deg: 45,  label: 'Lovande! 🎭',          sub: 'Kultur bygger trovärdighet' },
+  festival:{ deg: 80,  label: 'Brinner! 🎪',          sub: 'Festival = max engagemang' },
+  esport:  { deg: 60,  label: 'Hett! 🎮',             sub: 'E-sport når en ny generation' },
+};
+function setTemp(cat, btn) {
+  document.querySelectorAll('.temp-cat').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const d = tempData[cat];
+  const needle = document.getElementById('temp-needle');
+  const lbl = document.getElementById('temp-label');
+  const sub = document.getElementById('temp-sub');
+  if (!needle || !d) return;
+  const angle = -90 + (d.deg / 100) * 180;
+  needle.style.transform = `rotate(${angle}deg)`;
+  lbl.textContent = d.label;
+  sub.textContent = d.sub;
+}
 let curCard = 2; // start at middle
 const CARDS = 5;
 function layoutCards() {
