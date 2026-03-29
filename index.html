@@ -155,42 +155,28 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .case-card:hover .case-info p { color: #444; }
 .case-footer { display: flex; justify-content: flex-end; margin-top: 40px; }
 
-/* CLIENTS */
-.clients-wrap { padding: 80px 48px; background: var(--white); }
-.clients-inner { max-width: 1200px; margin: 0 auto; }
-.clients-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 56px; }
-.clients-heading { font-size: clamp(36px,4.5vw,58px); font-weight: 500; letter-spacing: -1px; line-height: 1.05; color: var(--black); max-width: 500px; }
-.clients-heading em { font-style: italic; color: var(--orange); }
-.clients-desc { font-size: 15px; color: #777; max-width: 300px; line-height: 1.65; }
-.clients-logos { display: grid; grid-template-columns: repeat(6,1fr); gap: 2px; }
-.client-tile { aspect-ratio: 2/1; display: flex; align-items: center; justify-content: center; background: #f4f4f4; transition: background .3s, transform .4s cubic-bezier(.34,1.2,.64,1); }
-.client-tile:hover { background: #ebebeb; transform: scale(1.02); }
-.client-logo { font-size: 14px; font-weight: 800; color: #bbb; text-transform: uppercase; letter-spacing: 1.5px; transition: color .3s; }
-.client-tile:hover .client-logo { color: #333; }
+/* CLIENTS — löptext */
+.clients-wrap { padding: 80px 48px; border-top: 1px solid rgba(255,255,255,.04); }
+.clients-inner { max-width: 1000px; margin: 0 auto; }
+.clients-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 28px; display: block; }
+.clients-text { font-size: clamp(18px,2.2vw,26px); font-weight: 500; letter-spacing: -.3px; line-height: 1.6; color: #333; }
+.clients-text strong { color: var(--white); font-weight: 500; }
 
-/* AWARDS */
-.awards-wrap { padding: 100px 48px; background: var(--pink-bg); }
-.awards-inner { max-width: 1200px; margin: 0 auto; }
-.awards-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 64px; }
-.awards-title { font-size: clamp(40px,5.5vw,72px); font-weight: 500; letter-spacing: -1px; line-height: 1.02; color: var(--black); }
-.awards-title em { font-style: italic; color: var(--orange); }
-.awards-sub { font-size: 15px; color: rgba(0,0,0,.45); max-width: 360px; line-height: 1.65; }
-.awards-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 2px; margin-bottom: 56px; }
-.award-tile { background: rgba(0,0,0,.06); padding: 40px 32px; text-align: center; transition: background .3s; }
-.award-tile:first-child { border-radius: 20px 0 0 20px; }
-.award-tile:last-child { border-radius: 0 20px 20px 0; }
-.award-tile:hover { background: rgba(0,0,0,.1); }
-.award-num { font-size: clamp(44px,5vw,68px); font-weight: 800; line-height: 1; letter-spacing: -2px; color: var(--black); display: block; transition: transform .3s cubic-bezier(.34,1.2,.64,1); }
-.award-tile:hover .award-num { transform: scale(1.05); }
-.award-label { font-size: 13px; font-weight: 500; color: rgba(0,0,0,.45); margin-top: 10px; }
-.pink-deco { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
-.deco-pill { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 100px; font-size: 15px; font-weight: 700; letter-spacing: -.2px; transition: transform .4s cubic-bezier(.34,1.56,.64,1); }
-.deco-pill:hover { transform: rotate(-2deg) scale(1.05); }
-.pill-black { background: var(--black); color: var(--white); }
-.pill-outline { background: transparent; color: var(--black); border: 1.5px solid rgba(0,0,0,.2); }
-.pill-orange { background: var(--orange); color: var(--white); }
-.deco-star { font-size: 20px; animation: spin 8s linear infinite; display: inline-block; }
-@keyframes spin { to{transform:rotate(360deg)} }
+/* SERVICES — animerad text som byter tjänst */
+.services-wrap { padding: 120px 48px; border-top: 1px solid rgba(255,255,255,.04); }
+.services-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.services-left { }
+.services-pre { font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; line-height: 1.1; color: var(--white); margin-bottom: 0; }
+.services-switcher { display: block; font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; line-height: 1.1; color: var(--orange); min-height: 1.2em; position: relative; overflow: hidden; }
+.services-word { position: absolute; top: 0; left: 0; transition: transform .6s cubic-bezier(.16,1,.3,1), opacity .5s; }
+.services-word.active { transform: translateY(0); opacity: 1; }
+.services-word.above { transform: translateY(-100%); opacity: 0; }
+.services-word.below { transform: translateY(100%); opacity: 0; }
+.services-right { }
+.services-desc { font-size: 16px; color: #555; line-height: 1.75; margin-bottom: 32px; min-height: 80px; transition: opacity .4s; }
+.services-dots { display: flex; gap: 8px; }
+.sdot { width: 8px; height: 8px; border-radius: 50%; background: #1a1a1a; border: none; cursor: none; padding: 0; transition: background .3s, transform .3s cubic-bezier(.34,1.56,.64,1); }
+.sdot.active { background: var(--orange); transform: scale(1.4); }
 
 /* ARTICLES */
 .articles-wrap { padding: 120px 48px; background: var(--white); }
@@ -306,24 +292,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </h1>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">Sponsring<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Event<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Reklam<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Sport<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Kultur<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Passion<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Sponsring<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Event<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Reklam<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Sport<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Kultur<span class="marquee-dot"></span></span>
-    <span class="marquee-item">Passion<span class="marquee-dot"></span></span>
-  </div>
-</div>
-
 <!-- QUOTE -->
 <div class="quote-wrap reveal">
   <div class="quote-inner">
@@ -381,44 +349,38 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 <!-- CLIENTS -->
 <div class="clients-wrap reveal">
   <div class="clients-inner">
-    <div class="clients-top">
-      <div>
-        <h2 class="clients-heading">Varumärken som<br><em>litar på oss.</em></h2>
-      </div>
-      <p class="clients-desc">Från globala varumärken till svenska ikoner — vi levererar sponsring och event som skapar verkligt engagemang.</p>
-    </div>
-    <div class="clients-logos">
-      <div class="client-tile reveal reveal-delay-1"><span class="client-logo">Kund 1</span></div>
-      <div class="client-tile reveal reveal-delay-2"><span class="client-logo">Kund 2</span></div>
-      <div class="client-tile reveal reveal-delay-3"><span class="client-logo">Kund 3</span></div>
-      <div class="client-tile reveal reveal-delay-1"><span class="client-logo">Kund 4</span></div>
-      <div class="client-tile reveal reveal-delay-2"><span class="client-logo">Kund 5</span></div>
-      <div class="client-tile reveal reveal-delay-3"><span class="client-logo">Kund 6</span></div>
-    </div>
+    <span class="clients-label">Kunder vi jobbat med</span>
+    <p class="clients-text">
+      Vi har skapat brand emotion tillsammans med <strong>Volvo</strong>, <strong>ICA</strong>,
+      <strong>SHL</strong>, <strong>Storytel</strong>, <strong>Klarna</strong>,
+      <strong>Svenska Spel</strong>, <strong>Telenor</strong>, <strong>Arla</strong>
+      och många fler av Sveriges och Nordens ledande varumärken.
+    </p>
   </div>
 </div>
 
-<!-- AWARDS -->
-<div class="awards-wrap">
-  <div class="awards-inner">
-    <div class="awards-top reveal">
-      <div>
-        <h2 class="awards-title">Erkända av<br><em>branschen.</em></h2>
+<!-- SERVICES — animerad text -->
+<div class="services-wrap reveal">
+  <div class="services-inner">
+    <div class="services-left">
+      <p class="services-pre">Vi är experter på</p>
+      <span class="services-switcher" id="svc-switcher">
+        <span class="services-word active" id="sw0">sponsring.</span>
+        <span class="services-word below" id="sw1">event.</span>
+        <span class="services-word below" id="sw2">reklam.</span>
+        <span class="services-word below" id="sw3">aktivering.</span>
+        <span class="services-word below" id="sw4">strategi.</span>
+      </span>
+    </div>
+    <div class="services-right">
+      <p class="services-desc" id="svc-desc">Vi kopplar samman Sveriges ledande varumärken med sport och kultur på ett sätt som skapar verkligt engagemang hos människor som bryr sig på riktigt.</p>
+      <div class="services-dots">
+        <button class="sdot active" onclick="goService(0)"></button>
+        <button class="sdot" onclick="goService(1)"></button>
+        <button class="sdot" onclick="goService(2)"></button>
+        <button class="sdot" onclick="goService(3)"></button>
+        <button class="sdot" onclick="goService(4)"></button>
       </div>
-      <p class="awards-sub">Vi mäter oss inte mot genomsnittet. Vi mäter oss mot de bästa — och vinner.</p>
-    </div>
-    <div class="awards-grid">
-      <div class="award-tile reveal reveal-delay-1"><span class="award-num" data-target="3" data-suffix="×">0</span><div class="award-label">Årets sponsringsbyrå</div></div>
-      <div class="award-tile reveal reveal-delay-2"><span class="award-num" data-target="200" data-suffix="+">0</span><div class="award-label">Sponsringsdeals</div></div>
-      <div class="award-tile reveal reveal-delay-3"><span class="award-num" data-target="400" data-suffix="+">0</span><div class="award-label">Event producerade</div></div>
-      <div class="award-tile reveal reveal-delay-4"><span class="award-num" data-target="20">0</span><div class="award-label">År i branschen</div></div>
-    </div>
-    <div class="pink-deco reveal" style="margin-top:56px">
-      <span class="deco-pill pill-black mag"><span class="deco-star">✦</span> Passion first</span>
-      <span class="deco-pill pill-orange mag">Sveriges ledande byrå</span>
-      <span class="deco-pill pill-outline mag"><span class="deco-star">✦</span> Sport &amp; kultur</span>
-      <span class="deco-pill pill-black mag">Sponsring som sitter</span>
-      <span class="deco-pill pill-outline mag"><span class="deco-star">✦</span> Event på riktigt</span>
     </div>
   </div>
 </div>
@@ -453,23 +415,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
         <a href="artiklar.html" class="article-link">Läs mer →</a>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- INSTAGRAM -->
-<div class="instagram-wrap reveal">
-  <div class="instagram-inner">
-    <p class="articles-label" style="margin-bottom:12px">Följ oss</p>
-    <a href="https://instagram.com/passionlab" class="insta-handle" target="_blank">@passionlab</a>
-    <div class="insta-grid">
-      <div class="insta-post i1">🎤</div>
-      <div class="insta-post i2">🏟️</div>
-      <div class="insta-post i3">🌿</div>
-      <div class="insta-post i4">🎶</div>
-      <div class="insta-post i5">🔥</div>
-      <div class="insta-post i6">🏆</div>
-    </div>
-    <a href="https://instagram.com/passionlab" target="_blank" class="btn-outline mag" style="display:inline-block">Se mer på Instagram →</a>
   </div>
 </div>
 
@@ -557,23 +502,33 @@ const revObs = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-const countObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(!e.isIntersecting) return;
-    const el=e.target, target=parseInt(el.dataset.target), suffix=el.dataset.suffix||'';
-    if(!target) return;
-    let start=null;
-    const tick=ts=>{
-      if(!start) start=ts;
-      const p=Math.min((ts-start)/2000,1), ease=1-Math.pow(1-p,4);
-      el.textContent=Math.floor(ease*target)+suffix;
-      if(p<1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-    countObs.unobserve(el);
+// Services switcher
+const svcWords = ['sponsring.', 'event.', 'reklam.', 'aktivering.', 'strategi.'];
+const svcDescs = [
+  'Vi kopplar samman Sveriges ledande varumärken med sport och kultur på ett sätt som skapar verkligt engagemang hos människor som bryr sig på riktigt.',
+  'Vi producerar event som börjar i varumärket och slutar i minnet — från stora publika aktiveringar till intima B2B-möten.',
+  'Vi gör inte reklam för reklamens skull. Vi börjar i målgruppens värld och bygger kommunikation som känns relevant på riktigt.',
+  'Rättigheterna är bara början. Vi bygger kommunikation och upplevelser som faktiskt utnyttjar dem — och mäter effekten.',
+  'Vi hittar de sammanhang där ditt varumärke faktiskt hör hemma — och gör det trovärdigt för en målgrupp som bryr sig.'
+];
+let curSvc = 0, svcTimer;
+
+function goService(i) {
+  const prev = curSvc;
+  curSvc = i;
+  const words = document.querySelectorAll('.services-word');
+  words.forEach((w, idx) => {
+    if (idx === prev) { w.classList.remove('active'); w.classList.add('above'); }
+    else if (idx === curSvc) { w.classList.remove('below', 'above'); w.classList.add('active'); }
+    else { w.classList.remove('active', 'above'); w.classList.add('below'); }
   });
-}, { threshold: 0.5 });
-document.querySelectorAll('.award-num[data-target]').forEach(el=>countObs.observe(el));
+  const desc = document.getElementById('svc-desc');
+  if (desc) { desc.style.opacity = '0'; setTimeout(() => { desc.textContent = svcDescs[curSvc]; desc.style.opacity = '1'; }, 250); }
+  document.querySelectorAll('.sdot').forEach((d, idx) => d.classList.toggle('active', idx === curSvc));
+  clearInterval(svcTimer);
+  svcTimer = setInterval(() => goService((curSvc + 1) % svcWords.length), 3000);
+}
+svcTimer = setInterval(() => goService((curSvc + 1) % svcWords.length), 3000);
 
 document.querySelectorAll('.case-card').forEach(c=>{
   c.addEventListener('mousemove',e=>{
