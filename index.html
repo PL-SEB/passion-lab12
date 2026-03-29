@@ -59,69 +59,25 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .orb1 { width: 650px; height: 650px; background: rgba(240,85,40,.08); top: -120px; left: 50%; transform: translateX(-50%); animation: orbFloat 9s ease-in-out infinite; }
 .orb2 { width: 420px; height: 420px; background: rgba(250,179,255,.04); bottom: -80px; right: -120px; animation: orbFloat 13s ease-in-out infinite reverse; }
 @keyframes orbFloat { 0%,100%{transform:translateY(0) translateX(-50%)} 50%{transform:translateY(-50px) translateX(-50%)} }
-.hero-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); border: 1px solid rgba(240,85,40,.3); border-radius: 100px; padding: 6px 16px; margin-bottom: 40px; position: relative; z-index: 1; opacity: 0; animation: fadeUp .8s cubic-bezier(.16,1,.3,1) .2s both; }
-.hero-label::before { content: ''; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
 
-/* HERO H1 — typografisk ordbild */
-.hero h1 {
-  font-size: clamp(64px, 11vw, 140px);
-  line-height: .9;
-  letter-spacing: -3px;
-  position: relative;
-  z-index: 1;
-  opacity: 0;
-  animation: fadeUp 1s cubic-bezier(.16,1,.3,1) .35s both;
-}
-.hero h1 .word-italic {
-  font-family: var(--fd);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--white);
-}
-.hero h1 .word-normal {
-  font-family: var(--font);
-  font-weight: 500;
-  font-style: normal;
-  color: var(--white);
-}
-.hero h1 .word-fade {
-  font-family: var(--font);
-  font-weight: 500;
-  font-style: normal;
-  color: var(--white);
-}
-.hero h1 .word-italic-orange {
-  font-family: var(--fd);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--white);
-}
-/* each line animates up */
+/* HERO H1 */
+.hero h1 { font-size: clamp(64px, 11vw, 140px); line-height: .9; letter-spacing: -3px; position: relative; z-index: 1; opacity: 0; animation: fadeUp 1s cubic-bezier(.16,1,.3,1) .35s both; }
+.hero h1 .word-italic { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--white); }
+.hero h1 .word-normal { font-family: var(--font); font-weight: 500; font-style: normal; color: var(--white); }
+.hero h1 .word-fade { font-family: var(--font); font-weight: 500; font-style: normal; color: var(--white); }
+.hero h1 .word-italic-orange { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--white); }
 .hero h1 .hline { display: block; overflow: hidden; }
 .hero h1 .hline span { display: inline-block; animation: wordUp 1s cubic-bezier(.16,1,.3,1) both; }
 .hline1 span { animation-delay: .4s; }
 .hline2 span { animation-delay: .55s; }
-.hline3 span { animation-delay: .7s; }
 @keyframes wordUp { from{transform:translateY(110%)} to{transform:translateY(0)} }
 
-.hero-sub { font-size: clamp(15px,1.6vw,17px); color: #666; max-width: 480px; margin: 36px auto 52px; line-height: 1.7; position: relative; z-index: 1; opacity: 0; animation: fadeUp .9s cubic-bezier(.16,1,.3,1) 1s both; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; opacity: 0; animation: fadeUp .9s cubic-bezier(.16,1,.3,1) 1.15s both; }
-.btn-primary { background: var(--orange); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: box-shadow .3s; }
-.btn-primary:hover { box-shadow: 0 16px 40px rgba(240,85,40,.4); }
 .btn-outline { background: transparent; color: var(--white); padding: 15px 36px; border-radius: 100px; border: 1px solid rgba(255,255,255,.15); font-size: 15px; font-weight: 500; display: inline-block; transition: border-color .25s; }
 .btn-outline:hover { border-color: rgba(255,255,255,.4); }
 .btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
 .btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
-
-/* MARQUEE */
-.marquee-wrap { border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06); padding: 16px 0; overflow: hidden; }
-.marquee-track { display: flex; white-space: nowrap; animation: marquee 20s linear infinite; }
-.marquee-track:hover { animation-play-state: paused; }
-@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.marquee-item { display: inline-flex; align-items: center; gap: 20px; padding: 0 32px; font-size: 12px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: #282828; flex-shrink: 0; }
-.marquee-dot { width: 4px; height: 4px; background: var(--orange); border-radius: 50%; }
 
 /* REVEAL */
 .reveal { opacity: 0; transform: translateY(36px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
@@ -155,44 +111,12 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .case-card:hover .case-info p { color: #444; }
 .case-footer { display: flex; justify-content: flex-end; margin-top: 40px; }
 
-/* CLIENTS — löptext */
+/* CLIENTS */
 .clients-wrap { padding: 80px 48px; border-top: 1px solid rgba(255,255,255,.04); }
 .clients-inner { max-width: 1000px; margin: 0 auto; }
 .clients-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 28px; display: block; }
 .clients-text { font-size: clamp(18px,2.2vw,26px); font-weight: 500; letter-spacing: -.3px; line-height: 1.6; color: #333; }
 .clients-text strong { color: var(--white); font-weight: 500; }
-
-/* SOCIAL */
-.social-wrap { padding: 80px 48px; border-top: 1px solid rgba(255,255,255,.04); text-align: center; }
-.social-inner { max-width: 1200px; margin: 0 auto; }
-.social-handle { display: inline-flex; align-items: center; gap: 10px; font-size: clamp(28px,4vw,52px); font-weight: 800; letter-spacing: -2px; background: linear-gradient(90deg,var(--orange),var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 48px; transition: letter-spacing .5s cubic-bezier(.16,1,.3,1); }
-.social-handle:hover { letter-spacing: -.5px; }
-.social-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin-bottom: 40px; }
-.social-post { aspect-ratio: 1; border-radius: 8px; background: #0a0a0a; border: 1px solid rgba(255,255,255,.04); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: #222; text-transform: uppercase; transition: border-color .3s, color .3s; }
-.social-post:hover { border-color: rgba(240,85,40,.2); color: #444; }
-
-/* FOOTER SWITCHER */
-.footer-svc { border-top: 1px solid rgba(255,255,255,.04); padding: 48px; overflow: hidden; }
-.footer-svc-track { display: flex; white-space: nowrap; animation: fRoll 18s linear infinite; }
-.footer-svc-track:hover { animation-play-state: paused; }
-.footer-svc-item { display: inline-flex; align-items: center; gap: 24px; padding: 0 32px; flex-shrink: 0; font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; color: #111; }
-.footer-svc-item em { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--orange); }
-.footer-svc-dot { width: 6px; height: 6px; background: #222; border-radius: 50%; flex-shrink: 0; }
-@keyframes fRoll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.services-wrap { padding: 120px 48px; border-top: 1px solid rgba(255,255,255,.04); }
-.services-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-.services-left { }
-.services-pre { font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; line-height: 1.1; color: var(--white); margin-bottom: 0; }
-.services-switcher { display: block; font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; line-height: 1.1; color: var(--orange); min-height: 1.2em; position: relative; overflow: hidden; }
-.services-word { position: absolute; top: 0; left: 0; transition: transform .6s cubic-bezier(.16,1,.3,1), opacity .5s; }
-.services-word.active { transform: translateY(0); opacity: 1; }
-.services-word.above { transform: translateY(-100%); opacity: 0; }
-.services-word.below { transform: translateY(100%); opacity: 0; }
-.services-right { }
-.services-desc { font-size: 16px; color: #555; line-height: 1.75; margin-bottom: 32px; min-height: 80px; transition: opacity .4s; }
-.services-dots { display: flex; gap: 8px; }
-.sdot { width: 8px; height: 8px; border-radius: 50%; background: #1a1a1a; border: none; cursor: none; padding: 0; transition: background .3s, transform .3s cubic-bezier(.34,1.56,.64,1); }
-.sdot.active { background: var(--orange); transform: scale(1.4); }
 
 /* ARTICLES */
 .articles-wrap { padding: 120px 48px; background: var(--white); }
@@ -212,15 +136,14 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
 .article-card:hover .article-link { gap: 12px; }
 
-/* INSTAGRAM */
-.instagram-wrap { padding: 80px 48px 100px; text-align: center; border-top: 1px solid rgba(255,255,255,.04); }
-.instagram-inner { max-width: 1200px; margin: 0 auto; }
-.insta-handle { display: inline-flex; align-items: center; gap: 10px; font-size: clamp(28px,4vw,52px); font-weight: 800; letter-spacing: -2px; background: linear-gradient(90deg,var(--orange),var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 48px; transition: letter-spacing .5s cubic-bezier(.16,1,.3,1), opacity .3s; }
-.insta-handle:hover { letter-spacing: -.5px; opacity: .85; }
-.insta-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin-bottom: 40px; }
-.insta-post { aspect-ratio: 1; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 24px; filter: saturate(.4) brightness(.7); transition: filter .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.34,1.2,.64,1); }
-.insta-post:hover { filter: saturate(1) brightness(1); transform: scale(1.07) translateY(-4px); }
-.i1{background:linear-gradient(135deg,#200800,#4a1500)} .i2{background:linear-gradient(135deg,#150020,#350050)} .i3{background:linear-gradient(135deg,#001a10,#003825)} .i4{background:linear-gradient(135deg,#200008,#480018)} .i5{background:linear-gradient(135deg,#0f0f0f,#222)} .i6{background:linear-gradient(135deg,#1a1200,#302000)}
+/* FOOTER SWITCHER */
+.footer-svc { border-top: 1px solid rgba(255,255,255,.04); padding: 48px 0; overflow: hidden; }
+.footer-svc-track { display: flex; white-space: nowrap; animation: fRoll 22s linear infinite; }
+.footer-svc-track:hover { animation-play-state: paused; }
+.footer-svc-item { display: inline-flex; align-items: center; gap: 24px; padding: 0 32px; flex-shrink: 0; font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; color: #111; }
+.footer-svc-item em { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--orange); }
+.footer-svc-dot { width: 6px; height: 6px; background: #222; border-radius: 50%; flex-shrink: 0; }
+@keyframes fRoll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* FOOTER */
 footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
@@ -240,17 +163,13 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 .footer-social a { font-size: 12px; font-weight: 600; color: #2a2a2a; transition: color .25s, transform .3s cubic-bezier(.34,1.2,.64,1); display: inline-block; }
 .footer-social a:hover { color: var(--orange); transform: translateY(-2px); }
 
-@media (max-width: 900px) { .case-grid{grid-template-columns:1fr} .cc-wide,.cc-narrow{grid-column:span 1} .clients-logos{grid-template-columns:repeat(3,1fr)} }
+@media (max-width: 900px) { .case-grid{grid-template-columns:1fr} .cc-wide,.cc-narrow{grid-column:span 1} }
 @media (max-width: 768px) {
   nav{padding:18px 24px} .nav-links{display:none} .hamburger{display:flex}
-  .quote-wrap,.case-wrap,.articles-wrap{padding:80px 24px}
-  .awards-wrap,.instagram-wrap,.clients-wrap{padding:64px 24px}
+  .quote-wrap,.case-wrap,.articles-wrap,.clients-wrap{padding:80px 24px}
   footer{padding:48px 24px}
   .articles-header{flex-direction:column;align-items:flex-start}
-  .awards-top{flex-direction:column}
-  .insta-grid{grid-template-columns:repeat(3,1fr)}
   .footer-top{flex-direction:column}
-  .award-tile:first-child,.award-tile:last-child{border-radius:0}
   #cursor,#cursor-glow{display:none} body{cursor:auto} *{cursor:auto !important}
 }
 </style>
@@ -296,7 +215,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
   <div class="hero-orb orb1"></div>
   <div class="hero-orb orb2"></div>
-
   <h1>
     <span class="hline hline1">
       <span><span class="word-italic">Älska </span><span class="word-normal">sånt</span></span>
@@ -374,32 +292,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- SERVICES — animerad text -->
-<div class="services-wrap reveal">
-  <div class="services-inner">
-    <div class="services-left">
-      <p class="services-pre">Vi är experter på</p>
-      <span class="services-switcher" id="svc-switcher">
-        <span class="services-word active" id="sw0">sponsring.</span>
-        <span class="services-word below" id="sw1">event.</span>
-        <span class="services-word below" id="sw2">reklam.</span>
-        <span class="services-word below" id="sw3">aktivering.</span>
-        <span class="services-word below" id="sw4">strategi.</span>
-      </span>
-    </div>
-    <div class="services-right">
-      <p class="services-desc" id="svc-desc">Vi kopplar samman Sveriges ledande varumärken med sport och kultur på ett sätt som skapar verkligt engagemang hos människor som bryr sig på riktigt.</p>
-      <div class="services-dots">
-        <button class="sdot active" onclick="goService(0)"></button>
-        <button class="sdot" onclick="goService(1)"></button>
-        <button class="sdot" onclick="goService(2)"></button>
-        <button class="sdot" onclick="goService(3)"></button>
-        <button class="sdot" onclick="goService(4)"></button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ARTICLES -->
 <div class="articles-wrap">
   <div class="articles-inner">
@@ -433,37 +325,21 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- SOCIAL -->
-<div class="social-wrap reveal">
-  <div class="social-inner">
-    <a href="https://instagram.com/passionlab" class="social-handle" target="_blank">@passionlab</a>
-    <div class="social-grid">
-      <div class="social-post">Foto</div>
-      <div class="social-post">Foto</div>
-      <div class="social-post">Foto</div>
-      <div class="social-post">Foto</div>
-      <div class="social-post">Foto</div>
-      <div class="social-post">Foto</div>
-    </div>
-    <a href="https://instagram.com/passionlab" target="_blank" class="btn-outline mag" style="display:inline-block">Se mer på Instagram →</a>
-  </div>
-</div>
-
 <!-- FOOTER SWITCHER -->
 <div class="footer-svc">
   <div class="footer-svc-track">
-    <span class="footer-svc-item">Vi <em>älskar</em> event<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> sponsring<span class="footer-svc-dot"></span></span>
+    <span class="footer-svc-item">Vi <em>älskar</em> event<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> reklam<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> sport<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> musik<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> festivaler<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> event<span class="footer-svc-dot"></span></span>
+    <span class="footer-svc-item">Vi <em>älskar</em> kultur<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> sponsring<span class="footer-svc-dot"></span></span>
+    <span class="footer-svc-item">Vi <em>älskar</em> event<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> reklam<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> sport<span class="footer-svc-dot"></span></span>
-    <span class="footer-svc-item">Vi <em>älskar</em> musik<span class="footer-svc-dot"></span></span>
     <span class="footer-svc-item">Vi <em>älskar</em> festivaler<span class="footer-svc-dot"></span></span>
+    <span class="footer-svc-item">Vi <em>älskar</em> kultur<span class="footer-svc-dot"></span></span>
   </div>
 </div>
 
@@ -524,11 +400,11 @@ function animCursor() {
   requestAnimationFrame(animCursor);
 }
 animCursor();
-document.querySelectorAll('a,button,.case-card,.insta-post,.award-tile,.client-tile').forEach(el => {
+document.querySelectorAll('a,button,.case-card').forEach(el => {
   el.addEventListener('mouseenter', () => cur.classList.add('big'));
   el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
-const lightSections = document.querySelectorAll('.clients-wrap,.articles-wrap,.awards-wrap');
+const lightSections = document.querySelectorAll('.articles-wrap');
 const cursorLightObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) cur.classList.add('on-light'); else cur.classList.remove('on-light'); });
 }, { threshold: 0.5 });
@@ -550,34 +426,6 @@ const revObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
-
-// Services switcher
-const svcWords = ['sponsring.', 'event.', 'reklam.', 'aktivering.', 'strategi.'];
-const svcDescs = [
-  'Vi kopplar samman Sveriges ledande varumärken med sport och kultur på ett sätt som skapar verkligt engagemang hos människor som bryr sig på riktigt.',
-  'Vi producerar event som börjar i varumärket och slutar i minnet — från stora publika aktiveringar till intima B2B-möten.',
-  'Vi gör inte reklam för reklamens skull. Vi börjar i målgruppens värld och bygger kommunikation som känns relevant på riktigt.',
-  'Rättigheterna är bara början. Vi bygger kommunikation och upplevelser som faktiskt utnyttjar dem — och mäter effekten.',
-  'Vi hittar de sammanhang där ditt varumärke faktiskt hör hemma — och gör det trovärdigt för en målgrupp som bryr sig.'
-];
-let curSvc = 0, svcTimer;
-
-function goService(i) {
-  const prev = curSvc;
-  curSvc = i;
-  const words = document.querySelectorAll('.services-word');
-  words.forEach((w, idx) => {
-    if (idx === prev) { w.classList.remove('active'); w.classList.add('above'); }
-    else if (idx === curSvc) { w.classList.remove('below', 'above'); w.classList.add('active'); }
-    else { w.classList.remove('active', 'above'); w.classList.add('below'); }
-  });
-  const desc = document.getElementById('svc-desc');
-  if (desc) { desc.style.opacity = '0'; setTimeout(() => { desc.textContent = svcDescs[curSvc]; desc.style.opacity = '1'; }, 250); }
-  document.querySelectorAll('.sdot').forEach((d, idx) => d.classList.toggle('active', idx === curSvc));
-  clearInterval(svcTimer);
-  svcTimer = setInterval(() => goService((curSvc + 1) % svcWords.length), 3000);
-}
-svcTimer = setInterval(() => goService((curSvc + 1) % svcWords.length), 3000);
 
 document.querySelectorAll('.case-card').forEach(c=>{
   c.addEventListener('mousemove',e=>{
