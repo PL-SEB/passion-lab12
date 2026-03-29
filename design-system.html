@@ -268,10 +268,10 @@ nav {
 .pp-hero h1 em { font-family:var(--fd); font-weight:300; font-style:italic; }
 .pp-hero-sub { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(0,0,0,.35); margin-bottom:28px; }
 
-/* MARQUEE STRIP */
-.pp-strip { background:#000; padding:15px 0; overflow:hidden; }
+/* MARQUEE STRIP — transparent bg, black text */
+.pp-strip { background:transparent; padding:15px 0; overflow:hidden; border-top:1px solid rgba(0,0,0,.08); border-bottom:1px solid rgba(0,0,0,.08); }
 .pp-strip-track { display:flex; white-space:nowrap; animation:ppRoll 12s linear infinite; }
-.pp-strip-item { display:inline-flex; align-items:center; gap:20px; padding:0 32px; font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#282828; flex-shrink:0; }
+.pp-strip-item { display:inline-flex; align-items:center; gap:20px; padding:0 32px; font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(0,0,0,.35); flex-shrink:0; }
 .pp-strip-dot { width:4px; height:4px; background:#f05528; border-radius:50%; }
 @keyframes ppRoll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
@@ -285,9 +285,9 @@ nav {
 .bw.or:hover { color:#c94020; }
 .bsep { font-size:clamp(22px,3vw,38px); font-weight:300; color:rgba(0,0,0,.1); }
 
-/* STATEMENT */
-.pp-stmt { background:#000; padding:72px 64px; }
-.pp-stmt h2 { font-size:clamp(44px,7vw,88px); font-weight:500; letter-spacing:-3px; line-height:.88; color:#fff; }
+/* STATEMENT — white bg, black text */
+.pp-stmt { background:#fff; padding:72px 64px; }
+.pp-stmt h2 { font-size:clamp(44px,7vw,88px); font-weight:500; letter-spacing:-3px; line-height:.88; color:#000; }
 .pp-stmt h2 em { font-family:var(--fd); font-weight:300; font-style:italic; color:#fab3ff; }
 .pp-stmt h2 .ora { color:#f05528; }
 
@@ -299,20 +299,40 @@ nav {
 .pp-stat-n { font-size:clamp(44px,5.5vw,72px); font-weight:800; letter-spacing:-3px; line-height:1; color:#000; }
 .pp-stat-l { font-size:12px; font-weight:600; letter-spacing:.5px; color:rgba(0,0,0,.4); margin-top:4px; }
 
-/* TYPO PLAYGROUND */
+/* TYPO PLAYGROUND — no outlines, clean */
 .pp-typo { background:#f05528; padding:64px; }
 .pp-typo .pp-lbl { color:rgba(0,0,0,.35); }
 .pp-tline { display:flex; align-items:baseline; flex-wrap:wrap; gap:12px; margin-bottom:8px; }
 .pp-tline:last-child { margin-bottom:0; }
 .tt-big { font-size:clamp(52px,8vw,96px); font-weight:500; letter-spacing:-3px; line-height:.88; color:#000; }
 .tt-it { font-family:var(--fd); font-weight:300; font-style:italic; }
-.tt-out { -webkit-text-stroke:2.5px #000; color:transparent; }
 .tt-fade { font-size:clamp(28px,4vw,52px); font-weight:500; letter-spacing:-2px; line-height:1; color:rgba(0,0,0,.18); }
 .tt-pill { display:inline-flex; align-items:center; padding:10px 22px; border-radius:100px; background:#000; color:#fff; font-size:13px; font-weight:700; align-self:center; }
 .tt-pill-p { background:#fab3ff; color:#000; }
 .tt-tag { display:inline-flex; align-items:center; padding:6px 14px; border-radius:100px; border:2px solid rgba(0,0,0,.25); color:#000; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; align-self:center; }
 
-/* QUOTE */
+/* CARD CAROUSEL */
+.pp-carousel { background:#fab3ff; padding:64px; border-top:1px solid rgba(0,0,0,.07); overflow:hidden; }
+.pp-carousel .pp-lbl { color:rgba(0,0,0,.35); }
+.carousel-track { display:flex; align-items:center; justify-content:center; gap:0; height:380px; position:relative; perspective:1000px; margin-top:32px; }
+.c-card { width:220px; height:320px; border-radius:24px; position:absolute; display:flex; flex-direction:column; justify-content:flex-end; padding:28px 24px; cursor:none; transition:transform .6s cubic-bezier(.16,1,.3,1), opacity .6s cubic-bezier(.16,1,.3,1), z-index 0s; will-change:transform; }
+.c-card-title { font-size:18px; font-weight:500; letter-spacing:-.5px; line-height:1.2; color:#000; margin-bottom:6px; }
+.c-card-sub { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(0,0,0,.4); }
+/* card colors */
+.cc1 { background:linear-gradient(160deg,#f05528,#e03010); }
+.cc2 { background:linear-gradient(160deg,#f07af8,#cc44dd); }
+.cc3 { background:linear-gradient(160deg,#fab3ff,#f07af8); }
+.cc4 { background:linear-gradient(160deg,#fcc8ff,#fab3ff); }
+.cc5 { background:linear-gradient(160deg,#fdddd0,#fbbba6); }
+/* text on dark cards */
+.cc1 .c-card-title, .cc2 .c-card-title { color:#fff; }
+.cc1 .c-card-sub, .cc2 .c-card-sub { color:rgba(255,255,255,.55); }
+/* card deco icon */
+.c-card-icon { font-size:32px; margin-bottom:auto; padding-top:4px; }
+/* nav dots */
+.carousel-dots { display:flex; justify-content:center; gap:8px; margin-top:24px; }
+.c-dot { width:6px; height:6px; border-radius:50%; background:rgba(0,0,0,.15); transition:background .3s, transform .3s; cursor:none; border:none; padding:0; }
+.c-dot.active { background:#000; transform:scale(1.3); }
 .pp-quote { background:#fab3ff; padding:80px 64px; border-top:1px solid rgba(0,0,0,.07); }
 .pp-quote blockquote { font-size:clamp(28px,4vw,52px); font-weight:500; letter-spacing:-1.5px; line-height:1.05; color:#000; max-width:680px; }
 .pp-quote blockquote em { font-family:var(--fd); font-weight:300; font-style:italic; }
@@ -392,7 +412,7 @@ nav {
 <div id="cursor-glow"></div>
 
 <nav>
-  <a href="index.html"><img src="logo.png" alt="Passion Lab" style="height:26px;display:block"></a>
+  <a href="index.html"><img src="Logo_black.png" alt="Passion Lab" style="height:26px;display:block"></a>
   <div class="nav-right">
     <span class="nav-badge">Internt</span>
     <div class="tsw">
@@ -476,8 +496,27 @@ nav {
         </div>
       </div>
 
+      <!-- CARD CAROUSEL -->
+      <div class="pp pp-carousel">
+        <span class="pp-lbl">Vårt erbjudande</span>
+        <div class="carousel-track" id="ctrack">
+          <div class="c-card cc1" data-i="0"><span class="c-card-icon">🏆</span><p class="c-card-title">Sponsring</p><p class="c-card-sub">Vi hittar rätt sammanhang</p></div>
+          <div class="c-card cc2" data-i="1"><span class="c-card-icon">🎭</span><p class="c-card-title">Rättighets&shy;optimering</p><p class="c-card-sub">Mer ut av vad du har</p></div>
+          <div class="c-card cc3" data-i="2"><span class="c-card-icon">🎤</span><p class="c-card-title">Event</p><p class="c-card-sub">Möten som fastnar</p></div>
+          <div class="c-card cc4" data-i="3"><span class="c-card-icon">📣</span><p class="c-card-title">Reklam</p><p class="c-card-sub">Nå in, inte bara ut</p></div>
+          <div class="c-card cc5" data-i="4"><span class="c-card-icon">🧭</span><p class="c-card-title">Strategi</p><p class="c-card-sub">Brand emotion som driver affär</p></div>
+        </div>
+        <div class="carousel-dots" id="cdots">
+          <button class="c-dot active" onclick="goCard(0)"></button>
+          <button class="c-dot" onclick="goCard(1)"></button>
+          <button class="c-dot" onclick="goCard(2)"></button>
+          <button class="c-dot" onclick="goCard(3)"></button>
+          <button class="c-dot" onclick="goCard(4)"></button>
+        </div>
+      </div>
+
       <div class="pp pp-stmt">
-        <h2>Känsla som<br><em>ingen annons</em><br>kan köpa.</h2>
+        <h2>Rätt varumärke.<br>Rätt <em>sammanhang.</em><br><span class="ora">Alltid.</span></h2>
       </div>
 
       <div class="pp pp-stats">
@@ -508,7 +547,7 @@ nav {
         </div>
         <div class="pp-tline">
           <span class="tt-fade">folk</span>
-          <span class="tt-big tt-it tt-out">älskar.</span>
+          <span class="tt-big tt-it">älskar.</span>
         </div>
         <div class="pp-tline" style="margin-top:20px">
           <span class="tt-tag">Sponsring</span>
@@ -519,7 +558,7 @@ nav {
       </div>
 
       <div class="pp pp-stmt">
-        <h2>Rätt varumärke.<br>Rätt <em>sammanhang.</em><br><span class="ora">Alltid.</span></h2>
+        <h2>Känsla som<br><em>ingen annons</em><br>kan köpa.</h2>
       </div>
 
       <div class="pp pp-quote">
@@ -808,7 +847,34 @@ new IntersectionObserver(entries => {
   }, {threshold: 0.08}).observe(b);
 });
 
-// Cursor
+// Card carousel
+let curCard = 2; // start at middle
+const CARDS = 5;
+function layoutCards() {
+  const cards = document.querySelectorAll('.c-card');
+  cards.forEach((card, i) => {
+    const offset = i - curCard;
+    const absOff = Math.abs(offset);
+    const scale = absOff === 0 ? 1 : absOff === 1 ? 0.82 : 0.68;
+    const tx = offset * 150;
+    const tz = absOff === 0 ? 0 : absOff === 1 ? -60 : -120;
+    const rotY = offset * -8;
+    const opacity = absOff > 2 ? 0 : absOff === 2 ? 0.45 : 1;
+    const zi = 10 - absOff;
+    card.style.transform = `translateX(${tx}px) translateZ(${tz}px) rotateY(${rotY}deg) scale(${scale})`;
+    card.style.opacity = opacity;
+    card.style.zIndex = zi;
+  });
+  document.querySelectorAll('.c-dot').forEach((d,i) => d.classList.toggle('active', i === curCard));
+}
+function goCard(i) { curCard = i; layoutCards(); }
+// click card to go to it
+document.querySelectorAll('.c-card').forEach(card => {
+  card.addEventListener('click', () => goCard(+card.dataset.i));
+});
+// auto advance
+setInterval(() => { curCard = (curCard + 1) % CARDS; layoutCards(); }, 3000);
+layoutCards();
 const cur = document.getElementById('cursor'), glow = document.getElementById('cursor-glow');
 let mx=0,my=0,gx=0,gy=0;
 document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
