@@ -220,14 +220,10 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--na
 .p-block:last-child { margin-bottom: 0; }
 
 /* Hero statement */
-.p-hero { background: var(--orange); padding: 80px 64px; position: relative; overflow: hidden; }
+.p-hero { background: var(--orange); padding: 80px 64px; }
 .p-hero-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(0,0,0,.45); margin-bottom: 24px; }
 .p-hero-title { font-size: clamp(52px,8vw,96px); font-weight: 500; letter-spacing: -3px; line-height: .9; color: var(--black); position: relative; z-index: 1; }
 .p-hero-title em { font-family: var(--font-display); font-weight: 300; font-style: italic; }
-.p-hero-blob { position: absolute; border-radius: 50%; background: rgba(0,0,0,.08); pointer-events: none; }
-.blob1 { width: 320px; height: 320px; top: -80px; right: -60px; animation: blobFloat 7s ease-in-out infinite; }
-.blob2 { width: 180px; height: 180px; bottom: -40px; left: 20%; animation: blobFloat 9s ease-in-out infinite reverse; }
-@keyframes blobFloat { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-24px) scale(1.06)} }
 
 /* ICON LIBRARY */
 .p-icons { background: var(--black); padding: 64px; }
@@ -909,7 +905,36 @@ function animatePassionBlocks() {
     b.style.transitionDelay = (i * 0.08) + 's';
     setTimeout(() => b.classList.add('p-visible'), i * 80);
   });
+  // trigger count-up for stat nums in passion page
+  setTimeout(() => {
+    document.querySelectorAll('.passion-page .p-stat-num[data-target]').forEach(el => runCount(el));
+  }, 400);
 }
+
+function runCount(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  let start = null;
+  const duration = 1800;
+  const tick = ts => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 4);
+    el.textContent = Math.floor(ease * target) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+// Also trigger count when stat block scrolls into view in passion mode
+const passionCountObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && document.documentElement.getAttribute('data-theme') === 'passion') {
+      e.target.querySelectorAll('.p-stat-num[data-target]').forEach(el => runCount(el));
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.p-black').forEach(b => passionCountObs.observe(b));
 
 // Also trigger on scroll when in passion mode
 const passionScrollObs = new IntersectionObserver(entries => {
