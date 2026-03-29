@@ -395,15 +395,23 @@ nav {
    RESPONSIVE
 ============================================================ */
 @media (max-width:900px) {
+  :root { --nav-h: 110px; }
+  nav { padding:12px 20px; }
+  .nav-back { display:none; }
   .sidebar { display:none; }
-  .main { margin-left:0; padding:40px 24px 100px; }
+  .main { margin-left:0; padding:120px 20px 80px; }
   .card-row,.anim-grid,.tone-grid,.logo-grid { grid-template-columns:1fr; }
   .type-row { grid-template-columns:1fr; gap:12px; }
   .pp-stats { grid-template-columns:1fr 1fr; }
   .pp-stat { border-right:none; padding:0 0 24px; border-bottom:1px solid rgba(0,0,0,.08); }
   .pp-stat:last-child { border-bottom:none; padding-bottom:0; }
   .pp-icon-grid { grid-template-columns:repeat(3,1fr); }
-  .pp-hero,.pp-buzz,.pp-stmt,.pp-stats,.pp-typo,.pp-quote,.pp-icons,.pp-pills,.pp-close { padding-left:32px; padding-right:32px; }
+  .pp-hero,.pp-buzz,.pp-stmt,.pp-stats,.pp-typo,.pp-quote,.pp-icons,.pp-pills,.pp-close,.pp-carousel { padding-left:20px; padding-right:20px; }
+  .pp-tline { gap:8px; }
+  .tt-big { font-size:clamp(36px,10vw,64px); }
+  .carousel-track { height:300px; }
+  .c-card { width:160px; height:240px; }
+  .tbtn { padding:5px 9px; font-size:10px; }
 }
 </style>
 </head>
@@ -414,11 +422,10 @@ nav {
 <nav>
   <a href="index.html"><img src="Logo_black.png" alt="Passion Lab" style="height:26px;display:block"></a>
   <div class="nav-right">
-    <span class="nav-badge">Internt</span>
     <div class="tsw">
       <button class="tbtn active" onclick="setTheme('dark',this)">Dark</button>
       <button class="tbtn" onclick="setTheme('light',this)">Light</button>
-      <button class="tbtn" onclick="setTheme('passion',this)">✦ Passion</button>
+      <button class="tbtn" onclick="setTheme('passion',this)">✦ Playground</button>
     </div>
     <a href="index.html" class="nav-back">← Sajten</a>
   </div>
