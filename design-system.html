@@ -219,7 +219,9 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:var(--nav-h); 
 /* PASSION PAGE */
 .passion-page { display:none; }
 [data-theme="passion"] .passion-page { display:block; }
-[data-theme="passion"] .main-inner > *:not(.passion-page) { display:none; }
+[data-theme="passion"] .main-inner > div:not(.passion-page),
+[data-theme="passion"] .main-inner > .section,
+[data-theme="passion"] .main-inner > .reveal { display:none; }
 .pp { width:100%; opacity:0; transform:translateY(48px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
 .pp.vis { opacity:1; transform:translateY(0); }
 .pp-lbl { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(0,0,0,.35); margin-bottom:20px; display:block; }
@@ -337,6 +339,10 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:var(--nav-h); 
   .pp-icon-grid { grid-template-columns:repeat(3,1fr); }
   .pp-hero,.pp-buzz,.pp-stmt,.pp-stats,.pp-typo,.pp-quote,.pp-icons,.pp-pills,.pp-close,.pp-carousel { padding-left:20px; padding-right:20px; }
   .tbtn { padding:5px 9px; font-size:10px; }
+}
+
+@media (max-width:768px) {
+  .logo-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
