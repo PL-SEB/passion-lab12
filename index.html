@@ -239,17 +239,18 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .quote-wrap, .offer-wrap, .articles-wrap, .insta-wrap { padding-left: 24px; padding-right: 24px; }
-  .payoff-wrap { overflow: hidden; padding: 72px 0 0; display: flex; flex-direction: column; align-items: center; }
-  .payoff-text { font-size: clamp(52px,13vw,80px); padding: 0 24px; letter-spacing: -2px; text-align: center; margin-bottom: 0; }
+  .payoff-wrap { overflow: hidden; padding: 72px 0 0; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .payoff-text { font-size: clamp(52px,13vw,80px); padding: 0 24px; letter-spacing: -2px; text-align: center; position: relative; z-index: 2; }
   .payoff-card {
     position: relative; top: auto; left: auto;
-    transform: none;
-    width: 88vw; max-width: 380px;
+    transform: translateY(-28%) rotate(-3deg);
+    width: 72vw; max-width: 300px;
     aspect-ratio: 3/4;
-    border-radius: 20px;
-    margin: 40px auto 0;
+    border-radius: 16px;
+    margin: 0 auto;
     display: block;
-    box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    z-index: 1;
+    box-shadow: 0 20px 50px rgba(0,0,0,.7);
   }
   .case-viewport { -webkit-mask-image: none; mask-image: none; touch-action: pan-y; }
   .case-card { width: 82vw; max-width: 420px; }
@@ -313,7 +314,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 <div class="quote-wrap reveal">
   <div class="quote-inner">
     <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
-    <p class="quote-source">Passion Lab — Stockholm</p>
+
   </div>
 </div>
 
