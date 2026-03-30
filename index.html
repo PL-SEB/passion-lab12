@@ -232,17 +232,19 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   .case-card-img { height: 110vw; max-height: 520px; }
   footer { padding: 48px 24px; }
   .insta-wrap { padding: 100px 24px; }
-  /* Mobil: visa some-manager som dekorativ bild i hörnet */
+  /* Mobil: some-manager dold som default, visas via JS när insta-sektionen är i vy */
   #insta-cursor {
     display: block !important;
-    position: absolute !important;
-    left: auto !important; right: 24px !important;
-    bottom: 40px !important; top: auto !important;
+    position: fixed !important;
+    right: 24px !important; bottom: 40px !important;
+    left: auto !important; top: auto !important;
     width: 90px !important; height: 90px !important;
-    opacity: 1 !important;
+    opacity: 0 !important;
     transform: none !important;
+    transition: opacity .4s !important;
     pointer-events: none;
   }
+  #insta-cursor.mobile-visible { opacity: 1 !important; }
   #insta-finger { display: none !important; }
   .footer-top { flex-direction: column; }
   #cursor, #cursor-glow { display: none; }
@@ -410,7 +412,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   <div id="insta-finger">👆</div>
   <div class="insta-inner">
     <p class="insta-label">Följ oss</p>
-    <p class="insta-text">Spana in vår <a href="https://instagram.com/passionlab" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
+    <p class="insta-text">Spana in vår <a href="https://www.instagram.com/_passionlab/" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
   </div>
 </div>
 <!-- Custom cursor: byt ut some-manager.png mot rätt filnamn -->
@@ -512,11 +514,17 @@ function toggleOffer(btn){
     curY = e.clientY;
   });
 
-  /* ── Mobil: visa inte custom cursor, dölj om synlig ── */
+  /* ── Mobil: visa some-manager när insta-sektionen är i vy ── */
   if('ontouchstart' in window){
     instaCur.style.display = 'none';
     finger.style.display   = 'none';
-    return; /* avsluta här på touch-enheter */
+    /* IntersectionObserver för scroll-visibility */
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        instaCur.classList.toggle('mobile-visible', e.isIntersecting);
+      });
+    }, { threshold: 0.2 }).observe(wrap);
+    return;
   }
 
   /* Smooth cursor */
