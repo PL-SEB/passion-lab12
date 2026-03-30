@@ -160,7 +160,7 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 /* INSTAGRAM CTA */
 .insta-wrap {
   background: var(--pink);
-  padding: 160px 48px;
+  padding: 200px 48px;
   position: relative;
   overflow: hidden;
   cursor: none;
@@ -471,24 +471,26 @@ function toggleOffer(btn){
 
 /* ─── INSTAGRAM CUSTOM CURSOR + ROTERANDE FINGER ─── */
 (function(){
-  const wrap       = document.getElementById('instaWrap');
-  const instaCur   = document.getElementById('insta-cursor');
-  const finger     = document.getElementById('insta-finger');
-  const instaLink  = document.getElementById('instaLink');
+  const wrap      = document.getElementById('instaWrap');
+  const instaCur  = document.getElementById('insta-cursor');
+  const finger    = document.getElementById('insta-finger');
+  const instaLink = document.getElementById('instaLink');
   if(!wrap || !instaCur || !finger || !instaLink) return;
 
   let curX = 0, curY = 0, smoothX = 0, smoothY = 0;
   let inside = false;
+  const ORBIT_R = 100; /* finger utanför cirkeln (120px/2 = 60px radius + 40px luft) */
 
-  /* Följ musen inom sektionen */
+  /* ── Desktop: musrörelse ── */
   wrap.addEventListener('mouseenter', () => {
     inside = true;
     instaCur.classList.add('visible');
-    cur.style.opacity = '0'; /* dölj standard-cursor */
+    cur.style.opacity = '0';
   });
   wrap.addEventListener('mouseleave', () => {
     inside = false;
     instaCur.classList.remove('visible');
+    finger.style.display = 'none';
     cur.style.opacity = '1';
   });
   wrap.addEventListener('mousemove', e => {
@@ -496,7 +498,14 @@ function toggleOffer(btn){
     curY = e.clientY;
   });
 
-  /* Smooth cursor-rörelse */
+  /* ── Mobil: visa inte custom cursor, dölj om synlig ── */
+  if('ontouchstart' in window){
+    instaCur.style.display = 'none';
+    finger.style.display   = 'none';
+    return; /* avsluta här på touch-enheter */
+  }
+
+  /* Smooth cursor */
   (function animCur(){
     smoothX += (curX - smoothX) * 0.12;
     smoothY += (curY - smoothY) * 0.12;
@@ -505,32 +514,26 @@ function toggleOffer(btn){
     requestAnimationFrame(animCur);
   })();
 
-  /* Roterande finger — kretsar runt musen, pekar mot Instagram-länken */
-  const ORBIT_R = 64; /* radie på cirkeln runt cursorn */
-
+  /* Roterande finger */
   (function animFinger(){
     if(!inside){ requestAnimationFrame(animFinger); return; }
+    finger.style.display = 'block';
 
-    /* Instagram-länkens centrum */
     const lr = instaLink.getBoundingClientRect();
     const targetX = lr.left + lr.width  / 2;
     const targetY = lr.top  + lr.height / 2;
 
-    /* Vinkel från smooth-cursor mot Instagram-länken */
     const dx = targetX - smoothX;
     const dy = targetY - smoothY;
-    const angle = Math.atan2(dy, dx); /* radianer */
+    const angle = Math.atan2(dy, dx);
 
-    /* Fingerets position på cirkeln */
     const fx = smoothX + Math.cos(angle) * ORBIT_R;
     const fy = smoothY + Math.sin(angle) * ORBIT_R;
 
-    /* Konvertera till relativa koordinater inom .insta-wrap */
     const wr = wrap.getBoundingClientRect();
-    finger.style.left = (fx - wr.left - 24) + 'px';
-    finger.style.top  = (fy - wr.top  - 24) + 'px';
+    finger.style.left = (fx - wr.left - 36) + 'px';
+    finger.style.top  = (fy - wr.top  - 36) + 'px';
 
-    /* Rotera fingret så det pekar mot länken (+ 90° för 👆-emojin) */
     const deg = angle * (180 / Math.PI) + 90;
     finger.style.transform = `rotate(${deg}deg)`;
 
