@@ -186,8 +186,21 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 #insta-cursor img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor.visible { opacity: 1; }
 
-/* Roterande finger */
-#insta-finger {
+/* Mobilt finger — fast position bredvid some-manager */
+#insta-finger-mobile {
+  display: none;
+  position: fixed;
+  right: 100px; bottom: 48px;
+  width: 56px; height: 56px;
+  font-size: 44px; line-height: 1;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity .4s;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
+  transform-origin: center center;
+}
+#insta-finger-mobile.mobile-visible { opacity: 1; }
   position: absolute;
   width: 72px; height: 72px;
   pointer-events: none;
@@ -245,7 +258,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     pointer-events: none;
   }
   #insta-cursor.mobile-visible { opacity: 1 !important; }
-  #insta-finger { display: none !important; }
+  #insta-finger-mobile { display: block; }
   .footer-top { flex-direction: column; }
   #cursor, #cursor-glow { display: none; }
   body { cursor: auto; }
@@ -415,8 +428,9 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     <p class="insta-text">Spana in vår <a href="https://www.instagram.com/_passionlab/" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
   </div>
 </div>
-<!-- Custom cursor: byt ut some-manager.png mot rätt filnamn -->
+<!-- Custom cursor + mobilt finger -->
 <div id="insta-cursor"><img src="some-manager.png" alt=""></div>
+<div id="insta-finger-mobile">👆</div>
 
 <!-- FOOTER -->
 <footer>
@@ -522,8 +536,9 @@ function toggleOffer(btn){
     new IntersectionObserver(entries => {
       entries.forEach(e => {
         instaCur.classList.toggle('mobile-visible', e.isIntersecting);
+        mobileFinger.classList.toggle('mobile-visible', e.isIntersecting);
       });
-    }, { threshold: 0.2 }).observe(wrap);
+    }, { threshold: 0.6 }).observe(wrap);
     return;
   }
 
