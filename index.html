@@ -401,15 +401,13 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<div class="insta-wrap reveal" id="instaWrap">
+<a href="https://www.instagram.com/_passionlab/" target="_blank" class="insta-wrap reveal" id="instaWrap" style="display:block;text-decoration:none;color:inherit;">
   <div id="insta-finger">👆</div>
   <div class="insta-inner">
     <p class="insta-label">Följ oss</p>
     <p class="insta-text">Spana in vår <a href="https://www.instagram.com/_passionlab/" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
   </div>
-</div>
-
-<footer>
+</a>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
@@ -483,10 +481,16 @@ function toggleOffer(btn){
   const mobFinger = document.getElementById('insta-finger-mobile');
   if(!wrap||!instaLink) return;
 
-  const ORBIT_R = 100;
-  const isTouch = 'ontouchstart' in window;
+  /* På mobil — avaktivera klick på hela sektionen (länken på some-manager gäller) */
+  if(isTouch){
+    wrap.style.pointerEvents = 'none';
+    mobCur.style.pointerEvents = 'auto';
+  }
 
   if(isTouch) {
+    /* På mobil — avaktivera klick på hela sektionen (länken på some-manager gäller) */
+    wrap.style.pointerEvents = 'none';
+    mobCur.style.pointerEvents = 'auto';
     /* ── MOBIL ── */
     const footer = document.querySelector('footer');
 
