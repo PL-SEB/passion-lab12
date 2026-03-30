@@ -407,7 +407,9 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     <p class="insta-label">Följ oss</p>
     <p class="insta-text">Spana in vår <a href="https://www.instagram.com/_passionlab/" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
   </div>
-</a>
+</div>
+
+<footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
@@ -481,18 +483,10 @@ function toggleOffer(btn){
   const mobFinger = document.getElementById('insta-finger-mobile');
   if(!wrap||!instaLink) return;
 
-  /* Desktop: klick på hela sektionen → Instagram */
-  if(!isTouch){
-    wrap.style.cursor = 'none';
-    wrap.addEventListener('click', () => {
-      window.open('https://www.instagram.com/_passionlab/', '_blank');
-    });
-  }
+  const ORBIT_R = 100;
+  const isTouch = 'ontouchstart' in window;
 
   if(isTouch) {
-    /* På mobil — avaktivera klick på hela sektionen (länken på some-manager gäller) */
-    wrap.style.pointerEvents = 'none';
-    mobCur.style.pointerEvents = 'auto';
     /* ── MOBIL ── */
     const footer = document.querySelector('footer');
 
