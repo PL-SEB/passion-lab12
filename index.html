@@ -90,6 +90,7 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
   overflow: hidden;
   background: var(--black);
   border-top: 1px solid rgba(255,255,255,.04);
+  touch-action: none; /* allow JS to handle touch on mobile */
 }
 .payoff-text {
   font-family: var(--fd);
@@ -272,14 +273,17 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .articles-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
 .articles-title { font-size: clamp(40px,5.5vw,72px); font-weight: 500; letter-spacing: -1px; line-height: 1.02; color: var(--black); }
 .articles-title em { font-style: italic; }
-.articles-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); }
-.article-card { padding: 40px; border: 1px solid rgba(0,0,0,.07); position: relative; overflow: hidden; transition: background .3s; background: var(--white); }
-.article-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom,var(--orange),var(--pink)); transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.16,1,.3,1); }
+.articles-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 2px; }
+.article-card { padding: 0; border: 1px solid rgba(0,0,0,.07); position: relative; overflow: hidden; transition: background .3s; background: var(--white); display: flex; flex-direction: column; }
+.article-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom,var(--orange),var(--pink)); transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 1; }
 .article-card:hover { background: #fafafa; }
 .article-card:hover::before { transform: scaleY(1); }
-.article-date { font-size: 11px; font-weight: 500; color: #bbb; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
-.article-card h3 { font-size: 18px; font-weight: 500; line-height: 1.22; margin-bottom: 12px; letter-spacing: -.3px; color: #222; }
-.article-card p { font-size: 14px; color: #999; line-height: 1.65; margin-bottom: 20px; }
+.article-thumb { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #111; }
+.article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.article-card:hover .article-thumb img { transform: scale(1.04); }
+.article-body { padding: 32px 36px 36px; flex: 1; display: flex; flex-direction: column; }
+.article-card h3 { font-size: 20px; font-weight: 500; line-height: 1.22; margin-bottom: 14px; letter-spacing: -.3px; color: #111; }
+.article-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; flex: 1; }
 .article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
 .article-card:hover .article-link { gap: 12px; }
 .btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
@@ -504,22 +508,34 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     </div>
     <div class="articles-grid">
       <div class="article-card reveal reveal-delay-1">
-        <p class="article-date">18 mars 2026</p>
-        <h3>Varför sponsring slår traditionell reklam 2026</h3>
-        <p>Konsumenter litar allt mindre på annonser men allt mer på varumärken i sammanhang de älskar.</p>
-        <a href="artiklar.html" class="article-link">Läs mer →</a>
+        <div class="article-thumb">
+          <img src="SEF_cover_4x5.png" alt="Sponsring slår reklam 2026">
+        </div>
+        <div class="article-body">
+          <h3>Varför sponsring är det effektivaste marknadsföringsverktyget 2026</h3>
+          <p>Konsumenter söker autenticitet och ignorerar traditionell annonsering. Sponsring av sport, kultur och live-event skapar den emotionella koppling som bygger långsiktig varumärkeslojalitet — något ingen digital annons kan ersätta.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
       </div>
       <div class="article-card reveal reveal-delay-2">
-        <p class="article-date">4 mars 2026</p>
-        <h3>5 saker som skiljer bra event från legendariska</h3>
-        <p>Det handlar inte om budget. Det handlar om detaljer, känsla och ögonblick som lever kvar.</p>
-        <a href="artiklar.html" class="article-link">Läs mer →</a>
+        <div class="article-thumb">
+          <img src="Matchkorv_presskonf.png" alt="Legendariska event">
+        </div>
+        <div class="article-body">
+          <h3>Vad skiljer ett legendariskt event från ett bra event?</h3>
+          <p>De event som lever kvar i minnet delar fem egenskaper — ingen av dem handlar om budget. Från målgruppsinsikt och platsval till de mikroögonblick som skapar äkta känslomässigt engagemang hos deltagarna.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
       </div>
       <div class="article-card reveal reveal-delay-3">
-        <p class="article-date">20 feb 2026</p>
-        <h3>Så hittar du rätt sponsringspartner för ditt varumärke</h3>
-        <p>Rätt sammanhang är allt. Vi reder ut vad som avgör om ett sponsringssamarbete verkligen skapar värde.</p>
-        <a href="artiklar.html" class="article-link">Läs mer →</a>
+        <div class="article-thumb">
+          <img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Rätt sponsringspartner">
+        </div>
+        <div class="article-body">
+          <h3>Så väljer du rätt sponsringspartner — en strategisk guide</h3>
+          <p>Ett framgångsrikt sponsringssamarbete kräver mer än matchande målgrupper. Rätt kontextuell relevans, delade värderingar och en tydlig aktiveringsplan avgör om investeringen skapar mätbart affärsvärde eller bara exponering.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
       </div>
     </div>
   </div>
@@ -651,7 +667,7 @@ function toggleOffer(btn) {
   }
 }
 
-/* ─── PAYOFF BILDKORT (musföljning + bildväxling) ─── */
+/* ─── PAYOFF BILDKORT — desktop: musföljning, mobil: touch-drag byter bild ─── */
 (function() {
   const wrap  = document.querySelector('.payoff-wrap');
   const card  = document.getElementById('pc');
@@ -665,12 +681,15 @@ function toggleOffer(btn) {
     'SEF_cover_4x5.png',
     'Matchkorv_presskonf.png'
   ];
-  let idx = 0, tx = 0, ty = 0, cx = 0, cy = 0;
+  let idx = 0;
   bgs.forEach(src => { const i = new Image(); i.src = src; });
+
+  /* Desktop: kort följer mus + byter bild var 0.8s */
+  let tx = 0, ty = 0, cx = 0, cy = 0;
   setInterval(() => {
     idx = (idx + 1) % bgs.length;
-    inner.style.backgroundImage = `url('${bgs[idx]}')`;
-    inner.style.backgroundSize = 'cover';
+    inner.style.backgroundImage  = `url('${bgs[idx]}')`;
+    inner.style.backgroundSize   = 'cover';
     inner.style.backgroundPosition = 'center';
   }, 800);
   wrap.addEventListener('mousemove', e => {
@@ -680,13 +699,211 @@ function toggleOffer(btn) {
     ty = e.clientY - r.top  - r.height / 2;
   });
   wrap.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
-  function animate() {
+  (function animDesk() {
     cx += (tx - cx) * .1;
     cy += (ty - cy) * .1;
-    card.style.transform = `translate(calc(-50% + ${cx}px), calc(-50% + ${cy}px)) rotate(-4deg)`;
-    requestAnimationFrame(animate);
+    if (window.innerWidth >= 768) {
+      card.style.transform = `translate(calc(-50% + ${cx}px), calc(-50% + ${cy}px)) rotate(-4deg)`;
+    }
+    requestAnimationFrame(animDesk);
+  })();
+
+  /* Mobile: touch-klick/drag byter bild baserat på horisontell position */
+  let touchStartX = 0;
+  wrap.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  wrap.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 8) {
+      /* Tap — byt till bild under fingret baserat på x-position */
+      const r   = wrap.getBoundingClientRect();
+      const rel = (e.changedTouches[0].clientX - r.left) / r.width;
+      idx = Math.floor(rel * bgs.length) % bgs.length;
+    } else {
+      /* Swipe */
+      idx = dx < 0
+        ? (idx + 1) % bgs.length
+        : (idx - 1 + bgs.length) % bgs.length;
+    }
+    inner.style.backgroundImage     = `url('${bgs[idx]}')`;
+    inner.style.backgroundSize      = 'cover';
+    inner.style.backgroundPosition  = 'center';
+  }, { passive: true });
+})();
+
+/* ─── PREMIUM CASE CAROUSEL — INFINITE LOOP + AUTO-SCROLL ─── */
+(function() {
+  const viewport = document.getElementById('caseViewport');
+  const track    = document.getElementById('caseTrack');
+  const dotsWrap = document.getElementById('caseDots');
+  const prevBtn  = document.getElementById('case-prev');
+  const nextBtn  = document.getElementById('case-next');
+  const GAP      = 16;
+
+  const origCards = Array.from(track.querySelectorAll('.case-card'));
+  const N = origCards.length;
+
+  /* Clone sandwich */
+  origCards.map(c => { const cl = c.cloneNode(true); track.prepend(cl); return cl; });
+  origCards.map(c => { const cl = c.cloneNode(true); track.append(cl);  return cl; });
+
+  const allCards = Array.from(track.querySelectorAll('.case-card'));
+
+  let active = N;
+
+  /* Dots */
+  origCards.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'case-dot';
+    d.setAttribute('aria-label', `Gå till kort ${i+1}`);
+    d.addEventListener('click', () => goTo(N + i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.querySelectorAll('.case-dot'));
+
+  let posX = 0, targetX = 0, velX = 0;
+  let isDragging = false, dragStartX = 0, dragStartPos = 0, lastDragX = 0, lastDragT = 0;
+  let isHovered  = false;
+  const AUTO_SPEED = 0.5; /* px per frame */
+
+  function cardW() { return allCards[0].offsetWidth + GAP; }
+  function offsetFor(i) {
+    const vw = viewport.offsetWidth;
+    const cw = allCards[0].offsetWidth;
+    return -(i * cardW() - (vw - cw) / 2);
   }
-  animate();
+  function origIdx(i) { return ((i % N) + N) % N; }
+
+  function styleCards() {
+    allCards.forEach((card, i) => {
+      const dist = Math.abs(i - active);
+      let scale, opacity, shadow;
+      if      (dist === 0) { scale = 1;    opacity = 1;    shadow = '0 32px 80px rgba(0,0,0,.75)'; }
+      else if (dist === 1) { scale = 0.92; opacity = 0.55; shadow = 'none'; }
+      else                 { scale = 0.86; opacity = 0.3;  shadow = 'none'; }
+      card.style.transform = `scale(${scale})`;
+      card.style.opacity   = opacity;
+      card.style.boxShadow = shadow;
+      const cardCenterX = -posX + i * cardW() + allCards[0].offsetWidth / 2;
+      const fromCenter  = cardCenterX - viewport.offsetWidth / 2;
+      const px = Math.max(-14, Math.min(14, fromCenter * 0.04));
+      const img = card.querySelector('img');
+      if (img) img.style.setProperty('--px', px);
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === origIdx(active)));
+  }
+
+  function teleportIfNeeded() {
+    if (active < N) {
+      active  += N; posX   -= N * cardW(); targetX -= N * cardW();
+    } else if (active >= N * 2) {
+      active  -= N; posX   += N * cardW(); targetX += N * cardW();
+    }
+  }
+
+  function nearestCard(x) {
+    const center = -x + viewport.offsetWidth / 2;
+    let best = active, bestDist = Infinity;
+    allCards.forEach((_, i) => {
+      const cc = i * cardW() + allCards[0].offsetWidth / 2;
+      const d  = Math.abs(cc - center);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  /* Animation loop — auto-scroll when not hovered/dragging */
+  (function animate() {
+    if (!isDragging) {
+      if (!isHovered) {
+        /* Auto-scroll: nudge posX and sync active + target */
+        posX    -= AUTO_SPEED;
+        targetX  = posX;
+        active   = nearestCard(posX);
+        teleportIfNeeded();
+      } else {
+        /* Spring snap to active when hovering */
+        const diff = targetX - posX;
+        posX += diff * 0.1 + velX;
+        velX *= 0.82;
+        if (Math.abs(diff) < 0.3 && Math.abs(velX) < 0.1) { posX = targetX; velX = 0; }
+      }
+    }
+    track.style.transform = `translateX(${posX}px)`;
+    styleCards();
+    requestAnimationFrame(animate);
+  })();
+
+  function goTo(i) {
+    isHovered = true; /* snap mode */
+    active    = i;
+    targetX   = offsetFor(active);
+    velX      = 0;
+    setTimeout(teleportIfNeeded, 600);
+  }
+
+  /* Hover — stop auto-scroll, snap to nearest */
+  viewport.addEventListener('mouseenter', () => {
+    isHovered = true;
+    active    = nearestCard(posX);
+    targetX   = offsetFor(active);
+    velX      = 0;
+  });
+  viewport.addEventListener('mouseleave', () => {
+    isHovered = false;
+  });
+
+  prevBtn.addEventListener('click', () => goTo(active - 1));
+  nextBtn.addEventListener('click', () => goTo(active + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(active + 1);
+    if (e.key === 'ArrowLeft')  goTo(active - 1);
+  });
+
+  /* Drag — mouse + touch, NO wheel */
+  function onPointerDown(e) {
+    isDragging   = true;
+    isHovered    = true;
+    dragStartX   = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    dragStartPos = posX;
+    lastDragX    = dragStartX;
+    lastDragT    = performance.now();
+    velX         = 0;
+    e.preventDefault();
+  }
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    const cx = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const dt = performance.now() - lastDragT || 1;
+    velX      = (cx - lastDragX) / dt * 16;
+    lastDragX = cx; lastDragT = performance.now();
+    posX      = dragStartPos + cx - dragStartX;
+  }
+  function onPointerUp() {
+    if (!isDragging) return;
+    isDragging = false;
+    const FLING = 4;
+    if      (velX >  FLING) active = nearestCard(posX) - 1;
+    else if (velX < -FLING) active = nearestCard(posX) + 1;
+    else                    active = nearestCard(posX);
+    targetX = offsetFor(active);
+    setTimeout(() => { velX = 0; }, 300);
+    setTimeout(teleportIfNeeded, 600);
+  }
+
+  track.addEventListener('mousedown',  onPointerDown, { passive: false });
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup',   onPointerUp);
+  track.addEventListener('touchstart', onPointerDown, { passive: false });
+  track.addEventListener('touchmove',  onPointerMove, { passive: false });
+  track.addEventListener('touchend',   onPointerUp);
+
+  /* Init */
+  posX = targetX = offsetFor(N);
+  track.style.transform = `translateX(${posX}px)`;
+  styleCards();
 })();
 
 /* ─── PREMIUM CASE CAROUSEL — INFINITE LOOP ─── */
