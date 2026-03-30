@@ -69,7 +69,8 @@ nav.scrolled {
 
 /* HERO */
 .hero {
-  padding: 160px 48px 56px;
+  background: var(--black); color: var(--white);
+  padding: 160px 48px 80px;
 }
 .hero-label {
   font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
@@ -78,13 +79,98 @@ nav.scrolled {
 .hero h1 {
   font-size: clamp(52px, 8vw, 108px);
   font-weight: 500; letter-spacing: -3px; line-height: .92;
+  color: var(--white);
   opacity: 0; animation: fadeUp .9s cubic-bezier(.16,1,.3,1) .1s both;
 }
 .hero h1 em { font-family: var(--fd); font-weight: 300; font-style: italic; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
+/* =============================================
+   FEATURED — svart sektion, tre stora kort
+   ============================================= */
+.featured-wrap {
+  background: var(--black);
+  padding: 0 48px 100px;
+}
+.featured-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(255,255,255,.25);
+  margin-bottom: 32px; display: block;
+}
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 12px;
+}
+/* Vänster: stort kort, sträcker sig över två rader */
+.featured-main {
+  grid-row: span 2;
+}
+/* Höger: två mindre kort staplade */
+.featured-side {}
+
+.feat-card {
+  position: relative; overflow: hidden;
+  border-radius: 20px; background: #0a0a0a;
+  cursor: none; display: block;
+}
+.featured-main .feat-card { aspect-ratio: 3/4; }
+.featured-side .feat-card  { aspect-ratio: 16/10; }
+
+.feat-card img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .7s cubic-bezier(.16,1,.3,1);
+  transform: scale(1.04);
+}
+.feat-card:hover img { transform: scale(1.09); }
+.feat-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.15) 45%, transparent 70%);
+  transition: opacity .4s;
+}
+.feat-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px 32px 32px; z-index: 2;
+}
+.feat-tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px;
+  background: rgba(250,179,255,.12); color: var(--pink);
+  margin-bottom: 10px;
+}
+.feat-title {
+  font-size: clamp(18px, 2vw, 26px); font-weight: 500;
+  letter-spacing: -.4px; color: var(--white); line-height: 1.2;
+  display: flex; align-items: center; gap: 8px;
+  transition: gap .3s cubic-bezier(.34,1.2,.64,1);
+}
+.feat-card:hover .feat-title { gap: 14px; }
+.feat-arrow { font-size: 16px; opacity: .5; transition: opacity .25s; }
+.feat-card:hover .feat-arrow { opacity: 1; }
+
+/* Arrow circle on hover */
+.feat-thumb-arrow {
+  position: absolute; top: 20px; right: 20px; z-index: 3;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--black);
+  transform: scale(0) rotate(-45deg);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.feat-card:hover .feat-thumb-arrow { transform: scale(1) rotate(0deg); }
+
+/* Divider into light section */
+.section-divider {
+  height: 64px; background: var(--black);
+  border-radius: 0 0 32px 32px;
+  margin-bottom: -1px;
+}
+
 /* FILTER */
-.filter-wrap { padding: 0 48px 48px; }
+.filter-wrap { padding: 48px 48px 40px; background: var(--white); }
 .filter-inner { display: flex; gap: 8px; flex-wrap: wrap; }
 .filter-btn {
   font-size: 12px; font-weight: 600; letter-spacing: .5px;
@@ -98,7 +184,7 @@ nav.scrolled {
 .filter-btn.active { background: var(--orange); color: #fff; border-color: var(--orange); }
 
 /* GRID */
-.cases-wrap { padding: 0 48px 120px; }
+.cases-wrap { padding: 0 48px 120px; background: var(--white); }
 .cases-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -121,31 +207,20 @@ nav.scrolled {
 .case-card:nth-child(7) { transition-delay: .08s; }
 
 .case-thumb {
-  width: 100%;
-  aspect-ratio: 4/5;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #e8e4dc;
-  margin-bottom: 16px;
-  position: relative;
+  width: 100%; aspect-ratio: 4/5;
+  border-radius: 16px; overflow: hidden;
+  background: #e8e4dc; margin-bottom: 16px; position: relative;
 }
 .case-thumb img {
-  width: 100%; height: 100%;
-  object-fit: cover; display: block;
+  width: 100%; height: 100%; object-fit: cover; display: block;
   transition: transform .6s cubic-bezier(.16,1,.3,1);
 }
 .case-card:hover .case-thumb img { transform: scale(1.04); }
-
-/* Hover overlay — subtle */
 .case-thumb::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: rgba(0,0,0,0);
-  transition: background .4s;
+  content: ''; position: absolute; inset: 0;
+  background: rgba(0,0,0,0); transition: background .4s;
 }
 .case-card:hover .case-thumb::after { background: rgba(0,0,0,.06); }
-
-/* Arrow pill on hover */
 .case-thumb-arrow {
   position: absolute; bottom: 16px; right: 16px;
   width: 44px; height: 44px; border-radius: 50%;
@@ -153,16 +228,11 @@ nav.scrolled {
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; color: var(--black);
   transform: scale(0) rotate(-45deg);
-  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
-  z-index: 2;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1); z-index: 2;
 }
 .case-card:hover .case-thumb-arrow { transform: scale(1) rotate(0deg); }
-
-/* Meta */
 .case-meta { display: flex; flex-direction: column; gap: 4px; }
-.case-meta-top {
-  display: flex; align-items: center; justify-content: space-between;
-}
+.case-meta-top { display: flex; align-items: center; justify-content: space-between; }
 .case-client { font-size: 12px; font-weight: 600; color: #aaa; letter-spacing: .3px; }
 .case-tag {
   font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
@@ -170,8 +240,8 @@ nav.scrolled {
   background: rgba(240,85,40,.08); color: var(--orange);
 }
 .case-title {
-  font-size: clamp(16px, 1.4vw, 20px);
-  font-weight: 500; letter-spacing: -.3px; color: var(--black);
+  font-size: clamp(16px, 1.4vw, 20px); font-weight: 500;
+  letter-spacing: -.3px; color: var(--black);
   display: flex; align-items: center; gap: 8px;
   transition: gap .3s cubic-bezier(.34,1.2,.64,1);
 }
@@ -206,7 +276,12 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.07); backgro
   nav { padding: 18px 24px; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
-  .hero { padding: 120px 24px 40px; }
+  .hero { padding: 120px 24px 60px; }
+  .featured-wrap { padding: 0 24px 64px; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .featured-main { grid-row: span 1; }
+  .featured-main .feat-card { aspect-ratio: 4/5; }
+  .featured-side .feat-card  { aspect-ratio: 4/3; }
   .filter-wrap, .cases-wrap { padding-left: 24px; padding-right: 24px; }
   .cases-grid { grid-template-columns: 1fr; gap: 40px; }
   footer { padding: 48px 24px; }
@@ -253,8 +328,51 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(0,0,0,.07); backgro
   <h1>Vårt <em>bästa</em><br>arbete.</h1>
 </div>
 
+<!-- FEATURED — svart sektion, tre cinematiska kort -->
+<div class="featured-wrap reveal">
+  <span class="featured-label">Utvalda favoriter</span>
+  <div class="featured-grid">
+
+    <!-- Stort vänsterkort -->
+    <div class="featured-main">
+      <a href="#" class="feat-card">
+        <img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia × SHL">
+        <div class="feat-thumb-arrow">→</div>
+        <div class="feat-overlay">
+          <span class="feat-tag">Sponsring</span>
+          <p class="feat-title">Telia × SHL <span class="feat-arrow">→</span></p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Två högerklort staplade -->
+    <div class="featured-side">
+      <a href="#" class="feat-card" style="margin-bottom:12px;display:block">
+        <img src="Matchkorv_presskonf.png" alt="Matchkorv">
+        <div class="feat-thumb-arrow">→</div>
+        <div class="feat-overlay">
+          <span class="feat-tag">Event</span>
+          <p class="feat-title">Matchkorv <span class="feat-arrow">→</span></p>
+        </div>
+      </a>
+      <a href="#" class="feat-card" style="display:block">
+        <img src="Ajabajacancer_staende.jpg" alt="Ajabaja Cancer">
+        <div class="feat-thumb-arrow">→</div>
+        <div class="feat-overlay">
+          <span class="feat-tag">Reklam</span>
+          <p class="feat-title">Ajabaja Cancer <span class="feat-arrow">→</span></p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Mjuk övergång svart → vitt -->
+<div class="section-divider"></div>
+
 <!-- FILTER -->
-<div class="filter-wrap reveal">
+<div class="filter-wrap">
   <div class="filter-inner">
     <button class="filter-btn active" data-filter="alla">Alla</button>
     <button class="filter-btn" data-filter="sponsring">Sponsring</button>
