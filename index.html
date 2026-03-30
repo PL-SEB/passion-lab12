@@ -79,29 +79,12 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 
 /* PAYOFF */
 .payoff-link { display: block; cursor: none; position: relative; z-index: 1; }
-.payoff-wrap {
-  position: relative; padding: 140px 0;
-  overflow: visible; background: var(--black);
-  border-top: 1px solid rgba(255,255,255,.04);
-  isolation: isolate;
-}
-.payoff-text {
-  font-family: var(--fd); font-style: italic; font-weight: 300;
-  font-size: clamp(80px, 13vw, 172px); line-height: .86; letter-spacing: -4px;
-  color: var(--white); text-align: center; padding: 0 48px;
-  user-select: none; position: relative; z-index: 2;
-}
-.payoff-card {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%) rotate(-4deg);
-  width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4;
-  border-radius: 20px; overflow: hidden;
-  z-index: 1; pointer-events: none;
-  box-shadow: 0 40px 100px rgba(0,0,0,.8);
-}
+.payoff-wrap { position: relative; padding: 140px 0; overflow: visible; background: var(--black); border-top: 1px solid rgba(255,255,255,.04); isolation: isolate; }
+.payoff-text { font-family: var(--fd); font-style: italic; font-weight: 300; font-size: clamp(80px, 13vw, 172px); line-height: .86; letter-spacing: -4px; color: var(--white); text-align: center; padding: 0 48px; user-select: none; position: relative; z-index: 2; }
+.payoff-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-4deg); width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; z-index: 1; pointer-events: none; box-shadow: 0 40px 100px rgba(0,0,0,.8); }
 .payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
 
-/* CASE CAROUSEL — dold på desktop, visas på mobil via media query */
+/* CASE CAROUSEL — dold på desktop, visas på mobil */
 .case-wrap { display: none; padding: 80px 0; position: relative; z-index: 0; }
 .case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
 .case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
@@ -146,10 +129,10 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .article-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom,var(--orange),var(--pink)); transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 1; }
 .article-card:hover { background: #fafafa; }
 .article-card:hover::before { transform: scaleY(1); }
-.article-thumb { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #111; }
-.article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.article-thumb { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #111; border-radius: 12px; margin: 16px 16px 0; width: calc(100% - 32px); }
+.article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); border-radius: 12px; }
 .article-card:hover .article-thumb img { transform: scale(1.04); }
-.article-body { padding: 32px 36px 36px; flex: 1; display: flex; flex-direction: column; }
+.article-body { padding: 24px 36px 36px; flex: 1; display: flex; flex-direction: column; }
 .article-card h3 { font-size: 20px; font-weight: 500; line-height: 1.22; margin-bottom: 14px; letter-spacing: -.3px; color: #111; }
 .article-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; flex: 1; }
 .article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
@@ -158,19 +141,26 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
 /* INSTAGRAM CTA */
-.insta-wrap {
-  background: var(--pink);
-  padding: 220px 48px;
-  position: relative;
-  overflow: hidden;
-  cursor: none;
-}
+.insta-wrap { background: var(--pink); padding: 220px 48px; position: relative; overflow: hidden; cursor: none; }
 .insta-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
 .insta-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: 24px; }
 .insta-text { font-size: clamp(48px, 7.5vw, 96px); font-weight: 500; letter-spacing: -2px; line-height: 1.0; color: var(--black); }
 .insta-text a { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--black); transition: opacity .25s; }
 
-/* Custom cursor för insta-sektionen */
+/* Desktop: roterande finger inuti sektionen */
+#insta-finger {
+  position: absolute;
+  width: 72px; height: 72px;
+  pointer-events: none;
+  z-index: 10;
+  transform-origin: center center;
+  font-size: 56px;
+  line-height: 1;
+  display: none;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
+}
+
+/* Desktop: custom cursor */
 #insta-cursor {
   width: 120px; height: 120px;
   border-radius: 50%;
@@ -186,47 +176,49 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 #insta-cursor img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor.visible { opacity: 1; }
 
-/* Mobilt finger — fast position bredvid some-manager */
+/* Mobil: some-manager + finger — styrda av JS via opacity */
+#insta-cursor-mobile {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  position: fixed;
+  right: 20px; bottom: 36px;
+  pointer-events: none;
+  z-index: 9997;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+  opacity: 0;
+  transition: opacity .35s;
+}
+#insta-cursor-mobile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#insta-cursor-mobile.show { opacity: 1; }
+
 #insta-finger-mobile {
   position: fixed;
-  right: 108px; bottom: 52px;
-  width: 56px; height: 56px;
+  right: 98px; bottom: 44px;
   font-size: 44px; line-height: 1;
   pointer-events: none;
   z-index: 9998;
   opacity: 0;
-  transition: opacity .4s;
+  transition: opacity .35s;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
   transform-origin: center center;
-  display: block;
 }
-#insta-finger-mobile.mobile-visible { opacity: 1; }
-  position: absolute;
-  width: 72px; height: 72px;
-  pointer-events: none;
-  z-index: 10;
-  transform-origin: center center;
-  font-size: 56px;
-  line-height: 1;
-  display: none;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
-}
-.insta-wrap:hover #insta-finger { display: block; }
+#insta-finger-mobile.show { opacity: 1; }
 
 /* FOOTER */
 footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 .footer-inner { max-width: 1200px; margin: 0 auto; }
 .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; margin-bottom: 56px; }
 .footer-brand { max-width: 280px; }
-.footer-tagline { font-size: 13px; color: var(--white); opacity: .35; line-height: 1.65; }
-.footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); opacity: .2; margin-bottom: 18px; }
+.footer-tagline { font-size: 13px; color: var(--white); opacity: .55; line-height: 1.65; }
+.footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); opacity: .35; margin-bottom: 18px; }
 .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-links ul li a { font-size: 14px; font-weight: 500; color: rgba(250,245,235,.35); display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
+.footer-links ul li a { font-size: 14px; font-weight: 500; color: rgba(250,245,235,.55); display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
 .footer-links ul li a:hover { color: var(--pink); gap: 6px; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.04); }
-.footer-copy { font-size: 12px; color: rgba(250,245,235,.15); }
+.footer-copy { font-size: 12px; color: rgba(250,245,235,.35); }
 .footer-social { display: flex; gap: 16px; }
-.footer-social a { font-size: 12px; font-weight: 600; color: rgba(250,245,235,.25); transition: color .25s, transform .3s; display: inline-block; }
+.footer-social a { font-size: 12px; font-weight: 600; color: rgba(250,245,235,.45); transition: color .25s, transform .3s; display: inline-block; }
 .footer-social a:hover { color: var(--pink); transform: translateY(-2px); }
 
 /* MOBILE */
@@ -235,30 +227,18 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .quote-wrap, .offer-wrap, .articles-wrap, .insta-wrap { padding-left: 24px; padding-right: 24px; }
-  /* Dölj payoff på mobil */
   .payoff-link { display: none; }
-  /* Visa karusellen på mobil */
   .case-wrap { display: block; }
   .case-viewport { -webkit-mask-image: none; mask-image: none; touch-action: pan-y; }
   .case-header { padding: 0 24px; }
   .case-card { width: 82vw; max-width: 420px; }
   .case-card-img { height: 110vw; max-height: 520px; }
-  footer { padding: 48px 24px; }
   .insta-wrap { padding: 100px 24px; }
-  /* Mobil: some-manager dold som default, visas via JS när insta-sektionen är i vy */
-  #insta-cursor {
-    display: block !important;
-    position: fixed !important;
-    right: 24px !important; bottom: 40px !important;
-    left: auto !important; top: auto !important;
-    width: 90px !important; height: 90px !important;
-    opacity: 0 !important;
-    transform: none !important;
-    transition: opacity .4s !important;
-    pointer-events: none;
-  }
-  #insta-cursor.mobile-visible { opacity: 1 !important; }
-  #insta-finger-mobile { display: block; }
+  /* Desktop cursor dold på mobil */
+  #insta-cursor { display: none !important; }
+  #insta-finger { display: none !important; }
+  footer { padding: 48px 24px; }
+  .articles-header { flex-direction: column; align-items: flex-start; }
   .footer-top { flex-direction: column; }
   #cursor, #cursor-glow { display: none; }
   body { cursor: auto; }
@@ -270,6 +250,13 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 
 <div id="cursor"></div>
 <div id="cursor-glow"></div>
+
+<!-- Desktop insta-cursor -->
+<div id="insta-cursor"><img src="some-manager.png" alt=""></div>
+
+<!-- Mobil: separata element -->
+<div id="insta-cursor-mobile"><img src="some-manager.png" alt=""></div>
+<div id="insta-finger-mobile">👆</div>
 
 <nav id="navbar">
   <a class="nav-logo" href="index.html"><img src="logo.png" alt="Passion Lab" style="height:28px;display:block"></a>
@@ -298,7 +285,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   <a href="kontakt.html"   onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
 </div>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-video">
     <video autoplay muted loop playsinline>
@@ -313,14 +299,12 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </h1>
 </section>
 
-<!-- QUOTE -->
 <div class="quote-wrap reveal">
   <div class="quote-inner">
     <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
   </div>
 </div>
 
-<!-- PAYOFF + BILDKORT — klick går till case.html, dold på mobil -->
 <a href="case.html" class="payoff-link reveal">
   <div class="payoff-wrap" id="payoffWrap">
     <p class="payoff-text">Klicka för att<br>se våra fina<br>case.</p>
@@ -330,7 +314,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </a>
 
-<!-- CASE CAROUSEL — dold på desktop, visas på mobil -->
 <div class="case-wrap reveal">
   <div class="case-header">
     <p class="case-label">Utvalda case</p>
@@ -352,7 +335,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- ERBJUDANDE -->
 <div class="offer-wrap reveal">
   <div class="offer-inner">
     <div class="offer-header"><p class="section-label">Vad vi erbjuder</p></div>
@@ -381,7 +363,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- ARTIKLAR -->
 <div class="articles-wrap">
   <div class="articles-inner">
     <div class="articles-header reveal">
@@ -393,26 +374,26 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     </div>
     <div class="articles-grid">
       <div class="article-card reveal reveal-delay-1">
-        <div class="article-thumb"><img src="SEF_cover_4x5.png" alt="Sponsring slår reklam 2026"></div>
+        <div class="article-thumb"><img src="SEF_cover_4x5.png" alt="Sponsring"></div>
         <div class="article-body">
           <h3>Varför sponsring är det effektivaste marknadsföringsverktyget 2026</h3>
-          <p>Konsumenter söker autenticitet och ignorerar traditionell annonsering. Sponsring av sport, kultur och live-event skapar den emotionella koppling som bygger långsiktig varumärkeslojalitet — något ingen digital annons kan ersätta.</p>
+          <p>Konsumenter söker autenticitet och ignorerar traditionell annonsering. Sponsring av sport, kultur och live-event skapar den emotionella koppling som bygger långsiktig varumärkeslojalitet.</p>
           <a href="artiklar.html" class="article-link">Läs mer →</a>
         </div>
       </div>
       <div class="article-card reveal reveal-delay-2">
-        <div class="article-thumb"><img src="Matchkorv_presskonf.png" alt="Legendariska event"></div>
+        <div class="article-thumb"><img src="Matchkorv_presskonf.png" alt="Event"></div>
         <div class="article-body">
           <h3>Vad skiljer ett legendariskt event från ett bra event?</h3>
-          <p>De event som lever kvar i minnet delar fem egenskaper — ingen av dem handlar om budget. Från målgruppsinsikt och platsval till de mikroögonblick som skapar äkta känslomässigt engagemang hos deltagarna.</p>
+          <p>De event som lever kvar i minnet delar fem egenskaper — ingen av dem handlar om budget. Från målgruppsinsikt till de mikroögonblick som skapar äkta engagemang.</p>
           <a href="artiklar.html" class="article-link">Läs mer →</a>
         </div>
       </div>
       <div class="article-card reveal reveal-delay-3">
-        <div class="article-thumb"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Rätt sponsringspartner"></div>
+        <div class="article-thumb"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Sponsring"></div>
         <div class="article-body">
           <h3>Så väljer du rätt sponsringspartner — en strategisk guide</h3>
-          <p>Ett framgångsrikt sponsringssamarbete kräver mer än matchande målgrupper. Rätt kontextuell relevans, delade värderingar och en tydlig aktiveringsplan avgör om investeringen skapar mätbart affärsvärde eller bara exponering.</p>
+          <p>Rätt kontextuell relevans, delade värderingar och en tydlig aktiveringsplan avgör om investeringen skapar mätbart affärsvärde eller bara exponering.</p>
           <a href="artiklar.html" class="article-link">Läs mer →</a>
         </div>
       </div>
@@ -420,7 +401,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- INSTAGRAM CTA -->
 <div class="insta-wrap reveal" id="instaWrap">
   <div id="insta-finger">👆</div>
   <div class="insta-inner">
@@ -428,18 +408,12 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
     <p class="insta-text">Spana in vår <a href="https://www.instagram.com/_passionlab/" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
   </div>
 </div>
-<!-- Custom cursor + mobilt finger -->
-<div id="insta-cursor"><img src="some-manager.png" alt=""></div>
-<div id="insta-finger-mobile">👆</div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="index.html" style="display:block;margin-bottom:16px">
-          <img src="logo.png" alt="Passion Lab" style="height:22px;display:block;opacity:.7">
-        </a>
+        <a href="index.html" style="display:block;margin-bottom:16px"><img src="logo.png" alt="Passion Lab" style="height:22px;display:block;opacity:.7"></a>
         <p class="footer-tagline">Älska sånt folk älskar. Sveriges ledande byrå inom sponsring och event.</p>
       </div>
       <div class="footer-links"><h4>Vad vi gör</h4><ul><li><a href="sponsring.html">Sponsring</a></li><li><a href="event.html">Event</a></li><li><a href="reklam.html">Reklam</a></li></ul></div>
@@ -499,84 +473,92 @@ function toggleOffer(btn){
   (function anim(){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;if(window.innerWidth>=768)card.style.transform=`translate(calc(-50% + ${cx}px),calc(-50% + ${cy}px)) rotate(-4deg)`;requestAnimationFrame(anim);})();
 })();
 
-/* ─── INSTAGRAM CUSTOM CURSOR + ROTERANDE FINGER ─── */
+/* ─── INSTAGRAM — desktop cursor + finger, mobil scroll-visibility ─── */
 (function(){
   const wrap      = document.getElementById('instaWrap');
   const instaCur  = document.getElementById('insta-cursor');
   const finger    = document.getElementById('insta-finger');
   const instaLink = document.getElementById('instaLink');
-  if(!wrap || !instaCur || !finger || !instaLink) return;
+  const mobCur    = document.getElementById('insta-cursor-mobile');
+  const mobFinger = document.getElementById('insta-finger-mobile');
+  if(!wrap||!instaLink) return;
 
-  let curX = 0, curY = 0, smoothX = 0, smoothY = 0;
-  let inside = false;
-  const ORBIT_R = 100; /* finger utanför cirkeln (120px/2 = 60px radius + 40px luft) */
+  const ORBIT_R = 100;
+  const isTouch = 'ontouchstart' in window;
 
-  /* ── Desktop: musrörelse ── */
-  wrap.addEventListener('mouseenter', () => {
-    inside = true;
-    instaCur.classList.add('visible');
-    cur.style.opacity = '0';
-  });
-  wrap.addEventListener('mouseleave', () => {
-    inside = false;
-    instaCur.classList.remove('visible');
-    finger.style.display = 'none';
-    cur.style.opacity = '1';
-  });
-  wrap.addEventListener('mousemove', e => {
-    curX = e.clientX;
-    curY = e.clientY;
-  });
+  if(isTouch) {
+    /* ── MOBIL ── */
+    const footer = document.querySelector('footer');
 
-  /* ── Mobil: visa some-manager när insta-sektionen är i vy ── */
-  if('ontouchstart' in window){
-    instaCur.style.display = 'none';
-    finger.style.display   = 'none';
-    /* IntersectionObserver för scroll-visibility */
-    new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        instaCur.classList.toggle('mobile-visible', e.isIntersecting);
-        mobileFinger.classList.toggle('mobile-visible', e.isIntersecting);
-      });
-    }, { threshold: 0.6 }).observe(wrap);
+    function updateMobile(){
+      const wr = wrap.getBoundingClientRect();
+      const fr = footer.getBoundingClientRect();
+      /* Visa när insta-sektionen är synlig OCH footern inte syns ännu */
+      const show = wr.top < window.innerHeight * 0.85 && fr.top > window.innerHeight;
+      mobCur.classList.toggle('show', show);
+      mobFinger.classList.toggle('show', show);
+    }
+    window.addEventListener('scroll', updateMobile, { passive: true });
+    updateMobile();
+
+    /* Magnetiskt finger pekar mot Instagram-länken */
+    (function animMob(){
+      const lr = instaLink.getBoundingClientRect();
+      const fr = mobFinger.getBoundingClientRect();
+      const tx = lr.left + lr.width  / 2;
+      const ty = lr.top  + lr.height / 2;
+      const fx = fr.left + fr.width  / 2;
+      const fy = fr.top  + fr.height / 2;
+      const angle = Math.atan2(ty - fy, tx - fx);
+      mobFinger.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
+      requestAnimationFrame(animMob);
+    })();
     return;
   }
 
-  /* Smooth cursor */
+  /* ── DESKTOP ── */
+  let curX=0,curY=0,smoothX=0,smoothY=0,inside=false;
+
+  wrap.addEventListener('mouseenter',()=>{
+    inside=true;
+    instaCur.classList.add('visible');
+    cur.style.opacity='0';
+  });
+  wrap.addEventListener('mouseleave',()=>{
+    inside=false;
+    instaCur.classList.remove('visible');
+    finger.style.display='none';
+    cur.style.opacity='1';
+  });
+  wrap.addEventListener('mousemove',e=>{ curX=e.clientX; curY=e.clientY; });
+
   (function animCur(){
-    smoothX += (curX - smoothX) * 0.12;
-    smoothY += (curY - smoothY) * 0.12;
-    instaCur.style.left = smoothX + 'px';
-    instaCur.style.top  = smoothY + 'px';
+    smoothX += (curX-smoothX)*0.12;
+    smoothY += (curY-smoothY)*0.12;
+    instaCur.style.left = smoothX+'px';
+    instaCur.style.top  = smoothY+'px';
     requestAnimationFrame(animCur);
   })();
 
-  /* Roterande finger */
   (function animFinger(){
     if(!inside){ requestAnimationFrame(animFinger); return; }
-    finger.style.display = 'block';
-
+    finger.style.display='block';
     const lr = instaLink.getBoundingClientRect();
-    const targetX = lr.left + lr.width  / 2;
-    const targetY = lr.top  + lr.height / 2;
-
-    const dx = targetX - smoothX;
-    const dy = targetY - smoothY;
+    const tx = lr.left + lr.width  / 2;
+    const ty = lr.top  + lr.height / 2;
+    const dx = tx - smoothX, dy = ty - smoothY;
     const angle = Math.atan2(dy, dx);
-
     const fx = smoothX + Math.cos(angle) * ORBIT_R;
     const fy = smoothY + Math.sin(angle) * ORBIT_R;
-
     const wr = wrap.getBoundingClientRect();
-    finger.style.left = (fx - wr.left - 36) + 'px';
-    finger.style.top  = (fy - wr.top  - 36) + 'px';
-
-    const deg = angle * (180 / Math.PI) + 90;
-    finger.style.transform = `rotate(${deg}deg)`;
-
+    finger.style.left = (fx - wr.left - 36)+'px';
+    finger.style.top  = (fy - wr.top  - 36)+'px';
+    finger.style.transform = `rotate(${angle*180/Math.PI+90}deg)`;
     requestAnimationFrame(animFinger);
   })();
 })();
+
+/* ─── CASE CAROUSEL ─── */
 (function(){
   const viewport=document.getElementById('caseViewport');
   const track=document.getElementById('caseTrack');
@@ -626,25 +608,9 @@ function toggleOffer(btn){
   prevBtn.addEventListener('click',()=>goTo(active-1));
   nextBtn.addEventListener('click',()=>goTo(active+1));
   let touchStartX=0,touchStartY=0,isHorizDrag=false;
-  function pDown(e){
-    isDragging=true;isHovered=true;
-    const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;
-    dragStartX=cx;dragStartPos=posX;lastDX=cx;lastDT=performance.now();velX=0;
-    touchStartX=cx;touchStartY=cy;isHorizDrag=false;
-    if(!e.touches)e.preventDefault();
-  }
-  function pMove(e){
-    if(!isDragging)return;
-    const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;
-    if(!isHorizDrag&&e.touches){const dx=Math.abs(cx-touchStartX),dy=Math.abs(cy-touchStartY);if(dy>dx+4)return;if(dx>4)isHorizDrag=true;else return;}
-    if(e.touches&&e.cancelable)e.preventDefault();
-    velX=(cx-lastDX)/Math.max(performance.now()-lastDT,1)*16;lastDX=cx;lastDT=performance.now();posX=dragStartPos+cx-dragStartX;
-  }
-  function pUp(){
-    if(!isDragging)return;isDragging=false;
-    active=velX>4?nearest(posX)-1:velX<-4?nearest(posX)+1:nearest(posX);
-    targetX=offsetFor(active);setTimeout(()=>{velX=0;},300);setTimeout(teleport,620);
-  }
+  function pDown(e){isDragging=true;isHovered=true;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;dragStartX=cx;dragStartPos=posX;lastDX=cx;lastDT=performance.now();velX=0;touchStartX=cx;touchStartY=cy;isHorizDrag=false;if(!e.touches)e.preventDefault();}
+  function pMove(e){if(!isDragging)return;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;if(!isHorizDrag&&e.touches){const dx=Math.abs(cx-touchStartX),dy=Math.abs(cy-touchStartY);if(dy>dx+4)return;if(dx>4)isHorizDrag=true;else return;}if(e.touches&&e.cancelable)e.preventDefault();velX=(cx-lastDX)/Math.max(performance.now()-lastDT,1)*16;lastDX=cx;lastDT=performance.now();posX=dragStartPos+cx-dragStartX;}
+  function pUp(){if(!isDragging)return;isDragging=false;active=velX>4?nearest(posX)-1:velX<-4?nearest(posX)+1:nearest(posX);targetX=offsetFor(active);setTimeout(()=>{velX=0;},300);setTimeout(teleport,620);}
   track.addEventListener('mousedown',pDown,{passive:false});
   window.addEventListener('mousemove',pMove);
   window.addEventListener('mouseup',pUp);
