@@ -57,7 +57,6 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .orb1 { width: 650px; height: 650px; background: rgba(240,85,40,.08); top: -120px; left: 50%; transform: translateX(-50%); animation: orbFloat 9s ease-in-out infinite; }
 .orb2 { width: 420px; height: 420px; background: rgba(250,179,255,.04); bottom: -80px; right: -120px; animation: orbFloat 13s ease-in-out infinite reverse; }
 @keyframes orbFloat { 0%,100%{transform:translateY(0) translateX(-50%)} 50%{transform:translateY(-50px) translateX(-50%)} }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
 .hero h1 { font-size: clamp(64px, 11vw, 140px); line-height: 1; letter-spacing: -3px; position: relative; z-index: 1; opacity: 0; animation: fadeUp 1s cubic-bezier(.16,1,.3,1) .35s both; padding-top: 12px; }
 .hero h1 .word-italic { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--white); }
 .hero h1 .word-normal { font-family: var(--font); font-weight: 500; color: var(--white); }
@@ -69,11 +68,6 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .hline2 span { animation-delay: .55s; }
 @keyframes wordUp { from{transform:translateY(110%)} to{transform:translateY(0)} }
 @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-
-.btn-outline { background: transparent; color: var(--white); padding: 15px 36px; border-radius: 100px; border: 1px solid rgba(255,255,255,.15); font-size: 15px; font-weight: 500; display: inline-block; transition: border-color .25s; }
-.btn-outline:hover { border-color: rgba(255,255,255,.4); }
-.btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
-.btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
 /* REVEAL */
 .reveal { opacity: 0; transform: translateY(36px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
@@ -87,34 +81,174 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .quote-text em { font-style: italic; color: var(--pink); }
 .quote-source { margin-top: 32px; font-size: 13px; font-weight: 500; color: #333; letter-spacing: 1px; text-transform: uppercase; }
 
-/* PAYOFF */
-.payoff-wrap { position: relative; padding: 140px 0; overflow: hidden; background: var(--black); border-top: 1px solid rgba(255,255,255,.04); }
-.payoff-text { font-family: var(--fd); font-style: italic; font-weight: 300; font-size: clamp(80px, 13vw, 172px); line-height: .86; letter-spacing: -4px; color: var(--white); text-align: center; padding: 0 48px; user-select: none; position: relative; z-index: 1; }
-.payoff-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-4deg); width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; z-index: 20; pointer-events: none; box-shadow: 0 40px 100px rgba(0,0,0,.8); }
-.payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
-@media (max-width: 768px) {
-  .payoff-wrap { padding: 60px 0 0; display: flex; flex-direction: column; align-items: center; }
-  .payoff-text { font-size: clamp(52px, 14vw, 80px); padding: 0 24px; }
-  .payoff-card { position: relative; top: auto; left: auto; transform: rotate(-4deg); width: 72vw; max-width: 300px; margin: 40px auto 0; display: block; }
+/* =============================================
+   PAYOFF — text ovanför, bildbläddraren under
+   ============================================= */
+.payoff-wrap {
+  position: relative;
+  padding: 120px 0 0;
+  overflow: hidden;
+  background: var(--black);
+  border-top: 1px solid rgba(255,255,255,.04);
 }
 
-/* CASE CAROUSEL */
-.case-wrap { padding: 0 0 120px; margin-top: 80px; }
-.case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+/* Texten — centrerad, ingen kortöverlappning */
+.payoff-text {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(72px, 11vw, 148px);
+  line-height: .88;
+  letter-spacing: -4px;
+  color: var(--white);
+  text-align: center;
+  padding: 0 48px;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 64px;
+}
+
+/* Bildbläddraren — full bredd, nedanför texten */
+.payoff-reel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.payoff-reel-track {
+  display: flex;
+  gap: 0;
+  will-change: transform;
+}
+.payoff-reel-item {
+  flex: 0 0 auto;
+  width: clamp(220px, 28vw, 380px);
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  position: relative;
+}
+.payoff-reel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+.payoff-reel-item:hover img {
+  transform: scale(1.04);
+}
+
+/* =============================================
+   PREMIUM CASE CAROUSEL
+   ============================================= */
+.case-wrap { padding: 80px 0 120px; margin-top: 0; }
+.case-header {
+  padding: 0 48px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
 .case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
-.case-carousel { position: relative; overflow: hidden; cursor: grab; }
-.case-carousel:active { cursor: grabbing; }
-.case-track { display: flex; gap: 16px; padding: 0 48px 32px; transition: transform .7s cubic-bezier(.16,1,.3,1); will-change: transform; }
-.case-card { flex: 0 0 420px; border-radius: 20px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,.06); background: #0a0a0a; user-select: none; }
-.case-img { height: 520px; position: relative; overflow: hidden; }
-.case-img img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
-.case-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 50%); }
-.case-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; }
-.case-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; background: rgba(240,85,40,.18); color: var(--orange); margin-bottom: 10px; }
-.case-overlay h3 { font-size: 20px; font-weight: 500; letter-spacing: -.3px; color: var(--white); line-height: 1.2; }
 .case-nav { display: flex; gap: 10px; }
-.case-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--white); font-size: 18px; cursor: none; transition: background .25s, border-color .25s; display: flex; align-items: center; justify-content: center; }
+.case-nav button {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  color: var(--white); font-size: 18px; cursor: none;
+  transition: background .25s, border-color .25s;
+  display: flex; align-items: center; justify-content: center;
+}
 .case-nav button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
+
+/* Viewport — clips the track, shows peek on both sides */
+.case-viewport {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  /* Fade edges on desktop */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+/* The scrollable track */
+.case-track {
+  display: flex;
+  align-items: center;          /* vertical centering helps scale effect */
+  gap: 16px;
+  padding: 32px 0 40px;
+  will-change: transform;
+  /* JS drives translateX — no CSS transition here (inertia handles it) */
+}
+
+/* Each card */
+.case-card {
+  flex: 0 0 auto;
+  width: clamp(280px, 38vw, 460px);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,.06);
+  background: #0a0a0a;
+  user-select: none;
+  /* scale + opacity driven by JS */
+  transform-origin: center center;
+  transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s cubic-bezier(.16,1,.3,1), box-shadow .5s;
+  cursor: none;
+}
+
+.case-card-img {
+  height: clamp(360px, 50vw, 560px);
+  position: relative;
+  overflow: hidden;
+}
+.case-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  pointer-events: none;
+  /* subtle parallax scale — JS nudges via --px */
+  transform: scale(1.08) translateX(calc(var(--px, 0) * 1px));
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+/* Bottom gradient */
+.case-card-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.3) 40%, transparent 70%);
+}
+/* Hover brighten */
+.case-card:hover .case-card-img img { transform: scale(1.11) translateX(calc(var(--px, 0) * 1px)); }
+
+.case-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px 28px 32px;
+}
+.case-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 100px;
+  background: rgba(240,85,40,.18); color: var(--orange);
+  margin-bottom: 10px;
+}
+.case-overlay h3 {
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 500; letter-spacing: -.4px; color: var(--white); line-height: 1.2;
+}
+
+/* Dot indicators */
+.case-dots {
+  display: flex; justify-content: center; gap: 8px;
+  margin-top: 28px;
+}
+.case-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  transition: background .3s, transform .3s;
+  border: none; padding: 0; cursor: none;
+}
+.case-dot.active { background: var(--white); transform: scale(1.5); }
 
 /* ERBJUDANDE */
 .offer-wrap { padding: 0 48px 120px; }
@@ -149,6 +283,8 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .article-card p { font-size: 14px; color: #999; line-height: 1.65; margin-bottom: 20px; }
 .article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
 .article-card:hover .article-link { gap: 12px; }
+.btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+.btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
 /* SCROLL CTA */
 .scroll-cta-wrap { padding: 80px 48px 120px; }
@@ -180,14 +316,37 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 .footer-social a { font-size: 12px; font-weight: 600; color: #2a2a2a; transition: color .25s, transform .3s; display: inline-block; }
 .footer-social a:hover { color: var(--orange); transform: translateY(-2px); }
 
+/* =============================================
+   MOBILE
+   ============================================= */
 @media (max-width: 768px) {
-  nav{padding:18px 24px} .nav-links{display:none} .hamburger{display:flex}
-  .quote-wrap,.offer-wrap,.articles-wrap,.scroll-cta-wrap{padding-left:24px;padding-right:24px}
-  .payoff-wrap{padding:100px 0}
-  footer{padding:48px 24px}
-  .articles-header{flex-direction:column;align-items:flex-start}
-  .footer-top{flex-direction:column}
-  #cursor,#cursor-glow{display:none} body{cursor:auto} *{cursor:auto !important}
+  nav { padding: 18px 24px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  .quote-wrap, .offer-wrap, .articles-wrap, .scroll-cta-wrap { padding-left: 24px; padding-right: 24px; }
+
+  /* Payoff mobile */
+  .payoff-wrap { padding: 80px 0 0; }
+  .payoff-text { font-size: clamp(52px, 13vw, 80px); padding: 0 24px; margin-bottom: 40px; letter-spacing: -2px; }
+  .payoff-reel-item { width: 72vw; max-width: 280px; }
+
+  /* Case carousel mobile */
+  .case-viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .case-card { width: 78vw; max-width: 320px; }
+  .case-card-img { height: 56vw; min-height: 240px; }
+  .case-header { padding: 0 24px; }
+
+  footer { padding: 48px 24px; }
+  .articles-header { flex-direction: column; align-items: flex-start; }
+  .footer-top { flex-direction: column; }
+
+  #cursor, #cursor-glow { display: none; }
+  body { cursor: auto; }
+  * { cursor: auto !important; }
 }
 </style>
 </head>
@@ -215,15 +374,15 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 
 <div class="mobile-menu">
   <button class="mobile-close" onclick="document.querySelector('.mobile-menu').classList.remove('open')">✕</button>
-  <a href="om-oss.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Om oss</a>
-  <a href="reklam.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Reklam</a>
-  <a href="sponsring.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Sponsring</a>
-  <a href="event.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Event</a>
-  <a href="artiklar.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Artiklar</a>
-  <a href="kontakt.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
+  <a href="om-oss.html"     onclick="document.querySelector('.mobile-menu').classList.remove('open')">Om oss</a>
+  <a href="reklam.html"     onclick="document.querySelector('.mobile-menu').classList.remove('open')">Reklam</a>
+  <a href="sponsring.html"  onclick="document.querySelector('.mobile-menu').classList.remove('open')">Sponsring</a>
+  <a href="event.html"      onclick="document.querySelector('.mobile-menu').classList.remove('open')">Event</a>
+  <a href="artiklar.html"   onclick="document.querySelector('.mobile-menu').classList.remove('open')">Artiklar</a>
+  <a href="kontakt.html"    onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
 </div>
 
-<!-- HERO -->
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
 <section class="hero">
   <div class="hero-video">
     <video autoplay muted loop playsinline>
@@ -242,7 +401,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </h1>
 </section>
 
-<!-- QUOTE -->
+<!-- ═══════════════════════════ QUOTE ═══════════════════════════ -->
 <div class="quote-wrap reveal">
   <div class="quote-inner">
     <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
@@ -250,15 +409,34 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- PAYOFF + BILDSNURRA -->
+<!-- ═══════════════════════════ PAYOFF + REEL ═══════════════════════════ -->
 <div class="payoff-wrap reveal">
+  <!-- Text ovanför -->
   <p class="payoff-text">Ta en titt på<br>våra roliga<br>projekt.</p>
-  <div class="payoff-card" id="pc">
-    <div class="payoff-card-inner" style="background-image:url('TELIA_SHL_KN 22-23_COVER.jpg');background-size:cover;background-position:center"></div>
+
+  <!-- Bildbläddraren nedanför — autoplay loop, ingen musinteraktion -->
+  <div class="payoff-reel">
+    <div class="payoff-reel-track" id="reelTrack">
+      <div class="payoff-reel-item"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div>
+      <div class="payoff-reel-item"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div>
+      <div class="payoff-reel-item"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div>
+      <div class="payoff-reel-item"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div>
+      <div class="payoff-reel-item"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja" draggable="false"></div>
+      <div class="payoff-reel-item"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div>
+      <div class="payoff-reel-item"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div>
+      <!-- Duplicates for seamless loop -->
+      <div class="payoff-reel-item"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="" draggable="false" aria-hidden="true"></div>
+      <div class="payoff-reel-item"><img src="Unibet_NHL_COVER.jpg" alt="" draggable="false" aria-hidden="true"></div>
+      <div class="payoff-reel-item"><img src="LYKO_ELLE 23_COVER.jpg" alt="" draggable="false" aria-hidden="true"></div>
+      <div class="payoff-reel-item"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="" draggable="false" aria-hidden="true"></div>
+      <div class="payoff-reel-item"><img src="Ajabajacancer_staende.jpg" alt="" draggable="false" aria-hidden="true"></div>
+      <div class="payoff-reel-item"><img src="SEF_cover_4x5.png" alt="" draggable="false" aria-hidden="true"></div>
+      <div class="payoff-reel-item"><img src="Matchkorv_presskonf.png" alt="" draggable="false" aria-hidden="true"></div>
+    </div>
   </div>
 </div>
 
-<!-- CASE CAROUSEL -->
+<!-- ═══════════════════════════ PREMIUM CASE CAROUSEL ═══════════════════════════ -->
 <div class="case-wrap reveal">
   <div class="case-header">
     <p class="case-label">Utvalda case</p>
@@ -267,41 +445,44 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
       <button id="case-next" aria-label="Nästa">→</button>
     </div>
   </div>
-  <div class="case-carousel" id="caseCarousel">
+
+  <div class="case-viewport" id="caseViewport">
     <div class="case-track" id="caseTrack">
       <div class="case-card">
-        <div class="case-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL"></div>
+        <div class="case-card-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div>
         <div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Telia × SHL</h3></div>
       </div>
       <div class="case-card">
-        <div class="case-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL"></div>
+        <div class="case-card-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div>
         <div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Unibet × NHL</h3></div>
       </div>
       <div class="case-card">
-        <div class="case-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle"></div>
+        <div class="case-card-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div>
         <div class="case-overlay"><span class="case-tag">Reklam</span><h3>Lyko × ELLE</h3></div>
       </div>
       <div class="case-card">
-        <div class="case-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski"></div>
+        <div class="case-card-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div>
         <div class="case-overlay"><span class="case-tag">Event</span><h3>Lyko × Ski Team</h3></div>
       </div>
       <div class="case-card">
-        <div class="case-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja Cancer"></div>
+        <div class="case-card-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja Cancer" draggable="false"></div>
         <div class="case-overlay"><span class="case-tag">Reklam</span><h3>Ajabaja Cancer</h3></div>
       </div>
       <div class="case-card">
-        <div class="case-img"><img src="SEF_cover_4x5.png" alt="SEF"></div>
+        <div class="case-card-img"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div>
         <div class="case-overlay"><span class="case-tag">Sponsring</span><h3>SEF</h3></div>
       </div>
       <div class="case-card">
-        <div class="case-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv"></div>
+        <div class="case-card-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div>
         <div class="case-overlay"><span class="case-tag">Event</span><h3>Matchkorv</h3></div>
       </div>
     </div>
   </div>
+
+  <div class="case-dots" id="caseDots"></div>
 </div>
 
-<!-- ERBJUDANDE -->
+<!-- ═══════════════════════════ ERBJUDANDE ═══════════════════════════ -->
 <div class="offer-wrap reveal">
   <div class="offer-inner">
     <div class="offer-header">
@@ -332,7 +513,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- ARTICLES -->
+<!-- ═══════════════════════════ ARTIKLAR ═══════════════════════════ -->
 <div class="articles-wrap">
   <div class="articles-inner">
     <div class="articles-header reveal">
@@ -365,7 +546,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- SCROLL CTA -->
+<!-- ═══════════════════════════ SCROLL CTA ═══════════════════════════ -->
 <div class="scroll-cta-wrap">
   <div class="scroll-cta-inner">
     <div class="scroll-cta-block">
@@ -379,7 +560,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
@@ -425,136 +606,58 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 </footer>
 
 <script>
+/* ─── CURSOR ─── */
 const cur = document.getElementById('cursor');
 const glow = document.getElementById('cursor-glow');
-let mx=0,my=0,gx=0,gy=0;
+let mx=0, my=0, gx=0, gy=0;
 document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
-function animCursor() {
-  cur.style.left=mx+'px'; cur.style.top=my+'px';
-  gx+=(mx-gx)*.1; gy+=(my-gy)*.1;
-  glow.style.left=gx+'px'; glow.style.top=gy+'px';
+(function animCursor() {
+  cur.style.left = mx+'px'; cur.style.top = my+'px';
+  gx += (mx-gx)*.1; gy += (my-gy)*.1;
+  glow.style.left = gx+'px'; glow.style.top = gy+'px';
   requestAnimationFrame(animCursor);
-}
-animCursor();
+})();
 document.querySelectorAll('a,button,.case-card').forEach(el => {
   el.addEventListener('mouseenter', () => cur.classList.add('big'));
   el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
 const lightSections = document.querySelectorAll('.articles-wrap');
-const cursorLightObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) cur.classList.add('on-light'); else cur.classList.remove('on-light'); });
-}, { threshold: 0.5 });
-lightSections.forEach(s => cursorLightObs.observe(s));
+new IntersectionObserver(entries => {
+  entries.forEach(e => { cur.classList.toggle('on-light', e.isIntersecting); });
+}, { threshold: 0.5 }).observe(lightSections[0]);
 
+/* ─── MAGNETIC BUTTONS ─── */
 document.querySelectorAll('.mag').forEach(btn => {
   btn.addEventListener('mousemove', e => {
     const r = btn.getBoundingClientRect();
     btn.style.transform = `translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;
   });
   btn.addEventListener('mouseleave', () => {
-    btn.style.transition='transform .5s cubic-bezier(.34,1.56,.64,1)';
-    btn.style.transform='';
-    setTimeout(()=>btn.style.transition='',500);
+    btn.style.transition = 'transform .5s cubic-bezier(.34,1.56,.64,1)';
+    btn.style.transform = '';
+    setTimeout(() => btn.style.transition = '', 500);
   });
 });
 
+/* ─── SCROLL REVEAL ─── */
 const revObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-// Case carousel med djupeffekt
-(function() {
-  const track = document.getElementById('caseTrack');
-  const cards = Array.from(track.querySelectorAll('.case-card'));
-  const cardW = 420 + 16;
-  let cur = 0, startX = 0, isDragging = false, dragDelta = 0, lastX = 0, velocity = 0;
-
-  function setCardStates() {
-    cards.forEach((c, idx) => {
-      if (idx === cur) {
-        c.style.transform = 'scale(1) translateY(0)';
-        c.style.opacity = '1';
-        c.style.boxShadow = '0 32px 80px rgba(0,0,0,.7)';
-        c.querySelector('img').style.transform = 'scale(1.04)';
-      } else {
-        c.style.transform = 'scale(.94) translateY(16px)';
-        c.style.opacity = '.45';
-        c.style.boxShadow = 'none';
-        c.querySelector('img').style.transform = 'scale(1)';
-      }
-    });
-  }
-
-  function goTo(i) {
-    cur = Math.max(0, Math.min(i, cards.length - 1));
-    track.style.transition = 'transform .5s cubic-bezier(.25,1,.5,1)';
-    track.style.transform = `translateX(-${cur * cardW}px)`;
-    setCardStates();
-  }
-
-  cards.forEach(c => {
-    c.style.transition = 'transform .5s cubic-bezier(.25,1,.5,1), opacity .5s, box-shadow .5s';
-    c.querySelector('img').style.transition = 'transform .5s cubic-bezier(.25,1,.5,1)';
-  });
-  goTo(0);
-
-  document.getElementById('case-prev').onclick = () => goTo(cur - 1);
-  document.getElementById('case-next').onclick = () => goTo(cur + 1);
-
-  // Mouse
-  track.addEventListener('mousedown', e => {
-    isDragging = true; startX = e.clientX; lastX = e.clientX; velocity = 0;
-    track.style.transition = 'none';
-    e.preventDefault();
-  });
-  window.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    velocity = e.clientX - lastX;
-    lastX = e.clientX;
-    dragDelta = e.clientX - startX;
-    track.style.transform = `translateX(${-(cur * cardW) + dragDelta}px)`;
-  });
-  window.addEventListener('mouseup', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    const threshold = Math.abs(dragDelta) > 80 || Math.abs(velocity) > 8;
-    if (threshold && dragDelta < 0) goTo(cur + 1);
-    else if (threshold && dragDelta > 0) goTo(cur - 1);
-    else goTo(cur);
-    dragDelta = 0; velocity = 0;
-  });
-
-  // Touch
-  let touchStartX = 0;
-  track.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX; lastX = touchStartX; velocity = 0;
-    track.style.transition = 'none';
-  }, {passive: true});
-  track.addEventListener('touchmove', e => {
-    const dx = e.touches[0].clientX - touchStartX;
-    velocity = e.touches[0].clientX - lastX;
-    lastX = e.touches[0].clientX;
-    dragDelta = dx;
-    track.style.transform = `translateX(${-(cur * cardW) + dx}px)`;
-  }, {passive: true});
-  track.addEventListener('touchend', () => {
-    const threshold = Math.abs(dragDelta) > 60 || Math.abs(velocity) > 6;
-    if (threshold && dragDelta < 0) goTo(cur + 1);
-    else if (threshold && dragDelta > 0) goTo(cur - 1);
-    else goTo(cur);
-    dragDelta = 0; velocity = 0;
-  });
-})();
-
-// Scroll CTA observer
+/* ─── SCROLL CTA ─── */
 document.querySelectorAll('.scroll-cta-block').forEach(el => {
   new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) el.classList.add('visible'); });
+    entries.forEach(e => { if(e.isIntersecting) el.classList.add('visible'); });
   }, { threshold: 0.3 }).observe(el);
 });
 
-// Offer dropdown
+/* ─── NAVBAR ─── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50);
+});
+
+/* ─── OFFER ACCORDION ─── */
 function toggleOffer(btn) {
   const item = btn.closest('.offer-item');
   const body = item.querySelector('.offer-body');
@@ -569,45 +672,233 @@ function toggleOffer(btn) {
   }
 }
 
-window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);
-});
-
-// Payoff bildsnurra
+/* ─── PAYOFF REEL (auto-scroll, seamless loop) ─── */
 (function() {
-  const wrap = document.querySelector('.payoff-wrap');
-  const card = document.getElementById('pc');
-  const inner = card.querySelector('.payoff-card-inner');
-  const bgs = [
-    'TELIA_SHL_KN 22-23_COVER.jpg',
-    'Unibet_NHL_COVER.jpg',
-    'LYKO_ELLE 23_COVER.jpg',
-    'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg',
-    'Ajabajacancer_staende.jpg',
-    'SEF_cover_4x5.png',
-    'Matchkorv_presskonf.png'
-  ];
-  let idx = 0, tx=0, ty=0, cx=0, cy=0;
-  bgs.forEach(src => { const i = new Image(); i.src = src; });
-  setInterval(() => {
-    idx = (idx + 1) % bgs.length;
-    inner.style.backgroundImage = `url('${bgs[idx]}')`;
-    inner.style.backgroundSize = 'cover';
-    inner.style.backgroundPosition = 'center';
-  }, 800);
-  wrap.addEventListener('mousemove', e => {
-    if (window.innerWidth < 768) return;
-    const r = wrap.getBoundingClientRect();
-    tx = e.clientX - r.left - r.width / 2;
-    ty = e.clientY - r.top - r.height / 2;
-  });
-  wrap.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
-  function animate() {
-    cx += (tx - cx) * .1;
-    cy += (ty - cy) * .1;
-    card.style.transform = `translate(calc(-50% + ${cx}px), calc(-50% + ${cy}px)) rotate(-4deg)`;
-    requestAnimationFrame(animate);
+  const track = document.getElementById('reelTrack');
+  const items = track.querySelectorAll('.payoff-reel-item');
+  let offset = 0;
+  const SPEED = 0.6; // px per frame
+
+  // Measure half the track (we duplicate for seamless loop)
+  function halfWidth() {
+    let w = 0;
+    const count = items.length / 2;
+    for (let i = 0; i < count; i++) w += items[i].offsetWidth;
+    return w;
   }
+
+  let hw = halfWidth();
+  window.addEventListener('resize', () => { hw = halfWidth(); });
+
+  function tick() {
+    offset += SPEED;
+    if (offset >= hw) offset -= hw;
+    track.style.transform = `translateX(${-offset}px)`;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ─── PREMIUM CASE CAROUSEL ─── */
+(function() {
+  const viewport  = document.getElementById('caseViewport');
+  const track     = document.getElementById('caseTrack');
+  const dotsWrap  = document.getElementById('caseDots');
+  const prevBtn   = document.getElementById('case-prev');
+  const nextBtn   = document.getElementById('case-next');
+  const cards     = Array.from(track.querySelectorAll('.case-card'));
+  const GAP       = 16;
+  const N         = cards.length;
+
+  /* Build dots */
+  cards.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'case-dot';
+    d.setAttribute('aria-label', `Gå till kort ${i+1}`);
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.querySelectorAll('.case-dot'));
+
+  /* State */
+  let active    = 0;
+  let posX      = 0;   // current rendered translateX
+  let targetX   = 0;   // target translateX
+  let velX      = 0;   // inertia velocity
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartPos = 0;
+  let lastDragX  = 0;
+  let lastDragT  = 0;
+  let rafId;
+
+  /* Card width helper (reads from DOM after layout) */
+  function cardW() { return cards[0].offsetWidth + GAP; }
+
+  /* Offset that centers card i in the viewport */
+  function offsetFor(i) {
+    const vw  = viewport.offsetWidth;
+    const cw  = cards[0].offsetWidth;
+    // Left offset of card i in track
+    const cardLeft = i * cardW();
+    // Center it
+    return -(cardLeft - (vw - cw) / 2);
+  }
+
+  /* Clamp so we don't over-scroll past first/last card */
+  function clamp(x) {
+    const min = offsetFor(N - 1);
+    const max = offsetFor(0);
+    return Math.max(min, Math.min(max, x));
+  }
+
+  /* Which card is closest to center? */
+  function nearestCard(x) {
+    const vw = viewport.offsetWidth;
+    const center = -x + vw / 2;
+    let best = 0, bestDist = Infinity;
+    cards.forEach((_, i) => {
+      const cardCenter = i * cardW() + cards[0].offsetWidth / 2;
+      const d = Math.abs(cardCenter - center);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  /* Apply visual state to each card based on distance from active */
+  function styleCards() {
+    cards.forEach((card, i) => {
+      const dist = Math.abs(i - active);
+      let scale, opacity, shadow;
+      if (dist === 0) {
+        scale   = 1;
+        opacity = 1;
+        shadow  = '0 32px 80px rgba(0,0,0,.75)';
+      } else if (dist === 1) {
+        scale   = 0.92;
+        opacity = 0.55;
+        shadow  = 'none';
+      } else {
+        scale   = 0.86;
+        opacity = 0.3;
+        shadow  = 'none';
+      }
+      card.style.transform  = `scale(${scale})`;
+      card.style.opacity    = opacity;
+      card.style.boxShadow  = shadow;
+    });
+
+    /* Dots */
+    dots.forEach((d, i) => d.classList.toggle('active', i === active));
+
+    /* Subtle parallax on card images — shift by card's offset from center */
+    const vw = viewport.offsetWidth;
+    cards.forEach((card, i) => {
+      const cardCenterX = -posX + i * cardW() + cards[0].offsetWidth / 2;
+      const fromCenter  = cardCenterX - vw / 2;
+      // Max ±14px parallax
+      const px = Math.max(-14, Math.min(14, fromCenter * 0.04));
+      const img = card.querySelector('img');
+      if (img) img.style.setProperty('--px', px);
+    });
+  }
+
+  /* Animation loop — spring/inertia */
+  function animate() {
+    if (!isDragging) {
+      // Spring toward targetX
+      const diff = targetX - posX;
+      posX += diff * 0.1 + velX;
+      velX *= 0.82;
+      if (Math.abs(diff) < 0.3 && Math.abs(velX) < 0.1) {
+        posX = targetX;
+        velX = 0;
+      }
+    }
+    track.style.transform = `translateX(${posX}px)`;
+    styleCards();
+    rafId = requestAnimationFrame(animate);
+  }
+
+  function goTo(i) {
+    active  = Math.max(0, Math.min(i, N - 1));
+    targetX = clamp(offsetFor(active));
+    velX    = 0;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(active - 1));
+  nextBtn.addEventListener('click', () => goTo(active + 1));
+
+  /* Keyboard */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(active + 1);
+    if (e.key === 'ArrowLeft')  goTo(active - 1);
+  });
+
+  /* Mouse wheel horizontal scroll */
+  viewport.addEventListener('wheel', e => {
+    e.preventDefault();
+    velX -= e.deltaY * 0.4;
+    targetX = clamp(posX + velX * 6);
+    // Snap after wheel pause
+    clearTimeout(viewport._wt);
+    viewport._wt = setTimeout(() => {
+      active  = nearestCard(posX);
+      targetX = clamp(offsetFor(active));
+      velX    = 0;
+    }, 160);
+  }, { passive: false });
+
+  /* ── Pointer drag (mouse + touch unified) ── */
+  function onPointerDown(e) {
+    isDragging   = true;
+    dragStartX   = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    dragStartPos = posX;
+    lastDragX    = dragStartX;
+    lastDragT    = performance.now();
+    velX         = 0;
+    track.style.transition = 'none';
+    e.preventDefault();
+  }
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    const cx   = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const dx   = cx - dragStartX;
+    const now  = performance.now();
+    const dt   = now - lastDragT || 1;
+    velX       = (cx - lastDragX) / dt * 16; // scale to ~60fps frame
+    lastDragX  = cx;
+    lastDragT  = now;
+    posX       = clamp(dragStartPos + dx);
+  }
+  function onPointerUp(e) {
+    if (!isDragging) return;
+    isDragging = false;
+
+    // Fling threshold: if fast enough, advance/retreat a card
+    const FLING = 4;
+    if (velX > FLING) {
+      active = Math.max(0, nearestCard(posX) - 1);
+    } else if (velX < -FLING) {
+      active = Math.min(N - 1, nearestCard(posX) + 1);
+    } else {
+      active = nearestCard(posX);
+    }
+    targetX = clamp(offsetFor(active));
+    // Let inertia carry, then snap
+    setTimeout(() => { velX = 0; }, 300);
+  }
+
+  track.addEventListener('mousedown',  onPointerDown,   { passive: false });
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup',   onPointerUp);
+
+  track.addEventListener('touchstart', onPointerDown,   { passive: false });
+  track.addEventListener('touchmove',  onPointerMove,   { passive: false });
+  track.addEventListener('touchend',   onPointerUp);
+
+  /* Init */
+  goTo(0);
   animate();
 })();
 </script>
