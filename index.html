@@ -76,18 +76,21 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .quote-inner { max-width: 1000px; margin: 0 auto; }
 .quote-text { font-size: clamp(32px,4.5vw,58px); font-weight: 500; letter-spacing: -1px; line-height: 1.08; }
 .quote-text em { font-style: italic; color: var(--pink); }
-.quote-source { margin-top: 32px; font-size: 13px; font-weight: 500; color: #333; letter-spacing: 1px; text-transform: uppercase; }
 
 /* PAYOFF */
+.payoff-link {
+  display: block;
+  cursor: none;
+  position: relative;
+  z-index: 1;
+}
 .payoff-wrap {
   position: relative;
   padding: 140px 0;
-  /* overflow visible so card bleeds across section borders */
   overflow: visible;
   background: var(--black);
   border-top: 1px solid rgba(255,255,255,.04);
   isolation: isolate;
-  z-index: 1;
 }
 .payoff-text {
   font-family: var(--fd); font-style: italic; font-weight: 300;
@@ -105,19 +108,15 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 }
 .payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
 
-/* =============================================
-   CASE CAROUSEL
-   ============================================= */
+/* CASE CAROUSEL */
 .case-wrap { padding: 80px 0 80px; position: relative; z-index: 0; }
 .case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
 .case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
 .case-nav { display: flex; gap: 10px; }
 .case-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--white); font-size: 18px; cursor: none; transition: background .25s, border-color .25s; display: flex; align-items: center; justify-content: center; }
 .case-nav button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
-
 .case-viewport {
   overflow: hidden; width: 100%;
-  /* NO wheel events — handled by page scroll */
   touch-action: pan-y;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
@@ -137,7 +136,6 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
   background: #0a0a0a;
   user-select: none;
   transform-origin: center center;
-  /* transitions driven by JS */
   transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s, box-shadow .5s;
   cursor: none;
 }
@@ -152,8 +150,6 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .case-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 28px 32px; }
 .case-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; background: rgba(240,85,40,.18); color: var(--orange); margin-bottom: 10px; }
 .case-overlay h3 { font-size: clamp(18px,2.2vw,24px); font-weight: 500; letter-spacing: -.4px; color: var(--white); line-height: 1.2; }
-
-/* NO dots */
 
 /* ERBJUDANDE */
 .offer-wrap { padding: 0 48px 120px; }
@@ -195,24 +191,11 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
 /* INSTAGRAM CTA */
-.insta-wrap {
-  background: var(--pink);
-  padding: 120px 48px;
-}
+.insta-wrap { background: var(--pink); padding: 120px 48px; }
 .insta-inner { max-width: 1000px; margin: 0 auto; }
 .insta-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: 24px; }
-.insta-text {
-  font-size: clamp(48px, 7.5vw, 96px);
-  font-weight: 500; letter-spacing: -2px; line-height: 1.0;
-  color: var(--black);
-}
-.insta-text a {
-  font-family: var(--fd);
-  font-weight: 300; font-style: italic;
-  color: var(--black);
-  border-bottom: 2px solid rgba(0,0,0,.2);
-  transition: border-color .25s;
-}
+.insta-text { font-size: clamp(48px, 7.5vw, 96px); font-weight: 500; letter-spacing: -2px; line-height: 1.0; color: var(--black); }
+.insta-text a { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--black); border-bottom: 2px solid rgba(0,0,0,.2); transition: border-color .25s; }
 .insta-text a:hover { border-color: var(--black); }
 
 /* FOOTER */
@@ -220,18 +203,16 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 .footer-inner { max-width: 1200px; margin: 0 auto; }
 .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; margin-bottom: 56px; }
 .footer-brand { max-width: 280px; }
-.footer-tagline { font-size: 13px; color: #2a2a2a; line-height: 1.65; }
-.footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2a2a2a; margin-bottom: 18px; }
+.footer-tagline { font-size: 13px; color: var(--white); opacity: .35; line-height: 1.65; }
+.footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); opacity: .2; margin-bottom: 18px; }
 .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-links ul li a { font-size: 14px; font-weight: 500; color: #333; display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
-.footer-links ul li a::before { content: '→'; font-size: 12px; opacity: 0; width: 0; overflow: hidden; transition: opacity .25s, width .3s; }
-.footer-links ul li a:hover { color: var(--white); gap: 6px; }
-.footer-links ul li a:hover::before { opacity: 1; width: 14px; }
+.footer-links ul li a { font-size: 14px; font-weight: 500; color: rgba(250,245,235,.35); display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
+.footer-links ul li a:hover { color: var(--pink); gap: 6px; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.04); }
-.footer-copy { font-size: 12px; color: #1e1e1e; }
+.footer-copy { font-size: 12px; color: rgba(250,245,235,.15); }
 .footer-social { display: flex; gap: 16px; }
-.footer-social a { font-size: 12px; font-weight: 600; color: #2a2a2a; transition: color .25s, transform .3s; display: inline-block; }
-.footer-social a:hover { color: var(--orange); transform: translateY(-2px); }
+.footer-social a { font-size: 12px; font-weight: 600; color: rgba(250,245,235,.25); transition: color .25s, transform .3s; display: inline-block; }
+.footer-social a:hover { color: var(--pink); transform: translateY(-2px); }
 
 /* MOBILE */
 @media (max-width: 768px) {
@@ -314,17 +295,18 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 <div class="quote-wrap reveal">
   <div class="quote-inner">
     <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
-
   </div>
 </div>
 
-<!-- PAYOFF + BILDKORT -->
-<div class="payoff-wrap reveal">
-  <p class="payoff-text">Ta en titt på<br>våra roliga<br>projekt.</p>
-  <div class="payoff-card" id="pc">
-    <div class="payoff-card-inner" style="background-image:url('TELIA_SHL_KN 22-23_COVER.jpg');background-size:cover;background-position:center"></div>
+<!-- PAYOFF + BILDKORT — klick går till case.html -->
+<a href="case.html" class="payoff-link reveal">
+  <div class="payoff-wrap" id="payoffWrap">
+    <p class="payoff-text">Klicka för att<br>se våra fina<br>case.</p>
+    <div class="payoff-card" id="pc">
+      <div class="payoff-card-inner" style="background-image:url('TELIA_SHL_KN 22-23_COVER.jpg');background-size:cover;background-position:center"></div>
+    </div>
   </div>
-</div>
+</a>
 
 <!-- CASE CAROUSEL -->
 <div class="case-wrap reveal">
@@ -479,7 +461,7 @@ function toggleOffer(btn){
 
 /* ─── PAYOFF BILDKORT ─── */
 (function(){
-  const wrap=document.querySelector('.payoff-wrap'),card=document.getElementById('pc'),inner=card.querySelector('.payoff-card-inner');
+  const wrap=document.getElementById('payoffWrap'),card=document.getElementById('pc'),inner=card.querySelector('.payoff-card-inner');
   const bgs=['TELIA_SHL_KN 22-23_COVER.jpg','Unibet_NHL_COVER.jpg','LYKO_ELLE 23_COVER.jpg','LYKO_SKI TEAM_MIN RUTIN_COVER.jpg','Ajabajacancer_staende.jpg','SEF_cover_4x5.png','Matchkorv_presskonf.png'];
   let idx=0,tx=0,ty=0,cx=0,cy=0;
   bgs.forEach(s=>{const i=new Image();i.src=s;});
@@ -497,14 +479,13 @@ function toggleOffer(btn){
   const nextBtn=document.getElementById('case-next');
   const GAP=16;
 
-  /* Gather originals, then clone sandwich */
   const origCards=Array.from(track.querySelectorAll('.case-card'));
   const N=origCards.length;
   [...origCards].reverse().forEach(c=>{const cl=c.cloneNode(true);track.prepend(cl);});
   origCards.forEach(c=>{const cl=c.cloneNode(true);track.append(cl);});
   const all=Array.from(track.querySelectorAll('.case-card'));
 
-  let active=N; // start on first real card
+  let active=N;
   let posX=0,targetX=0,velX=0;
   let isDragging=false,dragStartX=0,dragStartPos=0,lastDX=0,lastDT=0;
   let isHovered=false;
@@ -530,9 +511,9 @@ function toggleOffer(btn){
   (function loop(){
     if(!isDragging){
       if(!isHovered){
-        posX-=DRIFT; targetX=posX; active=nearest(posX); teleport();
+        posX-=DRIFT;targetX=posX;active=nearest(posX);teleport();
       } else {
-        const d=targetX-posX; posX+=d*0.1+velX; velX*=0.82;
+        const d=targetX-posX;posX+=d*0.1+velX;velX*=0.82;
         if(Math.abs(d)<0.3&&Math.abs(velX)<0.1){posX=targetX;velX=0;}
       }
     }
@@ -543,31 +524,25 @@ function toggleOffer(btn){
 
   function goTo(i){isHovered=true;active=i;targetX=offsetFor(i);velX=0;setTimeout(teleport,620);}
 
-  /* Hover — stop drift, highlight whichever card the mouse is over */
-  viewport.addEventListener('mousemove', e => {
-    if(isDragging) return;
-    isHovered = true;
-    /* Find which card is under the cursor */
-    const vr = viewport.getBoundingClientRect();
-    const mouseX = e.clientX - vr.left - posX;
-    let hit = active;
-    all.forEach((card, i) => {
-      const left  = i * cw();
-      const right = left + all[0].offsetWidth;
-      if(mouseX >= left && mouseX <= right) hit = i;
+  viewport.addEventListener('mousemove',e=>{
+    if(isDragging)return;
+    isHovered=true;
+    const vr=viewport.getBoundingClientRect();
+    const mouseX=e.clientX-vr.left-posX;
+    let hit=active;
+    all.forEach((card,i)=>{
+      const left=i*cw(),right=left+all[0].offsetWidth;
+      if(mouseX>=left&&mouseX<=right)hit=i;
     });
-    active = hit;
-    /* Don't move targetX — card stays where it is, just highlights */
-    targetX = posX;
+    active=hit;
+    targetX=posX;
   });
   viewport.addEventListener('mouseleave',()=>{isHovered=false;targetX=posX;});
 
   prevBtn.addEventListener('click',()=>goTo(active-1));
   nextBtn.addEventListener('click',()=>goTo(active+1));
 
-  /* Drag — block default touch scroll only when horizontal */
   let touchStartX=0,touchStartY=0,isHorizDrag=false;
-
   function pDown(e){
     isDragging=true;isHovered=true;
     const cx=e.touches?e.touches[0].clientX:e.clientX;
@@ -580,10 +555,9 @@ function toggleOffer(btn){
     if(!isDragging)return;
     const cx=e.touches?e.touches[0].clientX:e.clientX;
     const cy=e.touches?e.touches[0].clientY:e.clientY;
-    /* Decide direction on first significant move */
     if(!isHorizDrag&&e.touches){
       const dx=Math.abs(cx-touchStartX),dy=Math.abs(cy-touchStartY);
-      if(dy>dx+4)return; /* vertical — let page scroll */
+      if(dy>dx+4)return;
       if(dx>4)isHorizDrag=true;
       else return;
     }
@@ -608,12 +582,8 @@ function toggleOffer(btn){
   track.addEventListener('touchmove',pMove,{passive:false});
   track.addEventListener('touchend',pUp);
 
-  /* Block wheel from scrolling carousel sideways */
-  viewport.addEventListener('wheel',e=>{
-    /* do nothing — let the page scroll naturally */
-  },{passive:true});
+  viewport.addEventListener('wheel',e=>{},{passive:true});
 
-  /* Init */
   posX=targetX=offsetFor(N);
   track.style.transform=`translateX(${posX}px)`;
   style();
