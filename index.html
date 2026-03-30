@@ -158,12 +158,49 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
 /* INSTAGRAM CTA */
-.insta-wrap { background: var(--pink); padding: 120px 48px; }
-.insta-inner { max-width: 1000px; margin: 0 auto; }
+.insta-wrap {
+  background: var(--pink);
+  padding: 120px 48px;
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+}
+.insta-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
 .insta-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: 24px; }
 .insta-text { font-size: clamp(48px, 7.5vw, 96px); font-weight: 500; letter-spacing: -2px; line-height: 1.0; color: var(--black); }
 .insta-text a { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--black); border-bottom: 2px solid rgba(0,0,0,.2); transition: border-color .25s; }
 .insta-text a:hover { border-color: var(--black); }
+
+/* Custom cursor för insta-sektionen */
+#insta-cursor {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity .3s;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+  border: 2px solid rgba(0,0,0,.1);
+}
+#insta-cursor img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#insta-cursor.visible { opacity: 1; }
+
+/* Roterande finger */
+#insta-finger {
+  position: absolute;
+  width: 48px; height: 48px;
+  pointer-events: none;
+  z-index: 10;
+  transform-origin: center center;
+  font-size: 36px;
+  line-height: 1;
+  display: none;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.2));
+}
+.insta-wrap:hover #insta-finger { display: block; }
 
 /* FOOTER */
 footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
@@ -359,12 +396,15 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 </div>
 
 <!-- INSTAGRAM CTA -->
-<div class="insta-wrap reveal">
+<div class="insta-wrap reveal" id="instaWrap">
+  <div id="insta-finger">👆</div>
   <div class="insta-inner">
     <p class="insta-label">Följ oss</p>
-    <p class="insta-text">Spana in vår <a href="https://instagram.com/passionlab" target="_blank">Instagram</a> —<br>vi delar det vi älskar.</p>
+    <p class="insta-text">Spana in vår <a href="https://instagram.com/passionlab" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
   </div>
 </div>
+<!-- Custom cursor: byt ut some-manager.png mot rätt filnamn -->
+<div id="insta-cursor"><img src="some-manager.png" alt=""></div>
 
 <!-- FOOTER -->
 <footer>
@@ -431,7 +471,74 @@ function toggleOffer(btn){
   (function anim(){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;if(window.innerWidth>=768)card.style.transform=`translate(calc(-50% + ${cx}px),calc(-50% + ${cy}px)) rotate(-4deg)`;requestAnimationFrame(anim);})();
 })();
 
-/* ─── CASE CAROUSEL — infinite loop, auto-drift, drag only (NO wheel) ─── */
+/* ─── INSTAGRAM CUSTOM CURSOR + ROTERANDE FINGER ─── */
+(function(){
+  const wrap       = document.getElementById('instaWrap');
+  const instaCur   = document.getElementById('insta-cursor');
+  const finger     = document.getElementById('insta-finger');
+  const instaLink  = document.getElementById('instaLink');
+  if(!wrap || !instaCur || !finger || !instaLink) return;
+
+  let curX = 0, curY = 0, smoothX = 0, smoothY = 0;
+  let inside = false;
+
+  /* Följ musen inom sektionen */
+  wrap.addEventListener('mouseenter', () => {
+    inside = true;
+    instaCur.classList.add('visible');
+    cur.style.opacity = '0'; /* dölj standard-cursor */
+  });
+  wrap.addEventListener('mouseleave', () => {
+    inside = false;
+    instaCur.classList.remove('visible');
+    cur.style.opacity = '1';
+  });
+  wrap.addEventListener('mousemove', e => {
+    curX = e.clientX;
+    curY = e.clientY;
+  });
+
+  /* Smooth cursor-rörelse */
+  (function animCur(){
+    smoothX += (curX - smoothX) * 0.12;
+    smoothY += (curY - smoothY) * 0.12;
+    instaCur.style.left = smoothX + 'px';
+    instaCur.style.top  = smoothY + 'px';
+    requestAnimationFrame(animCur);
+  })();
+
+  /* Roterande finger — kretsar runt musen, pekar mot Instagram-länken */
+  const ORBIT_R = 64; /* radie på cirkeln runt cursorn */
+
+  (function animFinger(){
+    if(!inside){ requestAnimationFrame(animFinger); return; }
+
+    /* Instagram-länkens centrum */
+    const lr = instaLink.getBoundingClientRect();
+    const targetX = lr.left + lr.width  / 2;
+    const targetY = lr.top  + lr.height / 2;
+
+    /* Vinkel från smooth-cursor mot Instagram-länken */
+    const dx = targetX - smoothX;
+    const dy = targetY - smoothY;
+    const angle = Math.atan2(dy, dx); /* radianer */
+
+    /* Fingerets position på cirkeln */
+    const fx = smoothX + Math.cos(angle) * ORBIT_R;
+    const fy = smoothY + Math.sin(angle) * ORBIT_R;
+
+    /* Konvertera till relativa koordinater inom .insta-wrap */
+    const wr = wrap.getBoundingClientRect();
+    finger.style.left = (fx - wr.left - 24) + 'px';
+    finger.style.top  = (fy - wr.top  - 24) + 'px';
+
+    /* Rotera fingret så det pekar mot länken (+ 90° för 👆-emojin) */
+    const deg = angle * (180 / Math.PI) + 90;
+    finger.style.transform = `rotate(${deg}deg)`;
+
+    requestAnimationFrame(animFinger);
+  })();
+})();
 (function(){
   const viewport=document.getElementById('caseViewport');
   const track=document.getElementById('caseTrack');
