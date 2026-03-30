@@ -9,9 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://use.typekit.net/prr7bwp.css">
 <style>
-/* ============================================================
-   TOKENS
-============================================================ */
 :root {
   --orange: #f05528;
   --pink:   #fab3ff;
@@ -21,10 +18,8 @@
   --font:   'Inter Tight', sans-serif;
   --fd:     'ivypresto-display', serif;
   --nav-h:  66px;
-  --sw:     200px; /* sidebar width */
+  --sw:     200px;
 }
-
-/* DARK (default) */
 [data-theme="dark"] {
   --bg:  #000; --fg: #fff;
   --bg2: #080808; --bg3: #0d0d0d;
@@ -32,7 +27,6 @@
   --b2:  rgba(255,255,255,.1);
   --m1:  #888; --m2: #666; --m3: #444;
 }
-/* LIGHT */
 [data-theme="light"] {
   --bg:  #f4f4f0; --fg: #000;
   --bg2: #eaeae4; --bg3: #e2e2dc;
@@ -40,7 +34,6 @@
   --b2:  rgba(0,0,0,.12);
   --m1:  #555; --m2: #666; --m3: #888;
 }
-/* PASSION — full pink takeover */
 [data-theme="passion"] {
   --bg:  #fab3ff; --fg: #000;
   --bg2: rgba(0,0,0,.06);
@@ -51,69 +44,38 @@
   --m2:  rgba(0,0,0,.38);
   --m3:  rgba(0,0,0,.25);
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--fg); font-family: var(--font); font-weight: 400; overflow-x: hidden; -webkit-font-smoothing: antialiased; cursor: none; transition: background .4s, color .4s; }
 a { color: inherit; text-decoration: none; }
 h1,h2,h3,h4 { font-weight: 500; }
 
-/* CURSOR */
 #cursor { width:10px; height:10px; background:var(--orange); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .25s cubic-bezier(.34,1.56,.64,1),height .25s cubic-bezier(.34,1.56,.64,1); }
 #cursor.big { width:48px; height:48px; background:rgba(240,85,40,.15); border:1px solid rgba(240,85,40,.5); }
 #cursor-glow { width:36px; height:36px; border:1px solid rgba(240,85,40,.2); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); }
 
-/* ============================================================
-   NAV
-============================================================ */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  height:var(--nav-h); display:flex; align-items:center; justify-content:space-between;
-  padding:0 48px;
-  background:color-mix(in srgb, var(--bg) 92%, transparent);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--b1);
-  transition:background .4s, border-color .4s;
-}
+nav { position:fixed; top:0; left:0; right:0; z-index:100; height:var(--nav-h); display:flex; align-items:center; justify-content:space-between; padding:0 48px; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(20px); border-bottom:1px solid var(--b1); transition:background .4s, border-color .4s; }
 .nav-logo img { height:26px; display:block; }
-[data-theme="light"] .nav-logo img,
-[data-theme="passion"] .nav-logo img { filter:brightness(0); }
+[data-theme="light"] .nav-logo img, [data-theme="passion"] .nav-logo img { filter:brightness(0); }
 .nav-right { display:flex; align-items:center; gap:16px; }
-.nav-badge { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--orange); border:1px solid rgba(240,85,40,.35); padding:4px 12px; border-radius:100px; }
 .nav-back { font-size:13px; font-weight:500; color:var(--m2); transition:color .25s; }
 .nav-back:hover { color:var(--fg); }
-
-/* Theme switcher */
 .tsw { display:flex; background:var(--bg2); border:1px solid var(--b2); border-radius:100px; padding:4px; gap:2px; transition:background .3s; }
 .tbtn { font-size:11px; font-weight:600; padding:6px 14px; border-radius:100px; border:none; background:transparent; color:var(--m1); cursor:none; font-family:var(--font); transition:background .25s,color .25s; white-space:nowrap; }
 .tbtn:hover { color:var(--fg); }
 .tbtn.active { background:var(--fg); color:var(--bg); }
 [data-theme="passion"] .tbtn.active { background:#000; color:var(--pink); }
 
-/* ============================================================
-   LAYOUT
-============================================================ */
 .layout { display:flex; min-height:100vh; padding-top:var(--nav-h); }
-
-/* SIDEBAR */
-.sidebar {
-  position:fixed; top:var(--nav-h); left:0; bottom:0; width:var(--sw);
-  border-right:1px solid var(--b1); padding:48px 0; overflow-y:auto;
-  background:var(--bg); transition:background .4s, border-color .4s;
-}
+.sidebar { position:fixed; top:var(--nav-h); left:0; bottom:0; width:var(--sw); border-right:1px solid var(--b1); padding:48px 0; overflow-y:auto; background:var(--bg); transition:background .4s, border-color .4s; }
 .sg { margin-bottom:36px; }
 .sg-label { font-size:9px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--m3); padding:0 28px; margin-bottom:6px; }
 .slink { display:block; font-size:13px; color:var(--m2); padding:7px 28px; transition:color .2s; }
 .slink:hover { color:var(--m1); }
 .slink.active { color:var(--fg); }
-
-/* MAIN */
 .main { margin-left:var(--sw); flex:1; padding:80px 80px 160px; min-width:0; }
 .main-inner { max-width:900px; }
 
-/* ============================================================
-   DESIGN SYSTEM SECTIONS
-============================================================ */
 .section { margin-bottom:100px; }
 .sec-hdr { display:flex; align-items:center; gap:16px; margin-bottom:56px; }
 .sec-num { font-size:11px; font-weight:600; color:var(--m3); letter-spacing:1px; font-family:monospace; }
@@ -121,16 +83,22 @@ nav {
 .divider { flex:1; height:1px; background:var(--b1); }
 .sublabel { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--m1); margin-bottom:20px; }
 
-/* REVEAL */
 .reveal { opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1); }
 .reveal.visible { opacity:1; transform:translateY(0); }
 
 /* LOGO */
 .logo-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; border-radius:16px; overflow:hidden; }
-.logo-tile { padding:56px 48px; display:flex; align-items:center; justify-content:center; }
+.logo-tile { padding:56px 48px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; }
 .lt-dark { background:#080808; }
 .lt-light { background:var(--cream); }
 .logo-tile img { height:32px; display:block; }
+.dl-btn { display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:8px 18px; border-radius:100px; border:none; cursor:none; transition:transform .3s cubic-bezier(.34,1.56,.64,1), opacity .25s; font-family:var(--font); }
+.dl-btn:hover { transform:translateY(-2px) scale(1.04); }
+.dl-btn-dark { background:rgba(255,255,255,.08); color:#fff; }
+.dl-btn-dark:hover { background:rgba(255,255,255,.14); }
+.dl-btn-light { background:rgba(0,0,0,.07); color:#000; }
+.dl-btn-light:hover { background:rgba(0,0,0,.12); }
+.dl-icon { width:14px; height:14px; }
 .logo-meta { margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:2px; }
 .lm-item { background:var(--bg2); padding:20px 24px; transition:background .4s; }
 .lm-item:first-child { border-radius:0 0 0 12px; }
@@ -248,34 +216,22 @@ nav {
 .tone-dont .tone-quote { color:var(--m3); text-decoration:line-through; text-decoration-color:rgba(255,64,64,.3); }
 .tone-note { font-size:12px; color:var(--m3); line-height:1.6; }
 
-/* ============================================================
-   PASSION PAGE  — completely self-contained, no token leakage
-============================================================ */
+/* PASSION PAGE */
 .passion-page { display:none; }
 [data-theme="passion"] .passion-page { display:block; }
 [data-theme="passion"] .main-inner > *:not(.passion-page) { display:none; }
-
-/* Each block resets its own colors — no reliance on tokens */
 .pp { width:100%; opacity:0; transform:translateY(48px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
 .pp.vis { opacity:1; transform:translateY(0); }
-
-/* shared within-block label */
 .pp-lbl { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(0,0,0,.35); margin-bottom:20px; display:block; }
-
-/* HERO */
 .pp-hero { background:#fab3ff; padding:80px 64px 72px; }
 .pp-hero h1 { font-size:clamp(64px,10vw,116px); font-weight:500; letter-spacing:-4px; line-height:.86; color:#000; }
 .pp-hero h1 em { font-family:var(--fd); font-weight:300; font-style:italic; }
 .pp-hero-sub { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(0,0,0,.35); margin-bottom:28px; }
-
-/* MARQUEE STRIP — transparent bg, black text */
 .pp-strip { background:transparent; padding:15px 0; overflow:hidden; border-top:1px solid rgba(0,0,0,.08); border-bottom:1px solid rgba(0,0,0,.08); }
 .pp-strip-track { display:flex; white-space:nowrap; animation:ppRoll 12s linear infinite; }
 .pp-strip-item { display:inline-flex; align-items:center; gap:20px; padding:0 32px; font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(0,0,0,.35); flex-shrink:0; }
 .pp-strip-dot { width:4px; height:4px; background:#f05528; border-radius:50%; }
 @keyframes ppRoll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-
-/* BUZZWORDS */
 .pp-buzz { background:#fab3ff; padding:64px; border-top:1px solid rgba(0,0,0,.07); }
 .pp-bwords { display:flex; flex-wrap:wrap; gap:8px; align-items:baseline; }
 .bw { font-size:clamp(22px,3vw,38px); font-weight:500; letter-spacing:-1px; line-height:1.1; color:rgba(0,0,0,.13); cursor:none; transition:color .3s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.34,1.56,.64,1); display:inline-block; }
@@ -284,52 +240,40 @@ nav {
 .bw.or { color:#f05528; }
 .bw.or:hover { color:#c94020; }
 .bsep { font-size:clamp(22px,3vw,38px); font-weight:300; color:rgba(0,0,0,.1); }
-
-/* STATEMENT — white bg, black text */
 .pp-stmt { background:#fff; padding:72px 64px; }
 .pp-stmt h2 { font-size:clamp(44px,7vw,88px); font-weight:500; letter-spacing:-3px; line-height:.88; color:#000; }
 .pp-stmt h2 em { font-family:var(--fd); font-weight:300; font-style:italic; color:#fab3ff; }
 .pp-stmt h2 .ora { color:#f05528; }
-
-/* STATS */
 .pp-stats { background:#fab3ff; padding:72px 64px; display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(0,0,0,.07); }
 .pp-stat { display:flex; flex-direction:column; gap:6px; padding:0 32px; border-right:1px solid rgba(0,0,0,.1); }
 .pp-stat:first-child { padding-left:0; }
 .pp-stat:last-child { border-right:none; padding-right:0; }
 .pp-stat-n { font-size:clamp(44px,5.5vw,72px); font-weight:800; letter-spacing:-3px; line-height:1; color:#000; }
 .pp-stat-l { font-size:12px; font-weight:600; letter-spacing:.5px; color:rgba(0,0,0,.4); margin-top:4px; }
-
-/* TYPO PLAYGROUND — no outlines, clean */
 .pp-typo { background:#f05528; padding:64px; }
 .pp-typo .pp-lbl { color:rgba(0,0,0,.35); }
 .pp-tline { display:flex; align-items:baseline; flex-wrap:wrap; gap:12px; margin-bottom:8px; }
 .pp-tline:last-child { margin-bottom:0; }
 .tt-big { font-size:clamp(52px,8vw,96px); font-weight:500; letter-spacing:-3px; line-height:.88; color:#000; }
 .tt-it { font-family:var(--fd); font-weight:300; font-style:italic; }
-.tt-fade { font-size:clamp(28px,4vw,52px); font-weight:500; letter-spacing:-2px; line-height:1; color:rgba(0,0,0,.18); font-family:'Inter Tight',sans-serif; font-style:normal; }
+.tt-fade { font-size:clamp(28px,4vw,52px); font-weight:500; letter-spacing:-2px; line-height:1; color:rgba(0,0,0,.18); }
 .tt-pill { display:inline-flex; align-items:center; padding:10px 22px; border-radius:100px; background:#000; color:#fff; font-size:13px; font-weight:700; align-self:center; }
 .tt-pill-p { background:#fab3ff; color:#000; }
 .tt-tag { display:inline-flex; align-items:center; padding:6px 14px; border-radius:100px; border:2px solid rgba(0,0,0,.25); color:#000; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; align-self:center; }
-
-/* CARD CAROUSEL */
 .pp-carousel { background:#fab3ff; padding:64px; border-top:1px solid rgba(0,0,0,.07); overflow:hidden; }
 .pp-carousel .pp-lbl { color:rgba(0,0,0,.35); }
 .carousel-track { display:flex; align-items:center; justify-content:center; gap:0; height:380px; position:relative; perspective:1000px; margin-top:32px; }
 .c-card { width:220px; height:320px; border-radius:24px; position:absolute; display:flex; flex-direction:column; justify-content:flex-end; padding:28px 24px; cursor:none; transition:transform .6s cubic-bezier(.16,1,.3,1), opacity .6s cubic-bezier(.16,1,.3,1), z-index 0s; will-change:transform; }
 .c-card-title { font-size:18px; font-weight:500; letter-spacing:-.5px; line-height:1.2; color:#000; margin-bottom:6px; }
 .c-card-sub { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(0,0,0,.4); }
-/* card colors */
 .cc1 { background:linear-gradient(160deg,#f05528,#e03010); }
 .cc2 { background:linear-gradient(160deg,#f07af8,#cc44dd); }
 .cc3 { background:linear-gradient(160deg,#fab3ff,#f07af8); }
 .cc4 { background:linear-gradient(160deg,#fcc8ff,#fab3ff); }
 .cc5 { background:linear-gradient(160deg,#fdddd0,#fbbba6); }
-/* text on dark cards */
 .cc1 .c-card-title, .cc2 .c-card-title { color:#fff; }
 .cc1 .c-card-sub, .cc2 .c-card-sub { color:rgba(255,255,255,.55); }
-/* card deco icon */
 .c-card-icon { font-size:32px; margin-bottom:auto; padding-top:4px; }
-/* nav dots */
 .carousel-dots { display:flex; justify-content:center; gap:8px; margin-top:24px; }
 .c-dot { width:6px; height:6px; border-radius:50%; background:rgba(0,0,0,.15); transition:background .3s, transform .3s; cursor:none; border:none; padding:0; }
 .c-dot.active { background:#000; transform:scale(1.3); }
@@ -337,8 +281,6 @@ nav {
 .pp-quote blockquote { font-size:clamp(28px,4vw,52px); font-weight:500; letter-spacing:-1.5px; line-height:1.05; color:#000; max-width:680px; }
 .pp-quote blockquote em { font-family:var(--fd); font-weight:300; font-style:italic; }
 .pp-quote cite { display:block; margin-top:28px; font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(0,0,0,.3); font-style:normal; }
-
-/* PILLS */
 .pp-pills { background:#000; padding:48px 64px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
 .pp-pill { padding:13px 28px; border-radius:100px; font-size:15px; font-weight:700; letter-spacing:-.2px; transition:transform .4s cubic-bezier(.34,1.56,.64,1); cursor:none; }
 .pp-pill:hover { transform:translateY(-6px) scale(1.06); }
@@ -347,21 +289,13 @@ nav {
 .pp-p-ol { background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.2); }
 .pp-p-wh { background:#fff; color:#000; }
 .pp-p-gr { background:#02b99f; color:#000; }
-
-/* ICONS */
 .pp-icons { background:#fab3ff; padding:64px; border-top:1px solid rgba(0,0,0,.07); }
 .pp-icon-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:20px; margin-top:28px; }
 .ic-cell { display:flex; flex-direction:column; align-items:center; gap:10px; }
 .ic-wrap { width:64px; height:64px; border-radius:18px; display:flex; align-items:center; justify-content:center; }
 .ic-lbl { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(0,0,0,.35); text-align:center; }
 .ic-svg { width:28px; height:28px; }
-.ic-or { background:#f05528; }
-.ic-bk { background:#000; }
-.ic-gn { background:#02b99f; }
-.ic-bl { background:#4559fb; }
-.ic-cr { background:#faf5eb; }
-
-/* Icon animations */
+.ic-or { background:#f05528; } .ic-bk { background:#000; } .ic-gn { background:#02b99f; } .ic-bl { background:#4559fb; } .ic-cr { background:#faf5eb; }
 .ia-spin { animation:iSpin 4s linear infinite; }
 .ia-throb { animation:iThrob 1.6s ease-in-out infinite; }
 .ia-bounce { animation:iBounce 1.8s cubic-bezier(.34,1.56,.64,1) infinite; }
@@ -384,17 +318,12 @@ nav {
 @keyframes iWave { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(20deg)} 75%{transform:rotate(-10deg)} }
 @keyframes iPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.65);opacity:.5} }
 @keyframes iOrbit { 0%{transform:rotate(0deg) translateX(8px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(8px) rotate(-360deg)} }
-
-/* CLOSING */
 .pp-close { background:#fab3ff; padding:96px 64px 80px; border-top:1px solid rgba(0,0,0,.07); }
 .pp-close h2 { font-size:clamp(52px,9vw,112px); font-weight:500; letter-spacing:-4px; line-height:.86; color:#000; }
 .pp-close h2 em { font-family:var(--fd); font-weight:300; font-style:italic; }
 .pp-close p { font-size:15px; color:rgba(0,0,0,.35); margin-top:32px; }
 
-/* ============================================================
-   RESPONSIVE
-============================================================ */
-
+@media (max-width:768px) {
   :root { --nav-h: 110px; }
   nav { padding:12px 20px; }
   .nav-back { display:none; }
@@ -407,10 +336,6 @@ nav {
   .pp-stat:last-child { border-bottom:none; padding-bottom:0; }
   .pp-icon-grid { grid-template-columns:repeat(3,1fr); }
   .pp-hero,.pp-buzz,.pp-stmt,.pp-stats,.pp-typo,.pp-quote,.pp-icons,.pp-pills,.pp-close,.pp-carousel { padding-left:20px; padding-right:20px; }
-  .pp-tline { gap:8px; }
-  .tt-big { font-size:clamp(36px,10vw,64px); }
-  .carousel-track { height:300px; }
-  .c-card { width:160px; height:240px; }
   .tbtn { padding:5px 9px; font-size:10px; }
 }
 </style>
@@ -456,14 +381,12 @@ nav {
   <main class="main">
     <div class="main-inner">
 
-    <!-- ========== PASSION PAGE ========== -->
+    <!-- PASSION PAGE -->
     <div class="passion-page">
-
       <div class="pp pp-hero">
         <p class="pp-hero-sub">Passion Lab — Brand Emotion</p>
         <h1><em>Älska</em> sånt<br>folk <em>älskar.</em></h1>
       </div>
-
       <div class="pp pp-strip">
         <div class="pp-strip-track">
           <span class="pp-strip-item">Brand Emotion<span class="pp-strip-dot"></span></span>
@@ -482,7 +405,6 @@ nav {
           <span class="pp-strip-item">Passion first<span class="pp-strip-dot"></span></span>
         </div>
       </div>
-
       <div class="pp pp-buzz">
         <span class="pp-lbl">Vårt språk</span>
         <div class="pp-bwords">
@@ -502,8 +424,6 @@ nav {
           <span class="bw it">Sammanhang</span>
         </div>
       </div>
-
-      <!-- CARD CAROUSEL -->
       <div class="pp pp-carousel">
         <span class="pp-lbl">Vårt erbjudande</span>
         <div class="carousel-track" id="ctrack">
@@ -521,59 +441,25 @@ nav {
           <button class="c-dot" onclick="goCard(4)"></button>
         </div>
       </div>
-
-      <div class="pp pp-stmt">
-        <h2>Rätt varumärke.<br>Rätt <em>sammanhang.</em><br><span class="ora">Alltid.</span></h2>
-      </div>
-
+      <div class="pp pp-stmt"><h2>Rätt varumärke.<br>Rätt <em>sammanhang.</em><br><span class="ora">Alltid.</span></h2></div>
       <div class="pp pp-stats">
-        <div class="pp-stat">
-          <span class="pp-stat-n" data-target="25" data-suffix="år">0</span>
-          <span class="pp-stat-l">I branschen</span>
-        </div>
-        <div class="pp-stat">
-          <span class="pp-stat-n" data-target="200" data-suffix="+">0</span>
-          <span class="pp-stat-l">Sponsringsdeals</span>
-        </div>
-        <div class="pp-stat">
-          <span class="pp-stat-n" data-target="400" data-suffix="+">0</span>
-          <span class="pp-stat-l">Event producerade</span>
-        </div>
-        <div class="pp-stat">
-          <span class="pp-stat-n" data-target="3" data-suffix="×">0</span>
-          <span class="pp-stat-l">Årets sponsringsbyrå</span>
-        </div>
+        <div class="pp-stat"><span class="pp-stat-n" data-target="25" data-suffix="år">0</span><span class="pp-stat-l">I branschen</span></div>
+        <div class="pp-stat"><span class="pp-stat-n" data-target="200" data-suffix="+">0</span><span class="pp-stat-l">Sponsringsdeals</span></div>
+        <div class="pp-stat"><span class="pp-stat-n" data-target="400" data-suffix="+">0</span><span class="pp-stat-l">Event producerade</span></div>
+        <div class="pp-stat"><span class="pp-stat-n" data-target="3" data-suffix="×">0</span><span class="pp-stat-l">Årets sponsringsbyrå</span></div>
       </div>
-
       <div class="pp pp-typo">
         <span class="pp-lbl">Typografi i rörelse</span>
-        <div class="pp-tline">
-          <span class="tt-big tt-it">Älska</span>
-          <span class="tt-big">sånt</span>
-          <span class="tt-pill">✦ Brand Emotion</span>
-        </div>
-        <div class="pp-tline">
-          <span class="tt-fade" style="font-family:var(--font);font-style:normal">folk</span>
-          <span class="tt-big tt-it">älskar.</span>
-        </div>
-        <div class="pp-tline" style="margin-top:20px">
-          <span class="tt-tag">Sponsring</span>
-          <span class="tt-tag">Event</span>
-          <span class="tt-tag">Reklam</span>
-          <span class="tt-pill tt-pill-p" style="margin-left:8px">Sveriges bästa byrå →</span>
-        </div>
+        <div class="pp-tline"><span class="tt-big tt-it">Älska</span><span class="tt-big">sånt</span><span class="tt-pill">✦ Brand Emotion</span></div>
+        <div class="pp-tline"><span class="tt-fade" style="font-family:var(--font);font-style:normal">folk</span><span class="tt-big tt-it">älskar.</span></div>
+        <div class="pp-tline" style="margin-top:20px"><span class="tt-tag">Sponsring</span><span class="tt-tag">Event</span><span class="tt-tag">Reklam</span><span class="tt-pill tt-pill-p" style="margin-left:8px">Sveriges bästa byrå →</span></div>
       </div>
-
-      <div class="pp pp-stmt">
-        <h2>Känsla som<br><em>ingen annons</em><br>kan köpa.</h2>
-      </div>
-
+      <div class="pp pp-stmt"><h2>Känsla som<br><em>ingen annons</em><br>kan köpa.</h2></div>
       <div class="pp pp-quote">
         <span class="pp-lbl">Vad vi tror på</span>
         <blockquote>"Sponsring är inte en kanal. Det är ett <em>förhållningssätt</em> — ett sätt att visa vad ditt varumärke faktiskt bryr sig om."</blockquote>
         <cite>Passion Lab — Stockholm, 2000–</cite>
       </div>
-
       <div class="pp pp-pills">
         <span class="pp-pill pp-p-or">Passion first</span>
         <span class="pp-pill pp-p-pk">Poppy pink</span>
@@ -582,11 +468,7 @@ nav {
         <span class="pp-pill pp-p-gr">Something green</span>
         <span class="pp-pill pp-p-ol">✦ Event på riktigt</span>
       </div>
-
-      <div class="pp pp-stmt">
-        <h2>Vi mäter oss<br>mot de <em>bästa</em><br>— och vinner.</h2>
-      </div>
-
+      <div class="pp pp-stmt"><h2>Vi mäter oss<br>mot de <em>bästa</em><br>— och vinner.</h2></div>
       <div class="pp pp-icons">
         <span class="pp-lbl">Ikonbibliotek</span>
         <div class="pp-icon-grid">
@@ -604,198 +486,208 @@ nav {
           <div class="ic-cell"><div class="ic-wrap ic-bk"><svg class="ic-svg" viewBox="0 0 28 28" fill="none"><circle class="ia-orbit" cx="14" cy="14" r="5" fill="#fab3ff"/><circle cx="14" cy="14" r="10" stroke="rgba(255,255,255,.15)" stroke-width="1" fill="none"/><circle cx="14" cy="4" r="3" fill="#f05528" class="ia-orbit" style="animation-direction:reverse;animation-duration:2s"/></svg></div><span class="ic-lbl">Orbit</span></div>
         </div>
       </div>
-
       <div class="pp pp-close">
         <h2><em>Passion</em><br>före allt<br>annat.</h2>
         <p>Passion Lab — Stockholm — Brand Emotion sedan 2000</p>
       </div>
+    </div><!-- end passion-page -->
 
+    <!-- INTRO -->
+    <div style="margin-bottom:100px" class="reveal">
+      <p style="font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:20px">Passion Lab — Internt</p>
+      <h1 style="font-size:clamp(52px,7vw,88px);font-weight:500;letter-spacing:-2px;line-height:.9;margin-bottom:20px">Design<br><span style="font-family:var(--fd);font-weight:300;font-style:italic;color:var(--orange)">System</span></h1>
+      <p style="font-size:15px;color:var(--m1);max-width:440px;line-height:1.75">Passion Labs visuella språk. Referens för alla som designar, bygger eller kommunicerar för byrån.</p>
+    </div>
 
-
-      <!-- INTRO -->
-      <div style="margin-bottom:100px" class="reveal">
-        <p style="font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:20px">Passion Lab — Internt</p>
-        <h1 style="font-size:clamp(52px,7vw,88px);font-weight:500;letter-spacing:-2px;line-height:.9;margin-bottom:20px">Design<br><span style="font-family:var(--fd);font-weight:300;font-style:italic;color:var(--orange)">System</span></h1>
-        <p style="font-size:15px;color:var(--m1);max-width:440px;line-height:1.75">Passion Labs visuella språk. Referens för alla som designar, bygger eller kommunicerar för byrån.</p>
-      </div>
-
-      <!-- LOGGA -->
-      <div class="section reveal" id="logga">
-        <div class="sec-hdr"><span class="sec-num">01</span><h2 class="sec-title">Logga</h2><div class="divider"></div></div>
-        <div class="logo-grid">
-          <div class="logo-tile lt-dark"><img src="logo.png" alt="vit logga"></div>
-          <div class="logo-tile lt-light"><img src="Logo_black.png" style="height:32px;display:block" alt="svart logga"></div>
+    <!-- LOGGA -->
+    <div class="section reveal" id="logga">
+      <div class="sec-hdr"><span class="sec-num">01</span><h2 class="sec-title">Logga</h2><div class="divider"></div></div>
+      <div class="logo-grid">
+        <div class="logo-tile lt-dark">
+          <img src="logo.png" alt="vit logga">
+          <a href="logo.png" download="PassionLab_logo_white.png" class="dl-btn dl-btn-dark">
+            <svg class="dl-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ladda ner
+          </a>
         </div>
-        <div class="logo-meta">
-          <div class="lm-item"><p class="lm-label">Primär användning</p><p class="lm-val">Vit logga på svart eller mörk bakgrund.</p></div>
-          <div class="lm-item"><p class="lm-label">Friyta</p><p class="lm-val">Minst logotypens höjd som frizon på alla sidor.</p></div>
+        <div class="logo-tile lt-light">
+          <img src="Logo_black.png" style="height:32px;display:block" alt="svart logga">
+          <a href="Logo_black.png" download="PassionLab_logo_black.png" class="dl-btn dl-btn-light">
+            <svg class="dl-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ladda ner
+          </a>
         </div>
       </div>
+      <div class="logo-meta">
+        <div class="lm-item"><p class="lm-label">Primär användning</p><p class="lm-val">Vit logga på svart eller mörk bakgrund.</p></div>
+        <div class="lm-item"><p class="lm-label">Friyta</p><p class="lm-val">Minst logotypens höjd som frizon på alla sidor.</p></div>
+      </div>
+    </div>
 
-      <!-- FÄRGER -->
-      <div class="section reveal" id="farger">
-        <div class="sec-hdr"><span class="sec-num">02</span><h2 class="sec-title">Färger</h2><div class="divider"></div></div>
-        <div class="csec">
-          <p class="sublabel">Primär</p>
-          <div class="crow">
-            <div class="cwrap"><div class="chip" style="background:#000;border:1px solid rgba(255,255,255,.12)"></div><p class="chip-name">Svart</p><p class="chip-hex">#000000</p></div>
-            <div class="cwrap"><div class="chip" style="background:#faf5eb"></div><p class="chip-name">Whatever white</p><p class="chip-hex">#faf5eb</p></div>
+    <!-- FÄRGER -->
+    <div class="section reveal" id="farger">
+      <div class="sec-hdr"><span class="sec-num">02</span><h2 class="sec-title">Färger</h2><div class="divider"></div></div>
+      <div class="csec">
+        <p class="sublabel">Primär</p>
+        <div class="crow">
+          <div class="cwrap"><div class="chip" style="background:#000;border:1px solid rgba(255,255,255,.12)"></div><p class="chip-name">Svart</p><p class="chip-hex">#000000</p></div>
+          <div class="cwrap"><div class="chip" style="background:#faf5eb"></div><p class="chip-name">Whatever white</p><p class="chip-hex">#faf5eb</p></div>
+        </div>
+      </div>
+      <div class="csec">
+        <p class="sublabel">Sekundär — klicka för nyansskala</p>
+        <div class="crow">
+          <div class="cwrap" id="co"><div class="chip" style="background:#f05528" onclick="toggleScale('co')"></div><p class="chip-name">Passion tangerine</p><p class="chip-hex">#f05528</p>
+            <div class="scale-popup"><div class="sw" style="background:#3d1200"><span class="sw-hex">#3d1200</span></div><div class="sw" style="background:#6b1f00"><span class="sw-hex">#6b1f00</span></div><div class="sw" style="background:#a03010"><span class="sw-hex">#a03010</span></div><div class="sw" style="background:#c94020"><span class="sw-hex">#c94020</span></div><div class="sw" style="background:#f05528"><span class="sw-hex">#f05528</span></div><div class="sw" style="background:#f47752"><span class="sw-hex">#f47752</span></div><div class="sw" style="background:#f8997c"><span class="sw-hex">#f8997c</span></div><div class="sw" style="background:#fbbba6"><span class="sw-hex">#fbbba6</span></div><div class="sw" style="background:#fdddd0"><span class="sw-hex">#fdddd0</span></div></div>
           </div>
-        </div>
-        <div class="csec">
-          <p class="sublabel">Sekundär — klicka för nyansskala</p>
-          <div class="crow">
-            <div class="cwrap" id="co"><div class="chip" style="background:#f05528" onclick="toggleScale('co')"></div><p class="chip-name">Passion tangerine</p><p class="chip-hex">#f05528</p>
-              <div class="scale-popup"><div class="sw" style="background:#3d1200"><span class="sw-hex">#3d1200</span></div><div class="sw" style="background:#6b1f00"><span class="sw-hex">#6b1f00</span></div><div class="sw" style="background:#a03010"><span class="sw-hex">#a03010</span></div><div class="sw" style="background:#c94020"><span class="sw-hex">#c94020</span></div><div class="sw" style="background:#f05528"><span class="sw-hex">#f05528</span></div><div class="sw" style="background:#f47752"><span class="sw-hex">#f47752</span></div><div class="sw" style="background:#f8997c"><span class="sw-hex">#f8997c</span></div><div class="sw" style="background:#fbbba6"><span class="sw-hex">#fbbba6</span></div><div class="sw" style="background:#fdddd0"><span class="sw-hex">#fdddd0</span></div></div>
-            </div>
-            <div class="cwrap" id="cp"><div class="chip" style="background:#fab3ff" onclick="toggleScale('cp')"></div><p class="chip-name">Poppy pink</p><p class="chip-hex">#fab3ff</p>
-              <div class="scale-popup"><div class="sw" style="background:#3d0045"><span class="sw-hex">#3d0045</span></div><div class="sw" style="background:#6b007a"><span class="sw-hex">#6b007a</span></div><div class="sw" style="background:#9900b0"><span class="sw-hex">#9900b0</span></div><div class="sw" style="background:#cc44dd"><span class="sw-hex">#cc44dd</span></div><div class="sw" style="background:#f07af8"><span class="sw-hex">#f07af8</span></div><div class="sw" style="background:#fab3ff"><span class="sw-hex">#fab3ff</span></div><div class="sw" style="background:#fcc8ff"><span class="sw-hex">#fcc8ff</span></div><div class="sw" style="background:#fddbff"><span class="sw-hex">#fddbff</span></div><div class="sw" style="background:#feeeff"><span class="sw-hex">#feeeff</span></div></div>
-            </div>
-            <div class="cwrap" id="cb"><div class="chip" style="background:#4559fb" onclick="toggleScale('cb')"></div><p class="chip-name">Mellow blue</p><p class="chip-hex">#4559fb</p>
-              <div class="scale-popup"><div class="sw" style="background:#06093d"><span class="sw-hex">#06093d</span></div><div class="sw" style="background:#0f166b"><span class="sw-hex">#0f166b</span></div><div class="sw" style="background:#1e2fa0"><span class="sw-hex">#1e2fa0</span></div><div class="sw" style="background:#3044d0"><span class="sw-hex">#3044d0</span></div><div class="sw" style="background:#4559fb"><span class="sw-hex">#4559fb</span></div><div class="sw" style="background:#7580fc"><span class="sw-hex">#7580fc</span></div><div class="sw" style="background:#9aa4fd"><span class="sw-hex">#9aa4fd</span></div><div class="sw" style="background:#bfc7fe"><span class="sw-hex">#bfc7fe</span></div><div class="sw" style="background:#e0e5ff"><span class="sw-hex">#e0e5ff</span></div></div>
-            </div>
-            <div class="cwrap" id="cg"><div class="chip" style="background:#02b99f" onclick="toggleScale('cg')"></div><p class="chip-name">Something green</p><p class="chip-hex">#02b99f</p>
-              <div class="scale-popup"><div class="sw" style="background:#012e28"><span class="sw-hex">#012e28</span></div><div class="sw" style="background:#015045"><span class="sw-hex">#015045</span></div><div class="sw" style="background:#017a66"><span class="sw-hex">#017a66</span></div><div class="sw" style="background:#02a088"><span class="sw-hex">#02a088</span></div><div class="sw" style="background:#02b99f"><span class="sw-hex">#02b99f</span></div><div class="sw" style="background:#33ccb5"><span class="sw-hex">#33ccb5</span></div><div class="sw" style="background:#66d9c8"><span class="sw-hex">#66d9c8</span></div><div class="sw" style="background:#99e6db"><span class="sw-hex">#99e6db</span></div><div class="sw" style="background:#ccf2ed"><span class="sw-hex">#ccf2ed</span></div></div>
-            </div>
+          <div class="cwrap" id="cp"><div class="chip" style="background:#fab3ff" onclick="toggleScale('cp')"></div><p class="chip-name">Poppy pink</p><p class="chip-hex">#fab3ff</p>
+            <div class="scale-popup"><div class="sw" style="background:#3d0045"><span class="sw-hex">#3d0045</span></div><div class="sw" style="background:#6b007a"><span class="sw-hex">#6b007a</span></div><div class="sw" style="background:#9900b0"><span class="sw-hex">#9900b0</span></div><div class="sw" style="background:#cc44dd"><span class="sw-hex">#cc44dd</span></div><div class="sw" style="background:#f07af8"><span class="sw-hex">#f07af8</span></div><div class="sw" style="background:#fab3ff"><span class="sw-hex">#fab3ff</span></div><div class="sw" style="background:#fcc8ff"><span class="sw-hex">#fcc8ff</span></div><div class="sw" style="background:#fddbff"><span class="sw-hex">#fddbff</span></div><div class="sw" style="background:#feeeff"><span class="sw-hex">#feeeff</span></div></div>
           </div>
-        </div>
-        <div class="csec">
-          <p class="sublabel">Gray scale</p>
-          <div class="gray-strip">
-            <div class="gchip" style="background:#F3F4F5"></div><div class="gchip" style="background:#D0D4D9"></div><div class="gchip" style="background:#AEB3BC"></div><div class="gchip" style="background:#7B8493"></div><div class="gchip" style="background:#4D545E"></div><div class="gchip" style="background:#2A2E34"></div>
+          <div class="cwrap" id="cb"><div class="chip" style="background:#4559fb" onclick="toggleScale('cb')"></div><p class="chip-name">Mellow blue</p><p class="chip-hex">#4559fb</p>
+            <div class="scale-popup"><div class="sw" style="background:#06093d"><span class="sw-hex">#06093d</span></div><div class="sw" style="background:#0f166b"><span class="sw-hex">#0f166b</span></div><div class="sw" style="background:#1e2fa0"><span class="sw-hex">#1e2fa0</span></div><div class="sw" style="background:#3044d0"><span class="sw-hex">#3044d0</span></div><div class="sw" style="background:#4559fb"><span class="sw-hex">#4559fb</span></div><div class="sw" style="background:#7580fc"><span class="sw-hex">#7580fc</span></div><div class="sw" style="background:#9aa4fd"><span class="sw-hex">#9aa4fd</span></div><div class="sw" style="background:#bfc7fe"><span class="sw-hex">#bfc7fe</span></div><div class="sw" style="background:#e0e5ff"><span class="sw-hex">#e0e5ff</span></div></div>
           </div>
-          <div style="display:flex;gap:3px;margin-top:6px">
-            <p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">100</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">200</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">300</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">400</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">500</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">600</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- TYPOGRAFI -->
-      <div class="section reveal" id="typografi">
-        <div class="sec-hdr"><span class="sec-num">03</span><h2 class="sec-title">Typografi</h2><div class="divider"></div></div>
-        <div class="type-row">
-          <div><p class="tmeta-name">Display</p><p class="tmeta-spec">Ivypresto Display<br>Italic Light / 300<br>+ Inter Tight 500</p></div>
-          <p style="font-size:clamp(36px,5.5vw,72px);letter-spacing:-2px;line-height:.95;color:var(--orange)"><span style="font-family:var(--fd);font-weight:300;font-style:italic">Älska </span><span style="font-weight:500">sånt folk </span><span style="font-family:var(--fd);font-weight:300;font-style:italic">älskar.</span></p>
-        </div>
-        <div class="type-row">
-          <div><p class="tmeta-name">H1</p><p class="tmeta-spec">Inter Tight 500<br>64–140px</p></div>
-          <p style="font-size:clamp(36px,5vw,64px);font-weight:500;letter-spacing:-2px;line-height:.92">Sveriges ledande byrå.</p>
-        </div>
-        <div class="type-row">
-          <div><p class="tmeta-name">H2</p><p class="tmeta-spec">Inter Tight 500<br>40–72px</p></div>
-          <p style="font-size:clamp(24px,3.5vw,44px);font-weight:500;letter-spacing:-1px;line-height:1.02">Sponsring, event och reklam.</p>
-        </div>
-        <div class="type-row">
-          <div><p class="tmeta-name">H3</p><p class="tmeta-spec">Inter Tight 500<br>20–32px</p></div>
-          <p style="font-size:24px;font-weight:500;letter-spacing:-.5px">Rätt varumärke. Rätt sammanhang.</p>
-        </div>
-        <div class="type-row">
-          <div><p class="tmeta-name">Body large</p><p class="tmeta-spec">Inter Tight 400<br>17–19px</p></div>
-          <p style="font-size:17px;color:var(--m1);line-height:1.75;max-width:480px">Vi hjälper Sveriges ledande varumärken att engagera sig i sånt som människor bryr sig om.</p>
-        </div>
-        <div class="type-row">
-          <div><p class="tmeta-name">Body</p><p class="tmeta-spec">Inter Tight 400<br>14–16px</p></div>
-          <p style="font-size:15px;color:var(--m2);line-height:1.75;max-width:460px">Sponsring är inte en kanal. Det är ett förhållningssätt — ett sätt att visa vad ditt varumärke faktiskt bryr sig om.</p>
-        </div>
-        <div class="type-row">
-          <div><p class="tmeta-name">Label</p><p class="tmeta-spec">Inter Tight 600<br>10–11px, caps</p></div>
-          <p style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange)">Sveriges ledande byrå inom sponsring och event</p>
-        </div>
-      </div>
-
-      <!-- SPACING -->
-      <div class="section reveal" id="spacing">
-        <div class="sec-hdr"><span class="sec-num">04</span><h2 class="sec-title">Spacing</h2><div class="divider"></div></div>
-        <div class="spacing-row">
-          <div class="sp-item"><div class="sp-block" style="width:4px;height:4px"></div><p class="sp-val">4</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:8px;height:8px"></div><p class="sp-val">8</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:16px;height:16px"></div><p class="sp-val">16</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:24px;height:24px"></div><p class="sp-val">24</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:32px;height:32px"></div><p class="sp-val">32</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:48px;height:48px"></div><p class="sp-val">48</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:64px;height:64px"></div><p class="sp-val">64</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:80px;height:80px"></div><p class="sp-val">80</p></div>
-          <div class="sp-item"><div class="sp-block" style="width:96px;height:96px"></div><p class="sp-val">120</p></div>
-        </div>
-      </div>
-
-      <!-- RUNDNING -->
-      <div class="section reveal" id="rundning">
-        <div class="sec-hdr"><span class="sec-num">05</span><h2 class="sec-title">Rundning</h2><div class="divider"></div></div>
-        <div class="radius-row">
-          <div class="radius-item"><div class="radius-box" style="border-radius:0"></div><p class="radius-val">0</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><p class="radius-val">4px</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><p class="radius-val">8px</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><p class="radius-val">12px</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:16px"></div><p class="radius-val">16px</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:20px"></div><p class="radius-val">20px</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:24px"></div><p class="radius-val">24px</p></div>
-          <div class="radius-item"><div class="radius-box" style="border-radius:100px;width:72px"></div><p class="radius-val">100px</p></div>
-        </div>
-      </div>
-
-      <!-- KNAPPAR -->
-      <div class="section reveal" id="knappar">
-        <div class="sec-hdr"><span class="sec-num">06</span><h2 class="sec-title">Knappar</h2><div class="divider"></div></div>
-        <div class="btn-row"><p class="btn-row-label">Primary</p><button class="ds-btn btn-primary btn-sm">Liten</button><button class="ds-btn btn-primary">Standard</button><button class="ds-btn btn-primary" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-primary btn-disabled">Disabled</button></div>
-        <div class="btn-row"><p class="btn-row-label">Outline</p><button class="ds-btn btn-outline btn-sm">Liten</button><button class="ds-btn btn-outline">Standard</button><button class="ds-btn btn-outline" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-outline btn-disabled">Disabled</button></div>
-        <div class="btn-row"><p class="btn-row-label">Pink</p><button class="ds-btn btn-pink btn-sm">Liten</button><button class="ds-btn btn-pink">Standard</button><button class="ds-btn btn-pink" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-pink btn-disabled">Disabled</button></div>
-        <div class="btn-row"><p class="btn-row-label">Ghost</p><button class="ds-btn btn-ghost">Läs artikel →</button><button class="ds-btn btn-ghost">Visa alla case →</button></div>
-      </div>
-
-      <!-- TAGGAR -->
-      <div class="section reveal" id="taggar">
-        <div class="sec-hdr"><span class="sec-num">07</span><h2 class="sec-title">Taggar</h2><div class="divider"></div></div>
-        <p class="sublabel" style="margin-bottom:12px">Orange — primär</p>
-        <div class="tag-row"><span class="ds-tag tag-orange">Sponsring</span><span class="ds-tag tag-orange">Event</span><span class="ds-tag tag-orange">Reklam</span><span class="ds-tag tag-orange">Strategi</span></div>
-        <p class="sublabel" style="margin-top:28px;margin-bottom:12px">Outline</p>
-        <div class="tag-row"><span class="ds-tag tag-outline">Sport</span><span class="ds-tag tag-outline">Kultur</span><span class="ds-tag tag-outline">Musik</span><span class="ds-tag tag-outline">Festival</span></div>
-        <p class="sublabel" style="margin-top:28px;margin-bottom:12px">Accentfärger</p>
-        <div class="tag-row"><span class="ds-tag tag-solid">Passion first</span><span class="ds-tag tag-pink">Poppy pink</span><span class="ds-tag tag-blue">Mellow blue</span><span class="ds-tag tag-green">Something green</span></div>
-      </div>
-
-      <!-- KORT -->
-      <div class="section reveal" id="kort">
-        <div class="sec-hdr"><span class="sec-num">08</span><h2 class="sec-title">Kort</h2><div class="divider"></div></div>
-        <div class="card-row">
-          <div class="ds-card"><div class="ds-card-num">01</div><h4>Sponsring</h4><p>Vi kopplar samman varumärken med det folk verkligen bryr sig om.</p></div>
-          <div class="ds-card"><div class="ds-card-num">02</div><h4>Event</h4><p>Möten som börjar i varumärket och slutar i minnet.</p></div>
-          <div class="ds-card"><div class="ds-card-num">03</div><h4>Reklam</h4><p>Att sticka ut är bra. Att nå in är bättre.</p></div>
-        </div>
-      </div>
-
-      <!-- ANIMATIONER -->
-      <div class="section reveal" id="animationer">
-        <div class="sec-hdr"><span class="sec-num">09</span><h2 class="sec-title">Animationer</h2><div class="divider"></div></div>
-        <div class="anim-grid">
-          <div class="anim-tile"><div class="a-dot a-pulse"></div><p class="anim-label">Pulse</p></div>
-          <div class="anim-tile"><div class="a-dot a-bounce"></div><p class="anim-label">Bounce spring</p></div>
-          <div class="anim-tile"><div class="a-float"></div><p class="anim-label">Float</p></div>
-          <div class="anim-tile"><div class="a-bar"><div class="a-bar-fill"></div></div><p class="anim-label">Progress</p></div>
-          <div class="anim-tile"><div class="a-spin"></div><p class="anim-label">Spin</p></div>
-          <div class="anim-tile"><div class="a-lines"><div class="a-line"><div class="a-line-fill"></div></div><div class="a-line"><div class="a-line-fill"></div></div><div class="a-line"><div class="a-line-fill"></div></div></div><p class="anim-label">Text reveal</p></div>
-        </div>
-      </div>
-
-      <!-- RÖST & TON -->
-      <div class="section reveal" id="ton">
-        <div class="sec-hdr"><span class="sec-num">10</span><h2 class="sec-title">Röst & Ton</h2><div class="divider"></div></div>
-        <p style="font-size:14px;color:var(--m1);line-height:1.75;max-width:500px;margin-bottom:36px">Direkt, personlig och orädd. Vi pratar som en människa, inte som en institution.</p>
-        <div class="tone-grid">
-          <div class="tone-tile tone-do">
-            <p class="tone-hdr"><span class="tone-dot"></span>Gör så här</p>
-            <div class="tone-item"><p class="tone-quote">"Att sticka ut är bra. Att nå in är bättre."</p><p class="tone-note">Kort, direkt. Tar en tydlig position.</p></div>
-            <div class="tone-item"><p class="tone-quote">"Vi hjälper varumärken att älska sånt folk älskar."</p><p class="tone-note">Personligt och aktivt.</p></div>
-            <div class="tone-item"><p class="tone-quote">"Sponsring slår traditionell reklam — och det kan vi bevisa."</p><p class="tone-note">Confident. Inte blygsam.</p></div>
-          </div>
-          <div class="tone-tile tone-dont">
-            <p class="tone-hdr"><span class="tone-dot"></span>Undvik</p>
-            <div class="tone-item"><p class="tone-quote">"Vi erbjuder ett brett utbud av kommunikationstjänster."</p><p class="tone-note">Generiskt. Kan vara vem som helst.</p></div>
-            <div class="tone-item"><p class="tone-quote">"Med vår holistiska approach maximerar vi era KPI:er."</p><p class="tone-note">Byråjargong ingen bryr sig om.</p></div>
-            <div class="tone-item"><p class="tone-quote">"Vi är mycket glada att ha möjligheten att presentera..."</p><p class="tone-note">För försiktigt. Passion Lab är inte osäker.</p></div>
+          <div class="cwrap" id="cg"><div class="chip" style="background:#02b99f" onclick="toggleScale('cg')"></div><p class="chip-name">Something green</p><p class="chip-hex">#02b99f</p>
+            <div class="scale-popup"><div class="sw" style="background:#012e28"><span class="sw-hex">#012e28</span></div><div class="sw" style="background:#015045"><span class="sw-hex">#015045</span></div><div class="sw" style="background:#017a66"><span class="sw-hex">#017a66</span></div><div class="sw" style="background:#02a088"><span class="sw-hex">#02a088</span></div><div class="sw" style="background:#02b99f"><span class="sw-hex">#02b99f</span></div><div class="sw" style="background:#33ccb5"><span class="sw-hex">#33ccb5</span></div><div class="sw" style="background:#66d9c8"><span class="sw-hex">#66d9c8</span></div><div class="sw" style="background:#99e6db"><span class="sw-hex">#99e6db</span></div><div class="sw" style="background:#ccf2ed"><span class="sw-hex">#ccf2ed</span></div></div>
           </div>
         </div>
       </div>
+      <div class="csec">
+        <p class="sublabel">Gray scale</p>
+        <div class="gray-strip">
+          <div class="gchip" style="background:#F3F4F5"></div><div class="gchip" style="background:#D0D4D9"></div><div class="gchip" style="background:#AEB3BC"></div><div class="gchip" style="background:#7B8493"></div><div class="gchip" style="background:#4D545E"></div><div class="gchip" style="background:#2A2E34"></div>
+        </div>
+        <div style="display:flex;gap:3px;margin-top:6px">
+          <p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">100</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">200</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">300</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">400</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">500</p><p style="flex:1;font-size:10px;color:var(--m3);font-family:monospace;text-align:center">600</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAFI -->
+    <div class="section reveal" id="typografi">
+      <div class="sec-hdr"><span class="sec-num">03</span><h2 class="sec-title">Typografi</h2><div class="divider"></div></div>
+      <div class="type-row">
+        <div><p class="tmeta-name">Display</p><p class="tmeta-spec">Ivypresto Display<br>Italic Light / 300<br>+ Inter Tight 500</p></div>
+        <p style="font-size:clamp(36px,5.5vw,72px);letter-spacing:-2px;line-height:.95;color:var(--orange)"><span style="font-family:var(--fd);font-weight:300;font-style:italic">Älska </span><span style="font-weight:500">sånt folk </span><span style="font-family:var(--fd);font-weight:300;font-style:italic">älskar.</span></p>
+      </div>
+      <div class="type-row">
+        <div><p class="tmeta-name">H1</p><p class="tmeta-spec">Inter Tight 500<br>64–140px</p></div>
+        <p style="font-size:clamp(36px,5vw,64px);font-weight:500;letter-spacing:-2px;line-height:.92">Sveriges ledande byrå.</p>
+      </div>
+      <div class="type-row">
+        <div><p class="tmeta-name">H2</p><p class="tmeta-spec">Inter Tight 500<br>40–72px</p></div>
+        <p style="font-size:clamp(24px,3.5vw,44px);font-weight:500;letter-spacing:-1px;line-height:1.02">Sponsring, event och reklam.</p>
+      </div>
+      <div class="type-row">
+        <div><p class="tmeta-name">H3</p><p class="tmeta-spec">Inter Tight 500<br>20–32px</p></div>
+        <p style="font-size:24px;font-weight:500;letter-spacing:-.5px">Rätt varumärke. Rätt sammanhang.</p>
+      </div>
+      <div class="type-row">
+        <div><p class="tmeta-name">Body large</p><p class="tmeta-spec">Inter Tight 400<br>17–19px</p></div>
+        <p style="font-size:17px;color:var(--m1);line-height:1.75;max-width:480px">Vi hjälper Sveriges ledande varumärken att engagera sig i sånt som människor bryr sig om.</p>
+      </div>
+      <div class="type-row">
+        <div><p class="tmeta-name">Body</p><p class="tmeta-spec">Inter Tight 400<br>14–16px</p></div>
+        <p style="font-size:15px;color:var(--m2);line-height:1.75;max-width:460px">Sponsring är inte en kanal. Det är ett förhållningssätt — ett sätt att visa vad ditt varumärke faktiskt bryr sig om.</p>
+      </div>
+      <div class="type-row">
+        <div><p class="tmeta-name">Label</p><p class="tmeta-spec">Inter Tight 600<br>10–11px, caps</p></div>
+        <p style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange)">Sveriges ledande byrå inom sponsring och event</p>
+      </div>
+    </div>
+
+    <!-- SPACING -->
+    <div class="section reveal" id="spacing">
+      <div class="sec-hdr"><span class="sec-num">04</span><h2 class="sec-title">Spacing</h2><div class="divider"></div></div>
+      <div class="spacing-row">
+        <div class="sp-item"><div class="sp-block" style="width:4px;height:4px"></div><p class="sp-val">4</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:8px;height:8px"></div><p class="sp-val">8</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:16px;height:16px"></div><p class="sp-val">16</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:24px;height:24px"></div><p class="sp-val">24</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:32px;height:32px"></div><p class="sp-val">32</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:48px;height:48px"></div><p class="sp-val">48</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:64px;height:64px"></div><p class="sp-val">64</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:80px;height:80px"></div><p class="sp-val">80</p></div>
+        <div class="sp-item"><div class="sp-block" style="width:96px;height:96px"></div><p class="sp-val">120</p></div>
+      </div>
+    </div>
+
+    <!-- RUNDNING -->
+    <div class="section reveal" id="rundning">
+      <div class="sec-hdr"><span class="sec-num">05</span><h2 class="sec-title">Rundning</h2><div class="divider"></div></div>
+      <div class="radius-row">
+        <div class="radius-item"><div class="radius-box" style="border-radius:0"></div><p class="radius-val">0</p></div>
+        <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><p class="radius-val">4px</p></div>
+        <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><p class="radius-val">8px</p></div>
+        <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><p class="radius-val">12px</p></div>
+        <div class="radius-item"><div class="radius-box" style="border-radius:16px"></div><p class="radius-val">16px</p></div>
+        <div class="radius-item"><div class="radius-box" style="border-radius:20px"></div><p class="radius-val">20px</p></div>
+        <div class="radius-item"><div class="radius-box" style="border-radius:24px"></div><p class="radius-val">24px</p></div>
+        <div class="radius-item"><div class="radius-box" style="border-radius:100px;width:72px"></div><p class="radius-val">100px</p></div>
+      </div>
+    </div>
+
+    <!-- KNAPPAR -->
+    <div class="section reveal" id="knappar">
+      <div class="sec-hdr"><span class="sec-num">06</span><h2 class="sec-title">Knappar</h2><div class="divider"></div></div>
+      <div class="btn-row"><p class="btn-row-label">Primary</p><button class="ds-btn btn-primary btn-sm">Liten</button><button class="ds-btn btn-primary">Standard</button><button class="ds-btn btn-primary" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-primary btn-disabled">Disabled</button></div>
+      <div class="btn-row"><p class="btn-row-label">Outline</p><button class="ds-btn btn-outline btn-sm">Liten</button><button class="ds-btn btn-outline">Standard</button><button class="ds-btn btn-outline" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-outline btn-disabled">Disabled</button></div>
+      <div class="btn-row"><p class="btn-row-label">Pink</p><button class="ds-btn btn-pink btn-sm">Liten</button><button class="ds-btn btn-pink">Standard</button><button class="ds-btn btn-pink" style="padding:18px 40px;font-size:16px">Stor</button><button class="ds-btn btn-pink btn-disabled">Disabled</button></div>
+      <div class="btn-row"><p class="btn-row-label">Ghost</p><button class="ds-btn btn-ghost">Läs artikel →</button><button class="ds-btn btn-ghost">Visa alla case →</button></div>
+    </div>
+
+    <!-- TAGGAR -->
+    <div class="section reveal" id="taggar">
+      <div class="sec-hdr"><span class="sec-num">07</span><h2 class="sec-title">Taggar</h2><div class="divider"></div></div>
+      <p class="sublabel" style="margin-bottom:12px">Orange — primär</p>
+      <div class="tag-row"><span class="ds-tag tag-orange">Sponsring</span><span class="ds-tag tag-orange">Event</span><span class="ds-tag tag-orange">Reklam</span><span class="ds-tag tag-orange">Strategi</span></div>
+      <p class="sublabel" style="margin-top:28px;margin-bottom:12px">Outline</p>
+      <div class="tag-row"><span class="ds-tag tag-outline">Sport</span><span class="ds-tag tag-outline">Kultur</span><span class="ds-tag tag-outline">Musik</span><span class="ds-tag tag-outline">Festival</span></div>
+      <p class="sublabel" style="margin-top:28px;margin-bottom:12px">Accentfärger</p>
+      <div class="tag-row"><span class="ds-tag tag-solid">Passion first</span><span class="ds-tag tag-pink">Poppy pink</span><span class="ds-tag tag-blue">Mellow blue</span><span class="ds-tag tag-green">Something green</span></div>
+    </div>
+
+    <!-- KORT -->
+    <div class="section reveal" id="kort">
+      <div class="sec-hdr"><span class="sec-num">08</span><h2 class="sec-title">Kort</h2><div class="divider"></div></div>
+      <div class="card-row">
+        <div class="ds-card"><div class="ds-card-num">01</div><h4>Sponsring</h4><p>Vi kopplar samman varumärken med det folk verkligen bryr sig om.</p></div>
+        <div class="ds-card"><div class="ds-card-num">02</div><h4>Event</h4><p>Möten som börjar i varumärket och slutar i minnet.</p></div>
+        <div class="ds-card"><div class="ds-card-num">03</div><h4>Reklam</h4><p>Att sticka ut är bra. Att nå in är bättre.</p></div>
+      </div>
+    </div>
+
+    <!-- ANIMATIONER -->
+    <div class="section reveal" id="animationer">
+      <div class="sec-hdr"><span class="sec-num">09</span><h2 class="sec-title">Animationer</h2><div class="divider"></div></div>
+      <div class="anim-grid">
+        <div class="anim-tile"><div class="a-dot a-pulse"></div><p class="anim-label">Pulse</p></div>
+        <div class="anim-tile"><div class="a-dot a-bounce"></div><p class="anim-label">Bounce spring</p></div>
+        <div class="anim-tile"><div class="a-float"></div><p class="anim-label">Float</p></div>
+        <div class="anim-tile"><div class="a-bar"><div class="a-bar-fill"></div></div><p class="anim-label">Progress</p></div>
+        <div class="anim-tile"><div class="a-spin"></div><p class="anim-label">Spin</p></div>
+        <div class="anim-tile"><div class="a-lines"><div class="a-line"><div class="a-line-fill"></div></div><div class="a-line"><div class="a-line-fill"></div></div><div class="a-line"><div class="a-line-fill"></div></div></div><p class="anim-label">Text reveal</p></div>
+      </div>
+    </div>
+
+    <!-- RÖST & TON -->
+    <div class="section reveal" id="ton">
+      <div class="sec-hdr"><span class="sec-num">10</span><h2 class="sec-title">Röst & Ton</h2><div class="divider"></div></div>
+      <p style="font-size:14px;color:var(--m1);line-height:1.75;max-width:500px;margin-bottom:36px">Direkt, personlig och orädd. Vi pratar som en människa, inte som en institution.</p>
+      <div class="tone-grid">
+        <div class="tone-tile tone-do">
+          <p class="tone-hdr"><span class="tone-dot"></span>Gör så här</p>
+          <div class="tone-item"><p class="tone-quote">"Att sticka ut är bra. Att nå in är bättre."</p><p class="tone-note">Kort, direkt. Tar en tydlig position.</p></div>
+          <div class="tone-item"><p class="tone-quote">"Vi hjälper varumärken att älska sånt folk älskar."</p><p class="tone-note">Personligt och aktivt.</p></div>
+          <div class="tone-item"><p class="tone-quote">"Sponsring slår traditionell reklam — och det kan vi bevisa."</p><p class="tone-note">Confident. Inte blygsam.</p></div>
+        </div>
+        <div class="tone-tile tone-dont">
+          <p class="tone-hdr"><span class="tone-dot"></span>Undvik</p>
+          <div class="tone-item"><p class="tone-quote">"Vi erbjuder ett brett utbud av kommunikationstjänster."</p><p class="tone-note">Generiskt. Kan vara vem som helst.</p></div>
+          <div class="tone-item"><p class="tone-quote">"Med vår holistiska approach maximerar vi era KPI:er."</p><p class="tone-note">Byråjargong ingen bryr sig om.</p></div>
+          <div class="tone-item"><p class="tone-quote">"Vi är mycket glada att ha möjligheten att presentera..."</p><p class="tone-note">För försiktigt. Passion Lab är inte osäker.</p></div>
+        </div>
+      </div>
+    </div>
 
     </div><!-- end main-inner -->
   </main>
@@ -811,7 +703,6 @@ function setTheme(t, btn) {
     setTimeout(animPassion, 120);
   }
 }
-
 function animPassion() {
   document.querySelectorAll('.passion-page .pp').forEach((b,i) => {
     setTimeout(() => b.classList.add('vis'), i * 80);
@@ -820,7 +711,6 @@ function animPassion() {
     document.querySelectorAll('.pp-stat-n[data-target]').forEach(el => countUp(el));
   }, 400);
 }
-
 function countUp(el) {
   const target = +el.dataset.target, suffix = el.dataset.suffix || '';
   let start = null;
@@ -832,18 +722,7 @@ function countUp(el) {
     if (p < 1) requestAnimationFrame(tick);
   })(performance.now());
 }
-
-// Scroll trigger for passion blocks when scrolling into view
-new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting && document.documentElement.getAttribute('data-theme') === 'passion') {
-      e.target.classList.add('vis');
-      if (e.target.querySelector('.pp-stat-n[data-target]')) {
-        e.target.querySelectorAll('.pp-stat-n[data-target]').forEach(el => countUp(el));
-      }
-    }
-  });
-}, {threshold: 0.08}).observe && document.querySelectorAll('.passion-page .pp').forEach(b => {
+document.querySelectorAll('.passion-page .pp').forEach(b => {
   new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting && document.documentElement.getAttribute('data-theme') === 'passion') {
@@ -852,9 +731,7 @@ new IntersectionObserver(entries => {
     });
   }, {threshold: 0.08}).observe(b);
 });
-
-
-let curCard = 2; // start at middle
+let curCard = 2;
 const CARDS = 5;
 function layoutCards() {
   const cards = document.querySelectorAll('.c-card');
@@ -874,23 +751,20 @@ function layoutCards() {
   document.querySelectorAll('.c-dot').forEach((d,i) => d.classList.toggle('active', i === curCard));
 }
 function goCard(i) { curCard = i; layoutCards(); }
-// click card to go to it
 document.querySelectorAll('.c-card').forEach(card => {
   card.addEventListener('click', () => goCard(+card.dataset.i));
 });
-// auto advance
 setInterval(() => { curCard = (curCard + 1) % CARDS; layoutCards(); }, 3000);
 layoutCards();
+
 const cur = document.getElementById('cursor'), glow = document.getElementById('cursor-glow');
 let mx=0,my=0,gx=0,gy=0;
 document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
 (function anim() { cur.style.left=mx+'px'; cur.style.top=my+'px'; gx+=(mx-gx)*.1; gy+=(my-gy)*.1; glow.style.left=gx+'px'; glow.style.top=gy+'px'; requestAnimationFrame(anim); })();
-document.querySelectorAll('a,button,.ds-card,.ds-tag,.chip,.gchip,.radius-box,.pp-pill,.bw').forEach(el => {
+document.querySelectorAll('a,button,.ds-card,.ds-tag,.chip,.gchip,.radius-box,.pp-pill,.bw,.dl-btn').forEach(el => {
   el.addEventListener('mouseenter', () => cur.classList.add('big'));
   el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
-
-// Card glow
 document.querySelectorAll('.ds-card').forEach(c => {
   c.addEventListener('mousemove', e => {
     const r = c.getBoundingClientRect();
@@ -898,8 +772,6 @@ document.querySelectorAll('.ds-card').forEach(c => {
     c.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
   });
 });
-
-// Color scale
 function toggleScale(id) {
   const el = document.getElementById(id);
   const open = el.classList.contains('open');
@@ -909,25 +781,13 @@ function toggleScale(id) {
 document.addEventListener('click', e => {
   if (!e.target.closest('.cwrap')) document.querySelectorAll('.cwrap.open').forEach(e => e.classList.remove('open'));
 });
-
-// Sidebar active
 const secs = document.querySelectorAll('.section[id]');
 const slinks = document.querySelectorAll('.slink');
-new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      slinks.forEach(l => l.classList.remove('active'));
-      const a = document.querySelector(`.slink[href="#${e.target.id}"]`);
-      if (a) a.classList.add('active');
-    }
-  });
-}, {threshold: 0.3}).observe && secs.forEach(s => {
+secs.forEach(s => {
   new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) { slinks.forEach(l=>l.classList.remove('active')); const a=document.querySelector(`.slink[href="#${e.target.id}"]`); if(a) a.classList.add('active'); }});
   }, {threshold: 0.3}).observe(s);
 });
-
-// Reveal
 document.querySelectorAll('.reveal').forEach(el => {
   new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
