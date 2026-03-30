@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case – Passion Lab</title>
+<title>Passion Lab – Älska sånt folk älskar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
@@ -26,121 +26,238 @@ h1, h2, h3, h4 { font-weight: 500; }
 /* CURSOR */
 #cursor { width: 10px; height: 10px; background: var(--pink); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .25s cubic-bezier(.34,1.56,.64,1), height .25s cubic-bezier(.34,1.56,.64,1), background .2s; }
 #cursor.big { width: 48px; height: 48px; background: rgba(250,179,255,.15); border: 1px solid rgba(250,179,255,.5); }
+#cursor.on-light { background: var(--black); }
 #cursor-glow { width: 36px; height: 36px; border: 1px solid rgba(250,179,255,.3); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
 
 /* NAV */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; transition: padding .4s cubic-bezier(.16,1,.3,1), background .4s; }
 nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,.05); padding: 14px 48px; }
 .nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-link-wrap { position: relative; }
+.nav-link-wrap { position: relative; overflow: hidden; }
 .nav-links a { font-size: 13px; font-weight: 500; color: #666; transition: color .25s; display: block; }
 .nav-links a:hover { color: var(--white); }
 .nav-link-wrap::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px; background: var(--white); transform: scaleX(0); transform-origin: left; transition: transform .3s cubic-bezier(.16,1,.3,1); }
 .nav-link-wrap:hover::after { transform: scaleX(1); }
 .nav-cta { background: var(--pink); color: var(--black); padding: 9px 22px; border-radius: 100px; font-size: 13px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
 .nav-cta:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 8px 24px rgba(250,179,255,.3); }
-.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; cursor: none; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; background: none; border: none; padding: 4px; }
 .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; display: block; }
-.mobile-menu { display: none; position: fixed; inset: 0; background: var(--black); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+.mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--black); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
 .mobile-menu.open { display: flex; }
 .mobile-menu a { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
-.mobile-close { position: absolute; top: 26px; right: 32px; font-size: 28px; background: none; border: none; font-family: var(--font); color: var(--white); cursor: none; }
+.mobile-close { position: absolute; top: 26px; right: 32px; font-size: 28px; cursor: none; background: none; border: none; font-family: var(--font); color: var(--white); }
 
 /* HERO */
-.hero { padding: 180px 48px 80px; max-width: 1200px; margin: 0 auto; }
-.hero-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 24px; }
-.hero h1 {
-  font-size: clamp(64px, 10vw, 128px);
-  font-weight: 500; letter-spacing: -3px; line-height: .9;
-  opacity: 0; animation: fadeUp .9s cubic-bezier(.16,1,.3,1) .1s both;
-}
-.hero h1 em { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--white); }
-@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-
-/* FILTER */
-.filter-wrap { padding: 0 48px 56px; }
-.filter-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 10px; flex-wrap: wrap; }
-.filter-btn {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-  padding: 8px 20px; border-radius: 100px; border: 1px solid rgba(255,255,255,.12);
-  background: transparent; color: #666; cursor: none; font-family: var(--font);
-  transition: background .25s, color .25s, border-color .25s;
-}
-.filter-btn:hover { color: var(--white); border-color: rgba(255,255,255,.3); }
-.filter-btn.active { background: var(--white); color: var(--black); border-color: var(--white); }
-
-/* CASE GRID */
-.cases-wrap { padding: 0 48px 120px; }
-.cases-inner { max-width: 1200px; margin: 0 auto; }
-.cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-
-.case-item {
-  position: relative; overflow: hidden; background: #080808;
-  aspect-ratio: 4/5; cursor: none;
-}
-.case-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
-.case-item img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform .7s cubic-bezier(.16,1,.3,1);
-  transform: scale(1.04);
-}
-.case-item:hover img { transform: scale(1.09); }
-.case-item-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 55%);
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 32px 36px;
-  opacity: 0; transition: opacity .4s cubic-bezier(.16,1,.3,1);
-}
-.case-item:hover .case-item-overlay { opacity: 1; }
-.case-tag {
-  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
-  background: rgba(240,85,40,.2); color: var(--orange); margin-bottom: 10px;
-  width: fit-content;
-}
-.case-item h3 { font-size: clamp(20px, 2.5vw, 32px); font-weight: 500; letter-spacing: -.5px; color: var(--white); line-height: 1.15; }
-.case-item p { font-size: 14px; color: rgba(250,245,235,.6); margin-top: 8px; line-height: 1.6; max-width: 480px; }
-
-/* Always-visible label (no hover needed on mobile) */
-.case-item-label {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 28px 32px;
-  background: linear-gradient(to top, rgba(0,0,0,.8) 0%, transparent 100%);
-}
-.case-item-label .case-tag { margin-bottom: 8px; }
-.case-item-label h3 { font-size: clamp(18px, 2vw, 26px); font-weight: 500; letter-spacing: -.4px; color: var(--white); }
+.hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden; }
+.hero-video { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-video::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.6); }
+.hero-orb { position: absolute; border-radius: 50%; filter: blur(90px); z-index: 1; pointer-events: none; }
+.orb1 { width: 650px; height: 650px; background: rgba(240,85,40,.08); top: -120px; left: 50%; transform: translateX(-50%); animation: orbFloat 9s ease-in-out infinite; }
+.orb2 { width: 420px; height: 420px; background: rgba(250,179,255,.04); bottom: -80px; right: -120px; animation: orbFloat 13s ease-in-out infinite reverse; }
+@keyframes orbFloat { 0%,100%{transform:translateY(0) translateX(-50%)} 50%{transform:translateY(-50px) translateX(-50%)} }
+.hero h1 { font-size: clamp(64px, 11vw, 140px); line-height: 1; letter-spacing: -3px; position: relative; z-index: 1; opacity: 0; animation: fadeUp 1s cubic-bezier(.16,1,.3,1) .35s both; padding-top: 12px; }
+.hero h1 .word-italic { font-family: var(--fd); font-weight: 300; font-style: italic; }
+.hero h1 .word-normal { font-weight: 500; }
+.hero h1 .hline { display: block; overflow: visible; }
+.hero h1 .hline span { display: inline-block; animation: wordUp 1s cubic-bezier(.16,1,.3,1) both; }
+.hline1 span { animation-delay: .4s; }
+.hline2 span { animation-delay: .55s; }
+@keyframes wordUp { from{transform:translateY(110%)} to{transform:translateY(0)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
 
 /* REVEAL */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1{transition-delay:.08s} .reveal-delay-2{transition-delay:.16s} .reveal-delay-3{transition-delay:.24s}
+
+/* QUOTE */
+.quote-wrap { padding: 120px 48px; position: relative; z-index: 0; }
+.quote-inner { max-width: 1000px; margin: 0 auto; }
+.quote-text { font-size: clamp(32px,4.5vw,58px); font-weight: 500; letter-spacing: -1px; line-height: 1.08; }
+.quote-text em { font-style: italic; color: var(--pink); }
+.quote-source { margin-top: 32px; font-size: 13px; font-weight: 500; color: #333; letter-spacing: 1px; text-transform: uppercase; }
+
+/* PAYOFF */
+.payoff-wrap {
+  position: relative;
+  padding: 140px 0;
+  /* overflow visible so card bleeds across section borders */
+  overflow: visible;
+  background: var(--black);
+  border-top: 1px solid rgba(255,255,255,.04);
+  isolation: isolate;
+  z-index: 1;
+}
+.payoff-text {
+  font-family: var(--fd); font-style: italic; font-weight: 300;
+  font-size: clamp(80px, 13vw, 172px); line-height: .86; letter-spacing: -4px;
+  color: var(--white); text-align: center; padding: 0 48px;
+  user-select: none; position: relative; z-index: 2;
+}
+.payoff-card {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%) rotate(-4deg);
+  width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4;
+  border-radius: 20px; overflow: hidden;
+  z-index: 1; pointer-events: none;
+  box-shadow: 0 40px 100px rgba(0,0,0,.8);
+}
+.payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
+
+/* =============================================
+   CASE CAROUSEL
+   ============================================= */
+.case-wrap { padding: 80px 0 80px; position: relative; z-index: 0; }
+.case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+.case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
+.case-nav { display: flex; gap: 10px; }
+.case-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--white); font-size: 18px; cursor: none; transition: background .25s, border-color .25s; display: flex; align-items: center; justify-content: center; }
+.case-nav button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
+
+.case-viewport {
+  overflow: hidden; width: 100%;
+  /* NO wheel events — handled by page scroll */
+  touch-action: pan-y;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.case-track {
+  display: flex; align-items: center; gap: 16px;
+  padding: 32px 0 40px;
+  will-change: transform;
+  user-select: none;
+}
+.case-card {
+  flex: 0 0 auto;
+  width: clamp(280px, 38vw, 460px);
+  border-radius: 20px; overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,.06);
+  background: #0a0a0a;
+  user-select: none;
+  transform-origin: center center;
+  /* transitions driven by JS */
+  transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s, box-shadow .5s;
+  cursor: none;
+}
+.case-card-img { height: clamp(360px, 50vw, 560px); position: relative; overflow: hidden; }
+.case-card-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none;
+  transform: scale(1.08) translateX(calc(var(--px, 0) * 1px));
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+.case-card-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.1) 40%, transparent 70%); }
+.case-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 28px 32px; }
+.case-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; background: rgba(240,85,40,.18); color: var(--orange); margin-bottom: 10px; }
+.case-overlay h3 { font-size: clamp(18px,2.2vw,24px); font-weight: 500; letter-spacing: -.4px; color: var(--white); line-height: 1.2; }
+
+/* NO dots */
+
+/* ERBJUDANDE */
+.offer-wrap { padding: 0 48px 120px; }
+.offer-inner { max-width: 1200px; margin: 0 auto; }
+.offer-header { margin-bottom: 48px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+.offer-list { display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,.07); }
+.offer-item { border-bottom: 1px solid rgba(255,255,255,.07); }
+.offer-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 28px 0; background: none; border: none; color: var(--white); cursor: none; text-align: left; }
+.offer-trigger h3 { font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; transition: color .25s; }
+.offer-trigger:hover h3 { color: var(--pink); }
+.offer-icon { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .25s; font-size: 16px; color: #666; }
+.offer-item.open .offer-icon { transform: rotate(45deg); border-color: var(--pink); color: var(--pink); }
+.offer-body { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.16,1,.3,1); }
+.offer-body-inner { padding: 0 0 32px; max-width: 600px; }
+.offer-body-inner p { font-size: 16px; color: #555; line-height: 1.75; }
+
+/* ARTICLES */
+.articles-wrap { padding: 120px 48px; background: var(--white); }
+.articles-inner { max-width: 1200px; margin: 0 auto; }
+.articles-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; flex-wrap: wrap; gap: 24px; }
+.articles-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+.articles-title { font-size: clamp(40px,5.5vw,72px); font-weight: 500; letter-spacing: -1px; line-height: 1.02; color: var(--black); }
+.articles-title em { font-style: italic; }
+.articles-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 2px; }
+.article-card { padding: 0; border: 1px solid rgba(0,0,0,.07); position: relative; overflow: hidden; transition: background .3s; background: var(--white); display: flex; flex-direction: column; }
+.article-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom,var(--orange),var(--pink)); transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 1; }
+.article-card:hover { background: #fafafa; }
+.article-card:hover::before { transform: scaleY(1); }
+.article-thumb { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #111; }
+.article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.article-card:hover .article-thumb img { transform: scale(1.04); }
+.article-body { padding: 32px 36px 36px; flex: 1; display: flex; flex-direction: column; }
+.article-card h3 { font-size: 20px; font-weight: 500; line-height: 1.22; margin-bottom: 14px; letter-spacing: -.3px; color: #111; }
+.article-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; flex: 1; }
+.article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
+.article-card:hover .article-link { gap: 12px; }
+.btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+.btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
+
+/* INSTAGRAM CTA */
+.insta-wrap {
+  background: var(--pink);
+  padding: 120px 48px;
+}
+.insta-inner { max-width: 1000px; margin: 0 auto; }
+.insta-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: 24px; }
+.insta-text {
+  font-size: clamp(48px, 7.5vw, 96px);
+  font-weight: 500; letter-spacing: -2px; line-height: 1.0;
+  color: var(--black);
+}
+.insta-text a {
+  font-family: var(--fd);
+  font-weight: 300; font-style: italic;
+  color: var(--black);
+  border-bottom: 2px solid rgba(0,0,0,.2);
+  transition: border-color .25s;
+}
+.insta-text a:hover { border-color: var(--black); }
 
 /* FOOTER */
 footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 .footer-inner { max-width: 1200px; margin: 0 auto; }
 .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; margin-bottom: 56px; }
 .footer-brand { max-width: 280px; }
-.footer-tagline { font-size: 13px; color: var(--white); opacity: .35; line-height: 1.65; }
-.footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); opacity: .2; margin-bottom: 18px; }
+.footer-tagline { font-size: 13px; color: #2a2a2a; line-height: 1.65; }
+.footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2a2a2a; margin-bottom: 18px; }
 .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-links ul li a { font-size: 14px; font-weight: 500; color: rgba(250,245,235,.35); display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
-.footer-links ul li a:hover { color: var(--pink); gap: 6px; }
+.footer-links ul li a { font-size: 14px; font-weight: 500; color: #333; display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
+.footer-links ul li a::before { content: '→'; font-size: 12px; opacity: 0; width: 0; overflow: hidden; transition: opacity .25s, width .3s; }
+.footer-links ul li a:hover { color: var(--white); gap: 6px; }
+.footer-links ul li a:hover::before { opacity: 1; width: 14px; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.04); }
-.footer-copy { font-size: 12px; color: rgba(250,245,235,.15); }
+.footer-copy { font-size: 12px; color: #1e1e1e; }
 .footer-social { display: flex; gap: 16px; }
-.footer-social a { font-size: 12px; font-weight: 600; color: rgba(250,245,235,.25); transition: color .25s, transform .3s; display: inline-block; }
-.footer-social a:hover { color: var(--pink); transform: translateY(-2px); }
+.footer-social a { font-size: 12px; font-weight: 600; color: #2a2a2a; transition: color .25s, transform .3s; display: inline-block; }
+.footer-social a:hover { color: var(--orange); transform: translateY(-2px); }
 
+/* MOBILE */
 @media (max-width: 768px) {
   nav { padding: 18px 24px; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
-  .hero { padding: 140px 24px 60px; }
-  .filter-wrap, .cases-wrap { padding-left: 24px; padding-right: 24px; }
-  .cases-grid { grid-template-columns: 1fr; }
-  .case-item.wide { grid-column: span 1; aspect-ratio: 4/5; }
-  .case-item-overlay { opacity: 1; }
+  .quote-wrap, .offer-wrap, .articles-wrap, .insta-wrap { padding-left: 24px; padding-right: 24px; }
+  .payoff-wrap { overflow: hidden; padding: 72px 0 0; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .payoff-text { font-size: clamp(52px,13vw,80px); padding: 0 24px; letter-spacing: -2px; text-align: center; position: relative; z-index: 2; }
+  .payoff-card {
+    position: relative; top: auto; left: auto;
+    transform: translateY(-28%) rotate(-3deg);
+    width: 72vw; max-width: 300px;
+    aspect-ratio: 3/4;
+    border-radius: 16px;
+    margin: 0 auto;
+    display: block;
+    z-index: 1;
+    box-shadow: 0 20px 50px rgba(0,0,0,.7);
+  }
+  .case-viewport { -webkit-mask-image: none; mask-image: none; touch-action: pan-y; }
+  .case-card { width: 82vw; max-width: 420px; }
+  .case-card-img { height: 110vw; max-height: 520px; }
+  .case-header { padding: 0 24px; }
   footer { padding: 48px 24px; }
+  .articles-header { flex-direction: column; align-items: flex-start; }
   .footer-top { flex-direction: column; }
   #cursor, #cursor-glow { display: none; }
   body { cursor: auto; }
@@ -154,14 +271,14 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 <div id="cursor-glow"></div>
 
 <nav id="navbar">
-  <a href="index.html"><img src="logo.png" alt="Passion Lab" style="height:28px;display:block"></a>
+  <a class="nav-logo" href="index.html"><img src="logo.png" alt="Passion Lab" style="height:28px;display:block"></a>
   <div class="nav-links">
     <span class="nav-link-wrap"><a href="om-oss.html">Om oss</a></span>
     <span class="nav-link-wrap"><a href="reklam.html">Reklam</a></span>
     <span class="nav-link-wrap"><a href="sponsring.html">Sponsring</a></span>
     <span class="nav-link-wrap"><a href="event.html">Event</a></span>
     <span class="nav-link-wrap"><a href="artiklar.html">Artiklar</a></span>
-    <a href="kontakt.html" class="nav-cta">Kontakt</a>
+    <a href="kontakt.html" class="nav-cta mag">Kontakt</a>
   </div>
   <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Meny">
     <span></span><span></span><span></span>
@@ -179,125 +296,131 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 </div>
 
 <!-- HERO -->
-<div class="hero">
-  <p class="hero-label">Utvalda case</p>
-  <h1>Vårt <em>bästa</em><br>arbete.</h1>
-</div>
+<section class="hero">
+  <div class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <h1>
+    <span class="hline hline1"><span><span class="word-italic">Älska&nbsp;</span><span class="word-normal">sånt</span></span></span>
+    <span class="hline hline2"><span><span class="word-normal">folk&nbsp;</span><span class="word-italic">älskar.</span></span></span>
+  </h1>
+</section>
 
-<!-- FILTER -->
-<div class="filter-wrap">
-  <div class="filter-inner">
-    <button class="filter-btn active" data-filter="alla">Alla</button>
-    <button class="filter-btn" data-filter="sponsring">Sponsring</button>
-    <button class="filter-btn" data-filter="event">Event</button>
-    <button class="filter-btn" data-filter="reklam">Reklam</button>
+<!-- QUOTE -->
+<div class="quote-wrap reveal">
+  <div class="quote-inner">
+    <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
+
   </div>
 </div>
 
-<!-- CASE GRID -->
-<div class="cases-wrap">
-  <div class="cases-inner">
-    <div class="cases-grid" id="casesGrid">
+<!-- PAYOFF + BILDKORT -->
+<div class="payoff-wrap reveal">
+  <p class="payoff-text">Ta en titt på<br>våra roliga<br>projekt.</p>
+  <div class="payoff-card" id="pc">
+    <div class="payoff-card-inner" style="background-image:url('TELIA_SHL_KN 22-23_COVER.jpg');background-size:cover;background-position:center"></div>
+  </div>
+</div>
 
-      <!-- Wide: Telia SHL -->
-      <div class="case-item wide reveal" data-category="sponsring">
-        <img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia × SHL">
-        <div class="case-item-label">
-          <span class="case-tag">Sponsring</span>
-          <h3>Telia × SHL — Känslan av hockey</h3>
-        </div>
-        <div class="case-item-overlay">
-          <span class="case-tag">Sponsring</span>
-          <h3>Telia × SHL — Känslan av hockey</h3>
-          <p>Hur Telia blev en naturlig del av hockeyupplevelsen för miljontals svenska fans.</p>
-        </div>
-      </div>
-
-      <!-- Unibet NHL -->
-      <div class="case-item reveal" data-category="sponsring">
-        <img src="Unibet_NHL_COVER.jpg" alt="Unibet × NHL">
-        <div class="case-item-label">
-          <span class="case-tag">Sponsring</span>
-          <h3>Unibet × NHL</h3>
-        </div>
-        <div class="case-item-overlay">
-          <span class="case-tag">Sponsring</span>
-          <h3>Unibet × NHL</h3>
-          <p>En sponsringsplattform som nådde hockeyfansen där passionen är som störst.</p>
-        </div>
-      </div>
-
-      <!-- Lyko ELLE -->
-      <div class="case-item reveal" data-category="reklam">
-        <img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko × ELLE">
-        <div class="case-item-label">
-          <span class="case-tag">Reklam</span>
-          <h3>Lyko × ELLE</h3>
-        </div>
-        <div class="case-item-overlay">
-          <span class="case-tag">Reklam</span>
-          <h3>Lyko × ELLE</h3>
-          <p>Skönhetskampanj som kombinerade redaktionell kraft med varumärkesrelevans.</p>
-        </div>
-      </div>
-
-      <!-- Wide: SEF -->
-      <div class="case-item wide reveal" data-category="sponsring">
-        <img src="SEF_cover_4x5.png" alt="SEF" style="object-position: top;">
-        <div class="case-item-label">
-          <span class="case-tag">Sponsring</span>
-          <h3>Svenska Fotbollförbundet</h3>
-        </div>
-        <div class="case-item-overlay">
-          <span class="case-tag">Sponsring</span>
-          <h3>Svenska Fotbollförbundet</h3>
-          <p>Strategisk sponsringsplattform som satte varumärket i centrum av svensk fotboll.</p>
-        </div>
-      </div>
-
-      <!-- Lyko Ski Team -->
-      <div class="case-item reveal" data-category="event">
-        <img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko × Ski Team">
-        <div class="case-item-label">
-          <span class="case-tag">Event</span>
-          <h3>Lyko × Ski Team</h3>
-        </div>
-        <div class="case-item-overlay">
-          <span class="case-tag">Event</span>
-          <h3>Lyko × Ski Team</h3>
-          <p>Innehållsdriven aktivering med Svenska Skidlandslaget som skapade viral räckvidd.</p>
-        </div>
-      </div>
-
-      <!-- Matchkorv -->
-      <div class="case-item reveal" data-category="event">
-        <img src="Matchkorv_presskonf.png" alt="Matchkorv">
-        <div class="case-item-label">
-          <span class="case-tag">Event</span>
-          <h3>Matchkorv</h3>
-        </div>
-        <div class="case-item-overlay">
-          <span class="case-tag">Event</span>
-          <h3>Matchkorv</h3>
-          <p>En presskonferens som blev en kulturgrej. Humor, sport och varumärke i perfekt balans.</p>
-        </div>
-      </div>
-
-      <!-- Ajabaja Cancer -->
-      <div class="case-item wide reveal" data-category="reklam">
-        <img src="Ajabajacancer_staende.jpg" alt="Ajabaja Cancer">
-        <div class="case-item-label">
-          <span class="case-tag">Reklam</span>
-          <h3>Ajabaja Cancer</h3>
-        </div>
-        <div class="case-item-overlay">
-          <span class="case-tag">Reklam</span>
-          <h3>Ajabaja Cancer</h3>
-          <p>Modig kommunikation som lyckades göra ett tungt ämne tillgängligt — och engagerande.</p>
-        </div>
-      </div>
-
+<!-- CASE CAROUSEL -->
+<div class="case-wrap reveal">
+  <div class="case-header">
+    <p class="case-label">Utvalda case</p>
+    <div class="case-nav">
+      <button id="case-prev" aria-label="Föregående">←</button>
+      <button id="case-next" aria-label="Nästa">→</button>
     </div>
+  </div>
+  <div class="case-viewport" id="caseViewport">
+    <div class="case-track" id="caseTrack">
+      <div class="case-card"><div class="case-card-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Telia × SHL</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Unibet × NHL</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Lyko × ELLE</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Lyko × Ski Team</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Ajabaja Cancer</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>SEF</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Matchkorv</h3></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERBJUDANDE -->
+<div class="offer-wrap reveal">
+  <div class="offer-inner">
+    <div class="offer-header"><p class="section-label">Vad vi erbjuder</p></div>
+    <div class="offer-list">
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Sponsring</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Vi hittar rätt sammanhang för ditt varumärke — och bygger samarbeten inom sport, kultur och underhållning som skapar verklig känslomässig koppling till din målgrupp.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Event</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Från stora publika aktiveringar till intima B2B-möten. Vi producerar event som börjar i varumärket och slutar i minnet.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Reklam</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Vi gör inte reklam för reklamens skull. Vi börjar i målgruppens värld och bygger kommunikation som känns relevant — och säljer.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Aktivering</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Rättigheterna är bara början. Vi bygger kommunikation och upplevelser som faktiskt utnyttjar dem — och mäter effekten.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Strategi</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Vi hittar de sammanhang där ditt varumärke faktiskt hör hemma — och gör det trovärdigt för en målgrupp som bryr sig.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTIKLAR -->
+<div class="articles-wrap">
+  <div class="articles-inner">
+    <div class="articles-header reveal">
+      <div>
+        <p class="articles-label">Artiklar &amp; nyheter</p>
+        <h2 class="articles-title">Tankar från<br><em>Passion Lab.</em></h2>
+      </div>
+      <a href="artiklar.html" class="btn-dark mag" style="white-space:nowrap">Alla artiklar →</a>
+    </div>
+    <div class="articles-grid">
+      <div class="article-card reveal reveal-delay-1">
+        <div class="article-thumb"><img src="SEF_cover_4x5.png" alt="Sponsring slår reklam 2026"></div>
+        <div class="article-body">
+          <h3>Varför sponsring är det effektivaste marknadsföringsverktyget 2026</h3>
+          <p>Konsumenter söker autenticitet och ignorerar traditionell annonsering. Sponsring av sport, kultur och live-event skapar den emotionella koppling som bygger långsiktig varumärkeslojalitet — något ingen digital annons kan ersätta.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
+      </div>
+      <div class="article-card reveal reveal-delay-2">
+        <div class="article-thumb"><img src="Matchkorv_presskonf.png" alt="Legendariska event"></div>
+        <div class="article-body">
+          <h3>Vad skiljer ett legendariskt event från ett bra event?</h3>
+          <p>De event som lever kvar i minnet delar fem egenskaper — ingen av dem handlar om budget. Från målgruppsinsikt och platsval till de mikroögonblick som skapar äkta känslomässigt engagemang hos deltagarna.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
+      </div>
+      <div class="article-card reveal reveal-delay-3">
+        <div class="article-thumb"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Rätt sponsringspartner"></div>
+        <div class="article-body">
+          <h3>Så väljer du rätt sponsringspartner — en strategisk guide</h3>
+          <p>Ett framgångsrikt sponsringssamarbete kräver mer än matchande målgrupper. Rätt kontextuell relevans, delade värderingar och en tydlig aktiveringsplan avgör om investeringen skapar mätbart affärsvärde eller bara exponering.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTAGRAM CTA -->
+<div class="insta-wrap reveal">
+  <div class="insta-inner">
+    <p class="insta-label">Följ oss</p>
+    <p class="insta-text">Spana in vår <a href="https://instagram.com/passionlab" target="_blank">Instagram</a> —<br>vi delar det vi älskar.</p>
   </div>
 </div>
 
@@ -321,41 +444,180 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 </footer>
 
 <script>
-/* CURSOR */
-const cur=document.getElementById('cursor'),glow=document.getElementById('cursor-glow');
+/* ─── CURSOR ─── */
+const cur = document.getElementById('cursor');
+const glow = document.getElementById('cursor-glow');
 let mx=0,my=0,gx=0,gy=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-(function a(){cur.style.left=mx+'px';cur.style.top=my+'px';gx+=(mx-gx)*.1;gy+=(my-gy)*.1;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(a);})();
-document.querySelectorAll('a,button,.case-item').forEach(el=>{
+(function animC(){cur.style.left=mx+'px';cur.style.top=my+'px';gx+=(mx-gx)*.1;gy+=(my-gy)*.1;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(animC);})();
+document.querySelectorAll('a,button,.case-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('big'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
 });
+new IntersectionObserver(entries=>{entries.forEach(e=>cur.classList.toggle('on-light',e.isIntersecting));},{threshold:.5})
+  .observe(document.querySelector('.articles-wrap'));
 
-/* NAVBAR */
+/* ─── MAGNETIC ─── */
+document.querySelectorAll('.mag').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;});
+  btn.addEventListener('mouseleave',()=>{btn.style.transition='transform .5s cubic-bezier(.34,1.56,.64,1)';btn.style.transform='';setTimeout(()=>btn.style.transition='',500);});
+});
+
+/* ─── REVEAL ─── */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ─── NAVBAR ─── */
 window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>50));
 
-/* REVEAL */
-const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+/* ─── OFFER ACCORDION ─── */
+function toggleOffer(btn){
+  const item=btn.closest('.offer-item'),body=item.querySelector('.offer-body'),isOpen=item.classList.contains('open');
+  document.querySelectorAll('.offer-item.open').forEach(el=>{el.classList.remove('open');el.querySelector('.offer-body').style.maxHeight='0';});
+  if(!isOpen){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';}
+}
 
-/* FILTER */
-const filterBtns=document.querySelectorAll('.filter-btn');
-const caseItems=document.querySelectorAll('.case-item');
-filterBtns.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    filterBtns.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const f=btn.dataset.filter;
-    caseItems.forEach(item=>{
-      const show=f==='alla'||item.dataset.category===f;
-      item.style.display=show?'':'none';
-      /* wide items: restore grid-column */
-      if(show&&item.classList.contains('wide')&&window.innerWidth>768){
-        item.style.gridColumn='span 2';
-      }
+/* ─── PAYOFF BILDKORT ─── */
+(function(){
+  const wrap=document.querySelector('.payoff-wrap'),card=document.getElementById('pc'),inner=card.querySelector('.payoff-card-inner');
+  const bgs=['TELIA_SHL_KN 22-23_COVER.jpg','Unibet_NHL_COVER.jpg','LYKO_ELLE 23_COVER.jpg','LYKO_SKI TEAM_MIN RUTIN_COVER.jpg','Ajabajacancer_staende.jpg','SEF_cover_4x5.png','Matchkorv_presskonf.png'];
+  let idx=0,tx=0,ty=0,cx=0,cy=0;
+  bgs.forEach(s=>{const i=new Image();i.src=s;});
+  setInterval(()=>{idx=(idx+1)%bgs.length;inner.style.backgroundImage=`url('${bgs[idx]}')`;inner.style.backgroundSize='cover';inner.style.backgroundPosition='center';},800);
+  wrap.addEventListener('mousemove',e=>{if(window.innerWidth<768)return;const r=wrap.getBoundingClientRect();tx=e.clientX-r.left-r.width/2;ty=e.clientY-r.top-r.height/2;});
+  wrap.addEventListener('mouseleave',()=>{tx=0;ty=0;});
+  (function anim(){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;if(window.innerWidth>=768)card.style.transform=`translate(calc(-50% + ${cx}px),calc(-50% + ${cy}px)) rotate(-4deg)`;requestAnimationFrame(anim);})();
+})();
+
+/* ─── CASE CAROUSEL — infinite loop, auto-drift, drag only (NO wheel) ─── */
+(function(){
+  const viewport=document.getElementById('caseViewport');
+  const track=document.getElementById('caseTrack');
+  const prevBtn=document.getElementById('case-prev');
+  const nextBtn=document.getElementById('case-next');
+  const GAP=16;
+
+  /* Gather originals, then clone sandwich */
+  const origCards=Array.from(track.querySelectorAll('.case-card'));
+  const N=origCards.length;
+  [...origCards].reverse().forEach(c=>{const cl=c.cloneNode(true);track.prepend(cl);});
+  origCards.forEach(c=>{const cl=c.cloneNode(true);track.append(cl);});
+  const all=Array.from(track.querySelectorAll('.case-card'));
+
+  let active=N; // start on first real card
+  let posX=0,targetX=0,velX=0;
+  let isDragging=false,dragStartX=0,dragStartPos=0,lastDX=0,lastDT=0;
+  let isHovered=false;
+  const DRIFT=0.45;
+
+  function cw(){return all[0].offsetWidth+GAP;}
+  function offsetFor(i){const vw=viewport.offsetWidth,w=all[0].offsetWidth;return -(i*cw()-(vw-w)/2);}
+  function nearest(x){const c=-x+viewport.offsetWidth/2;let b=active,bd=Infinity;all.forEach((_,i)=>{const d=Math.abs(i*cw()+all[0].offsetWidth/2-c);if(d<bd){bd=d;b=i;}});return b;}
+  function teleport(){if(active<N){active+=N;posX-=N*cw();targetX-=N*cw();}else if(active>=N*2){active-=N;posX+=N*cw();targetX+=N*cw();}}
+
+  function style(){
+    all.forEach((card,i)=>{
+      const dist=Math.abs(i-active);
+      if(dist===0){card.style.transform='scale(1)';card.style.opacity='1';card.style.boxShadow='0 32px 80px rgba(0,0,0,.75)';}
+      else if(dist===1){card.style.transform='scale(0.92)';card.style.opacity='0.55';card.style.boxShadow='none';}
+      else{card.style.transform='scale(0.86)';card.style.opacity='0.3';card.style.boxShadow='none';}
+      const fc=(-posX+i*cw()+all[0].offsetWidth/2)-viewport.offsetWidth/2;
+      const img=card.querySelector('img');
+      if(img)img.style.setProperty('--px',Math.max(-14,Math.min(14,fc*0.04)));
     });
+  }
+
+  (function loop(){
+    if(!isDragging){
+      if(!isHovered){
+        posX-=DRIFT; targetX=posX; active=nearest(posX); teleport();
+      } else {
+        const d=targetX-posX; posX+=d*0.1+velX; velX*=0.82;
+        if(Math.abs(d)<0.3&&Math.abs(velX)<0.1){posX=targetX;velX=0;}
+      }
+    }
+    track.style.transform=`translateX(${posX}px)`;
+    style();
+    requestAnimationFrame(loop);
+  })();
+
+  function goTo(i){isHovered=true;active=i;targetX=offsetFor(i);velX=0;setTimeout(teleport,620);}
+
+  /* Hover — stop drift, highlight whichever card the mouse is over */
+  viewport.addEventListener('mousemove', e => {
+    if(isDragging) return;
+    isHovered = true;
+    /* Find which card is under the cursor */
+    const vr = viewport.getBoundingClientRect();
+    const mouseX = e.clientX - vr.left - posX;
+    let hit = active;
+    all.forEach((card, i) => {
+      const left  = i * cw();
+      const right = left + all[0].offsetWidth;
+      if(mouseX >= left && mouseX <= right) hit = i;
+    });
+    active = hit;
+    /* Don't move targetX — card stays where it is, just highlights */
+    targetX = posX;
   });
-});
+  viewport.addEventListener('mouseleave',()=>{isHovered=false;targetX=posX;});
+
+  prevBtn.addEventListener('click',()=>goTo(active-1));
+  nextBtn.addEventListener('click',()=>goTo(active+1));
+
+  /* Drag — block default touch scroll only when horizontal */
+  let touchStartX=0,touchStartY=0,isHorizDrag=false;
+
+  function pDown(e){
+    isDragging=true;isHovered=true;
+    const cx=e.touches?e.touches[0].clientX:e.clientX;
+    const cy=e.touches?e.touches[0].clientY:e.clientY;
+    dragStartX=cx;dragStartPos=posX;lastDX=cx;lastDT=performance.now();velX=0;
+    touchStartX=cx;touchStartY=cy;isHorizDrag=false;
+    if(!e.touches)e.preventDefault();
+  }
+  function pMove(e){
+    if(!isDragging)return;
+    const cx=e.touches?e.touches[0].clientX:e.clientX;
+    const cy=e.touches?e.touches[0].clientY:e.clientY;
+    /* Decide direction on first significant move */
+    if(!isHorizDrag&&e.touches){
+      const dx=Math.abs(cx-touchStartX),dy=Math.abs(cy-touchStartY);
+      if(dy>dx+4)return; /* vertical — let page scroll */
+      if(dx>4)isHorizDrag=true;
+      else return;
+    }
+    if(e.touches&&e.cancelable)e.preventDefault();
+    velX=(cx-lastDX)/Math.max(performance.now()-lastDT,1)*16;
+    lastDX=cx;lastDT=performance.now();
+    posX=dragStartPos+cx-dragStartX;
+  }
+  function pUp(){
+    if(!isDragging)return;
+    isDragging=false;
+    active=velX>4?nearest(posX)-1:velX<-4?nearest(posX)+1:nearest(posX);
+    targetX=offsetFor(active);
+    setTimeout(()=>{velX=0;},300);
+    setTimeout(teleport,620);
+  }
+
+  track.addEventListener('mousedown',pDown,{passive:false});
+  window.addEventListener('mousemove',pMove);
+  window.addEventListener('mouseup',pUp);
+  track.addEventListener('touchstart',pDown,{passive:true});
+  track.addEventListener('touchmove',pMove,{passive:false});
+  track.addEventListener('touchend',pUp);
+
+  /* Block wheel from scrolling carousel sideways */
+  viewport.addEventListener('wheel',e=>{
+    /* do nothing — let the page scroll naturally */
+  },{passive:true});
+
+  /* Init */
+  posX=targetX=offsetFor(N);
+  track.style.transform=`translateX(${posX}px)`;
+  style();
+})();
 </script>
 </body>
 </html>
