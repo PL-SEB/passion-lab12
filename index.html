@@ -1,50 +1,151 @@
-<!-- ═══════════════════════════════════════════════
-   INSTAGRAM CTA — ersätt hela .insta-wrap-blocket
-   ═══════════════════════════════════════════════ -->
-
-<!-- CSS: lägg till/ersätt dessa regler i <style> -->
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passion Lab – Älska sånt folk älskar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/prr7bwp.css">
 <style>
-/* INSTAGRAM CTA */
-.insta-wrap {
-  background: var(--pink);
-  padding: 220px 48px;
-  position: relative;
-  overflow: hidden;
-  cursor: none;           /* desktop: vi hanterar cursor manuellt */
-  display: block;         /* hela blocket är klickbart */
-  text-decoration: none;  /* tas bort på <a>-elementet */
-  transition: filter .3s;
+:root {
+  --black: #000;
+  --white: #faf5eb;
+  --orange: #f05528;
+  --pink: #fab3ff;
+  --font: 'Inter Tight', sans-serif;
+  --fd: 'ivypresto-display', serif;
 }
-/* Subtil hover-effekt på hela sektionen */
-.insta-wrap:hover { filter: brightness(1.03); }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: var(--font); font-weight: 400; overflow-x: hidden; -webkit-font-smoothing: antialiased; cursor: none; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, h4 { font-weight: 500; }
 
-.insta-inner {
-  max-width: 1000px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-  pointer-events: none;   /* låter klick "falla igenom" till <a> */
-}
-.insta-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: rgba(0,0,0,.4);
-  margin-bottom: 24px;
-}
-.insta-text {
-  font-size: clamp(48px, 7.5vw, 96px);
-  font-weight: 500;
-  letter-spacing: -2px;
-  line-height: 1.0;
-  color: var(--black);
-}
-.insta-text span.italic {
-  font-family: var(--fd);
-  font-weight: 300;
-  font-style: italic;
-}
+/* CURSOR */
+#cursor { width: 10px; height: 10px; background: var(--pink); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .25s cubic-bezier(.34,1.56,.64,1), height .25s cubic-bezier(.34,1.56,.64,1), background .2s; }
+#cursor.big { width: 48px; height: 48px; background: rgba(250,179,255,.15); border: 1px solid rgba(250,179,255,.5); }
+#cursor.on-light { background: var(--black); }
+#cursor-glow { width: 36px; height: 36px; border: 1px solid rgba(250,179,255,.3); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; transition: padding .4s cubic-bezier(.16,1,.3,1), background .4s; }
+nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,.05); padding: 14px 48px; }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-link-wrap { position: relative; overflow: hidden; }
+.nav-links a { font-size: 13px; font-weight: 500; color: #666; transition: color .25s; display: block; }
+.nav-links a:hover { color: var(--white); }
+.nav-link-wrap::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px; background: var(--white); transform: scaleX(0); transform-origin: left; transition: transform .3s cubic-bezier(.16,1,.3,1); }
+.nav-link-wrap:hover::after { transform: scaleX(1); }
+.nav-cta { background: var(--pink); color: var(--black); padding: 9px 22px; border-radius: 100px; font-size: 13px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+.nav-cta:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 8px 24px rgba(250,179,255,.3); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; background: none; border: none; padding: 4px; }
+.hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; display: block; }
+.mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--black); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+.mobile-close { position: absolute; top: 26px; right: 32px; font-size: 28px; cursor: none; background: none; border: none; font-family: var(--font); color: var(--white); }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden; }
+.hero-video { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-video::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.6); }
+.hero-orb { position: absolute; border-radius: 50%; filter: blur(90px); z-index: 1; pointer-events: none; }
+.orb1 { width: 650px; height: 650px; background: rgba(240,85,40,.08); top: -120px; left: 50%; transform: translateX(-50%); animation: orbFloat 9s ease-in-out infinite; }
+.orb2 { width: 420px; height: 420px; background: rgba(250,179,255,.04); bottom: -80px; right: -120px; animation: orbFloat 13s ease-in-out infinite reverse; }
+@keyframes orbFloat { 0%,100%{transform:translateY(0) translateX(-50%)} 50%{transform:translateY(-50px) translateX(-50%)} }
+.hero h1 { font-size: clamp(64px, 11vw, 140px); line-height: 1; letter-spacing: -3px; position: relative; z-index: 1; opacity: 0; animation: fadeUp 1s cubic-bezier(.16,1,.3,1) .35s both; padding-top: 12px; }
+.hero h1 .word-italic { font-family: var(--fd); font-weight: 300; font-style: italic; }
+.hero h1 .word-normal { font-weight: 500; }
+.hero h1 .hline { display: block; overflow: visible; }
+.hero h1 .hline span { display: inline-block; animation: wordUp 1s cubic-bezier(.16,1,.3,1) both; }
+.hline1 span { animation-delay: .4s; }
+.hline2 span { animation-delay: .55s; }
+@keyframes wordUp { from{transform:translateY(110%)} to{transform:translateY(0)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1{transition-delay:.08s} .reveal-delay-2{transition-delay:.16s} .reveal-delay-3{transition-delay:.24s}
+
+/* QUOTE */
+.quote-wrap { padding: 120px 48px; position: relative; z-index: 0; }
+.quote-inner { max-width: 1000px; margin: 0 auto; }
+.quote-text { font-size: clamp(32px,4.5vw,58px); font-weight: 500; letter-spacing: -1px; line-height: 1.08; }
+.quote-text em { font-style: italic; color: var(--pink); }
+
+/* PAYOFF */
+.payoff-link { display: block; cursor: none; position: relative; z-index: 1; }
+.payoff-wrap { position: relative; padding: 140px 0; overflow: visible; background: var(--black); border-top: 1px solid rgba(255,255,255,.04); isolation: isolate; }
+.payoff-text { font-family: var(--fd); font-style: italic; font-weight: 300; font-size: clamp(80px, 13vw, 172px); line-height: .86; letter-spacing: -4px; color: var(--white); text-align: center; padding: 0 48px; user-select: none; position: relative; z-index: 2; }
+.payoff-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-4deg); width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; z-index: 1; pointer-events: none; box-shadow: 0 40px 100px rgba(0,0,0,.8); }
+.payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
+
+/* CASE CAROUSEL — dold på desktop, visas på mobil */
+.case-wrap { display: none; padding: 80px 0; position: relative; z-index: 0; }
+.case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+.case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
+.case-nav { display: flex; gap: 10px; }
+.case-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--white); font-size: 18px; cursor: none; transition: background .25s, border-color .25s; display: flex; align-items: center; justify-content: center; }
+.case-nav button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
+.case-viewport { overflow: hidden; width: 100%; touch-action: pan-y; }
+.case-track { display: flex; align-items: center; gap: 16px; padding: 32px 0 40px; will-change: transform; user-select: none; }
+.case-card { flex: 0 0 auto; width: clamp(280px, 38vw, 460px); border-radius: 20px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,.06); background: #0a0a0a; user-select: none; transform-origin: center center; transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s, box-shadow .5s; cursor: none; }
+.case-card-img { height: clamp(360px, 50vw, 560px); position: relative; overflow: hidden; }
+.case-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; transform: scale(1.08) translateX(calc(var(--px, 0) * 1px)); transition: transform .6s cubic-bezier(.16,1,.3,1); will-change: transform; }
+.case-card-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.1) 40%, transparent 70%); }
+.case-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 28px 32px; }
+.case-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; background: rgba(240,85,40,.18); color: var(--orange); margin-bottom: 10px; }
+.case-overlay h3 { font-size: clamp(18px,2.2vw,24px); font-weight: 500; letter-spacing: -.4px; color: var(--white); line-height: 1.2; }
+
+/* ERBJUDANDE */
+.offer-wrap { padding: 0 48px 120px; }
+.offer-inner { max-width: 1200px; margin: 0 auto; }
+.offer-header { margin-bottom: 48px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+.offer-list { display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,.07); }
+.offer-item { border-bottom: 1px solid rgba(255,255,255,.07); }
+.offer-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 28px 0; background: none; border: none; color: var(--white); cursor: none; text-align: left; }
+.offer-trigger h3 { font-size: clamp(28px,3.5vw,48px); font-weight: 500; letter-spacing: -1px; transition: color .25s; }
+.offer-trigger:hover h3 { color: var(--pink); }
+.offer-icon { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .25s; font-size: 16px; color: #666; }
+.offer-item.open .offer-icon { transform: rotate(45deg); border-color: var(--pink); color: var(--pink); }
+.offer-body { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.16,1,.3,1); }
+.offer-body-inner { padding: 0 0 32px; max-width: 600px; }
+.offer-body-inner p { font-size: 16px; color: #555; line-height: 1.75; }
+
+/* ARTICLES */
+.articles-wrap { padding: 120px 48px; background: var(--white); }
+.articles-inner { max-width: 1200px; margin: 0 auto; }
+.articles-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; flex-wrap: wrap; gap: 24px; }
+.articles-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+.articles-title { font-size: clamp(40px,5.5vw,72px); font-weight: 500; letter-spacing: -1px; line-height: 1.02; color: var(--black); }
+.articles-title em { font-style: italic; }
+.articles-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 2px; }
+.article-card { padding: 0; border: 1px solid rgba(0,0,0,.07); position: relative; overflow: hidden; transition: background .3s; background: var(--white); display: flex; flex-direction: column; }
+.article-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom,var(--orange),var(--pink)); transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 1; }
+.article-card:hover { background: #fafafa; }
+.article-card:hover::before { transform: scaleY(1); }
+.article-thumb { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #111; border-radius: 12px; margin: 16px 16px 0; width: calc(100% - 32px); }
+.article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); border-radius: 12px; }
+.article-card:hover .article-thumb img { transform: scale(1.04); }
+.article-body { padding: 24px 36px 36px; flex: 1; display: flex; flex-direction: column; }
+.article-card h3 { font-size: 20px; font-weight: 500; line-height: 1.22; margin-bottom: 14px; letter-spacing: -.3px; color: #111; }
+.article-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; flex: 1; }
+.article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
+.article-card:hover .article-link { gap: 12px; }
+.btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+.btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
+
+/* INSTAGRAM CTA */
+.insta-wrap { background: var(--pink); padding: 220px 48px; position: relative; overflow: hidden; cursor: none; }
+.insta-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
+.insta-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: 24px; }
+.insta-text { font-size: clamp(48px, 7.5vw, 96px); font-weight: 500; letter-spacing: -2px; line-height: 1.0; color: var(--black); }
+.insta-text a { font-family: var(--fd); font-weight: 300; font-style: italic; color: var(--black); transition: opacity .25s; }
 
 /* Desktop: roterande finger inuti sektionen */
 #insta-finger {
@@ -75,7 +176,7 @@
 #insta-cursor img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor.visible { opacity: 1; }
 
-/* Mobil: some-manager + finger */
+/* Mobil: some-manager + finger — styrda av JS via opacity */
 #insta-cursor-mobile {
   width: 90px; height: 90px;
   border-radius: 50%;
@@ -87,8 +188,6 @@
   box-shadow: 0 4px 20px rgba(0,0,0,.25);
   opacity: 0;
   transition: opacity .35s;
-  cursor: pointer;        /* mobil: klickbar */
-  pointer-events: auto;
 }
 #insta-cursor-mobile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor-mobile.show { opacity: 1; }
@@ -106,71 +205,295 @@
 }
 #insta-finger-mobile.show { opacity: 1; }
 
-/* Mobil: hela sektionen klickbar med auto-cursor */
+/* FOOTER */
+footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; margin-bottom: 56px; }
+.footer-brand { max-width: 280px; }
+.footer-tagline { font-size: 13px; color: var(--white); opacity: .55; line-height: 1.65; }
+.footer-links h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); opacity: .35; margin-bottom: 18px; }
+.footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links ul li a { font-size: 14px; font-weight: 500; color: rgba(250,245,235,.55); display: inline-flex; align-items: center; gap: 0; transition: color .25s, gap .3s; }
+.footer-links ul li a:hover { color: var(--pink); gap: 6px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.04); }
+.footer-copy { font-size: 12px; color: rgba(250,245,235,.35); }
+.footer-social { display: flex; gap: 16px; }
+.footer-social a { font-size: 12px; font-weight: 600; color: rgba(250,245,235,.45); transition: color .25s, transform .3s; display: inline-block; }
+.footer-social a:hover { color: var(--pink); transform: translateY(-2px); }
+
+/* MOBILE */
 @media (max-width: 768px) {
-  .insta-wrap { cursor: pointer !important; }
+  nav { padding: 18px 24px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .quote-wrap, .offer-wrap, .articles-wrap, .insta-wrap { padding-left: 24px; padding-right: 24px; }
+  .payoff-link { display: none; }
+  .case-wrap { display: block; }
+  .case-viewport { -webkit-mask-image: none; mask-image: none; touch-action: pan-y; }
+  .case-header { padding: 0 24px; }
+  .case-card { width: 82vw; max-width: 420px; }
+  .case-card-img { height: 110vw; max-height: 520px; }
+  .insta-wrap { padding: 100px 24px; }
+  /* Desktop cursor dold på mobil */
   #insta-cursor { display: none !important; }
   #insta-finger { display: none !important; }
+  footer { padding: 48px 24px; }
+  .articles-header { flex-direction: column; align-items: flex-start; }
+  .footer-top { flex-direction: column; }
+  #cursor, #cursor-glow { display: none; }
+  body { cursor: auto; }
+  * { cursor: auto !important; }
 }
 </style>
+</head>
+<body>
 
+<div id="cursor"></div>
+<div id="cursor-glow"></div>
 
-<!-- HTML: ersätt hela .insta-wrap-diven med en <a>-tagg -->
-
-<!-- Desktop cursor + mobil-element (utanför <a>, före den) -->
+<!-- Desktop insta-cursor -->
 <div id="insta-cursor"><img src="some-manager.png" alt=""></div>
+
+<!-- Mobil: separata element -->
 <div id="insta-cursor-mobile"><img src="some-manager.png" alt=""></div>
 <div id="insta-finger-mobile">👆</div>
 
-<!-- Hela sektionen är nu en <a>-länk -->
-<a href="https://www.instagram.com/_passionlab/"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="insta-wrap reveal"
-   id="instaWrap"
-   aria-label="Följ Passion Lab på Instagram">
-
-  <div id="insta-finger">👆</div>
-
-  <div class="insta-inner">
-    <p class="insta-label">Följ oss</p>
-    <p class="insta-text">
-      Spana in vår <span class="italic">Instagram</span> —<br>vi delar det vi älskar.
-    </p>
+<nav id="navbar">
+  <a class="nav-logo" href="index.html"><img src="logo.png" alt="Passion Lab" style="height:28px;display:block"></a>
+  <div class="nav-links">
+    <span class="nav-link-wrap"><a href="om-oss.html">Om oss</a></span>
+    <span class="nav-link-wrap"><a href="case.html">Case</a></span>
+    <span class="nav-link-wrap"><a href="reklam.html">Reklam</a></span>
+    <span class="nav-link-wrap"><a href="sponsring.html">Sponsring</a></span>
+    <span class="nav-link-wrap"><a href="event.html">Event</a></span>
+    <span class="nav-link-wrap"><a href="artiklar.html">Artiklar</a></span>
+    <a href="kontakt.html" class="nav-cta mag">Kontakt</a>
   </div>
+  <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Meny">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
+<div class="mobile-menu">
+  <button class="mobile-close" onclick="document.querySelector('.mobile-menu').classList.remove('open')">✕</button>
+  <a href="om-oss.html"    onclick="document.querySelector('.mobile-menu').classList.remove('open')">Om oss</a>
+  <a href="case.html"      onclick="document.querySelector('.mobile-menu').classList.remove('open')">Case</a>
+  <a href="reklam.html"    onclick="document.querySelector('.mobile-menu').classList.remove('open')">Reklam</a>
+  <a href="sponsring.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Sponsring</a>
+  <a href="event.html"     onclick="document.querySelector('.mobile-menu').classList.remove('open')">Event</a>
+  <a href="artiklar.html"  onclick="document.querySelector('.mobile-menu').classList.remove('open')">Artiklar</a>
+  <a href="kontakt.html"   onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
+</div>
+
+<section class="hero">
+  <div class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <h1>
+    <span class="hline hline1"><span><span class="word-italic">Älska&nbsp;</span><span class="word-normal">sånt</span></span></span>
+    <span class="hline hline2"><span><span class="word-normal">folk&nbsp;</span><span class="word-italic">älskar.</span></span></span>
+  </h1>
+</section>
+
+<div class="quote-wrap reveal">
+  <div class="quote-inner">
+    <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
+  </div>
+</div>
+
+<a href="case.html" class="payoff-link reveal">
+  <div class="payoff-wrap" id="payoffWrap">
+    <p class="payoff-text">Klicka för att<br>se våra fina<br>case.</p>
+    <div class="payoff-card" id="pc">
+      <div class="payoff-card-inner" style="background-image:url('TELIA_SHL_KN 22-23_COVER.jpg');background-size:cover;background-position:center"></div>
+    </div>
+  </div>
 </a>
 
+<div class="case-wrap reveal">
+  <div class="case-header">
+    <p class="case-label">Utvalda case</p>
+    <div class="case-nav">
+      <button id="case-prev" aria-label="Föregående">←</button>
+      <button id="case-next" aria-label="Nästa">→</button>
+    </div>
+  </div>
+  <div class="case-viewport" id="caseViewport">
+    <div class="case-track" id="caseTrack">
+      <div class="case-card"><div class="case-card-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Telia × SHL</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Unibet × NHL</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Lyko × ELLE</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Lyko × Ski Team</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Ajabaja Cancer</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>SEF</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Matchkorv</h3></div></div>
+    </div>
+  </div>
+</div>
 
-<!-- ═══════════════════════════════════════════════
-   JS: ersätt hela Instagram-blocket i <script>
-   ═══════════════════════════════════════════════ -->
+<div class="offer-wrap reveal">
+  <div class="offer-inner">
+    <div class="offer-header"><p class="section-label">Vad vi erbjuder</p></div>
+    <div class="offer-list">
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Sponsring</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Vi hittar rätt sammanhang för ditt varumärke — och bygger samarbeten inom sport, kultur och underhållning som skapar verklig känslomässig koppling till din målgrupp.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Event</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Från stora publika aktiveringar till intima B2B-möten. Vi producerar event som börjar i varumärket och slutar i minnet.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Reklam</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Vi gör inte reklam för reklamens skull. Vi börjar i målgruppens värld och bygger kommunikation som känns relevant — och säljer.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Aktivering</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Rättigheterna är bara början. Vi bygger kommunikation och upplevelser som faktiskt utnyttjar dem — och mäter effekten.</p></div></div>
+      </div>
+      <div class="offer-item">
+        <button class="offer-trigger" onclick="toggleOffer(this)"><h3>Strategi</h3><span class="offer-icon">+</span></button>
+        <div class="offer-body"><div class="offer-body-inner"><p>Vi hittar de sammanhang där ditt varumärke faktiskt hör hemma — och gör det trovärdigt för en målgrupp som bryr sig.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="articles-wrap">
+  <div class="articles-inner">
+    <div class="articles-header reveal">
+      <div>
+        <p class="articles-label">Artiklar &amp; nyheter</p>
+        <h2 class="articles-title">Tankar från<br><em>Passion Lab.</em></h2>
+      </div>
+      <a href="artiklar.html" class="btn-dark mag" style="white-space:nowrap">Alla artiklar →</a>
+    </div>
+    <div class="articles-grid">
+      <div class="article-card reveal reveal-delay-1">
+        <div class="article-thumb"><img src="SEF_cover_4x5.png" alt="Sponsring"></div>
+        <div class="article-body">
+          <h3>Varför sponsring är det effektivaste marknadsföringsverktyget 2026</h3>
+          <p>Konsumenter söker autenticitet och ignorerar traditionell annonsering. Sponsring av sport, kultur och live-event skapar den emotionella koppling som bygger långsiktig varumärkeslojalitet.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
+      </div>
+      <div class="article-card reveal reveal-delay-2">
+        <div class="article-thumb"><img src="Matchkorv_presskonf.png" alt="Event"></div>
+        <div class="article-body">
+          <h3>Vad skiljer ett legendariskt event från ett bra event?</h3>
+          <p>De event som lever kvar i minnet delar fem egenskaper — ingen av dem handlar om budget. Från målgruppsinsikt till de mikroögonblick som skapar äkta engagemang.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
+      </div>
+      <div class="article-card reveal reveal-delay-3">
+        <div class="article-thumb"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Sponsring"></div>
+        <div class="article-body">
+          <h3>Så väljer du rätt sponsringspartner — en strategisk guide</h3>
+          <p>Rätt kontextuell relevans, delade värderingar och en tydlig aktiveringsplan avgör om investeringen skapar mätbart affärsvärde eller bara exponering.</p>
+          <a href="artiklar.html" class="article-link">Läs mer →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insta-wrap reveal" id="instaWrap">
+  <div id="insta-finger">👆</div>
+  <div class="insta-inner">
+    <p class="insta-label">Följ oss</p>
+    <p class="insta-text">Spana in vår <a href="https://www.instagram.com/_passionlab/" target="_blank" id="instaLink">Instagram</a> —<br>vi delar det vi älskar.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" style="display:block;margin-bottom:16px"><img src="logo.png" alt="Passion Lab" style="height:22px;display:block;opacity:.7"></a>
+        <p class="footer-tagline">Älska sånt folk älskar. Sveriges ledande byrå inom sponsring och event.</p>
+      </div>
+      <div class="footer-links"><h4>Vad vi gör</h4><ul><li><a href="sponsring.html">Sponsring</a></li><li><a href="event.html">Event</a></li><li><a href="reklam.html">Reklam</a></li></ul></div>
+      <div class="footer-links"><h4>Företaget</h4><ul><li><a href="om-oss.html">Om oss</a></li><li><a href="artiklar.html">Artiklar</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
+      <div class="footer-links"><h4>Kontakt</h4><ul><li><a href="mailto:hello@passionlab.se">hello@passionlab.se</a></li><li><a href="#">Stockholm, Sverige</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Passion Lab. Alla rättigheter förbehållna.</p>
+      <div class="footer-social"><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">TikTok</a></div>
+    </div>
+  </div>
+</footer>
+
 <script>
+/* ─── CURSOR ─── */
+const cur = document.getElementById('cursor');
+const glow = document.getElementById('cursor-glow');
+let mx=0,my=0,gx=0,gy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function animC(){cur.style.left=mx+'px';cur.style.top=my+'px';gx+=(mx-gx)*.1;gy+=(my-gy)*.1;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(animC);})();
+document.querySelectorAll('a,button,.case-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+new IntersectionObserver(entries=>{entries.forEach(e=>cur.classList.toggle('on-light',e.isIntersecting));},{threshold:.5})
+  .observe(document.querySelector('.articles-wrap'));
+
+/* ─── MAGNETIC ─── */
+document.querySelectorAll('.mag').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;});
+  btn.addEventListener('mouseleave',()=>{btn.style.transition='transform .5s cubic-bezier(.34,1.56,.64,1)';btn.style.transform='';setTimeout(()=>btn.style.transition='',500);});
+});
+
+/* ─── REVEAL ─── */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ─── NAVBAR ─── */
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>50));
+
+/* ─── OFFER ACCORDION ─── */
+function toggleOffer(btn){
+  const item=btn.closest('.offer-item'),body=item.querySelector('.offer-body'),isOpen=item.classList.contains('open');
+  document.querySelectorAll('.offer-item.open').forEach(el=>{el.classList.remove('open');el.querySelector('.offer-body').style.maxHeight='0';});
+  if(!isOpen){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';}
+}
+
+/* ─── PAYOFF BILDKORT ─── */
+(function(){
+  const wrap=document.getElementById('payoffWrap'),card=document.getElementById('pc'),inner=card.querySelector('.payoff-card-inner');
+  const bgs=['TELIA_SHL_KN 22-23_COVER.jpg','Unibet_NHL_COVER.jpg','LYKO_ELLE 23_COVER.jpg','LYKO_SKI TEAM_MIN RUTIN_COVER.jpg','Ajabajacancer_staende.jpg','SEF_cover_4x5.png','Matchkorv_presskonf.png'];
+  let idx=0,tx=0,ty=0,cx=0,cy=0;
+  bgs.forEach(s=>{const i=new Image();i.src=s;});
+  setInterval(()=>{idx=(idx+1)%bgs.length;inner.style.backgroundImage=`url('${bgs[idx]}')`;inner.style.backgroundSize='cover';inner.style.backgroundPosition='center';},800);
+  wrap.addEventListener('mousemove',e=>{if(window.innerWidth<768)return;const r=wrap.getBoundingClientRect();tx=e.clientX-r.left-r.width/2;ty=e.clientY-r.top-r.height/2;});
+  wrap.addEventListener('mouseleave',()=>{tx=0;ty=0;});
+  (function anim(){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;if(window.innerWidth>=768)card.style.transform=`translate(calc(-50% + ${cx}px),calc(-50% + ${cy}px)) rotate(-4deg)`;requestAnimationFrame(anim);})();
+})();
+
+/* ─── INSTAGRAM — desktop cursor + finger, mobil scroll-visibility ─── */
 (function(){
   const wrap      = document.getElementById('instaWrap');
   const instaCur  = document.getElementById('insta-cursor');
   const finger    = document.getElementById('insta-finger');
+  const instaLink = document.getElementById('instaLink');
   const mobCur    = document.getElementById('insta-cursor-mobile');
   const mobFinger = document.getElementById('insta-finger-mobile');
-  if (!wrap) return;
+  if(!wrap||!instaLink) return;
 
   const ORBIT_R = 100;
   const isTouch = 'ontouchstart' in window;
-  // Hitta mitten av "Instagram"-texten (span.italic) för fingerpekaren
-  const instanSpan = wrap.querySelector('span.italic');
 
-  if (isTouch) {
+  if(isTouch) {
     /* ── MOBIL ── */
     const footer = document.querySelector('footer');
 
-    // Klick på mobil-avatar → öppna Instagram
-    mobCur.addEventListener('click', () => {
-      window.open('https://www.instagram.com/_passionlab/', '_blank', 'noopener,noreferrer');
-    });
-
-    function updateMobile() {
+    function updateMobile(){
       const wr = wrap.getBoundingClientRect();
       const fr = footer.getBoundingClientRect();
+      /* Visa när insta-sektionen är synlig OCH footern inte syns ännu */
       const show = wr.top < window.innerHeight * 0.85 && fr.top > window.innerHeight;
       mobCur.classList.toggle('show', show);
       mobFinger.classList.toggle('show', show);
@@ -178,70 +501,126 @@
     window.addEventListener('scroll', updateMobile, { passive: true });
     updateMobile();
 
-    // Fingret pekar mot "Instagram"-spannet
-    (function animMob() {
-      if (instanSpan) {
-        const lr = instanSpan.getBoundingClientRect();
-        const fr = mobFinger.getBoundingClientRect();
-        const tx = lr.left + lr.width  / 2;
-        const ty = lr.top  + lr.height / 2;
-        const fx = fr.left + fr.width  / 2;
-        const fy = fr.top  + fr.height / 2;
-        const angle = Math.atan2(ty - fy, tx - fx);
-        mobFinger.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
-      }
+    /* Magnetiskt finger pekar mot Instagram-länken */
+    (function animMob(){
+      const lr = instaLink.getBoundingClientRect();
+      const fr = mobFinger.getBoundingClientRect();
+      const tx = lr.left + lr.width  / 2;
+      const ty = lr.top  + lr.height / 2;
+      const fx = fr.left + fr.width  / 2;
+      const fy = fr.top  + fr.height / 2;
+      const angle = Math.atan2(ty - fy, tx - fx);
+      mobFinger.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
       requestAnimationFrame(animMob);
     })();
     return;
   }
 
   /* ── DESKTOP ── */
-  let curX = 0, curY = 0, smoothX = 0, smoothY = 0, inside = false;
+  let curX=0,curY=0,smoothX=0,smoothY=0,inside=false;
 
-  wrap.addEventListener('mouseenter', () => {
-    inside = true;
+  wrap.addEventListener('mouseenter',()=>{
+    inside=true;
     instaCur.classList.add('visible');
-    // Dölj standard-cursorn när vi är inne i sektionen
-    if (typeof cur !== 'undefined') cur.style.opacity = '0';
+    cur.style.opacity='0';
   });
-  wrap.addEventListener('mouseleave', () => {
-    inside = false;
+  wrap.addEventListener('mouseleave',()=>{
+    inside=false;
     instaCur.classList.remove('visible');
-    finger.style.display = 'none';
-    if (typeof cur !== 'undefined') cur.style.opacity = '1';
+    finger.style.display='none';
+    cur.style.opacity='1';
   });
-  wrap.addEventListener('mousemove', e => { curX = e.clientX; curY = e.clientY; });
+  wrap.addEventListener('mousemove',e=>{ curX=e.clientX; curY=e.clientY; });
 
-  // Smooth-följ musen med some-manager-cursorn
-  (function animCur() {
-    smoothX += (curX - smoothX) * 0.12;
-    smoothY += (curY - smoothY) * 0.12;
-    instaCur.style.left = smoothX + 'px';
-    instaCur.style.top  = smoothY + 'px';
+  (function animCur(){
+    smoothX += (curX-smoothX)*0.12;
+    smoothY += (curY-smoothY)*0.12;
+    instaCur.style.left = smoothX+'px';
+    instaCur.style.top  = smoothY+'px';
     requestAnimationFrame(animCur);
   })();
 
-  // Fingret orbitar runt musen och pekar mot "Instagram"-spannet
-  (function animFinger() {
-    if (!inside) { requestAnimationFrame(animFinger); return; }
-    finger.style.display = 'block';
-
-    const target = instanSpan || wrap.querySelector('.insta-text');
-    if (target) {
-      const lr = target.getBoundingClientRect();
-      const tx = lr.left + lr.width  / 2;
-      const ty = lr.top  + lr.height / 2;
-      const dx = tx - smoothX;
-      const dy = ty - smoothY;
-      const angle = Math.atan2(dy, dx);
-      const fx = smoothX + Math.cos(angle) * ORBIT_R;
-      const fy = smoothY + Math.sin(angle) * ORBIT_R;
-      const wr = wrap.getBoundingClientRect();
-      finger.style.left      = (fx - wr.left - 36) + 'px';
-      finger.style.top       = (fy - wr.top  - 36) + 'px';
-      finger.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
-    }
+  (function animFinger(){
+    if(!inside){ requestAnimationFrame(animFinger); return; }
+    finger.style.display='block';
+    const lr = instaLink.getBoundingClientRect();
+    const tx = lr.left + lr.width  / 2;
+    const ty = lr.top  + lr.height / 2;
+    const dx = tx - smoothX, dy = ty - smoothY;
+    const angle = Math.atan2(dy, dx);
+    const fx = smoothX + Math.cos(angle) * ORBIT_R;
+    const fy = smoothY + Math.sin(angle) * ORBIT_R;
+    const wr = wrap.getBoundingClientRect();
+    finger.style.left = (fx - wr.left - 36)+'px';
+    finger.style.top  = (fy - wr.top  - 36)+'px';
+    finger.style.transform = `rotate(${angle*180/Math.PI+90}deg)`;
     requestAnimationFrame(animFinger);
   })();
 })();
+
+/* ─── CASE CAROUSEL ─── */
+(function(){
+  const viewport=document.getElementById('caseViewport');
+  const track=document.getElementById('caseTrack');
+  const prevBtn=document.getElementById('case-prev');
+  const nextBtn=document.getElementById('case-next');
+  const GAP=16;
+  const origCards=Array.from(track.querySelectorAll('.case-card'));
+  const N=origCards.length;
+  [...origCards].reverse().forEach(c=>{const cl=c.cloneNode(true);track.prepend(cl);});
+  origCards.forEach(c=>{const cl=c.cloneNode(true);track.append(cl);});
+  const all=Array.from(track.querySelectorAll('.case-card'));
+  let active=N,posX=0,targetX=0,velX=0;
+  let isDragging=false,dragStartX=0,dragStartPos=0,lastDX=0,lastDT=0;
+  let isHovered=false;
+  const DRIFT=0.45;
+  function cw(){return all[0].offsetWidth+GAP;}
+  function offsetFor(i){const vw=viewport.offsetWidth,w=all[0].offsetWidth;return -(i*cw()-(vw-w)/2);}
+  function nearest(x){const c=-x+viewport.offsetWidth/2;let b=active,bd=Infinity;all.forEach((_,i)=>{const d=Math.abs(i*cw()+all[0].offsetWidth/2-c);if(d<bd){bd=d;b=i;}});return b;}
+  function teleport(){if(active<N){active+=N;posX-=N*cw();targetX-=N*cw();}else if(active>=N*2){active-=N;posX+=N*cw();targetX+=N*cw();}}
+  function style(){
+    all.forEach((card,i)=>{
+      const dist=Math.abs(i-active);
+      if(dist===0){card.style.transform='scale(1)';card.style.opacity='1';card.style.boxShadow='0 32px 80px rgba(0,0,0,.75)';}
+      else if(dist===1){card.style.transform='scale(0.92)';card.style.opacity='0.55';card.style.boxShadow='none';}
+      else{card.style.transform='scale(0.86)';card.style.opacity='0.3';card.style.boxShadow='none';}
+      const fc=(-posX+i*cw()+all[0].offsetWidth/2)-viewport.offsetWidth/2;
+      const img=card.querySelector('img');
+      if(img)img.style.setProperty('--px',Math.max(-14,Math.min(14,fc*0.04)));
+    });
+  }
+  (function loop(){
+    if(!isDragging){
+      if(!isHovered){posX-=DRIFT;targetX=posX;active=nearest(posX);teleport();}
+      else{const d=targetX-posX;posX+=d*0.1+velX;velX*=0.82;if(Math.abs(d)<0.3&&Math.abs(velX)<0.1){posX=targetX;velX=0;}}
+    }
+    track.style.transform=`translateX(${posX}px)`;style();requestAnimationFrame(loop);
+  })();
+  function goTo(i){isHovered=true;active=i;targetX=offsetFor(i);velX=0;setTimeout(teleport,620);}
+  viewport.addEventListener('mousemove',e=>{
+    if(isDragging)return;isHovered=true;
+    const vr=viewport.getBoundingClientRect(),mouseX=e.clientX-vr.left-posX;
+    let hit=active;
+    all.forEach((card,i)=>{const l=i*cw(),r=l+all[0].offsetWidth;if(mouseX>=l&&mouseX<=r)hit=i;});
+    active=hit;targetX=posX;
+  });
+  viewport.addEventListener('mouseleave',()=>{isHovered=false;targetX=posX;});
+  prevBtn.addEventListener('click',()=>goTo(active-1));
+  nextBtn.addEventListener('click',()=>goTo(active+1));
+  let touchStartX=0,touchStartY=0,isHorizDrag=false;
+  function pDown(e){isDragging=true;isHovered=true;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;dragStartX=cx;dragStartPos=posX;lastDX=cx;lastDT=performance.now();velX=0;touchStartX=cx;touchStartY=cy;isHorizDrag=false;if(!e.touches)e.preventDefault();}
+  function pMove(e){if(!isDragging)return;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;if(!isHorizDrag&&e.touches){const dx=Math.abs(cx-touchStartX),dy=Math.abs(cy-touchStartY);if(dy>dx+4)return;if(dx>4)isHorizDrag=true;else return;}if(e.touches&&e.cancelable)e.preventDefault();velX=(cx-lastDX)/Math.max(performance.now()-lastDT,1)*16;lastDX=cx;lastDT=performance.now();posX=dragStartPos+cx-dragStartX;}
+  function pUp(){if(!isDragging)return;isDragging=false;active=velX>4?nearest(posX)-1:velX<-4?nearest(posX)+1:nearest(posX);targetX=offsetFor(active);setTimeout(()=>{velX=0;},300);setTimeout(teleport,620);}
+  track.addEventListener('mousedown',pDown,{passive:false});
+  window.addEventListener('mousemove',pMove);
+  window.addEventListener('mouseup',pUp);
+  track.addEventListener('touchstart',pDown,{passive:true});
+  track.addEventListener('touchmove',pMove,{passive:false});
+  track.addEventListener('touchend',pUp);
+  viewport.addEventListener('wheel',e=>{},{passive:true});
+  posX=targetX=offsetFor(N);
+  track.style.transform=`translateX(${posX}px)`;style();
+})();
 </script>
+</body>
+</html>
