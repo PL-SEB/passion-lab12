@@ -135,8 +135,8 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .article-body { padding: 24px 36px 36px; flex: 1; display: flex; flex-direction: column; }
 .article-card h3 { font-size: 20px; font-weight: 500; line-height: 1.22; margin-bottom: 14px; letter-spacing: -.3px; color: #111; }
 .article-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; flex: 1; }
-.article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
-.article-card:hover .article-link { gap: 12px; }
+.article-link { font-size: 13px; font-weight: 700; color: var(--black); background: var(--black); color: var(--white); padding: 10px 20px; border-radius: 100px; display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1), transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+.article-card:hover .article-link { gap: 10px; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,.18); }
 .btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
 .btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
@@ -330,7 +330,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
         <p class="articles-label">Artiklar &amp; nyheter</p>
         <h2 class="articles-title">Tankar från<br><em>Passion Lab.</em></h2>
       </div>
-      <a href="artiklar.html" class="btn-dark mag" style="white-space:nowrap">Alla artiklar →</a>
+      <a href="artiklar.html" class="btn-dark" style="white-space:nowrap">Alla artiklar →</a>
     </div>
     <div class="articles-grid">
       <div class="article-card reveal reveal-delay-1">
