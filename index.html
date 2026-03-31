@@ -71,9 +71,28 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .reveal.visible { opacity: 1; transform: translateY(0); }
 .reveal-delay-1{transition-delay:.08s} .reveal-delay-2{transition-delay:.16s} .reveal-delay-3{transition-delay:.24s}
 
-/* QUOTE */
-.quote-wrap { padding: 120px 48px; position: relative; z-index: 0; }
-.quote-inner { max-width: 1000px; margin: 0 auto; }
+/* ─── QUOTE / LIQUID GLASS ─── */
+.quote-wrap {
+  padding: 120px 48px;
+  position: relative;
+  z-index: 0;
+  /* SVG-displacement filter definieras i JS och appliceras på canvas */
+}
+.quote-inner { max-width: 1000px; margin: 0 auto; position: relative; }
+
+/* Canvas-lager för refraction — absolut ovanpå texten */
+#lens-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* muspekaren passerar igenom till wrap */
+  z-index: 2;
+}
+
+/* Texten renderas i ett eget lager under canvas */
+.quote-text-layer {
+  position: relative;
+  z-index: 1;
+}
 .quote-text { font-size: clamp(32px,4.5vw,58px); font-weight: 500; letter-spacing: -1px; line-height: 1.08; }
 .quote-text em { font-style: italic; color: var(--pink); }
 
@@ -84,7 +103,7 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .payoff-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-4deg); width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; z-index: 1; pointer-events: none; box-shadow: 0 40px 100px rgba(0,0,0,.8); }
 .payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
 
-/* CASE CAROUSEL — dold på desktop, visas på mobil */
+/* CASE CAROUSEL */
 .case-wrap { display: none; padding: 80px 0; position: relative; z-index: 0; }
 .case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
 .case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
@@ -157,62 +176,14 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .insta-text { font-size: clamp(48px, 7.5vw, 96px); font-weight: 500; letter-spacing: -2px; line-height: 1.0; color: var(--black); }
 .insta-text .insta-italic { font-family: var(--fd); font-weight: 300; font-style: italic; }
 
-/* Desktop: roterande finger inuti sektionen */
-#insta-finger {
-  position: absolute;
-  width: 72px; height: 72px;
-  pointer-events: none;
-  z-index: 10;
-  transform-origin: center center;
-  font-size: 56px;
-  line-height: 1;
-  display: none;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
-}
-
-/* Desktop: custom cursor */
-#insta-cursor {
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity .3s;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,.25);
-}
+#insta-finger { position: absolute; width: 72px; height: 72px; pointer-events: none; z-index: 10; transform-origin: center center; font-size: 56px; line-height: 1; display: none; filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); }
+#insta-cursor { width: 120px; height: 120px; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); opacity: 0; transition: opacity .3s; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
 #insta-cursor img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor.visible { opacity: 1; }
-
-/* Mobil: some-manager + finger */
-#insta-cursor-mobile {
-  width: 90px; height: 90px;
-  border-radius: 50%;
-  position: fixed;
-  right: 20px; bottom: 36px;
-  pointer-events: auto;
-  z-index: 9997;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,.25);
-  opacity: 0;
-  transition: opacity .35s;
-}
+#insta-cursor-mobile { width: 90px; height: 90px; border-radius: 50%; position: fixed; right: 20px; bottom: 36px; pointer-events: auto; z-index: 9997; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.25); opacity: 0; transition: opacity .35s; }
 #insta-cursor-mobile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor-mobile.show { opacity: 1; }
-
-#insta-finger-mobile {
-  position: fixed;
-  right: 120px; bottom: 52px;
-  font-size: 44px; line-height: 1;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0;
-  transition: opacity .35s;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
-  transform-origin: center center;
-}
+#insta-finger-mobile { position: fixed; right: 120px; bottom: 52px; font-size: 44px; line-height: 1; pointer-events: none; z-index: 9998; opacity: 0; transition: opacity .35s; filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); transform-origin: center center; }
 #insta-finger-mobile.show { opacity: 1; }
 
 /* FOOTER */
@@ -246,6 +217,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   .insta-wrap { padding: 100px 24px; cursor: pointer !important; }
   #insta-cursor { display: none !important; }
   #insta-finger { display: none !important; }
+  #lens-canvas { display: none; } /* effekten av på mobil */
   footer { padding: 48px 24px; }
   .articles-header { flex-direction: column; align-items: flex-start; }
   .footer-top { flex-direction: column; }
@@ -254,16 +226,31 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   * { cursor: auto !important; }
 }
 </style>
+
+<!-- SVG-filter för refraction/displacement — gömt i DOM, refereras av canvas -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!--
+      feDisplacementMap förskjuter pixlar baserat på en karta.
+      Vi genererar kartan procedurellt i JS (radial gradient = lins-form).
+      Filtret appliceras inte direkt på text utan används som referens
+      när vi ritar om texten via canvas + drawImage.
+    -->
+    <filter id="glass-filter" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+      <feImage id="lens-map" result="map" preserveAspectRatio="xMidYMid slice"/>
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="48" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="0.6" result="blurred"/>
+      <feComposite in="blurred" in2="SourceGraphic" operator="over"/>
+    </filter>
+  </defs>
+</svg>
 </head>
 <body>
 
 <div id="cursor"></div>
 <div id="cursor-glow"></div>
 
-<!-- Desktop insta-cursor -->
 <div id="insta-cursor"><img src="some-manager.png" alt=""></div>
-
-<!-- Mobil: separata element -->
 <div id="insta-cursor-mobile"><img src="some-manager.png" alt=""></div>
 <div id="insta-finger-mobile">👆</div>
 
@@ -308,9 +295,19 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </h1>
 </section>
 
-<div class="quote-wrap reveal">
-  <div class="quote-inner">
-    <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
+<!-- ─── QUOTE med liquid glass ─── -->
+<div class="quote-wrap reveal" id="quoteWrap">
+  <div class="quote-inner" id="quoteInner">
+    <!--
+      canvas lägger sig ovanpå texten (z-index:2, pointer-events:none).
+      JS ritar glaslinsen här varje frame.
+    -->
+    <canvas id="lens-canvas"></canvas>
+
+    <!-- Originaltexten — alltid synlig, canvas täcker delar med glaseffekt -->
+    <div class="quote-text-layer">
+      <p class="quote-text" id="quoteText">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
+    </div>
   </div>
 </div>
 
@@ -410,7 +407,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- Instagram CTA — hela sektionen är en klickbar <a>-länk -->
 <a href="https://www.instagram.com/_passionlab/"
    target="_blank"
    rel="noopener noreferrer"
@@ -488,7 +484,276 @@ function toggleOffer(btn){
   (function anim(){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;if(window.innerWidth>=768)card.style.transform=`translate(calc(-50% + ${cx}px),calc(-50% + ${cy}px)) rotate(-4deg)`;requestAnimationFrame(anim);})();
 })();
 
-/* ─── INSTAGRAM — desktop cursor + finger, mobil scroll-visibility ─── */
+/* ══════════════════════════════════════════════════════════
+   LIQUID GLASS REFRACTION — canvas-baserad linssimulering
+   ══════════════════════════════════════════════════════════
+
+   Teknisk approach:
+   1. Vi använder html2canvas-principen baklänges: istället för att
+      rendera DOM → canvas, ritar vi texten direkt på ett off-screen
+      canvas via ctx.drawImage(textEl) — vilket INTE fungerar cross-origin.
+      
+   Istället använder vi en beprövad teknik för ren CSS/Canvas-refraction:
+   - Ett off-screen canvas renderar texten (via foreignObject i SVG → Image)
+   - Linsen samplar pixlar från det off-screen canvas med radial displacement
+   - Displacement-vektorn beräknas per pixel baserat på avstånd från linsmitt
+     (sfärisk refraktion: kantpartier böjs ut, centrum ger inverterad vy)
+   - Resultatet ritas på det synliga canvas-lagret ovanpå texten
+   - Glasskalet ritas med gradient-highlights och en subtil rim-light
+   ══════════════════════════════════════════════════════════ */
+(function(){
+  if(window.innerWidth < 768) return; // av på mobil
+
+  const wrap       = document.getElementById('quoteWrap');
+  const inner      = document.getElementById('quoteInner');
+  const textEl     = document.getElementById('quoteText');
+  const canvas     = document.getElementById('lens-canvas');
+  const ctx        = canvas.getContext('2d');
+
+  /* Linsstorlek och mjuk-interpolation */
+  const R      = 140;  // linsens radie px
+  const SMOOTH = 0.09; // hur snabbt linsen följer musen (lägre = mjukare)
+
+  let mouseX = -999, mouseY = -999; // relativa till inner
+  let lx = -999, ly = -999;         // smoothade koordinater
+  let inside = false;
+  let offCanvas = null; // off-screen canvas med textbild
+  let needsCapture = true;
+
+  /* ── Resize canvas till inner-elementets storlek ── */
+  function resize() {
+    const r = inner.getBoundingClientRect();
+    canvas.width  = r.width;
+    canvas.height = r.height;
+    needsCapture  = true; // ny bild behövs efter resize
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* ── Fånga texten som bild via SVG foreignObject ──
+     SVG foreignObject låter oss bädda in HTML i en SVG-bild,
+     som sedan kan ritas på canvas. Kräver inline SVG (inga externa resurser).
+  */
+  function captureText() {
+    const r   = inner.getBoundingClientRect();
+    const W   = Math.round(r.width);
+    const H   = Math.round(r.height);
+    if(!W || !H) return;
+
+    /* Hämta computed style för texten */
+    const cs    = getComputedStyle(textEl);
+    const tRect = textEl.getBoundingClientRect();
+    /* Offset relativ till inner */
+    const offX  = tRect.left - r.left;
+    const offY  = tRect.top  - r.top;
+
+    /* Serialisera textens yttre HTML inkl. eventuell <em> */
+    const html  = textEl.outerHTML;
+
+    /* SVG med foreignObject som wrapper */
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+        <foreignObject x="${offX}" y="${offY}" width="${tRect.width}" height="${tRect.height}">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+               style="
+                 font-family:${cs.fontFamily};
+                 font-size:${cs.fontSize};
+                 font-weight:${cs.fontWeight};
+                 letter-spacing:${cs.letterSpacing};
+                 line-height:${cs.lineHeight};
+                 color:${cs.color};
+                 width:${tRect.width}px;
+               ">
+            ${html}
+          </div>
+        </foreignObject>
+      </svg>`;
+
+    const blob = new Blob([svg], {type:'image/svg+xml'});
+    const url  = URL.createObjectURL(blob);
+    const img  = new Image();
+    img.onload = () => {
+      offCanvas        = document.createElement('canvas');
+      offCanvas.width  = W;
+      offCanvas.height = H;
+      const oc = offCanvas.getContext('2d');
+      oc.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      needsCapture = false;
+    };
+    img.src = url;
+  }
+
+  /* ── Manuell pixel-displacement = riktig refraction ──
+     För varje pixel (px,py) INUTI linsen:
+     1. Beräkna normaliserat avstånd d från linsmitt (0..1)
+     2. Beräkna sfärisk z-koordinat (kurvatur)
+     3. Beräkna brytningsvektor (snells lag förenklad)
+     4. Sampla källpixel från offCanvas förskjutet med vektorn
+  */
+  function drawLens(cx, cy) {
+    if(!offCanvas) return;
+    const W = canvas.width, H = canvas.height;
+
+    /* Rensa canvas — texten under är fortfarande synlig via DOM */
+    ctx.clearRect(0, 0, W, H);
+
+    const r     = R;
+    /* Klipruta runt linsen för performance — sampla bara det vi behöver */
+    const x0    = Math.max(0,  Math.floor(cx - r - 2));
+    const y0    = Math.max(0,  Math.floor(cy - r - 2));
+    const x1    = Math.min(W,  Math.ceil(cx  + r + 2));
+    const y1    = Math.min(H,  Math.ceil(cy  + r + 2));
+    const pw    = x1 - x0;
+    const ph    = y1 - y0;
+    if(pw <= 0 || ph <= 0) return;
+
+    /* Hämta källpixlar från off-screen canvas (hela ytan) */
+    let srcData;
+    try { srcData = offCanvas.getContext('2d').getImageData(0, 0, offCanvas.width, offCanvas.height); }
+    catch(e) { return; }
+
+    /* Målbuffert */
+    const dst    = ctx.createImageData(pw, ph);
+    const dstArr = dst.data;
+    const srcArr = srcData.data;
+    const SW     = offCanvas.width;
+    const SH     = offCanvas.height;
+
+    /* Refraktionsindex (>1 = tätare medium → ljuset böjer mot normalen) */
+    const IOR    = 1.45;
+    /* Kurvatur på linsen — hur kraftig "bubbla" */
+    const CURV   = 0.72;
+
+    for(let py = y0; py < y1; py++) {
+      for(let px = x0; px < x1; px++) {
+        /* Normaliserad position relativt linsmitt */
+        const dx  = (px - cx) / r;
+        const dy  = (py - cy) / r;
+        const d2  = dx*dx + dy*dy;
+
+        if(d2 >= 1.0) continue; /* utanför linsen — hoppa */
+
+        /* Sfärisk yta: z = sqrt(1 - d²) * CURV */
+        const dLen = Math.sqrt(d2);
+        const z    = Math.sqrt(1 - d2) * CURV;
+
+        /* Normal mot linsytan (normaliserad) */
+        const nx   = dx * CURV;
+        const ny   = dy * CURV;
+        const nz   = z;
+        const nLen = Math.sqrt(nx*nx + ny*ny + nz*nz);
+
+        /* Snells lag 2D-approximation:
+           refraktionsvektor = IOR * inkommande + (IOR*cosI - cosT)*normal
+           Vi förenklar: förskjutning proportionell mot normal × (IOR-1) × djup */
+        const shift = (IOR - 1.0) * z * r * 1.8;
+        const sx    = px + nx / nLen * shift;
+        const sy    = py + ny / nLen * shift;
+
+        /* Sampla med bilinear approximation (nearest för speed) */
+        const sxi = Math.round(sx);
+        const syi = Math.round(sy);
+
+        if(sxi < 0 || sxi >= SW || syi < 0 || syi >= SH) continue;
+
+        const si   = (syi * SW + sxi) * 4;
+        const di   = ((py - y0) * pw + (px - x0)) * 4;
+
+        /* Edge-falloff: smooth fade vid linsens kant → seamless övergång */
+        const edge = 1 - Math.pow(d2, 6);
+
+        dstArr[di]   = srcArr[si];
+        dstArr[di+1] = srcArr[si+1];
+        dstArr[di+2] = srcArr[si+2];
+        dstArr[di+3] = Math.round(srcArr[si+3] * edge);
+      }
+    }
+    ctx.putImageData(dst, x0, y0);
+
+    /* ── Glasskalet: highlights + rim ──
+       Ritas ovanpå displaced texten med composite mode.
+    */
+    ctx.save();
+
+    /* Bakgrundsblur-tint: subtil frostad yta */
+    const frost = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    frost.addColorStop(0,   'rgba(255,255,255,0.04)');
+    frost.addColorStop(0.6, 'rgba(255,255,255,0.02)');
+    frost.addColorStop(1,   'rgba(255,255,255,0.00)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI*2);
+    ctx.fillStyle = frost;
+    ctx.fill();
+
+    /* Specular highlight — ljus träffar linsen från övre vänster */
+    const spec = ctx.createRadialGradient(cx - r*0.28, cy - r*0.32, 0, cx, cy, r*0.75);
+    spec.addColorStop(0,    'rgba(255,255,255,0.22)');
+    spec.addColorStop(0.35, 'rgba(255,255,255,0.06)');
+    spec.addColorStop(1,    'rgba(255,255,255,0.00)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI*2);
+    ctx.fillStyle = spec;
+    ctx.fill();
+
+    /* Rim light — tunn ljus kant runt linsen */
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - 0.5, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth   = 1;
+    ctx.stroke();
+
+    /* Subtil inner shadow vid kanten (djup) */
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - 2, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+    ctx.lineWidth   = 4;
+    ctx.stroke();
+
+    /* Yttre subtil skugga för "flytande" känsla */
+    const shadow = ctx.createRadialGradient(cx, cy + r*0.1, r*0.85, cx, cy, r*1.3);
+    shadow.addColorStop(0,   'rgba(0,0,0,0.00)');
+    shadow.addColorStop(0.6, 'rgba(0,0,0,0.06)');
+    shadow.addColorStop(1,   'rgba(0,0,0,0.00)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, r*1.25, 0, Math.PI*2);
+    ctx.fillStyle = shadow;
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  /* ── Mouse-tracking relativt inner ── */
+  wrap.addEventListener('mousemove', e => {
+    const r = inner.getBoundingClientRect();
+    mouseX  = e.clientX - r.left;
+    mouseY  = e.clientY - r.top;
+    inside  = true;
+    if(needsCapture) captureText();
+  });
+  wrap.addEventListener('mouseleave', () => { inside = false; });
+
+  /* ── Animationsloop ── */
+  let lastCapture = 0;
+  (function loop(ts) {
+    /* Fånga ny textbild var 2000ms om layout ändrats */
+    if(ts - lastCapture > 2000) { needsCapture = true; lastCapture = ts; }
+    if(needsCapture && inside) captureText();
+
+    /* Smooth lerp mot musposition */
+    lx += (mouseX - lx) * SMOOTH * (inside ? 1 : 0.05);
+    ly += (mouseY - ly) * SMOOTH * (inside ? 1 : 0.05);
+
+    if(inside || Math.abs(mouseX - lx) > 0.5) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if(inside) drawLens(lx, ly);
+    }
+    requestAnimationFrame(loop);
+  })(0);
+
+})();
+
+/* ─── INSTAGRAM ─── */
 (function(){
   const wrap      = document.getElementById('instaWrap');
   const instaCur  = document.getElementById('insta-cursor');
@@ -497,86 +762,45 @@ function toggleOffer(btn){
   const mobCur    = document.getElementById('insta-cursor-mobile');
   const mobFinger = document.getElementById('insta-finger-mobile');
   if (!wrap) return;
-
   const ORBIT_R = 100;
   const isTouch = 'ontouchstart' in window;
-
   if (isTouch) {
-    /* ── MOBIL ── */
     const footer = document.querySelector('footer');
-
-    // Klick på mobil-avataren öppnar Instagram
-    mobCur.addEventListener('click', () => {
-      window.open('https://www.instagram.com/_passionlab/', '_blank', 'noopener,noreferrer');
-    });
-
+    mobCur.addEventListener('click', () => { window.open('https://www.instagram.com/_passionlab/', '_blank', 'noopener,noreferrer'); });
     function updateMobile() {
-      const wr = wrap.getBoundingClientRect();
-      const fr = footer.getBoundingClientRect();
+      const wr = wrap.getBoundingClientRect(), fr = footer.getBoundingClientRect();
       const show = wr.top < window.innerHeight * 0.85 && fr.top > window.innerHeight;
-      mobCur.classList.toggle('show', show);
-      mobFinger.classList.toggle('show', show);
+      mobCur.classList.toggle('show', show); mobFinger.classList.toggle('show', show);
     }
     window.addEventListener('scroll', updateMobile, { passive: true });
     updateMobile();
-
-    // Fingret pekar mot "Instagram"-spannet
     (function animMob() {
       if (instaSpan) {
-        const lr = instaSpan.getBoundingClientRect();
-        const fr = mobFinger.getBoundingClientRect();
-        const tx = lr.left + lr.width  / 2;
-        const ty = lr.top  + lr.height / 2;
-        const fx = fr.left + fr.width  / 2;
-        const fy = fr.top  + fr.height / 2;
-        const angle = Math.atan2(ty - fy, tx - fx);
-        mobFinger.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
+        const lr = instaSpan.getBoundingClientRect(), fr = mobFinger.getBoundingClientRect();
+        const tx = lr.left+lr.width/2, ty = lr.top+lr.height/2;
+        const fx = fr.left+fr.width/2, fy = fr.top+fr.height/2;
+        mobFinger.style.transform = `rotate(${Math.atan2(ty-fy,tx-fx)*180/Math.PI+90}deg)`;
       }
       requestAnimationFrame(animMob);
     })();
     return;
   }
-
-  /* ── DESKTOP ── */
   let curX=0,curY=0,smoothX=0,smoothY=0,inside=false;
-
-  wrap.addEventListener('mouseenter',()=>{
-    inside=true;
-    instaCur.classList.add('visible');
-    cur.style.opacity='0';
-  });
-  wrap.addEventListener('mouseleave',()=>{
-    inside=false;
-    instaCur.classList.remove('visible');
-    finger.style.display='none';
-    cur.style.opacity='1';
-  });
+  wrap.addEventListener('mouseenter',()=>{ inside=true; instaCur.classList.add('visible'); cur.style.opacity='0'; });
+  wrap.addEventListener('mouseleave',()=>{ inside=false; instaCur.classList.remove('visible'); finger.style.display='none'; cur.style.opacity='1'; });
   wrap.addEventListener('mousemove',e=>{ curX=e.clientX; curY=e.clientY; });
-
-  (function animCur(){
-    smoothX += (curX-smoothX)*0.12;
-    smoothY += (curY-smoothY)*0.12;
-    instaCur.style.left = smoothX+'px';
-    instaCur.style.top  = smoothY+'px';
-    requestAnimationFrame(animCur);
-  })();
-
+  (function animCur(){ smoothX+=(curX-smoothX)*0.12; smoothY+=(curY-smoothY)*0.12; instaCur.style.left=smoothX+'px'; instaCur.style.top=smoothY+'px'; requestAnimationFrame(animCur); })();
   (function animFinger(){
-    if (!inside) { requestAnimationFrame(animFinger); return; }
+    if(!inside){ requestAnimationFrame(animFinger); return; }
     finger.style.display='block';
     const target = instaSpan || wrap.querySelector('.insta-text');
-    if (target) {
-      const lr = target.getBoundingClientRect();
-      const tx = lr.left + lr.width  / 2;
-      const ty = lr.top  + lr.height / 2;
-      const dx = tx - smoothX, dy = ty - smoothY;
-      const angle = Math.atan2(dy, dx);
-      const fx = smoothX + Math.cos(angle) * ORBIT_R;
-      const fy = smoothY + Math.sin(angle) * ORBIT_R;
-      const wr = wrap.getBoundingClientRect();
-      finger.style.left      = (fx - wr.left - 36)+'px';
-      finger.style.top       = (fy - wr.top  - 36)+'px';
-      finger.style.transform = `rotate(${angle*180/Math.PI+90}deg)`;
+    if(target){
+      const lr=target.getBoundingClientRect(), tx=lr.left+lr.width/2, ty=lr.top+lr.height/2;
+      const dx=tx-smoothX, dy=ty-smoothY, angle=Math.atan2(dy,dx);
+      const fx=smoothX+Math.cos(angle)*ORBIT_R, fy=smoothY+Math.sin(angle)*ORBIT_R;
+      const wr=wrap.getBoundingClientRect();
+      finger.style.left=(fx-wr.left-36)+'px'; finger.style.top=(fy-wr.top-36)+'px';
+      finger.style.transform=`rotate(${angle*180/Math.PI+90}deg)`;
     }
     requestAnimationFrame(animFinger);
   })();
