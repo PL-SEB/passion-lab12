@@ -485,14 +485,16 @@ function toggleOffer(btn){
 })();
 
 /* ══════════════════════════════════════════════════════════
-   LIQUID GLASS REFRACTION v2 — ren canvas, ingen foreignObject
+   LIQUID GLASS v3 — konvex förstoringsglas-refraction
    ══════════════════════════════════════════════════════════
    Teknik:
-   - Off-screen canvas ritar texten direkt med ctx.fillText()
-     → kringgår alla cross-origin/taint-problem
-   - Pixel-loop inuti linsradien beräknar sfärisk displacement
-     per pixel (Snells lag förenklad) och samplar från off-screen
-   - Glasskalet ritas med radial gradients + rim light ovanpå
+   - Off-screen canvas ritar texten med ctx.fillText()
+     Pixlar samplas från HELA off-screen (global koordinat),
+     inte från en lokal region — löser radbrytningsbugg
+   - Konvex displacement: källpixel dras mot centrum
+     (motsatsen till v2 som tryckte utåt)
+   - Zoom-faktor varierar sfäriskt: max i centrum, noll vid kant
+   - Glasskalet: tydlig specular, skarp rim, mjuk drop shadow
    ══════════════════════════════════════════════════════════ */
 (function(){
   if(window.innerWidth < 768) return;
@@ -503,31 +505,32 @@ function toggleOffer(btn){
   const canvas = document.getElementById('lens-canvas');
   const ctx    = canvas.getContext('2d', { willReadFrequently: true });
 
-  const R      = 150;   // linsradie px
-  const SMOOTH = 0.08;  // lerpfaktor — lägre = mjukare följning
-  const IOR    = 1.5;   // refraktionsindex
-  const CURV   = 0.8;   // linsens kurvatur (1 = sfär, lägre = flatare)
+  const R      = 150;   // linsradie px (CSS)
+  const SMOOTH = 0.09;  // lerp-faktor
+  const ZOOM   = 1.6;   // konvex förstoring — 1.6 = 60% zoom i centrum
+  const CURV   = 0.9;   // kurvaturfalloff mot kanten
 
-  let mx = -999, my = -999; // råa muskoordinater relativt inner
-  let lx = -999, ly = -999; // smoothade
+  let mx = -999, my = -999;
+  let lx = -999, ly = -999;
   let inside = false;
-  let off = null;           // off-screen canvas
+  let off = null;
 
-  /* ── DPR-aware resize ── */
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  /* ── Canvas-resize ── */
   function resize() {
     const r = inner.getBoundingClientRect();
-    canvas.width  = r.width  * DPR;
-    canvas.height = r.height * DPR;
-    canvas.style.width  = r.width  + 'px';
-    canvas.style.height = r.height + 'px';
-    ctx.scale(DPR, DPR);
-    buildOffscreen(r.width, r.height);
+    const W = r.width, H = r.height;
+    canvas.width  = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    buildOffscreen(W, H);
   }
 
-  /* ── Bygg off-screen canvas med texten ritad i canvas-API ──
-     Vi hämtar computed styles och ritar varje textblock manuellt.
-     <em>-segmentet (rosa/italic) hanteras separat.
+  /* ── Off-screen: rita texten med canvas-API ──
+     Ritar HELA bakgrunden + text i rätt position relativt inner.
+     Samplar sedan från globala koordinater → inga radbrytningsfel.
   */
   function buildOffscreen(W, H) {
     off = document.createElement('canvas');
@@ -536,196 +539,237 @@ function toggleOffer(btn){
     const oc = off.getContext('2d');
     oc.scale(DPR, DPR);
 
-    /* Bakgrund = sidans bakgrundsfärg */
-    oc.fillStyle = '#000000';
+    /* Bakgrund */
+    oc.fillStyle = '#000';
     oc.fillRect(0, 0, W, H);
 
-    /* Hämta textens position relativt inner */
     const ir = inner.getBoundingClientRect();
     const tr = textEl.getBoundingClientRect();
+    /* Textblock offset relativt inner */
     const ox = tr.left - ir.left;
     const oy = tr.top  - ir.top;
+    const TW = tr.width;
 
-    /* Computed styles */
-    const cs      = getComputedStyle(textEl);
-    const fs      = parseFloat(cs.fontSize);
-    const lh      = parseFloat(cs.lineHeight) || fs * 1.08;
-    const fw      = cs.fontWeight;
-    const ff      = cs.fontFamily;
-    const textW   = tr.width;
+    const cs = getComputedStyle(textEl);
+    const fs = parseFloat(cs.fontSize);
+    const fw = cs.fontWeight;
+    /* Inter Tight — hämta direkt från computed */
+    const ff = cs.fontFamily;
+    /* line-height: computed kan vara 'normal', fallback till 1.08 */
+    const lhRaw = parseFloat(cs.lineHeight);
+    const lh = isNaN(lhRaw) ? fs * 1.08 : lhRaw;
 
-    /* Rita texten via word-wrap-emulering:
-       Vi delar upp i segment: normalt vs <em> (rosa italic)
-       och simulerar CSS line-breaking. */
-    oc.textBaseline = 'alphabetic';
-
-    /* Hämta alla textnoder och em-noder från DOM */
-    const segments = [];
-    textEl.childNodes.forEach(node => {
-      if(node.nodeType === 3) {
-        segments.push({ text: node.textContent, em: false });
-      } else if(node.nodeName === 'EM') {
-        segments.push({ text: node.textContent, em: true });
-      }
+    /* Bygg segment-lista: textnoder + em-noder */
+    const segs = [];
+    textEl.childNodes.forEach(n => {
+      if(n.nodeType === 3)      segs.push({ t: n.textContent, em: false });
+      else if(n.nodeName==='EM') segs.push({ t: n.textContent, em: true  });
     });
 
-    /* Kombinera till ord med metadata */
-    const words = [];
-    segments.forEach(seg => {
-      const parts = seg.text.split(/(\s+)/);
-      parts.forEach(p => words.push({ word: p, em: seg.em }));
+    /* Tokenisera till ord inkl whitespace */
+    const tokens = [];
+    segs.forEach(s => {
+      /* Splitta på mellanslag men behåll dem som tokens */
+      s.t.split(/(\s+)/).forEach(w => { if(w) tokens.push({ w, em: s.em }); });
     });
 
-    /* Mät ordbredder och bryt rader */
-    function setFont(em) {
-      oc.font = em
-        ? `italic ${fw} ${fs}px ${ff}`
-        : `${fw} ${fs}px ${ff}`;
+    /* Sätt font för mätning */
+    function applyFont(em) {
+      oc.font = `${em ? 'italic ' : ''}${fw} ${fs}px ${ff}`;
     }
 
+    /* Mät och radbryt exakt som CSS gör det */
     const lines = [];
-    let line = [], lineW = 0;
-    words.forEach(w => {
-      setFont(w.em);
-      const ww = oc.measureText(w.word).width;
-      if(lineW + ww > textW && line.length && !/^\s+$/.test(w.word)) {
-        lines.push(line);
-        line = []; lineW = 0;
-      }
-      line.push({ ...w, width: ww });
-      lineW += ww;
-    });
-    if(line.length) lines.push(line);
+    let cur = [], curW = 0;
 
-    /* Rita raderna */
+    tokens.forEach(tok => {
+      applyFont(tok.em);
+      const tw = oc.measureText(tok.w).width;
+      /* Byt rad om token inte ryms OCH inte är whitespace */
+      if(curW + tw > TW + 0.5 && cur.length && !/^\s+$/.test(tok.w)) {
+        lines.push(cur);
+        cur = []; curW = 0;
+      }
+      cur.push({ ...tok, tw });
+      curW += tw;
+    });
+    if(cur.length) lines.push(cur);
+
+    /* Rita rader */
+    oc.textBaseline = 'alphabetic';
     lines.forEach((ln, li) => {
+      /* baseline = top-offset + fontSize + radindex * lineHeight */
+      const baseY = oy + fs + li * lh;
       let x = ox;
-      const y = oy + fs + li * lh; // baseline
-      ln.forEach(w => {
-        setFont(w.em);
-        oc.fillStyle = w.em ? '#fab3ff' : '#faf5eb';
-        oc.fillText(w.word, x, y);
-        x += w.width;
+      ln.forEach(tok => {
+        applyFont(tok.em);
+        oc.fillStyle = tok.em ? '#fab3ff' : '#faf5eb';
+        oc.fillText(tok.w, x, baseY);
+        x += tok.tw;
       });
     });
   }
 
-  /* ── Pixel-displacement: sfärisk refraction ──
-     Per pixel inuti linsradien:
-     1. Normalisera (dx,dy) → (-1..1)
-     2. z = kurvatur i linsens sfäriska yta
-     3. Snells: förskjut källkoordinat med normalvektor × IOR-faktor
-     4. Sampla och skriv till target ImageData
+  /* ── Pixel-displacement: konvex lins ──
+     Varje pixel (wx,wy) inuti linsradien:
+     - Normalisera dx,dy till [-1,1]
+     - Sfärisk z-yta: z = sqrt(1-r²) * CURV
+     - Konvex zoom: sampla från en punkt NÄRMRE centrum
+       src = lens_center + (dest - lens_center) / zoom(r)
+     - zoom(r) faller av från ZOOM i centrum → 1.0 vid kanten
   */
   function drawLens(lcx, lcy) {
     if(!off) return;
     const W = canvas.width / DPR, H = canvas.height / DPR;
     ctx.clearRect(0, 0, W, H);
 
-    /* Klipp sampelregion till linsens bounding box */
-    const x0 = Math.max(0,   Math.floor(lcx - R - 1));
-    const y0 = Math.max(0,   Math.floor(lcy - R - 1));
-    const x1 = Math.min(W,   Math.ceil(lcx  + R + 1));
-    const y1 = Math.min(H,   Math.ceil(lcy  + R + 1));
+    /* Bounding box för linsregionen */
+    const x0 = Math.max(0, Math.floor(lcx - R - 1));
+    const y0 = Math.max(0, Math.floor(lcy - R - 1));
+    const x1 = Math.min(W, Math.ceil(lcx  + R + 1));
+    const y1 = Math.min(H, Math.ceil(lcy  + R + 1));
     const pw = x1 - x0, ph = y1 - y0;
     if(pw <= 0 || ph <= 0) return;
 
-    /* Källdata från off-screen (DPR-skalad) */
-    const oc     = off.getContext('2d');
-    const srcImg = oc.getImageData(x0 * DPR, y0 * DPR, pw * DPR, ph * DPR);
-    const src    = srcImg.data;
-    const SW     = pw * DPR, SH = ph * DPR;
+    /* Läs hela off-screen canvas (DPR-skalat) */
+    const oc  = off.getContext('2d');
+    const src = oc.getImageData(0, 0, off.width, off.height);
+    const sd  = src.data;
+    const SW  = off.width; // = W*DPR
 
-    /* Måldata (CSS-pixlar) */
-    const dst    = ctx.createImageData(pw, ph);
-    const d      = dst.data;
+    /* Målbuffert i CSS-pixlar */
+    const dst = ctx.createImageData(pw, ph);
+    const dd  = dst.data;
 
     for(let py = 0; py < ph; py++) {
       for(let px = 0; px < pw; px++) {
-        const wx = x0 + px, wy = y0 + py;
+        /* Global CSS-koordinat */
+        const wx = x0 + px;
+        const wy = y0 + py;
+
+        /* Normaliserat avstånd från linsmitt */
         const dx = (wx - lcx) / R;
         const dy = (wy - lcy) / R;
-        const d2 = dx*dx + dy*dy;
-        if(d2 >= 1) continue;
+        const r2 = dx*dx + dy*dy;
+        if(r2 >= 1) continue; /* utanför linsen */
 
-        /* Sfärisk normalvektor */
-        const z    = Math.sqrt(1 - d2) * CURV;
-        const nLen = Math.sqrt(dx*dx*CURV*CURV + dy*dy*CURV*CURV + z*z);
-        const nx   = dx * CURV / nLen;
-        const ny   = dy * CURV / nLen;
+        /* Sfärisk kurvatur: z är störst i centrum */
+        const z    = Math.sqrt(1 - r2) * CURV;
 
-        /* Displacement — starkare i mitten pga z, noll vid kanten */
-        const shift = (IOR - 1) * z * R * 2.2;
-        /* Sampla förskjutet i off-screen-koordinater */
-        const sx  = Math.round((wx + nx * shift - x0) * DPR);
-        const sy  = Math.round((wy + ny * shift - y0) * DPR);
+        /* Konvex zoom: interpolera mellan ZOOM (centrum) och 1.0 (kant)
+           Viktning med z ger naturlig sfärisk falloff */
+        const zoom = 1 + (ZOOM - 1) * z;
 
-        if(sx < 0 || sx >= SW || sy < 0 || sy >= SH) continue;
+        /* Källkoordinat: dra mot centrum med 1/zoom */
+        const srcX = lcx + (wx - lcx) / zoom;
+        const srcY = lcy + (wy - lcy) / zoom;
 
-        /* Edge fade för sömlös övergång */
-        const fade = 1 - Math.pow(d2, 5);
-        const si   = (sy * SW + sx) * 4;
+        /* Bilinear sampling i off-screen (DPR-koordinater) */
+        const sxf = srcX * DPR;
+        const syf = srcY * DPR;
+        const sx0 = Math.floor(sxf), sy0 = Math.floor(syf);
+        const sx1 = sx0 + 1,         sy1 = sy0 + 1;
+        const tx  = sxf - sx0,       ty  = syf - sy0;
+
+        function samp(x, y) {
+          if(x < 0 || x >= SW || y < 0 || y >= off.height) return [0,0,0,0];
+          const i = (y * SW + x) * 4;
+          return [sd[i], sd[i+1], sd[i+2], sd[i+3]];
+        }
+        const c00 = samp(sx0,sy0), c10 = samp(sx1,sy0);
+        const c01 = samp(sx0,sy1), c11 = samp(sx1,sy1);
+
+        /* Edge fade: mjuk övergång vid linsens kant */
+        const edge = 1 - Math.pow(r2, 8);
         const di   = (py * pw + px) * 4;
-        d[di]   = src[si];
-        d[di+1] = src[si+1];
-        d[di+2] = src[si+2];
-        d[di+3] = Math.round(255 * fade);
+
+        for(let ch = 0; ch < 3; ch++) {
+          dd[di+ch] = Math.round(
+            (c00[ch]*(1-tx)*(1-ty) +
+             c10[ch]*tx*(1-ty)     +
+             c01[ch]*(1-tx)*ty     +
+             c11[ch]*tx*ty)
+          );
+        }
+        dd[di+3] = Math.round(255 * edge);
       }
     }
     ctx.putImageData(dst, x0, y0);
 
-    /* ── Glasskalet ── */
+    /* ══ Glasskalet ══ */
+
+    /* 1. Drop shadow — utanför linsen */
+    ctx.save();
+    ctx.shadowColor   = 'rgba(0,0,0,0.55)';
+    ctx.shadowBlur    = 48;
+    ctx.shadowOffsetX = 8;
+    ctx.shadowOffsetY = 16;
+    ctx.beginPath();
+    ctx.arc(lcx, lcy, R, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,0,0,0.01)'; /* nästan transparent fill bara för shadow */
+    ctx.fill();
+    ctx.restore();
+
+    /* Clip inuti linsen för resten */
     ctx.save();
     ctx.beginPath();
     ctx.arc(lcx, lcy, R, 0, Math.PI*2);
     ctx.clip();
 
-    /* Frostad bakgrund */
+    /* 2. Subtil frostad overlay — ger glasets "täthet" */
     const frost = ctx.createRadialGradient(lcx, lcy, 0, lcx, lcy, R);
-    frost.addColorStop(0,   'rgba(255,255,255,0.05)');
-    frost.addColorStop(0.7, 'rgba(255,255,255,0.02)');
-    frost.addColorStop(1,   'rgba(255,255,255,0.00)');
+    frost.addColorStop(0,    'rgba(255,255,255,0.03)');
+    frost.addColorStop(0.65, 'rgba(255,255,255,0.01)');
+    frost.addColorStop(1,    'rgba(200,200,255,0.04)');
     ctx.fillStyle = frost;
     ctx.fillRect(x0, y0, pw, ph);
 
-    /* Specular highlight övre vänster */
+    /* 3. Specular highlight — ljuspunkt övre vänster, som referensbilden */
     const spec = ctx.createRadialGradient(
-      lcx - R*0.3, lcy - R*0.35, 0,
-      lcx - R*0.1, lcy - R*0.1,  R*0.85
+      lcx - R*0.32, lcy - R*0.38, R*0.01,
+      lcx - R*0.10, lcy - R*0.10, R*0.60
     );
-    spec.addColorStop(0,    'rgba(255,255,255,0.28)');
-    spec.addColorStop(0.4,  'rgba(255,255,255,0.06)');
+    spec.addColorStop(0,    'rgba(255,255,255,0.75)');
+    spec.addColorStop(0.18, 'rgba(255,255,255,0.30)');
+    spec.addColorStop(0.45, 'rgba(255,255,255,0.06)');
     spec.addColorStop(1,    'rgba(255,255,255,0.00)');
     ctx.fillStyle = spec;
     ctx.fillRect(x0, y0, pw, ph);
 
-    ctx.restore();
+    /* 4. Nedre inre skugga — ger djup/kurvatur åt underkanten */
+    const bottomShad = ctx.createRadialGradient(
+      lcx, lcy + R*0.4, R*0.3,
+      lcx, lcy + R*0.6, R
+    );
+    bottomShad.addColorStop(0,   'rgba(0,0,0,0.00)');
+    bottomShad.addColorStop(0.7, 'rgba(0,0,0,0.10)');
+    bottomShad.addColorStop(1,   'rgba(0,0,0,0.22)');
+    ctx.fillStyle = bottomShad;
+    ctx.fillRect(x0, y0, pw, ph);
 
-    /* Rim light */
-    ctx.beginPath();
-    ctx.arc(lcx, lcy, R - 0.5, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
-    ctx.lineWidth   = 1.2;
-    ctx.stroke();
+    ctx.restore(); /* sluta clip */
 
-    /* Inner shadow */
-    ctx.beginPath();
-    ctx.arc(lcx, lcy, R - 2, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-    ctx.lineWidth   = 5;
-    ctx.stroke();
-
-    /* Drop shadow */
-    ctx.save();
-    ctx.shadowColor  = 'rgba(0,0,0,0.35)';
-    ctx.shadowBlur   = 40;
-    ctx.shadowOffsetY = 12;
+    /* 5. Yttre rim — skarp vit kant (som slipad glaskant i referensen) */
     ctx.beginPath();
     ctx.arc(lcx, lcy, R, 0, Math.PI*2);
-    ctx.strokeStyle = 'transparent';
+    const rimGrad = ctx.createLinearGradient(
+      lcx - R, lcy - R,
+      lcx + R*0.5, lcy + R
+    );
+    rimGrad.addColorStop(0,    'rgba(255,255,255,0.70)');
+    rimGrad.addColorStop(0.35, 'rgba(255,255,255,0.30)');
+    rimGrad.addColorStop(0.65, 'rgba(255,255,255,0.08)');
+    rimGrad.addColorStop(1,    'rgba(180,180,220,0.20)');
+    ctx.strokeStyle = rimGrad;
+    ctx.lineWidth   = 1.5;
+    ctx.stroke();
+
+    /* 6. Inner rim — extra tunn ring precis innanför kanten */
+    ctx.beginPath();
+    ctx.arc(lcx, lcy, R - 2.5, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
     ctx.lineWidth   = 1;
     ctx.stroke();
-    ctx.restore();
   }
 
   /* ── Events ── */
@@ -733,7 +777,7 @@ function toggleOffer(btn){
     const r = inner.getBoundingClientRect();
     mx = e.clientX - r.left;
     my = e.clientY - r.top;
-    if(!inside) { lx = mx; ly = my; } // snap vid första enter
+    if(!inside) { lx = mx; ly = my; }
     inside = true;
   });
   wrap.addEventListener('mouseleave', () => {
@@ -741,15 +785,12 @@ function toggleOffer(btn){
     ctx.clearRect(0, 0, canvas.width / DPR, canvas.height / DPR);
   });
 
-  /* ── Init + resize ── */
+  /* ── Init ── */
   resize();
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 150);
-  });
+  let rt;
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
 
-  /* ── Animationsloop ── */
+  /* ── Loop ── */
   (function loop() {
     if(inside) {
       lx += (mx - lx) * SMOOTH;
