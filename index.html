@@ -84,7 +84,7 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .payoff-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-4deg); width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; z-index: 1; pointer-events: none; box-shadow: 0 40px 100px rgba(0,0,0,.8); }
 .payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
 
-/* CASE CAROUSEL */
+/* CASE CAROUSEL — dold på desktop, visas på mobil */
 .case-wrap { display: none; padding: 80px 0; position: relative; z-index: 0; }
 .case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
 .case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
@@ -135,8 +135,8 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .article-body { padding: 24px 36px 36px; flex: 1; display: flex; flex-direction: column; }
 .article-card h3 { font-size: 20px; font-weight: 500; line-height: 1.22; margin-bottom: 14px; letter-spacing: -.3px; color: #111; }
 .article-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; flex: 1; }
-.article-link { font-size: 13px; font-weight: 700; color: var(--black); background: var(--black); color: var(--white); padding: 10px 20px; border-radius: 100px; display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1), transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
-.article-card:hover .article-link { gap: 10px; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+.article-link { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; align-items: center; gap: 6px; transition: gap .3s cubic-bezier(.34,1.2,.64,1); }
+.article-card:hover .article-link { gap: 12px; }
 .btn-dark { background: var(--black); color: var(--white); padding: 15px 36px; border-radius: 100px; font-size: 15px; font-weight: 700; display: inline-block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
 .btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
@@ -157,14 +157,62 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .insta-text { font-size: clamp(48px, 7.5vw, 96px); font-weight: 500; letter-spacing: -2px; line-height: 1.0; color: var(--black); }
 .insta-text .insta-italic { font-family: var(--fd); font-weight: 300; font-style: italic; }
 
-#insta-finger { position: absolute; width: 72px; height: 72px; pointer-events: none; z-index: 10; transform-origin: center center; font-size: 56px; line-height: 1; display: none; filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); }
-#insta-cursor { width: 120px; height: 120px; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); opacity: 0; transition: opacity .3s; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+/* Desktop: roterande finger inuti sektionen */
+#insta-finger {
+  position: absolute;
+  width: 72px; height: 72px;
+  pointer-events: none;
+  z-index: 10;
+  transform-origin: center center;
+  font-size: 56px;
+  line-height: 1;
+  display: none;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
+}
+
+/* Desktop: custom cursor */
+#insta-cursor {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity .3s;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
 #insta-cursor img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor.visible { opacity: 1; }
-#insta-cursor-mobile { width: 90px; height: 90px; border-radius: 50%; position: fixed; right: 20px; bottom: 36px; pointer-events: auto; z-index: 9997; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.25); opacity: 0; transition: opacity .35s; }
+
+/* Mobil: some-manager + finger */
+#insta-cursor-mobile {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  position: fixed;
+  right: 20px; bottom: 36px;
+  pointer-events: auto;
+  z-index: 9997;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+  opacity: 0;
+  transition: opacity .35s;
+}
 #insta-cursor-mobile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor-mobile.show { opacity: 1; }
-#insta-finger-mobile { position: fixed; right: 120px; bottom: 52px; font-size: 44px; line-height: 1; pointer-events: none; z-index: 9998; opacity: 0; transition: opacity .35s; filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); transform-origin: center center; }
+
+#insta-finger-mobile {
+  position: fixed;
+  right: 120px; bottom: 52px;
+  font-size: 44px; line-height: 1;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity .35s;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
+  transform-origin: center center;
+}
 #insta-finger-mobile.show { opacity: 1; }
 
 /* FOOTER */
@@ -198,7 +246,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   .insta-wrap { padding: 100px 24px; cursor: pointer !important; }
   #insta-cursor { display: none !important; }
   #insta-finger { display: none !important; }
-  #lens-canvas { display: none; } /* effekten av på mobil */
   footer { padding: 48px 24px; }
   .articles-header { flex-direction: column; align-items: flex-start; }
   .footer-top { flex-direction: column; }
@@ -207,14 +254,16 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   * { cursor: auto !important; }
 }
 </style>
-
 </head>
 <body>
 
 <div id="cursor"></div>
 <div id="cursor-glow"></div>
 
+<!-- Desktop insta-cursor -->
 <div id="insta-cursor"><img src="some-manager.png" alt=""></div>
+
+<!-- Mobil: separata element -->
 <div id="insta-cursor-mobile"><img src="some-manager.png" alt=""></div>
 <div id="insta-finger-mobile">👆</div>
 
@@ -330,7 +379,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
         <p class="articles-label">Artiklar &amp; nyheter</p>
         <h2 class="articles-title">Tankar från<br><em>Passion Lab.</em></h2>
       </div>
-      <a href="artiklar.html" class="btn-dark" style="white-space:nowrap">Alla artiklar →</a>
+      <a href="artiklar.html" class="btn-dark mag" style="white-space:nowrap">Alla artiklar →</a>
     </div>
     <div class="articles-grid">
       <div class="article-card reveal reveal-delay-1">
@@ -361,6 +410,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
+<!-- Instagram CTA — hela sektionen är en klickbar <a>-länk -->
 <a href="https://www.instagram.com/_passionlab/"
    target="_blank"
    rel="noopener noreferrer"
@@ -438,325 +488,7 @@ function toggleOffer(btn){
   (function anim(){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;if(window.innerWidth>=768)card.style.transform=`translate(calc(-50% + ${cx}px),calc(-50% + ${cy}px)) rotate(-4deg)`;requestAnimationFrame(anim);})();
 })();
 
-/* ══════════════════════════════════════════════════════════
-   LIQUID GLASS v3 — konvex förstoringsglas-refraction
-   ══════════════════════════════════════════════════════════
-   Teknik:
-   - Off-screen canvas ritar texten med ctx.fillText()
-     Pixlar samplas från HELA off-screen (global koordinat),
-     inte från en lokal region — löser radbrytningsbugg
-   - Konvex displacement: källpixel dras mot centrum
-     (motsatsen till v2 som tryckte utåt)
-   - Zoom-faktor varierar sfäriskt: max i centrum, noll vid kant
-   - Glasskalet: tydlig specular, skarp rim, mjuk drop shadow
-   ══════════════════════════════════════════════════════════ */
-(function(){
-  if(window.innerWidth < 768) return;
-
-  const wrap   = document.getElementById('quoteWrap');
-  const inner  = document.getElementById('quoteInner');
-  const textEl = document.getElementById('quoteText');
-  const canvas = document.getElementById('lens-canvas');
-  const ctx    = canvas.getContext('2d', { willReadFrequently: true });
-
-  const R      = 150;   // linsradie px (CSS)
-  const SMOOTH = 0.09;  // lerp-faktor
-  const ZOOM   = 1.6;   // konvex förstoring — 1.6 = 60% zoom i centrum
-  const CURV   = 0.9;   // kurvaturfalloff mot kanten
-
-  let mx = -999, my = -999;
-  let lx = -999, ly = -999;
-  let inside = false;
-  let off = null;
-
-  const DPR = Math.min(window.devicePixelRatio || 1, 2);
-
-  /* ── Canvas-resize ── */
-  function resize() {
-    const r = inner.getBoundingClientRect();
-    const W = r.width, H = r.height;
-    canvas.width  = W * DPR;
-    canvas.height = H * DPR;
-    canvas.style.width  = W + 'px';
-    canvas.style.height = H + 'px';
-    buildOffscreen(W, H);
-  }
-
-  /* ── Off-screen: rita texten med canvas-API ──
-     Ritar HELA bakgrunden + text i rätt position relativt inner.
-     Samplar sedan från globala koordinater → inga radbrytningsfel.
-  */
-  function buildOffscreen(W, H) {
-    off = document.createElement('canvas');
-    off.width  = W * DPR;
-    off.height = H * DPR;
-    const oc = off.getContext('2d');
-    oc.scale(DPR, DPR);
-
-    /* Bakgrund */
-    oc.fillStyle = '#000';
-    oc.fillRect(0, 0, W, H);
-
-    const ir = inner.getBoundingClientRect();
-    const tr = textEl.getBoundingClientRect();
-    /* Textblock offset relativt inner */
-    const ox = tr.left - ir.left;
-    const oy = tr.top  - ir.top;
-    const TW = tr.width;
-
-    const cs = getComputedStyle(textEl);
-    const fs = parseFloat(cs.fontSize);
-    const fw = cs.fontWeight;
-    /* Inter Tight — hämta direkt från computed */
-    const ff = cs.fontFamily;
-    /* line-height: computed kan vara 'normal', fallback till 1.08 */
-    const lhRaw = parseFloat(cs.lineHeight);
-    const lh = isNaN(lhRaw) ? fs * 1.08 : lhRaw;
-
-    /* Bygg segment-lista: textnoder + em-noder */
-    const segs = [];
-    textEl.childNodes.forEach(n => {
-      if(n.nodeType === 3)      segs.push({ t: n.textContent, em: false });
-      else if(n.nodeName==='EM') segs.push({ t: n.textContent, em: true  });
-    });
-
-    /* Tokenisera till ord inkl whitespace */
-    const tokens = [];
-    segs.forEach(s => {
-      /* Splitta på mellanslag men behåll dem som tokens */
-      s.t.split(/(\s+)/).forEach(w => { if(w) tokens.push({ w, em: s.em }); });
-    });
-
-    /* Sätt font för mätning */
-    function applyFont(em) {
-      oc.font = `${em ? 'italic ' : ''}${fw} ${fs}px ${ff}`;
-    }
-
-    /* Mät och radbryt exakt som CSS gör det */
-    const lines = [];
-    let cur = [], curW = 0;
-
-    tokens.forEach(tok => {
-      applyFont(tok.em);
-      const tw = oc.measureText(tok.w).width;
-      /* Byt rad om token inte ryms OCH inte är whitespace */
-      if(curW + tw > TW + 0.5 && cur.length && !/^\s+$/.test(tok.w)) {
-        lines.push(cur);
-        cur = []; curW = 0;
-      }
-      cur.push({ ...tok, tw });
-      curW += tw;
-    });
-    if(cur.length) lines.push(cur);
-
-    /* Rita rader */
-    oc.textBaseline = 'alphabetic';
-    lines.forEach((ln, li) => {
-      /* baseline = top-offset + fontSize + radindex * lineHeight */
-      const baseY = oy + fs + li * lh;
-      let x = ox;
-      ln.forEach(tok => {
-        applyFont(tok.em);
-        oc.fillStyle = tok.em ? '#fab3ff' : '#faf5eb';
-        oc.fillText(tok.w, x, baseY);
-        x += tok.tw;
-      });
-    });
-  }
-
-  /* ── Pixel-displacement: konvex lins ──
-     Varje pixel (wx,wy) inuti linsradien:
-     - Normalisera dx,dy till [-1,1]
-     - Sfärisk z-yta: z = sqrt(1-r²) * CURV
-     - Konvex zoom: sampla från en punkt NÄRMRE centrum
-       src = lens_center + (dest - lens_center) / zoom(r)
-     - zoom(r) faller av från ZOOM i centrum → 1.0 vid kanten
-  */
-  function drawLens(lcx, lcy) {
-    if(!off) return;
-    const W = canvas.width / DPR, H = canvas.height / DPR;
-    ctx.clearRect(0, 0, W, H);
-
-    /* Bounding box för linsregionen */
-    const x0 = Math.max(0, Math.floor(lcx - R - 1));
-    const y0 = Math.max(0, Math.floor(lcy - R - 1));
-    const x1 = Math.min(W, Math.ceil(lcx  + R + 1));
-    const y1 = Math.min(H, Math.ceil(lcy  + R + 1));
-    const pw = x1 - x0, ph = y1 - y0;
-    if(pw <= 0 || ph <= 0) return;
-
-    /* Läs hela off-screen canvas (DPR-skalat) */
-    const oc  = off.getContext('2d');
-    const src = oc.getImageData(0, 0, off.width, off.height);
-    const sd  = src.data;
-    const SW  = off.width; // = W*DPR
-
-    /* Målbuffert i CSS-pixlar */
-    const dst = ctx.createImageData(pw, ph);
-    const dd  = dst.data;
-
-    for(let py = 0; py < ph; py++) {
-      for(let px = 0; px < pw; px++) {
-        /* Global CSS-koordinat */
-        const wx = x0 + px;
-        const wy = y0 + py;
-
-        /* Normaliserat avstånd från linsmitt */
-        const dx = (wx - lcx) / R;
-        const dy = (wy - lcy) / R;
-        const r2 = dx*dx + dy*dy;
-        if(r2 >= 1) continue; /* utanför linsen */
-
-        /* Sfärisk kurvatur: z är störst i centrum */
-        const z    = Math.sqrt(1 - r2) * CURV;
-
-        /* Konvex zoom: interpolera mellan ZOOM (centrum) och 1.0 (kant)
-           Viktning med z ger naturlig sfärisk falloff */
-        const zoom = 1 + (ZOOM - 1) * z;
-
-        /* Källkoordinat: dra mot centrum med 1/zoom */
-        const srcX = lcx + (wx - lcx) / zoom;
-        const srcY = lcy + (wy - lcy) / zoom;
-
-        /* Bilinear sampling i off-screen (DPR-koordinater) */
-        const sxf = srcX * DPR;
-        const syf = srcY * DPR;
-        const sx0 = Math.floor(sxf), sy0 = Math.floor(syf);
-        const sx1 = sx0 + 1,         sy1 = sy0 + 1;
-        const tx  = sxf - sx0,       ty  = syf - sy0;
-
-        function samp(x, y) {
-          if(x < 0 || x >= SW || y < 0 || y >= off.height) return [0,0,0,0];
-          const i = (y * SW + x) * 4;
-          return [sd[i], sd[i+1], sd[i+2], sd[i+3]];
-        }
-        const c00 = samp(sx0,sy0), c10 = samp(sx1,sy0);
-        const c01 = samp(sx0,sy1), c11 = samp(sx1,sy1);
-
-        /* Edge fade: mjuk övergång vid linsens kant */
-        const edge = 1 - Math.pow(r2, 8);
-        const di   = (py * pw + px) * 4;
-
-        for(let ch = 0; ch < 3; ch++) {
-          dd[di+ch] = Math.round(
-            (c00[ch]*(1-tx)*(1-ty) +
-             c10[ch]*tx*(1-ty)     +
-             c01[ch]*(1-tx)*ty     +
-             c11[ch]*tx*ty)
-          );
-        }
-        dd[di+3] = Math.round(255 * edge);
-      }
-    }
-    ctx.putImageData(dst, x0, y0);
-
-    /* ══ Glasskalet ══ */
-
-    /* 1. Drop shadow — utanför linsen */
-    ctx.save();
-    ctx.shadowColor   = 'rgba(0,0,0,0.55)';
-    ctx.shadowBlur    = 48;
-    ctx.shadowOffsetX = 8;
-    ctx.shadowOffsetY = 16;
-    ctx.beginPath();
-    ctx.arc(lcx, lcy, R, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(0,0,0,0.01)'; /* nästan transparent fill bara för shadow */
-    ctx.fill();
-    ctx.restore();
-
-    /* Clip inuti linsen för resten */
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(lcx, lcy, R, 0, Math.PI*2);
-    ctx.clip();
-
-    /* 2. Subtil frostad overlay — ger glasets "täthet" */
-    const frost = ctx.createRadialGradient(lcx, lcy, 0, lcx, lcy, R);
-    frost.addColorStop(0,    'rgba(255,255,255,0.03)');
-    frost.addColorStop(0.65, 'rgba(255,255,255,0.01)');
-    frost.addColorStop(1,    'rgba(200,200,255,0.04)');
-    ctx.fillStyle = frost;
-    ctx.fillRect(x0, y0, pw, ph);
-
-    /* 3. Specular highlight — ljuspunkt övre vänster, som referensbilden */
-    const spec = ctx.createRadialGradient(
-      lcx - R*0.32, lcy - R*0.38, R*0.01,
-      lcx - R*0.10, lcy - R*0.10, R*0.60
-    );
-    spec.addColorStop(0,    'rgba(255,255,255,0.75)');
-    spec.addColorStop(0.18, 'rgba(255,255,255,0.30)');
-    spec.addColorStop(0.45, 'rgba(255,255,255,0.06)');
-    spec.addColorStop(1,    'rgba(255,255,255,0.00)');
-    ctx.fillStyle = spec;
-    ctx.fillRect(x0, y0, pw, ph);
-
-    /* 4. Nedre inre skugga — ger djup/kurvatur åt underkanten */
-    const bottomShad = ctx.createRadialGradient(
-      lcx, lcy + R*0.4, R*0.3,
-      lcx, lcy + R*0.6, R
-    );
-    bottomShad.addColorStop(0,   'rgba(0,0,0,0.00)');
-    bottomShad.addColorStop(0.7, 'rgba(0,0,0,0.10)');
-    bottomShad.addColorStop(1,   'rgba(0,0,0,0.22)');
-    ctx.fillStyle = bottomShad;
-    ctx.fillRect(x0, y0, pw, ph);
-
-    ctx.restore(); /* sluta clip */
-
-    /* 5. Yttre rim — skarp vit kant (som slipad glaskant i referensen) */
-    ctx.beginPath();
-    ctx.arc(lcx, lcy, R, 0, Math.PI*2);
-    const rimGrad = ctx.createLinearGradient(
-      lcx - R, lcy - R,
-      lcx + R*0.5, lcy + R
-    );
-    rimGrad.addColorStop(0,    'rgba(255,255,255,0.70)');
-    rimGrad.addColorStop(0.35, 'rgba(255,255,255,0.30)');
-    rimGrad.addColorStop(0.65, 'rgba(255,255,255,0.08)');
-    rimGrad.addColorStop(1,    'rgba(180,180,220,0.20)');
-    ctx.strokeStyle = rimGrad;
-    ctx.lineWidth   = 1.5;
-    ctx.stroke();
-
-    /* 6. Inner rim — extra tunn ring precis innanför kanten */
-    ctx.beginPath();
-    ctx.arc(lcx, lcy, R - 2.5, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-    ctx.lineWidth   = 1;
-    ctx.stroke();
-  }
-
-  /* ── Events ── */
-  wrap.addEventListener('mousemove', e => {
-    const r = inner.getBoundingClientRect();
-    mx = e.clientX - r.left;
-    my = e.clientY - r.top;
-    if(!inside) { lx = mx; ly = my; }
-    inside = true;
-  });
-  wrap.addEventListener('mouseleave', () => {
-    inside = false;
-    ctx.clearRect(0, 0, canvas.width / DPR, canvas.height / DPR);
-  });
-
-  /* ── Init ── */
-  resize();
-  let rt;
-  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
-
-  /* ── Loop ── */
-  (function loop() {
-    if(inside) {
-      lx += (mx - lx) * SMOOTH;
-      ly += (my - ly) * SMOOTH;
-      drawLens(lx, ly);
-    }
-    requestAnimationFrame(loop);
-  })();
-
-})();
-
-/* ─── INSTAGRAM ─── */
+/* ─── INSTAGRAM — desktop cursor + finger, mobil scroll-visibility ─── */
 (function(){
   const wrap      = document.getElementById('instaWrap');
   const instaCur  = document.getElementById('insta-cursor');
@@ -765,45 +497,86 @@ function toggleOffer(btn){
   const mobCur    = document.getElementById('insta-cursor-mobile');
   const mobFinger = document.getElementById('insta-finger-mobile');
   if (!wrap) return;
+
   const ORBIT_R = 100;
   const isTouch = 'ontouchstart' in window;
+
   if (isTouch) {
+    /* ── MOBIL ── */
     const footer = document.querySelector('footer');
-    mobCur.addEventListener('click', () => { window.open('https://www.instagram.com/_passionlab/', '_blank', 'noopener,noreferrer'); });
+
+    // Klick på mobil-avataren öppnar Instagram
+    mobCur.addEventListener('click', () => {
+      window.open('https://www.instagram.com/_passionlab/', '_blank', 'noopener,noreferrer');
+    });
+
     function updateMobile() {
-      const wr = wrap.getBoundingClientRect(), fr = footer.getBoundingClientRect();
+      const wr = wrap.getBoundingClientRect();
+      const fr = footer.getBoundingClientRect();
       const show = wr.top < window.innerHeight * 0.85 && fr.top > window.innerHeight;
-      mobCur.classList.toggle('show', show); mobFinger.classList.toggle('show', show);
+      mobCur.classList.toggle('show', show);
+      mobFinger.classList.toggle('show', show);
     }
     window.addEventListener('scroll', updateMobile, { passive: true });
     updateMobile();
+
+    // Fingret pekar mot "Instagram"-spannet
     (function animMob() {
       if (instaSpan) {
-        const lr = instaSpan.getBoundingClientRect(), fr = mobFinger.getBoundingClientRect();
-        const tx = lr.left+lr.width/2, ty = lr.top+lr.height/2;
-        const fx = fr.left+fr.width/2, fy = fr.top+fr.height/2;
-        mobFinger.style.transform = `rotate(${Math.atan2(ty-fy,tx-fx)*180/Math.PI+90}deg)`;
+        const lr = instaSpan.getBoundingClientRect();
+        const fr = mobFinger.getBoundingClientRect();
+        const tx = lr.left + lr.width  / 2;
+        const ty = lr.top  + lr.height / 2;
+        const fx = fr.left + fr.width  / 2;
+        const fy = fr.top  + fr.height / 2;
+        const angle = Math.atan2(ty - fy, tx - fx);
+        mobFinger.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
       }
       requestAnimationFrame(animMob);
     })();
     return;
   }
+
+  /* ── DESKTOP ── */
   let curX=0,curY=0,smoothX=0,smoothY=0,inside=false;
-  wrap.addEventListener('mouseenter',()=>{ inside=true; instaCur.classList.add('visible'); cur.style.opacity='0'; });
-  wrap.addEventListener('mouseleave',()=>{ inside=false; instaCur.classList.remove('visible'); finger.style.display='none'; cur.style.opacity='1'; });
+
+  wrap.addEventListener('mouseenter',()=>{
+    inside=true;
+    instaCur.classList.add('visible');
+    cur.style.opacity='0';
+  });
+  wrap.addEventListener('mouseleave',()=>{
+    inside=false;
+    instaCur.classList.remove('visible');
+    finger.style.display='none';
+    cur.style.opacity='1';
+  });
   wrap.addEventListener('mousemove',e=>{ curX=e.clientX; curY=e.clientY; });
-  (function animCur(){ smoothX+=(curX-smoothX)*0.12; smoothY+=(curY-smoothY)*0.12; instaCur.style.left=smoothX+'px'; instaCur.style.top=smoothY+'px'; requestAnimationFrame(animCur); })();
+
+  (function animCur(){
+    smoothX += (curX-smoothX)*0.12;
+    smoothY += (curY-smoothY)*0.12;
+    instaCur.style.left = smoothX+'px';
+    instaCur.style.top  = smoothY+'px';
+    requestAnimationFrame(animCur);
+  })();
+
   (function animFinger(){
-    if(!inside){ requestAnimationFrame(animFinger); return; }
+    if (!inside) { requestAnimationFrame(animFinger); return; }
     finger.style.display='block';
     const target = instaSpan || wrap.querySelector('.insta-text');
-    if(target){
-      const lr=target.getBoundingClientRect(), tx=lr.left+lr.width/2, ty=lr.top+lr.height/2;
-      const dx=tx-smoothX, dy=ty-smoothY, angle=Math.atan2(dy,dx);
-      const fx=smoothX+Math.cos(angle)*ORBIT_R, fy=smoothY+Math.sin(angle)*ORBIT_R;
-      const wr=wrap.getBoundingClientRect();
-      finger.style.left=(fx-wr.left-36)+'px'; finger.style.top=(fy-wr.top-36)+'px';
-      finger.style.transform=`rotate(${angle*180/Math.PI+90}deg)`;
+    if (target) {
+      const lr = target.getBoundingClientRect();
+      const tx = lr.left + lr.width  / 2;
+      const ty = lr.top  + lr.height / 2;
+      const dx = tx - smoothX, dy = ty - smoothY;
+      const angle = Math.atan2(dy, dx);
+      const fx = smoothX + Math.cos(angle) * ORBIT_R;
+      const fy = smoothY + Math.sin(angle) * ORBIT_R;
+      const wr = wrap.getBoundingClientRect();
+      finger.style.left      = (fx - wr.left - 36)+'px';
+      finger.style.top       = (fy - wr.top  - 36)+'px';
+      finger.style.transform = `rotate(${angle*180/Math.PI+90}deg)`;
     }
     requestAnimationFrame(animFinger);
   })();
