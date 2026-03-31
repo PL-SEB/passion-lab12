@@ -71,28 +71,9 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .reveal.visible { opacity: 1; transform: translateY(0); }
 .reveal-delay-1{transition-delay:.08s} .reveal-delay-2{transition-delay:.16s} .reveal-delay-3{transition-delay:.24s}
 
-/* ─── QUOTE / LIQUID GLASS ─── */
-.quote-wrap {
-  padding: 120px 48px;
-  position: relative;
-  z-index: 0;
-  /* SVG-displacement filter definieras i JS och appliceras på canvas */
-}
-.quote-inner { max-width: 1000px; margin: 0 auto; position: relative; }
-
-/* Canvas-lager för refraction — absolut ovanpå texten */
-#lens-canvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none; /* muspekaren passerar igenom till wrap */
-  z-index: 2;
-}
-
-/* Texten renderas i ett eget lager under canvas */
-.quote-text-layer {
-  position: relative;
-  z-index: 1;
-}
+/* QUOTE */
+.quote-wrap { padding: 120px 48px; position: relative; z-index: 0; }
+.quote-inner { max-width: 1000px; margin: 0 auto; }
 .quote-text { font-size: clamp(32px,4.5vw,58px); font-weight: 500; letter-spacing: -1px; line-height: 1.08; }
 .quote-text em { font-style: italic; color: var(--pink); }
 
@@ -227,23 +208,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 }
 </style>
 
-<!-- SVG-filter för refraction/displacement — gömt i DOM, refereras av canvas -->
-<svg width="0" height="0" style="position:absolute">
-  <defs>
-    <!--
-      feDisplacementMap förskjuter pixlar baserat på en karta.
-      Vi genererar kartan procedurellt i JS (radial gradient = lins-form).
-      Filtret appliceras inte direkt på text utan används som referens
-      när vi ritar om texten via canvas + drawImage.
-    -->
-    <filter id="glass-filter" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feImage id="lens-map" result="map" preserveAspectRatio="xMidYMid slice"/>
-      <feDisplacementMap in="SourceGraphic" in2="map" scale="48" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
-      <feGaussianBlur in="displaced" stdDeviation="0.6" result="blurred"/>
-      <feComposite in="blurred" in2="SourceGraphic" operator="over"/>
-    </filter>
-  </defs>
-</svg>
 </head>
 <body>
 
@@ -295,19 +259,9 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </h1>
 </section>
 
-<!-- ─── QUOTE med liquid glass ─── -->
-<div class="quote-wrap reveal" id="quoteWrap">
-  <div class="quote-inner" id="quoteInner">
-    <!--
-      canvas lägger sig ovanpå texten (z-index:2, pointer-events:none).
-      JS ritar glaslinsen här varje frame.
-    -->
-    <canvas id="lens-canvas"></canvas>
-
-    <!-- Originaltexten — alltid synlig, canvas täcker delar med glaseffekt -->
-    <div class="quote-text-layer">
-      <p class="quote-text" id="quoteText">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
-    </div>
+<div class="quote-wrap reveal">
+  <div class="quote-inner">
+    <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
   </div>
 </div>
 
