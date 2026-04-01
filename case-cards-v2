@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;1,400;1,700&display=swap');
+:root{--black:#080808;--white:#f5f0e8;--orange:#f05528;--pink:#fab3ff;--font:'Inter Tight',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--black);font-family:var(--font);color:var(--white);min-height:100vh;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+/* NAV */
+.top-nav{display:flex;gap:6px;justify-content:center;padding:20px 16px 0;flex-wrap:wrap;}
+.mode-btn{background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;border-radius:100px;cursor:pointer;transition:all .2s;}
+.mode-btn:hover{color:var(--white);border-color:rgba(255,255,255,.3);}
+.mode-btn.active{background:var(--white);color:var(--black);border-color:var(--white);}
+
+.scene{display:none;}
+.scene.active{display:block;}
+
+/* =====================
+   1. VERTICAL FEED
+   ===================== */
+#scene-feed{height:calc(100vh - 60px);overflow:hidden;position:relative;}
+.feed-wrap{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;}
+.feed-wrap::-webkit-scrollbar{display:none;}
+.feed-item{scroll-snap-align:start;height:calc(100vh - 60px);position:relative;overflow:hidden;}
+.feed-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.feed-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 50%,transparent 100%);}
+.feed-top{position:absolute;top:0;left:0;right:0;padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;}
+.feed-logo{font-size:13px;font-weight:800;letter-spacing:1px;opacity:.7;}
+.feed-follow{background:var(--orange);color:#fff;font-family:var(--font);font-size:11px;font-weight:700;padding:6px 16px;border-radius:100px;border:none;cursor:pointer;}
+.feed-bottom{position:absolute;bottom:0;left:0;right:0;padding:0 20px 32px;}
+.feed-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;background:rgba(240,85,40,.25);color:var(--orange);margin-bottom:10px;}
+.feed-title{font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1.1;margin-bottom:8px;}
+.feed-desc{font-size:13px;color:rgba(255,255,255,.55);line-height:1.55;margin-bottom:18px;max-width:320px;}
+.feed-actions{display:flex;gap:10px;}
+.feed-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);color:var(--white);font-family:var(--font);font-size:12px;font-weight:700;padding:9px 20px;border-radius:100px;cursor:pointer;backdrop-filter:blur(8px);transition:background .2s;}
+.feed-btn:hover{background:rgba(255,255,255,.22);}
+.feed-btn.primary{background:var(--orange);border-color:var(--orange);}
+.feed-dots{position:absolute;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;}
+.feed-dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .3s;}
+.feed-dot.active{height:20px;border-radius:2px;background:var(--white);}
+
+/* =====================
+   2. PERSPECTIVE STACK
+   ===================== */
+#scene-perspective{display:flex;flex-direction:column;align-items:center;padding:48px 24px 60px;min-height:calc(100vh - 60px);}
+.persp-hint{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:40px;}
+.persp-stage{perspective:900px;width:100%;max-width:360px;height:500px;position:relative;}
+.persp-card{position:absolute;width:280px;left:50%;margin-left:-140px;border-radius:20px;overflow:hidden;transition:transform .6s cubic-bezier(.34,1.2,.64,1),opacity .6s,box-shadow .6s;cursor:pointer;}
+.persp-card img{width:100%;display:block;object-fit:cover;}
+.persp-card .po{position:absolute;bottom:0;left:0;right:0;padding:16px 18px 18px;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%);}
+.persp-card .pt{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:4px;}
+.persp-card h3{font-size:17px;font-weight:700;letter-spacing:-.3px;}
+.persp-nav{display:flex;gap:12px;margin-top:32px;}
+.pnav-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:var(--white);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font);transition:background .2s;}
+.pnav-btn:hover{background:rgba(255,255,255,.1);}
+
+/* =====================
+   3. ARC FAN
+   ===================== */
+#scene-arc{display:flex;flex-direction:column;align-items:center;padding:32px 24px 60px;min-height:calc(100vh - 60px);}
+.arc-hint{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;}
+.arc-stage{position:relative;width:100%;max-width:700px;height:420px;margin:0 auto;overflow:visible;}
+.arc-card{position:absolute;width:180px;height:260px;border-radius:16px;overflow:hidden;bottom:0;left:50%;cursor:pointer;transform-origin:50% 120%;transition:transform .5s cubic-bezier(.34,1.2,.64,1),box-shadow .4s;box-shadow:0 12px 40px rgba(0,0,0,.7);}
+.arc-card img{width:100%;height:100%;object-fit:cover;pointer-events:none;}
+.arc-card .ao{position:absolute;bottom:0;left:0;right:0;padding:10px 12px 12px;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%);opacity:0;transition:opacity .3s;}
+.arc-card:hover .ao,.arc-card.sel .ao{opacity:1;}
+.arc-card .at{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:3px;}
+.arc-card h4{font-size:12px;font-weight:700;line-height:1.2;}
+.arc-info{margin-top:28px;width:100%;max-width:400px;background:#111;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px 24px;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s;}
+.arc-info.show{opacity:1;transform:translateY(0);}
+.arc-info .ai-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;}
+.arc-info h3{font-size:20px;font-weight:700;letter-spacing:-.3px;margin-bottom:8px;}
+.arc-info p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;}
+
+/* =====================
+   4. MAGNETIC DRAG
+   ===================== */
+#scene-magnetic{position:relative;min-height:calc(100vh - 60px);overflow:hidden;}
+.mag-hint{position:absolute;top:24px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;z-index:2;}
+.mag-card{position:absolute;width:200px;height:280px;border-radius:18px;overflow:hidden;cursor:grab;user-select:none;transition:box-shadow .3s;will-change:transform;}
+.mag-card:active{cursor:grabbing;}
+.mag-card img{width:100%;height:100%;object-fit:cover;pointer-events:none;display:block;}
+.mag-card .mo{position:absolute;bottom:0;left:0;right:0;padding:12px 14px 14px;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%);}
+.mag-card .mt{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:3px;}
+.mag-card h4{font-size:13px;font-weight:700;line-height:1.2;}
+.mag-card .mag-pulse{position:absolute;inset:0;border-radius:18px;border:2px solid var(--orange);opacity:0;transition:opacity .3s;}
+.mag-card:hover .mag-pulse{opacity:.5;}
+
+/* =====================
+   5. FLIP WALL
+   ===================== */
+#scene-flipwall{padding:40px 24px 60px;}
+.fw-hint{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;text-align:center;margin-bottom:28px;}
+.fw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;max-width:760px;margin:0 auto;}
+.fw-cell{perspective:600px;height:220px;cursor:pointer;}
+.fw-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.34,1.2,.64,1);}
+.fw-cell:hover .fw-inner,.fw-cell.flipped .fw-inner{transform:rotateY(180deg);}
+.fw-face{position:absolute;inset:0;border-radius:14px;overflow:hidden;backface-visibility:hidden;}
+.fw-back{transform:rotateY(180deg);background:#111;border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;justify-content:center;padding:18px;}
+.fw-face img{width:100%;height:100%;object-fit:cover;display:block;}
+.fw-face .fo{position:absolute;bottom:0;left:0;right:0;padding:10px 12px 12px;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%);}
+.fw-face .ft{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:3px;}
+.fw-face h4{font-size:13px;font-weight:700;line-height:1.2;}
+.fw-back .fb-tag{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
+.fw-back h3{font-size:16px;font-weight:700;letter-spacing:-.3px;margin-bottom:8px;line-height:1.2;}
+.fw-back p{font-size:11px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:14px;}
+.fw-back a{font-size:11px;font-weight:700;color:var(--orange);}
+
+/* EXPANDED overlay — in-flow faux fullscreen */
+.fw-expand{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;}
+.fw-expand.open{opacity:1;pointer-events:auto;}
+.fw-expand-inner{width:90%;max-width:480px;border-radius:20px;overflow:hidden;background:#0e0e0e;border:1px solid rgba(255,255,255,.07);transform:scale(.94);transition:transform .4s cubic-bezier(.34,1.2,.64,1);}
+.fw-expand.open .fw-expand-inner{transform:scale(1);}
+.fw-expand-img{width:100%;height:280px;object-fit:cover;display:block;}
+.fw-expand-body{padding:24px 28px 28px;}
+.fw-expand-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
+.fw-expand-body h2{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;}
+.fw-expand-body p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:20px;}
+.fw-expand-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12);color:var(--white);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font);}
+.fw-expand-inner{position:relative;}
+.fw-cta{display:inline-block;background:var(--orange);color:#fff;font-family:var(--font);font-size:13px;font-weight:700;padding:10px 22px;border-radius:100px;border:none;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <button class="mode-btn active" onclick="setMode('feed',this)">Feed</button>
+  <button class="mode-btn" onclick="setMode('perspective',this)">Perspektiv</button>
+  <button class="mode-btn" onclick="setMode('arc',this)">Arc Fan</button>
+  <button class="mode-btn" onclick="setMode('magnetic',this)">Magnetic</button>
+  <button class="mode-btn" onclick="setMode('flipwall',this)">Flip Wall</button>
+</div>
+
+<!-- 1. FEED -->
+<div id="scene-feed" class="scene active">
+  <div class="feed-wrap" id="feedWrap"></div>
+  <div class="feed-dots" id="feedDots"></div>
+</div>
+
+<!-- 2. PERSPECTIVE -->
+<div id="scene-perspective" class="scene">
+  <p class="persp-hint">Klicka för att bläddra</p>
+  <div class="persp-stage" id="perspStage"></div>
+  <div class="persp-nav">
+    <button class="pnav-btn" id="pPrev">←</button>
+    <button class="pnav-btn" id="pNext">→</button>
+  </div>
+</div>
+
+<!-- 3. ARC -->
+<div id="scene-arc" class="scene">
+  <p class="arc-hint">Hovra eller klicka ett kort</p>
+  <div class="arc-stage" id="arcStage"></div>
+  <div class="arc-info" id="arcInfo">
+    <p class="ai-tag" id="arcTag"></p>
+    <h3 id="arcTitle"></h3>
+    <p id="arcDesc"></p>
+  </div>
+</div>
+
+<!-- 4. MAGNETIC -->
+<div id="scene-magnetic" class="scene">
+  <p class="mag-hint">Dra korten fritt</p>
+  <div id="magArena"></div>
+</div>
+
+<!-- 5. FLIP WALL -->
+<div id="scene-flipwall" class="scene">
+  <p class="fw-hint">Hovra för att flippa — klicka för att öppna</p>
+  <div class="fw-grid" id="fwGrid"></div>
+</div>
+
+<!-- Flip wall expand overlay -->
+<div class="fw-expand" id="fwExpand" onclick="closeFwExpand(event)">
+  <div class="fw-expand-inner">
+    <button class="fw-expand-close" onclick="document.getElementById('fwExpand').classList.remove('open')">✕</button>
+    <img class="fw-expand-img" id="fwExpandImg" src="" alt="">
+    <div class="fw-expand-body">
+      <p class="fw-expand-tag" id="fwExpandTag"></p>
+      <h2 id="fwExpandTitle"></h2>
+      <p id="fwExpandDesc"></p>
+      <button class="fw-cta">Se hela caset →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CASES=[
+  {title:'Telia × SHL',tag:'Sponsring',img:'TELIA_SHL_KN 22-23_COVER.jpg',desc:'En av Sveriges mest uppmärksammade sponsringskampanjer. Telia och SHL skapade äkta hockeykänsla för miljontals fans.'},
+  {title:'Unibet × NHL',tag:'Sponsring',img:'Unibet_NHL_COVER.jpg',desc:'Internationell räckvidd med lokal känsla. Unibet och NHL i ett partnership som nådde hela Norden.'},
+  {title:'Lyko × ELLE',tag:'Reklam',img:'LYKO_ELLE 23_COVER.jpg',desc:'Lyko och ELLE i en editorial kollaboration som satte beautytrenden för 2023.'},
+  {title:'Lyko × Ski Team',tag:'Event',img:'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg',desc:'När skidåkning möter beauty — ett event som genererade organisk räckvidd långt utöver förväntningarna.'},
+  {title:'Ajabaja Cancer',tag:'Reklam',img:'Ajabajacancer_staende.jpg',desc:'En kampanj som vågade vara annorlunda och nådde en yngre målgrupp med ett viktigt budskap.'},
+  {title:'SEF',tag:'Sponsring',img:'SEF_cover_4x5.png',desc:'Passion Lab hjälpte SEF att aktivera sina rättigheter på ett sätt som skapade verklig affärsnytta.'},
+  {title:'Matchkorv',tag:'Event',img:'Matchkorv_presskonf.png',desc:'Ett aktiveringscase som blandade humor, genuinitet och sport — folk pratade om det i månader.'},
+];
+
+function setMode(mode,btn){
+  document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('scene-'+mode).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ====== 1. FEED ====== */
+(function(){
+  const wrap=document.getElementById('feedWrap');
+  const dots=document.getElementById('feedDots');
+  CASES.forEach((c,i)=>{
+    const item=document.createElement('div');
+    item.className='feed-item';
+    item.innerHTML=`
+      <img src="${c.img}" alt="${c.title}">
+      <div class="feed-overlay"></div>
+      <div class="feed-top">
+        <span class="feed-logo">Passion Lab</span>
+        <button class="feed-follow">Följ</button>
+      </div>
+      <div class="feed-bottom">
+        <span class="feed-tag">${c.tag}</span>
+        <h2 class="feed-title">${c.title}</h2>
+        <p class="feed-desc">${c.desc}</p>
+        <div class="feed-actions">
+          <button class="feed-btn primary">Se caset →</button>
+          <button class="feed-btn">Dela</button>
+        </div>
+      </div>
+    `;
+    wrap.appendChild(item);
+    const dot=document.createElement('div');
+    dot.className='feed-dot'+(i===0?' active':'');
+    dots.appendChild(dot);
+  });
+  wrap.addEventListener('scroll',()=>{
+    const idx=Math.round(wrap.scrollTop/(wrap.clientHeight));
+    document.querySelectorAll('.feed-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  },{passive:true});
+})();
+
+/* ====== 2. PERSPECTIVE ====== */
+(function(){
+  const stage=document.getElementById('perspStage');
+  let active=0;
+  const N=CASES.length;
+
+  function build(){
+    stage.innerHTML='';
+    CASES.forEach((c,i)=>{
+      const card=document.createElement('div');
+      card.className='persp-card';
+      const h=Math.round(300+i*20);
+      card.innerHTML=`<img src="${c.img}" alt="${c.title}" style="height:${h}px"><div class="po"><span class="pt">${c.tag}</span><h3>${c.title}</h3></div>`;
+      card.dataset.i=i;
+      stage.appendChild(card);
+    });
+    render();
+  }
+
+  function render(){
+    const cards=stage.querySelectorAll('.persp-card');
+    cards.forEach((card,i)=>{
+      const offset=i-active;
+      const abs=Math.abs(offset);
+      const scale=1-abs*0.08;
+      const tz=-abs*80;
+      const ty=offset*8;
+      const opacity=1-abs*0.18;
+      card.style.cssText=`
+        transform:translateZ(${tz}px) translateY(${ty}px) scale(${scale});
+        opacity:${Math.max(0,opacity)};
+        z-index:${N-abs};
+        top:${Math.max(0,(N-1-i)*12)}px;
+        box-shadow:0 ${20+abs*8}px ${40+abs*20}px rgba(0,0,0,${0.5+abs*0.1});
+        height:${300+i*20}px;
+      `;
+    });
+  }
+
+  document.getElementById('pNext').onclick=()=>{active=(active+1)%N;render();};
+  document.getElementById('pPrev').onclick=()=>{active=(active-1+N)%N;render();};
+  build();
+})();
+
+/* ====== 3. ARC FAN ====== */
+(function(){
+  const stage=document.getElementById('arcStage');
+  const N=CASES.length;
+  const totalArc=110;
+  const startAng=-(totalArc/2);
+  let selIdx=-1;
+
+  CASES.forEach((c,i)=>{
+    const ang=startAng+(totalArc/(N-1))*i;
+    const card=document.createElement('div');
+    card.className='arc-card';
+    card.innerHTML=`<img src="${c.img}" alt="${c.title}"><div class="ao"><span class="at">${c.tag}</span><h4>${c.title}</h4></div>`;
+    const baseX=(i/(N-1))*100-50;
+    card.style.cssText=`margin-left:${baseX}%;transform-origin:50% 130%;transform:rotate(${ang}deg);z-index:${i};`;
+    card.dataset.ang=ang;
+    card.dataset.i=i;
+    card.addEventListener('click',()=>{
+      selIdx=selIdx===i?-1:i;
+      updateArc();
+      if(selIdx>=0) showArcInfo(CASES[selIdx]);
+      else document.getElementById('arcInfo').classList.remove('show');
+    });
+    stage.appendChild(card);
+  });
+
+  function updateArc(){
+    stage.querySelectorAll('.arc-card').forEach((card,i)=>{
+      const ang=parseFloat(card.dataset.ang);
+      card.classList.toggle('sel',i===selIdx);
+      if(i===selIdx){
+        card.style.transform=`rotate(0deg) translateY(-30px) scale(1.12)`;
+        card.style.zIndex=20;
+      } else {
+        card.style.transform=`rotate(${ang}deg)`;
+        card.style.zIndex=i;
+      }
+    });
+  }
+
+  function showArcInfo(c){
+    document.getElementById('arcTag').textContent=c.tag;
+    document.getElementById('arcTitle').textContent=c.title;
+    document.getElementById('arcDesc').textContent=c.desc;
+    document.getElementById('arcInfo').classList.add('show');
+  }
+})();
+
+/* ====== 4. MAGNETIC DRAG ====== */
+(function(){
+  const arena=document.getElementById('magArena');
+  const positions=[
+    {x:5,y:15},{x:25,y:8},{x:48,y:20},{x:62,y:5},{x:70,y:40},{x:10,y:55},{x:40,y:52}
+  ];
+  const floatOffsets=CASES.map(()=>({x:(Math.random()-.5)*40,y:(Math.random()-.5)*40,vx:0,vy:0,tx:0,ty:0}));
+
+  CASES.forEach((c,i)=>{
+    const pos=positions[i]||{x:10+i*12,y:20};
+    const card=document.createElement('div');
+    card.className='mag-card';
+    card.innerHTML=`<img src="${c.img}" alt="${c.title}"><div class="mo"><span class="mt">${c.tag}</span><h4>${c.title}</h4></div><div class="mag-pulse"></div>`;
+    card.style.cssText=`left:${pos.x}%;top:${pos.y}%;transform:rotate(${(i%3-1)*6}deg);z-index:${i+1};`;
+    card.dataset.baseRot=(i%3-1)*6;
+    makeDraggable(card,i,floatOffsets[i]);
+    arena.appendChild(card);
+  });
+
+  function makeDraggable(card,idx,fo){
+    let dragging=false,sx=0,sy=0,ox=0,oy=0;
+    const getX=e=>e.touches?e.touches[0].clientX:e.clientX;
+    const getY=e=>e.touches?e.touches[0].clientY:e.clientY;
+    card.addEventListener('mousedown',e=>{dragging=true;sx=getX(e);sy=getY(e);const r=card.getBoundingClientRect();ox=r.left;oy=r.top;card.style.transition='none';card.style.zIndex=50;e.preventDefault();});
+    card.addEventListener('touchstart',e=>{dragging=true;sx=getX(e);sy=getY(e);const r=card.getBoundingClientRect();ox=r.left;oy=r.top;card.style.transition='none';card.style.zIndex=50;},{passive:true});
+    document.addEventListener('mousemove',e=>{if(!dragging)return;const dx=getX(e)-sx,dy=getY(e)-sy;card.style.left=(ox+dx)+'px';card.style.top=(oy+dy)+'px';card.style.transform=`rotate(${parseFloat(card.dataset.baseRot)+dx*.05}deg)`;});
+    document.addEventListener('touchmove',e=>{if(!dragging)return;const dx=getX(e)-sx,dy=getY(e)-sy;card.style.left=(ox+dx)+'px';card.style.top=(oy+dy)+'px';card.style.transform=`rotate(${parseFloat(card.dataset.baseRot)+dx*.05}deg)`;},{passive:true});
+    const end=()=>{if(!dragging)return;dragging=false;card.style.zIndex=idx+1;card.style.transition='transform .4s cubic-bezier(.34,1.2,.64,1)';card.style.transform=`rotate(${card.dataset.baseRot}deg)`;};
+    document.addEventListener('mouseup',end);
+    document.addEventListener('touchend',end);
+  }
+
+  /* Subtle float animation */
+  const cards=()=>arena.querySelectorAll('.mag-card');
+  function floatLoop(){
+    cards().forEach((card,i)=>{
+      if(card.style.transition==='none') return;
+      const fo=floatOffsets[i];
+      fo.tx=Math.sin(Date.now()*.0004+i*1.2)*8;
+      fo.ty=Math.cos(Date.now()*.0003+i*.9)*6;
+    });
+    requestAnimationFrame(floatLoop);
+  }
+  floatLoop();
+})();
+
+/* ====== 5. FLIP WALL ====== */
+(function(){
+  const grid=document.getElementById('fwGrid');
+  CASES.forEach((c,i)=>{
+    const cell=document.createElement('div');
+    cell.className='fw-cell';
+    cell.innerHTML=`
+      <div class="fw-inner">
+        <div class="fw-face">
+          <img src="${c.img}" alt="${c.title}">
+          <div class="fo"><span class="ft">${c.tag}</span><h4>${c.title}</h4></div>
+        </div>
+        <div class="fw-face fw-back">
+          <p class="fb-tag">${c.tag}</p>
+          <h3>${c.title}</h3>
+          <p>${c.desc.substring(0,70)}…</p>
+          <a href="#">Läs mer →</a>
+        </div>
+      </div>
+    `;
+    cell.addEventListener('click',()=>openFwExpand(c));
+    grid.appendChild(cell);
+  });
+})();
+
+function openFwExpand(c){
+  document.getElementById('fwExpandImg').src=c.img;
+  document.getElementById('fwExpandTag').textContent=c.tag;
+  document.getElementById('fwExpandTitle').textContent=c.title;
+  document.getElementById('fwExpandDesc').textContent=c.desc;
+  document.getElementById('fwExpand').classList.add('open');
+}
+function closeFwExpand(e){
+  if(e.target===document.getElementById('fwExpand'))
+    document.getElementById('fwExpand').classList.remove('open');
+}
+</script>
+</body>
+</html>
