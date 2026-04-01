@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;1,400;1,700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --orange: #f05528;
+    --pink: #fab3ff;
+    --font: 'Inter Tight', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    font-family: var(--font);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---- NAV TABS ---- */
+  .mode-nav {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 28px 24px 0;
+  }
+  .mode-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.4);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all .25s;
+  }
+  .mode-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+  .mode-btn.active { background: var(--white); color: var(--black); border-color: var(--white); }
+
+  /* ---- SCENES ---- */
+  .scene { display: none; padding: 40px 24px 60px; }
+  .scene.active { display: block; }
+
+  /* ==============================
+     SCENE 1: KORTLEK / SWIPE STACK
+     ============================== */
+  #scene-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stack-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .stack-arena {
+    position: relative;
+    width: 320px;
+    height: 440px;
+    margin: 0 auto;
+  }
+
+  .stack-card {
+    position: absolute;
+    width: 320px;
+    height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow .3s;
+    will-change: transform;
+    touch-action: none;
+  }
+
+  .stack-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+
+  .stack-card .card-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 20px 24px 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 100%);
+  }
+
+  .stack-card .card-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(240,85,40,.25);
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  .stack-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.5px;
+    line-height: 1.1;
+  }
+
+  .stack-vote {
+    position: absolute;
+    top: 20px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    opacity: 0;
+    transition: opacity .15s;
+    pointer-events: none;
+    text-transform: uppercase;
+  }
+  .vote-yes { left: 18px; background: #00d084; color: #001a0e; }
+  .vote-no  { right: 18px; background: var(--orange); color: #fff; }
+
+  .stack-counter {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 28px;
+  }
+
+  .stack-reset {
+    margin-top: 20px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.5);
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 8px 20px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all .25s;
+    display: none;
+  }
+  .stack-reset:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+
+  /* ==============================
+     SCENE 2: 3D FAN / HAND SPREAD
+     ============================== */
+  #scene-fan {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 520px;
+  }
+
+  .fan-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .fan-arena {
+    position: relative;
+    width: 340px;
+    height: 360px;
+    margin: 40px auto 0;
+    cursor: pointer;
+  }
+
+  .fan-card {
+    position: absolute;
+    width: 200px;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    left: 50%;
+    top: 0;
+    transform-origin: center bottom;
+    transition: transform .5s cubic-bezier(.34,1.4,.64,1), box-shadow .4s;
+    cursor: pointer;
+  }
+
+  .fan-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .fan-card .card-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 14px 14px;
+    background: linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+  .fan-card:hover .card-overlay,
+  .fan-card.active .card-overlay { opacity: 1; }
+
+  .fan-card .card-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--orange);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .fan-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .fan-detail {
+    margin-top: 32px;
+    width: 100%;
+    max-width: 400px;
+    background: #111;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 24px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .4s, transform .4s;
+    pointer-events: none;
+  }
+
+  .fan-detail.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .fan-detail-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  .fan-detail h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.5px;
+    margin-bottom: 10px;
+  }
+
+  .fan-detail p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.65;
+  }
+
+  /* ==============================
+     SCENE 3: SCATTER / BORD
+     ============================== */
+  #scene-scatter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .scatter-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .scatter-arena {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    height: 480px;
+    margin: 0 auto;
+    background: #0d0d0d;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+  }
+
+  .sc-card {
+    position: absolute;
+    width: 150px;
+    height: 210px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .35s cubic-bezier(.34,1.4,.64,1), z-index 0s, box-shadow .3s;
+    box-shadow: 0 8px 32px rgba(0,0,0,.7);
+  }
+
+  .sc-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    display: block;
+  }
+
+  .sc-card .sc-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 8px 10px 10px;
+    background: linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 100%);
+  }
+
+  .sc-card .sc-tag {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--orange);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .sc-card h4 {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .sc-card:hover, .sc-card.lifted {
+    transform: scale(1.12) translateY(-10px) rotate(0deg) !important;
+    box-shadow: 0 24px 60px rgba(0,0,0,.9);
+    z-index: 50 !important;
+  }
+
+  /* Modal overlay — in-flow faux viewport */
+  .modal-bg {
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+  }
+
+  .modal-bg.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-box {
+    background: #111;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 420px;
+    overflow: hidden;
+    transform: scale(.92) translateY(20px);
+    transition: transform .4s cubic-bezier(.34,1.2,.64,1);
+  }
+
+  .modal-bg.open .modal-box {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .modal-body {
+    padding: 24px 28px 28px;
+  }
+
+  .modal-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  .modal-body h3 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+    margin-bottom: 12px;
+  }
+
+  .modal-body p {
+    font-size: 14px;
+    color: rgba(255,255,255,.45);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.6);
+    border: 1px solid rgba(255,255,255,.12);
+    color: var(--white);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font);
+  }
+
+  .modal-box { position: relative; }
+
+  .modal-cta {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .modal-cta:hover { opacity: .85; }
+
+  /* ==============================
+     SCENE 4: 3D KARUSELL
+     ============================== */
+  #scene-carousel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .carousel-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .carousel-stage {
+    perspective: 1000px;
+    width: 300px;
+    height: 400px;
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
+  .carousel-rotor {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .8s cubic-bezier(.34,1.2,.64,1);
+  }
+
+  .cr-card {
+    position: absolute;
+    width: 240px;
+    height: 340px;
+    border-radius: 18px;
+    overflow: hidden;
+    left: 50%;
+    top: 50%;
+    margin-left: -120px;
+    margin-top: -170px;
+    backface-visibility: hidden;
+  }
+
+  .cr-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .cr-card .card-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 16px 18px 20px;
+    background: linear-gradient(to top, rgba(0,0,0,.92) 0%, transparent 100%);
+  }
+
+  .cr-card .card-tag {
+    font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 4px;
+  }
+
+  .cr-card h3 { font-size: 18px; font-weight: 700; letter-spacing: -.3px; }
+
+  .carousel-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+    align-items: center;
+  }
+
+  .cnav-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.04);
+    color: var(--white);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s, border-color .2s;
+    font-family: var(--font);
+  }
+  .cnav-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.3); }
+
+  .cnav-label {
+    min-width: 120px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,.6);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="mode-nav">
+  <button class="mode-btn active" onclick="setMode('stack')">Kortlek</button>
+  <button class="mode-btn" onclick="setMode('fan')">Fan</button>
+  <button class="mode-btn" onclick="setMode('scatter')">Scatter</button>
+  <button class="mode-btn" onclick="setMode('carousel')">3D Karusell</button>
+</div>
+
+<!-- SCENE 1: STACK / SWIPE -->
+<div id="scene-stack" class="scene active">
+  <p class="stack-hint">Swipa höger att spara — vänster att skippa</p>
+  <div class="stack-arena" id="stackArena"></div>
+  <p class="stack-counter" id="stackCounter"></p>
+  <button class="stack-reset" id="stackReset" onclick="initStack()">Börja om ↺</button>
+</div>
+
+<!-- SCENE 2: FAN -->
+<div id="scene-fan" class="scene">
+  <p class="fan-hint">Klicka ett kort för att läsa mer</p>
+  <div class="fan-arena" id="fanArena"></div>
+  <div class="fan-detail" id="fanDetail">
+    <p class="fan-detail-tag" id="fanDetailTag"></p>
+    <h3 id="fanDetailTitle"></h3>
+    <p id="fanDetailDesc"></p>
+  </div>
+</div>
+
+<!-- SCENE 3: SCATTER -->
+<div id="scene-scatter" class="scene">
+  <p class="scatter-hint">Klicka för att lyfta ett kort</p>
+  <div class="scatter-arena" id="scatterArena"></div>
+</div>
+
+<!-- MODAL för scatter -->
+<div class="modal-bg" id="scatterModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('scatterModal').classList.remove('open')">✕</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <p class="modal-tag" id="modalTag"></p>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+      <button class="modal-cta">Se hela caset →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCENE 4: 3D CAROUSEL -->
+<div id="scene-carousel" class="scene">
+  <p class="carousel-hint">Bläddra för att vrida kring</p>
+  <div class="carousel-stage">
+    <div class="carousel-rotor" id="carouselRotor"></div>
+  </div>
+  <div class="carousel-nav">
+    <button class="cnav-btn" id="crPrev">←</button>
+    <span class="cnav-label" id="crLabel"></span>
+    <button class="cnav-btn" id="crNext">→</button>
+  </div>
+</div>
+
+<script>
+const CASES = [
+  { title: 'Telia × SHL', tag: 'Sponsring', img: 'TELIA_SHL_KN 22-23_COVER.jpg', desc: 'En av Sveriges mest uppmärksammade sponsringskampanjer. Telia och SHL skapade äkta hockeykänsla för miljontals fans.' },
+  { title: 'Unibet × NHL', tag: 'Sponsring', img: 'Unibet_NHL_COVER.jpg', desc: 'Internationell räckvidd med lokal känsla. Unibet och NHL i ett partnership som nådde hela Norden.' },
+  { title: 'Lyko × ELLE', tag: 'Reklam', img: 'LYKO_ELLE 23_COVER.jpg', desc: 'Lyko och ELLE i en editorial kollaboration som satte beautytrenden för 2023.' },
+  { title: 'Lyko × Ski Team', tag: 'Event', img: 'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg', desc: 'När skidåkning möter beauty — ett event som genererade organisk räckvidd långt utöver förväntningarna.' },
+  { title: 'Ajabaja Cancer', tag: 'Reklam', img: 'Ajabajacancer_staende.jpg', desc: 'En kampanj som vågade vara annorlunda och nådde en yngre målgrupp med ett viktigt budskap.' },
+  { title: 'SEF', tag: 'Sponsring', img: 'SEF_cover_4x5.png', desc: 'Passion Lab hjälpte SEF att aktivera sina rättigheter på ett sätt som skapade verklig affärsnytta.' },
+  { title: 'Matchkorv', tag: 'Event', img: 'Matchkorv_presskonf.png', desc: 'Ett aktiveringscase som blandade humor, genuinitet och sport på ett sätt som folk faktiskt pratade om.' },
+];
+
+/* ====== SCENE SWITCH ====== */
+function setMode(mode) {
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('scene-' + mode).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ====== STACK ====== */
+let stackCards = [], stackIdx = 0;
+
+function initStack() {
+  const arena = document.getElementById('stackArena');
+  arena.innerHTML = '';
+  document.getElementById('stackReset').style.display = 'none';
+  stackIdx = CASES.length - 1;
+  stackCards = [];
+
+  CASES.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'stack-card';
+    card.innerHTML = `
+      <img src="${c.img}" alt="${c.title}">
+      <div class="card-overlay">
+        <span class="card-tag">${c.tag}</span>
+        <h3>${c.title}</h3>
+      </div>
+      <div class="stack-vote vote-yes">Spara ✓</div>
+      <div class="stack-vote vote-no">Skippa</div>
+    `;
+    const z = i;
+    const rot = (i - (CASES.length / 2)) * 1.5;
+    const ty = (CASES.length - i) * 3;
+    card.style.cssText = `z-index:${z};transform:translateY(${ty}px) rotate(${rot}deg);box-shadow:0 ${8+i*2}px ${20+i*4}px rgba(0,0,0,0.7)`;
+    card.dataset.idx = i;
+    arena.appendChild(card);
+    stackCards.push(card);
+    makeSwipeable(card, c);
+  });
+  updateStackCounter();
+}
+
+function makeSwipeable(card, caseData) {
+  let startX = 0, startY = 0, curX = 0, dragging = false;
+  const yes = card.querySelector('.vote-yes');
+  const no = card.querySelector('.vote-no');
+
+  const getX = e => e.touches ? e.touches[0].clientX : e.clientX;
+  const getY = e => e.touches ? e.touches[0].clientY : e.clientY;
+
+  card.addEventListener('mousedown', e => { dragging = true; startX = getX(e); startY = getY(e); card.style.transition = 'none'; card.style.cursor = 'grabbing'; });
+  card.addEventListener('touchstart', e => { dragging = true; startX = getX(e); startY = getY(e); card.style.transition = 'none'; }, {passive:true});
+
+  const move = e => {
+    if (!dragging) return;
+    curX = getX(e) - startX;
+    const curY = getY(e) - startY;
+    const rot = curX * 0.07;
+    const baseRot = (parseInt(card.dataset.idx) - (CASES.length / 2)) * 1.5;
+    card.style.transform = `translate(${curX}px, ${curY}px) rotate(${baseRot + rot}deg)`;
+    const ratio = Math.min(Math.abs(curX) / 80, 1);
+    yes.style.opacity = curX > 20 ? ratio : 0;
+    no.style.opacity = curX < -20 ? ratio : 0;
+  };
+
+  document.addEventListener('mousemove', move);
+  document.addEventListener('touchmove', move, {passive:true});
+
+  const end = () => {
+    if (!dragging) return;
+    dragging = false;
+    card.style.cursor = 'grab';
+    yes.style.opacity = 0;
+    no.style.opacity = 0;
+
+    if (Math.abs(curX) > 80) {
+      const dir = curX > 0 ? 1 : -1;
+      card.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1), opacity .4s';
+      card.style.transform = `translate(${dir * 600}px, 0) rotate(${dir * 25}deg)`;
+      card.style.opacity = '0';
+      card.style.pointerEvents = 'none';
+      stackIdx--;
+      updateStackCounter();
+      if (stackIdx < 0) {
+        setTimeout(() => { document.getElementById('stackReset').style.display = 'block'; }, 500);
+      }
+    } else {
+      const baseRot = (parseInt(card.dataset.idx) - (CASES.length / 2)) * 1.5;
+      const ty = (CASES.length - parseInt(card.dataset.idx)) * 3;
+      card.style.transition = 'transform .5s cubic-bezier(.34,1.2,.64,1)';
+      card.style.transform = `translateY(${ty}px) rotate(${baseRot}deg)`;
+    }
+    curX = 0;
+  };
+
+  document.addEventListener('mouseup', end);
+  document.addEventListener('touchend', end);
+}
+
+function updateStackCounter() {
+  const rem = Math.max(0, stackIdx + 1);
+  const el = document.getElementById('stackCounter');
+  el.textContent = rem > 0 ? `${rem} av ${CASES.length} kvar` : 'Alla case visade!';
+}
+
+/* ====== FAN ====== */
+function initFan() {
+  const arena = document.getElementById('fanArena');
+  arena.innerHTML = '';
+  const N = CASES.length;
+  const spread = 56;
+  const startAngle = -(spread * (N - 1)) / 2;
+
+  CASES.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'fan-card';
+    const angle = startAngle + i * spread;
+    card.innerHTML = `
+      <img src="${c.img}" alt="${c.title}">
+      <div class="card-overlay">
+        <span class="card-tag">${c.tag}</span>
+        <h3>${c.title}</h3>
+      </div>
+    `;
+    card.style.cssText = `
+      transform: translateX(-50%) rotate(${angle}deg) translateY(-10px);
+      z-index: ${i};
+      margin-left: 0;
+    `;
+    card.dataset.angle = angle;
+    card.dataset.idx = i;
+
+    card.addEventListener('click', () => selectFanCard(card, c, i));
+    card.addEventListener('mouseenter', () => {
+      if (!card.classList.contains('active')) {
+        card.style.transform = `translateX(-50%) rotate(${angle}deg) translateY(-30px)`;
+      }
+    });
+    card.addEventListener('mouseleave', () => {
+      if (!card.classList.contains('active')) {
+        card.style.transform = `translateX(-50%) rotate(${angle}deg) translateY(-10px)`;
+      }
+    });
+    arena.appendChild(card);
+  });
+}
+
+function selectFanCard(card, c, idx) {
+  const arena = document.getElementById('fanArena');
+  const detail = document.getElementById('fanDetail');
+  const allCards = arena.querySelectorAll('.fan-card');
+
+  allCards.forEach((fc, i) => {
+    fc.classList.remove('active');
+    const ang = parseFloat(fc.dataset.angle);
+    fc.style.zIndex = i;
+    fc.style.transform = `translateX(-50%) rotate(${ang}deg) translateY(-10px)`;
+  });
+
+  card.classList.add('active');
+  card.style.zIndex = 20;
+  card.style.transform = `translateX(-50%) rotate(0deg) translateY(-60px) scale(1.08)`;
+
+  document.getElementById('fanDetailTag').textContent = c.tag;
+  document.getElementById('fanDetailTitle').textContent = c.title;
+  document.getElementById('fanDetailDesc').textContent = c.desc;
+  detail.classList.add('visible');
+}
+
+/* ====== SCATTER ====== */
+function initScatter() {
+  const arena = document.getElementById('scatterArena');
+  arena.innerHTML = '';
+  const positions = [
+    { x: 4, y: 8, rot: -8, z: 3 },
+    { x: 22, y: 22, rot: 5, z: 5 },
+    { x: 42, y: 5, rot: -3, z: 4 },
+    { x: 58, y: 30, rot: 9, z: 6 },
+    { x: 10, y: 50, rot: -12, z: 2 },
+    { x: 68, y: 55, rot: -6, z: 7 },
+    { x: 38, y: 55, rot: 14, z: 1 },
+  ];
+
+  CASES.forEach((c, i) => {
+    const pos = positions[i] || { x: 10 + i * 12, y: 20, rot: (i % 3 - 1) * 8, z: i };
+    const card = document.createElement('div');
+    card.className = 'sc-card';
+    card.innerHTML = `
+      <img src="${c.img}" alt="${c.title}">
+      <div class="sc-label">
+        <span class="sc-tag">${c.tag}</span>
+        <h4>${c.title}</h4>
+      </div>
+    `;
+    card.style.cssText = `left:${pos.x}%;top:${pos.y}%;transform:rotate(${pos.rot}deg);z-index:${pos.z}`;
+    card.dataset.rot = pos.rot;
+    card.addEventListener('click', () => openModal(c));
+    arena.appendChild(card);
+  });
+}
+
+function openModal(c) {
+  document.getElementById('modalImg').src = c.img;
+  document.getElementById('modalTag').textContent = c.tag;
+  document.getElementById('modalTitle').textContent = c.title;
+  document.getElementById('modalDesc').textContent = c.desc;
+  document.getElementById('scatterModal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('scatterModal')) {
+    document.getElementById('scatterModal').classList.remove('open');
+  }
+}
+
+/* ====== CAROUSEL ====== */
+let crAngle = 0;
+let crActive = 0;
+
+function initCarousel() {
+  const rotor = document.getElementById('carouselRotor');
+  rotor.innerHTML = '';
+  const N = CASES.length;
+  const angleStep = 360 / N;
+  const radius = 320;
+
+  CASES.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'cr-card';
+    card.innerHTML = `
+      <img src="${c.img}" alt="${c.title}">
+      <div class="card-overlay">
+        <span class="card-tag">${c.tag}</span>
+        <h3>${c.title}</h3>
+      </div>
+    `;
+    const cardAngle = angleStep * i;
+    card.style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px)`;
+    rotor.appendChild(card);
+  });
+
+  document.getElementById('crPrev').onclick = () => rotateCr(-1);
+  document.getElementById('crNext').onclick = () => rotateCr(1);
+  updateCrLabel();
+}
+
+function rotateCr(dir) {
+  const N = CASES.length;
+  crActive = (crActive - dir + N) % N;
+  const angleStep = 360 / N;
+  crAngle = -crActive * angleStep;
+  document.getElementById('carouselRotor').style.transform = `rotateY(${crAngle}deg)`;
+  updateCrLabel();
+}
+
+function updateCrLabel() {
+  const c = CASES[crActive];
+  document.getElementById('crLabel').textContent = c.title;
+}
+
+/* ====== INIT ====== */
+initStack();
+initFan();
+initScatter();
+initCarousel();
+</script>
+</body>
+</html>
