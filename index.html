@@ -99,27 +99,33 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .case-back-btn:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 8px 20px rgba(100,0,200,.3); }
 
 /* ── STICKY OFFER ── */
-.offer-section {
-  position: relative;
-}
-/* The outer scroll container — height = vh * (items+1) to give scroll room */
-.offer-scroll-outer {
-  position: relative;
-  /* height set by JS */
-}
+.offer-section { position: relative; }
+.offer-scroll-outer { position: relative; }
 .offer-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
+.offer-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 40px;
+  opacity: 0;
+  transition: opacity .6s;
+}
+.offer-label.visible { opacity: 1; }
 .offer-stack {
   position: relative;
   width: min(760px, 90vw);
-  height: min(340px, 55vw);
+  height: min(300px, 50vw);
 }
 .offer-card {
   position: absolute;
@@ -127,49 +133,36 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
   border-radius: 24px;
   border: 1px solid rgba(255,255,255,.07);
   background: #0c0c0c;
-  padding: 52px 56px;
+  padding: 48px 56px;
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 72px 1fr;
   grid-template-rows: auto 1fr;
-  gap: 0 32px;
+  gap: 0 28px;
   will-change: transform, opacity;
-  /* start stacked */
   transform-origin: top center;
 }
-.offer-card-num {
-  font-size: 11px; font-weight: 600; color: #282828; letter-spacing: 1px;
-  grid-column: 1; grid-row: 1;
-  padding-top: 6px;
-}
-.offer-card-title {
-  font-size: clamp(40px, 6vw, 72px); font-weight: 500; letter-spacing: -2px; color: var(--white); line-height: 1;
-  grid-column: 2; grid-row: 1;
-}
-.offer-card-body {
-  grid-column: 2; grid-row: 2;
-  display: flex; flex-direction: column; gap: 16px;
-  padding-top: 20px;
-}
+.offer-card-num { font-size: 11px; font-weight: 600; color: #2a2a2a; letter-spacing: 1px; grid-column: 1; grid-row: 1; padding-top: 8px; }
+.offer-card-title { font-size: clamp(40px, 6vw, 72px); font-weight: 500; letter-spacing: -2px; color: var(--white); line-height: 1; grid-column: 2; grid-row: 1; }
+.offer-card-body { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; gap: 14px; padding-top: 18px; }
 .offer-card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
 .offer-card-tags span { font-size: 11px; color: var(--orange); font-weight: 500; }
-.offer-card-tags span::after { content: ' /'; opacity: .4; }
+.offer-card-tags span::after { content: ' /'; opacity: .35; }
 .offer-card-tags span:last-child::after { content: ''; }
 .offer-card-desc { font-size: 15px; color: #444; line-height: 1.7; max-width: 480px; }
-/* progress dots */
 .offer-dots {
   position: absolute;
-  right: -32px; top: 50%;
+  right: -36px;
+  top: 50%;
   transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
 }
-.offer-dot {
-  width: 4px; height: 4px; border-radius: 50%;
-  background: rgba(255,255,255,.15);
-  transition: background .4s, height .4s;
-}
-.offer-dot.active { background: var(--orange); height: 20px; border-radius: 2px; }
+.offer-dot { width: 4px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.12); transition: background .4s, height .35s cubic-bezier(.16,1,.3,1); }
+.offer-dot.active { background: var(--orange); height: 20px; }
 
-/* ── ARTICLES NEWS FEED ── */
+/* ── ARTICLES ── */
 .articles-wrap { padding: 120px 48px; background: var(--white); }
 .articles-inner { max-width: 1200px; margin: 0 auto; }
 .articles-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; flex-wrap: wrap; gap: 24px; }
@@ -207,7 +200,7 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .news-tag:hover, .news-tag.active { background: var(--orange); color: #fff; border-color: var(--orange); }
 .news-all-btn { display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 700; color: #111; }
 .news-card.video { grid-column: 3 / 4; grid-row: 1 / 2; }
-.news-card.video .news-thumb { height: 240px; position: relative; }
+.news-card.video .news-thumb { height: 240px; }
 .news-card.second { grid-column: 2 / 3; grid-row: 2 / 3; }
 .news-card.second .news-thumb { height: 200px; }
 
@@ -250,9 +243,12 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   .case-header { padding: 0 24px; }
   .case-heading { font-size: clamp(52px,13vw,100px); }
   .case-card { width: 74vw; max-width: 290px; height: 103vw; max-height: 410px; }
-  .offer-card { padding: 32px 28px; grid-template-columns: 36px 1fr; gap: 0 16px; }
-  .offer-card-title { font-size: clamp(32px,8vw,52px); }
+  .offer-sticky { justify-content: center; padding: 0 24px; }
+  .offer-stack { height: auto; min-height: 260px; }
+  .offer-card { padding: 28px 24px; grid-template-columns: 36px 1fr; gap: 0 14px; border-radius: 18px; }
+  .offer-card-title { font-size: clamp(32px,9vw,52px); }
   .offer-card-desc { font-size: 14px; }
+  .offer-dots { right: -20px; }
   .news-grid { grid-template-columns: 1fr; }
   .news-card.featured,.news-list-wrap,.news-card.video,.news-card.second,.news-tags-wrap { grid-column: auto; grid-row: auto; }
   .news-card.featured .news-thumb { min-height: 240px; }
@@ -336,8 +332,8 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 <section class="offer-section">
   <div class="offer-scroll-outer" id="offerOuter">
     <div class="offer-sticky">
+      <p class="offer-label" id="offerLabel">Vad vi erbjuder</p>
       <div class="offer-stack" id="offerStack">
-        <!-- cards injected by JS -->
         <div class="offer-dots" id="offerDots"></div>
       </div>
     </div>
@@ -493,18 +489,18 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
     { num:'05', title:'Strategi',   tags:['Insikt','Analys','Positionering'],             desc:'Vi hittar de sammanhang där ditt varumärke faktiskt hör hemma — och gör det trovärdigt för en målgrupp som bryr sig.' }
   ];
 
-  const outer = document.getElementById('offerOuter');
-  const stack = document.getElementById('offerStack');
-  const dotsEl = document.getElementById('offerDots');
-  const N = offers.length;
-  const VH_PER_STEP = 0.9; // scroll distance per card in vh
-  const totalScroll = window.innerHeight * (N * VH_PER_STEP + 0.5);
+  const outer   = document.getElementById('offerOuter');
+  const stack   = document.getElementById('offerStack');
+  const dotsEl  = document.getElementById('offerDots');
+  const labelEl = document.getElementById('offerLabel');
+  const N       = offers.length;
+  const VH_PER  = 0.9;
 
-  outer.style.height = totalScroll + 'px';
+  function totalH(){ return window.innerHeight * (N * VH_PER + 0.6); }
+  outer.style.height = totalH() + 'px';
 
-  // Build cards (bottom to top — first card on top)
-  const cards = [];
-  offers.forEach((o, i) => {
+  /* Build cards — insert before dots so dots stay on top */
+  const cards = offers.map(o => {
     const el = document.createElement('div');
     el.className = 'offer-card';
     el.innerHTML = `
@@ -515,73 +511,64 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
         <p class="offer-card-desc">${o.desc}</p>
       </div>`;
     stack.insertBefore(el, dotsEl);
-    cards.push(el);
+    return el;
   });
 
-  // Build dots
-  const dots = [];
-  offers.forEach((_,i) => {
+  /* Build dots */
+  const dots = offers.map((_,i) => {
     const d = document.createElement('div');
-    d.className = 'offer-dot' + (i===0?' active':'');
+    d.className = 'offer-dot';
     dotsEl.appendChild(d);
-    dots.push(d);
+    return d;
   });
 
-  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-  function lerp(a,b,t){return a+(b-a)*t;}
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
 
-  function update() {
-    const rect = outer.getBoundingClientRect();
-    const scrolled = clamp(-rect.top, 0, totalScroll - window.innerHeight);
-    const stepSize = window.innerHeight * VH_PER_STEP;
-    // activeF: 0 = first card active, 1 = second card active, etc.
-    const activeF = clamp(scrolled / stepSize, 0, N - 1);
-    const active = Math.round(activeF);
+  function update(){
+    const rect    = outer.getBoundingClientRect();
+    const scrolled = clamp(-rect.top, 0, totalH() - window.innerHeight);
+    const stepSize = window.innerHeight * VH_PER;
+    const activeF  = clamp(scrolled / stepSize, 0, N - 1);
+    const activeI  = Math.round(activeF);
 
-    dots.forEach((d,i) => d.classList.toggle('active', i === active));
+    /* Show label once we've entered the section */
+    labelEl.classList.toggle('visible', scrolled > 0);
+
+    dots.forEach((d,i) => d.classList.toggle('active', i === activeI));
 
     cards.forEach((card, i) => {
-      const local = activeF - i; // <0=future, 0=active, >0=past
-      let ty, scale, opacity, blur, zIndex;
+      const local = activeF - i; // negative = future, 0 = active, positive = past
+      let ty, scale, opacity, blur, zIdx;
 
       if (local <= 0) {
-        // FUTURE (and active when local===0)
-        const d = -local; // 0 = this card is active, 1 = one card away, etc.
-        // Stack peeking below: offset by 18px per step, shrink slightly
-        ty      = clamp(d * 18, 0, 60);
-        scale   = clamp(1 - d * 0.05, 0.85, 1);
-        opacity = clamp(1 - d * 0.18, 0.3, 1);
-        blur    = 0; // no blur on future/active cards
-        zIndex  = N + i; // higher index = on top (first card on top)
+        /* Future / active — peek below, stacked */
+        const d = -local;
+        ty      = clamp(d * 20, 0, 64);
+        scale   = clamp(1 - d * 0.045, 0.84, 1);
+        opacity = clamp(1 - d * 0.2, 0.25, 1);
+        blur    = 0;
+        zIdx    = N + i; /* first card has highest z */
       } else if (local <= 1) {
-        // LEAVING: animate upward and fade
-        const t = local; // 0→1
-        ty      = lerp(0, -80, t);
-        scale   = lerp(1, 0.94, t);
-        opacity = lerp(1, 0, t);
-        blur    = lerp(0, 3, t);
-        zIndex  = N - i;
+        /* Leaving — fly up and fade */
+        ty      = -80 * local;
+        scale   = 1 - 0.06 * local;
+        opacity = 1 - local;
+        blur    = 4 * local;
+        zIdx    = N - i;
       } else {
-        // PAST: hidden above
-        ty      = -80;
-        scale   = 0.94;
-        opacity = 0;
-        blur    = 3;
-        zIndex  = 0;
+        /* Past — hidden */
+        ty = -80; scale = 0.94; opacity = 0; blur = 4; zIdx = 0;
       }
 
       card.style.transform = `translateY(${ty.toFixed(1)}px) scale(${scale.toFixed(3)})`;
       card.style.opacity   = opacity.toFixed(3);
       card.style.filter    = blur > 0.05 ? `blur(${blur.toFixed(1)}px)` : 'none';
-      card.style.zIndex    = zIndex;
+      card.style.zIndex    = zIdx;
     });
   }
 
   window.addEventListener('scroll', update, {passive:true});
-  window.addEventListener('resize', () => {
-    outer.style.height = (window.innerHeight * (N * VH_PER_STEP + 0.5)) + 'px';
-    update();
-  });
+  window.addEventListener('resize', ()=>{ outer.style.height = totalH()+'px'; update(); });
   update();
 })();
 
@@ -591,7 +578,7 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
     { img:'TELIA_SHL_KN 22-23_COVER.jpg', title:'Telia × SHL',       concept:'Brand Emotion i hockeyvärlden', desc:'Telia ville bli en naturlig del av hockeyupplevelsen. Vi byggde ett sponsringsramverk som kopplade varumärket till fan-känslan — säsong efter säsong.', url:'case.html' },
     { img:'Unibet_NHL_COVER.jpg',          title:'Unibet × NHL',      concept:'Global liga, lokal känsla',     desc:'Att aktivera en global ligarättighet kräver lokal förankring. Vi tog Unibets NHL-partnerskap från logga till levande berättelse för svenska fans.', url:'case.html' },
     { img:'LYKO_ELLE 23_COVER.jpg',        title:'Lyko × ELLE',       concept:'Skönhet möter livsstil',        desc:'En kampanj i skärningspunkten mellan skönhet och livsstil. Lyko och ELLE — tillsammans skapade vi innehåll som engagerade och konverterade.', url:'case.html' },
-    { img:'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg', title:'Lyko × Ski Team', concept:'Rutin på pisten',           desc:'Skidåkning möter skönhetsrutin. Vi producerade content och event runt det svenska skidlandslaget som visade Lykos produkter i sitt naturliga element.', url:'case.html' },
+    { img:'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg', title:'Lyko × Ski Team', concept:'Rutin på pisten', desc:'Skidåkning möter skönhetsrutin. Vi producerade content och event runt det svenska skidlandslaget som visade Lykos produkter i sitt naturliga element.', url:'case.html' },
     { img:'Ajabajacancer_staende.jpg',     title:'Ajabaja Cancer',    concept:'Kommunikation som träffar',     desc:'En kampanj som vände cancersnacket upp och ner. Ajabaja ville nå yngre — vi skapade kommunikation som träffade utan att vara tung.', url:'case.html' },
     { img:'SEF_cover_4x5.png',             title:'SEF',               concept:'En liga, ett varumärke',        desc:'Svenska Elitfotboll och ett uppdrag att lyfta hela ligans varumärke. Vi skapade ett strategiskt ramverk som samlade klubbar och partners.', url:'case.html' },
     { img:'Matchkorv_presskonf.png',       title:'Matchkorv',         concept:'Planerat kaos',                 desc:'En presskonferens ingen glömmer. Matchkorven blev ett viralt ögonblick — planerat kaos som visade vad ett djärvt eventbegrepp kan åstadkomma.', url:'case.html' }
@@ -636,94 +623,34 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
 
   function flipCard(card){
     if(!card) return;
-    if(card.classList.contains('flipped')){
-      card.classList.remove('flipped'); flipped=null;
-      if(!hovering) target=CRUISE;
-    } else {
-      if(flipped&&flipped!==card) flipped.classList.remove('flipped');
-      card.classList.add('flipped'); card.classList.remove('hovered');
-      flipped=card; target=0;
-    }
+    if(card.classList.contains('flipped')){card.classList.remove('flipped');flipped=null;if(!hovering)target=CRUISE;}
+    else{if(flipped&&flipped!==card)flipped.classList.remove('flipped');card.classList.add('flipped');card.classList.remove('hovered');flipped=card;target=0;}
   }
 
-  /* Desktop hover */
   vp.addEventListener('mouseenter',()=>{hovering=true;target=0;});
-  vp.addEventListener('mouseleave',()=>{
-    hovering=false;
-    if(!flipped&&!dragging) target=CRUISE;
-    if(flipped){flipped.classList.remove('flipped');flipped=null;}
-    track.querySelectorAll('.case-card').forEach(c=>c.classList.remove('hovered'));
-  });
-  track.addEventListener('mouseover',e=>{
-    const card=e.target.closest('.case-card');
-    if(!card||dragging) return;
-    track.querySelectorAll('.case-card').forEach(c=>c.classList.remove('hovered'));
-    if(!card.classList.contains('flipped')) card.classList.add('hovered');
-  });
+  vp.addEventListener('mouseleave',()=>{hovering=false;if(!flipped&&!dragging)target=CRUISE;if(flipped){flipped.classList.remove('flipped');flipped=null;}track.querySelectorAll('.case-card').forEach(c=>c.classList.remove('hovered'));});
+  track.addEventListener('mouseover',e=>{const card=e.target.closest('.case-card');if(!card||dragging)return;track.querySelectorAll('.case-card').forEach(c=>c.classList.remove('hovered'));if(!card.classList.contains('flipped'))card.classList.add('hovered');});
   track.addEventListener('mouseout',e=>{const c=e.target.closest('.case-card');if(c)c.classList.remove('hovered');});
-
-  /* Click (desktop) */
-  track.addEventListener('click',e=>{
-    if(wasDrag) return;
-    const btn=e.target.closest('.case-back-btn');
-    if(btn) return;
-    const card=e.target.closest('.case-card');
-    if(card) flipCard(card);
-  });
+  track.addEventListener('click',e=>{if(wasDrag)return;const btn=e.target.closest('.case-back-btn');if(btn)return;const card=e.target.closest('.case-card');if(card)flipCard(card);});
 
   function cx(e){return e.touches?e.touches[0].clientX:e.clientX;}
+  function onDown(e){if(e.button!==undefined&&e.button!==0)return;dragging=true;wasDrag=false;totalDX=0;lastX=cx(e);vel=0;lastT=performance.now();target=0;speed=0;vp.classList.add('dragging');}
+  function onMove(e){if(!dragging)return;const nx=cx(e),dx=nx-lastX,now=performance.now(),dt=Math.max(now-lastT,1);vel=dx/dt*16;totalDX+=Math.abs(dx);x+=dx;if(x<=-(setW*2))x+=setW;if(x>-setW)x-=setW;track.style.transform=`translateX(${x}px)`;lastX=nx;lastT=now;if(totalDX>CLICK_THR)wasDrag=true;if(e.cancelable)e.preventDefault();}
+  function onUp(e){if(!dragging)return;dragging=false;vp.classList.remove('dragging');if(wasDrag){speed=-vel;target=CRUISE;}else{if(e.changedTouches){const t=e.changedTouches[0],card=document.elementFromPoint(t.clientX,t.clientY)?.closest('.case-card');if(card)flipCard(card);}if(!hovering)target=CRUISE;}setTimeout(()=>{wasDrag=false;},50);}
 
-  function onDown(e){
-    if(e.button!==undefined&&e.button!==0) return;
-    dragging=true; wasDrag=false; totalDX=0;
-    lastX=cx(e); vel=0; lastT=performance.now();
-    target=0; speed=0;
-    vp.classList.add('dragging');
-  }
-  function onMove(e){
-    if(!dragging) return;
-    const nx=cx(e), dx=nx-lastX, now=performance.now(), dt=Math.max(now-lastT,1);
-    vel=dx/dt*16; totalDX+=Math.abs(dx);
-    x+=dx;
-    if(x<=-(setW*2))x+=setW; if(x>-setW)x-=setW;
-    track.style.transform=`translateX(${x}px)`;
-    lastX=nx; lastT=now;
-    if(totalDX>CLICK_THR) wasDrag=true;
-    if(e.cancelable) e.preventDefault();
-  }
-  function onUp(e){
-    if(!dragging) return;
-    dragging=false; vp.classList.remove('dragging');
-    if(wasDrag){
-      speed=-vel; target=CRUISE;
-    } else {
-      /* TOUCH TAP → flip */
-      if(e.changedTouches){
-        const t=e.changedTouches[0];
-        const btn=document.elementFromPoint(t.clientX,t.clientY)?.closest('.case-back-btn');
-        if(btn){window.location.href=btn.closest('.case-card').querySelector('.case-back-btn').getAttribute('data-url')||'case.html';return;}
-        const card=document.elementFromPoint(t.clientX,t.clientY)?.closest('.case-card');
-        if(card) flipCard(card);
-      }
-      if(!hovering) target=CRUISE;
-    }
-    setTimeout(()=>{wasDrag=false;},50);
-  }
-
-  track.addEventListener('mousedown', onDown, {passive:false});
-  window.addEventListener('mousemove', onMove);
-  window.addEventListener('mouseup', onUp);
-  vp.addEventListener('touchstart', onDown, {passive:false});
-  vp.addEventListener('touchmove',  onMove, {passive:false});
-  vp.addEventListener('touchend',   onUp,   {passive:true});
+  track.addEventListener('mousedown',onDown,{passive:false});
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('mouseup',onUp);
+  vp.addEventListener('touchstart',onDown,{passive:false});
+  vp.addEventListener('touchmove',onMove,{passive:false});
+  vp.addEventListener('touchend',onUp,{passive:true});
 
   function arcs(){
     const vcx=vp.offsetWidth/2;
     track.querySelectorAll('.case-card').forEach((card,i)=>{
-      if(card.classList.contains('flipped')) return;
-      const cx=x+i*STEP+CARD_W/2, d=(cx-vcx)/vp.offsetWidth;
-      card.querySelector('.case-card-inner').style.transform=
-        `rotateY(${d*18}deg) translateY(${d*d*60}px) scale(${1-Math.abs(d)*0.04})`;
+      if(card.classList.contains('flipped'))return;
+      const cardCx=x+i*STEP+CARD_W/2,d=(cardCx-vcx)/vp.offsetWidth;
+      card.querySelector('.case-card-inner').style.transform=`rotateY(${d*18}deg) translateY(${d*d*60}px) scale(${1-Math.abs(d)*0.04})`;
     });
   }
 
@@ -733,7 +660,7 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
       if(wasDrag&&Math.abs(speed-CRUISE)>0.01){speed+=(CRUISE-speed)*0.04;if(Math.abs(speed)>8)speed*=0.88;}
       else speed+=(target-speed)*ease;
       x-=speed;
-      if(x<=-(setW*2))x+=setW; if(x>-setW)x-=setW;
+      if(x<=-(setW*2))x+=setW;if(x>-setW)x-=setW;
       track.style.transform=`translateX(${x}px)`;
     }
     arcs();
