@@ -84,22 +84,30 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .payoff-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-4deg); width: clamp(280px, 32vw, 460px); aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; z-index: 1; pointer-events: none; box-shadow: 0 40px 100px rgba(0,0,0,.8); }
 .payoff-card-inner { width: 100%; height: 100%; background-size: cover; background-position: center; }
 
-/* CASE CAROUSEL — dold på desktop, visas på mobil */
-.case-wrap { display: none; padding: 80px 0; position: relative; z-index: 0; }
-.case-header { padding: 0 48px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
-.case-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); }
-.case-nav { display: flex; gap: 10px; }
-.case-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--white); font-size: 18px; cursor: none; transition: background .25s, border-color .25s; display: flex; align-items: center; justify-content: center; }
-.case-nav button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
-.case-viewport { overflow: hidden; width: 100%; touch-action: pan-y; }
-.case-track { display: flex; align-items: center; gap: 16px; padding: 32px 0 40px; will-change: transform; user-select: none; }
-.case-card { flex: 0 0 auto; width: clamp(280px, 38vw, 460px); border-radius: 20px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,.06); background: #0a0a0a; user-select: none; transform-origin: center center; transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s, box-shadow .5s; cursor: none; }
-.case-card-img { height: clamp(360px, 50vw, 560px); position: relative; overflow: hidden; }
-.case-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; transform: scale(1.08) translateX(calc(var(--px, 0) * 1px)); transition: transform .6s cubic-bezier(.16,1,.3,1); will-change: transform; }
-.case-card-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.1) 40%, transparent 70%); }
-.case-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 28px 32px; }
-.case-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; background: rgba(240,85,40,.18); color: var(--orange); margin-bottom: 10px; }
-.case-overlay h3 { font-size: clamp(18px,2.2vw,24px); font-weight: 500; letter-spacing: -.4px; color: var(--white); line-height: 1.2; }
+/* ── CASE SNURRA ── */
+.case-wrap { padding: 80px 0; position: relative; z-index: 0; }
+.case-header { padding: 0 48px; margin-bottom: 56px; text-align: center; }
+.case-heading { font-family: var(--fd); font-style: italic; font-weight: 300; font-size: clamp(72px, 11vw, 148px); line-height: .92; letter-spacing: -3px; color: var(--white); text-align: center; }
+.case-viewport { overflow: hidden; width: 100%; cursor: grab; }
+.case-viewport.dragging { cursor: grabbing; }
+.case-track { display: flex; gap: 14px; align-items: center; padding: 40px 0 60px; will-change: transform; user-select: none; }
+.case-card { flex: 0 0 auto; width: 290px; height: 410px; border-radius: 20px; position: relative; cursor: grab; perspective: 1000px; }
+.case-viewport.dragging .case-card { cursor: grabbing; }
+.case-card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.75s cubic-bezier(.16,1,.3,1); border-radius: 20px; }
+.case-card.flipped .case-card-inner { transform: rotateY(180deg) !important; }
+.case-front { position: absolute; inset: 0; border-radius: 20px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: #0a0a0a; border: 1px solid rgba(255,255,255,.06); }
+.case-front img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); pointer-events: none; }
+.case-card.hovered .case-front img { transform: scale(1.05); }
+.case-front-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.08) 45%, transparent 70%); }
+.case-front-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 22px 26px; }
+.case-front-info h3 { font-family: var(--fd); font-style: italic; font-weight: 300; font-size: 22px; letter-spacing: -.2px; color: var(--white); line-height: 1.15; margin-bottom: 6px; }
+.case-concept { font-size: 11px; font-weight: 400; color: rgba(250,245,235,.38); letter-spacing: .1px; }
+.case-card.hovered .case-front { box-shadow: 0 24px 60px rgba(0,0,0,.85), 0 0 0 1.5px rgba(250,179,255,.28); }
+.case-back { position: absolute; inset: 0; border-radius: 20px; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: var(--pink); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 36px 30px; text-align: left; }
+.case-back h3 { font-family: var(--fd); font-style: italic; font-weight: 300; font-size: 26px; letter-spacing: -.3px; color: #000; margin-bottom: 14px; line-height: 1.15; }
+.case-back p { font-size: 13px; color: rgba(0,0,0,.55); line-height: 1.75; margin-bottom: 28px; }
+.case-back-btn { display: inline-block; background: #000; color: var(--pink); font-size: 12px; font-weight: 700; letter-spacing: .3px; padding: 11px 22px; border-radius: 100px; cursor: pointer; border: none; font-family: var(--font); transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+.case-back-btn:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 8px 20px rgba(0,0,0,.2); }
 
 /* ERBJUDANDE */
 .offer-wrap { padding: 0 48px 120px; }
@@ -129,7 +137,7 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .article-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom,var(--orange),var(--pink)); transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 1; }
 .article-card:hover { background: #fafafa; }
 .article-card:hover::before { transform: scaleY(1); }
-.article-thumb { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #111; border-radius: 12px; margin: 16px 16px 0; width: calc(100% - 32px); }
+.article-thumb { width: calc(100% - 32px); aspect-ratio: 16/9; overflow: hidden; background: #111; border-radius: 12px; margin: 16px 16px 0; }
 .article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); border-radius: 12px; }
 .article-card:hover .article-thumb img { transform: scale(1.04); }
 .article-body { padding: 24px 36px 36px; flex: 1; display: flex; flex-direction: column; }
@@ -141,78 +149,20 @@ nav.scrolled { background: rgba(0,0,0,.9); backdrop-filter: blur(20px); border-b
 .btn-dark:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
 
 /* INSTAGRAM CTA */
-.insta-wrap {
-  background: var(--pink);
-  padding: 220px 48px;
-  position: relative;
-  overflow: hidden;
-  cursor: none;
-  display: block;
-  text-decoration: none;
-  transition: filter .3s;
-}
+.insta-wrap { background: var(--pink); padding: 220px 48px; position: relative; overflow: hidden; cursor: none; display: block; text-decoration: none; transition: filter .3s; }
 .insta-wrap:hover { filter: brightness(1.03); }
 .insta-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; pointer-events: none; }
 .insta-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: 24px; }
 .insta-text { font-size: clamp(48px, 7.5vw, 96px); font-weight: 500; letter-spacing: -2px; line-height: 1.0; color: var(--black); }
 .insta-text .insta-italic { font-family: var(--fd); font-weight: 300; font-style: italic; }
-
-/* Desktop: roterande finger inuti sektionen */
-#insta-finger {
-  position: absolute;
-  width: 72px; height: 72px;
-  pointer-events: none;
-  z-index: 10;
-  transform-origin: center center;
-  font-size: 56px;
-  line-height: 1;
-  display: none;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
-}
-
-/* Desktop: custom cursor */
-#insta-cursor {
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity .3s;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,.25);
-}
+#insta-finger { position: absolute; width: 72px; height: 72px; pointer-events: none; z-index: 10; transform-origin: center center; font-size: 56px; line-height: 1; display: none; filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); }
+#insta-cursor { width: 120px; height: 120px; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); opacity: 0; transition: opacity .3s; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
 #insta-cursor img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor.visible { opacity: 1; }
-
-/* Mobil: some-manager + finger */
-#insta-cursor-mobile {
-  width: 90px; height: 90px;
-  border-radius: 50%;
-  position: fixed;
-  right: 20px; bottom: 36px;
-  pointer-events: auto;
-  z-index: 9997;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,.25);
-  opacity: 0;
-  transition: opacity .35s;
-}
+#insta-cursor-mobile { width: 90px; height: 90px; border-radius: 50%; position: fixed; right: 20px; bottom: 36px; pointer-events: auto; z-index: 9997; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.25); opacity: 0; transition: opacity .35s; }
 #insta-cursor-mobile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #insta-cursor-mobile.show { opacity: 1; }
-
-#insta-finger-mobile {
-  position: fixed;
-  right: 120px; bottom: 52px;
-  font-size: 44px; line-height: 1;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0;
-  transition: opacity .35s;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
-  transform-origin: center center;
-}
+#insta-finger-mobile { position: fixed; right: 120px; bottom: 52px; font-size: 44px; line-height: 1; pointer-events: none; z-index: 9998; opacity: 0; transition: opacity .35s; filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); transform-origin: center center; }
 #insta-finger-mobile.show { opacity: 1; }
 
 /* FOOTER */
@@ -238,11 +188,9 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   .hamburger { display: flex; }
   .quote-wrap, .offer-wrap, .articles-wrap, .insta-wrap { padding-left: 24px; padding-right: 24px; }
   .payoff-link { display: none; }
-  .case-wrap { display: block; }
-  .case-viewport { -webkit-mask-image: none; mask-image: none; touch-action: pan-y; }
   .case-header { padding: 0 24px; }
-  .case-card { width: 82vw; max-width: 420px; }
-  .case-card-img { height: 110vw; max-height: 520px; }
+  .case-heading { font-size: clamp(52px, 13vw, 100px); }
+  .case-card { width: 74vw; max-width: 290px; height: 103vw; max-height: 410px; }
   .insta-wrap { padding: 100px 24px; cursor: pointer !important; }
   #insta-cursor { display: none !important; }
   #insta-finger { display: none !important; }
@@ -259,11 +207,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
 
 <div id="cursor"></div>
 <div id="cursor-glow"></div>
-
-<!-- Desktop insta-cursor -->
 <div id="insta-cursor"><img src="some-manager.png" alt=""></div>
-
-<!-- Mobil: separata element -->
 <div id="insta-cursor-mobile"><img src="some-manager.png" alt=""></div>
 <div id="insta-finger-mobile">👆</div>
 
@@ -323,24 +267,13 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </a>
 
+<!-- ── CASE SNURRA ── -->
 <div class="case-wrap reveal">
   <div class="case-header">
-    <p class="case-label">Utvalda case</p>
-    <div class="case-nav">
-      <button id="case-prev" aria-label="Föregående">←</button>
-      <button id="case-next" aria-label="Nästa">→</button>
-    </div>
+    <p class="case-heading">Se några av våra<br>fina <em>case.</em></p>
   </div>
   <div class="case-viewport" id="caseViewport">
-    <div class="case-track" id="caseTrack">
-      <div class="case-card"><div class="case-card-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Telia × SHL</h3></div></div>
-      <div class="case-card"><div class="case-card-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Unibet × NHL</h3></div></div>
-      <div class="case-card"><div class="case-card-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Lyko × ELLE</h3></div></div>
-      <div class="case-card"><div class="case-card-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Lyko × Ski Team</h3></div></div>
-      <div class="case-card"><div class="case-card-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Ajabaja Cancer</h3></div></div>
-      <div class="case-card"><div class="case-card-img"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>SEF</h3></div></div>
-      <div class="case-card"><div class="case-card-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Matchkorv</h3></div></div>
-    </div>
+    <div class="case-track" id="caseTrack"></div>
   </div>
 </div>
 
@@ -394,7 +327,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
         <div class="article-thumb"><img src="Matchkorv_presskonf.png" alt="Event"></div>
         <div class="article-body">
           <h3>Vad skiljer ett legendariskt event från ett bra event?</h3>
-          <p>De event som lever kvar i minnet delar fem egenskaper — ingen av dem handlar om budget. Från målgruppsinsikt till de mikroögonblick som skapar äkta engagemang.</p>
+          <p>De event som lever kvar i minnet delar fem egenskaper — ingen av dem handlar om budget.</p>
           <a href="artiklar.html" class="article-link">Läs mer →</a>
         </div>
       </div>
@@ -402,7 +335,7 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
         <div class="article-thumb"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Sponsring"></div>
         <div class="article-body">
           <h3>Så väljer du rätt sponsringspartner — en strategisk guide</h3>
-          <p>Rätt kontextuell relevans, delade värderingar och en tydlig aktiveringsplan avgör om investeringen skapar mätbart affärsvärde eller bara exponering.</p>
+          <p>Rätt kontextuell relevans, delade värderingar och en tydlig aktiveringsplan avgör om investeringen skapar mätbart affärsvärde.</p>
           <a href="artiklar.html" class="article-link">Läs mer →</a>
         </div>
       </div>
@@ -410,7 +343,6 @@ footer { padding: 56px 48px 40px; border-top: 1px solid rgba(255,255,255,.04); }
   </div>
 </div>
 
-<!-- Instagram CTA — hela sektionen är en klickbar <a>-länk -->
 <a href="https://www.instagram.com/_passionlab/"
    target="_blank"
    rel="noopener noreferrer"
@@ -449,7 +381,7 @@ const glow = document.getElementById('cursor-glow');
 let mx=0,my=0,gx=0,gy=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function animC(){cur.style.left=mx+'px';cur.style.top=my+'px';gx+=(mx-gx)*.1;gy+=(my-gy)*.1;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(animC);})();
-document.querySelectorAll('a,button,.case-card').forEach(el=>{
+document.querySelectorAll('a,button').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('big'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
 });
@@ -488,162 +420,146 @@ function toggleOffer(btn){
   (function anim(){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;if(window.innerWidth>=768)card.style.transform=`translate(calc(-50% + ${cx}px),calc(-50% + ${cy}px)) rotate(-4deg)`;requestAnimationFrame(anim);})();
 })();
 
-/* ─── INSTAGRAM — desktop cursor + finger, mobil scroll-visibility ─── */
+/* ─── INSTAGRAM ─── */
 (function(){
-  const wrap      = document.getElementById('instaWrap');
-  const instaCur  = document.getElementById('insta-cursor');
-  const finger    = document.getElementById('insta-finger');
-  const instaSpan = document.getElementById('instaSpan');
-  const mobCur    = document.getElementById('insta-cursor-mobile');
-  const mobFinger = document.getElementById('insta-finger-mobile');
-  if (!wrap) return;
-
-  const ORBIT_R = 100;
-  const isTouch = 'ontouchstart' in window;
-
-  if (isTouch) {
-    /* ── MOBIL ── */
-    const footer = document.querySelector('footer');
-
-    // Klick på mobil-avataren öppnar Instagram
-    mobCur.addEventListener('click', () => {
-      window.open('https://www.instagram.com/_passionlab/', '_blank', 'noopener,noreferrer');
-    });
-
-    function updateMobile() {
-      const wr = wrap.getBoundingClientRect();
-      const fr = footer.getBoundingClientRect();
-      const show = wr.top < window.innerHeight * 0.85 && fr.top > window.innerHeight;
-      mobCur.classList.toggle('show', show);
-      mobFinger.classList.toggle('show', show);
-    }
-    window.addEventListener('scroll', updateMobile, { passive: true });
-    updateMobile();
-
-    // Fingret pekar mot "Instagram"-spannet
-    (function animMob() {
-      if (instaSpan) {
-        const lr = instaSpan.getBoundingClientRect();
-        const fr = mobFinger.getBoundingClientRect();
-        const tx = lr.left + lr.width  / 2;
-        const ty = lr.top  + lr.height / 2;
-        const fx = fr.left + fr.width  / 2;
-        const fy = fr.top  + fr.height / 2;
-        const angle = Math.atan2(ty - fy, tx - fx);
-        mobFinger.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
-      }
-      requestAnimationFrame(animMob);
-    })();
+  const wrap=document.getElementById('instaWrap'),instaCur=document.getElementById('insta-cursor'),finger=document.getElementById('insta-finger'),instaSpan=document.getElementById('instaSpan'),mobCur=document.getElementById('insta-cursor-mobile'),mobFinger=document.getElementById('insta-finger-mobile');
+  if(!wrap)return;
+  const isTouch='ontouchstart' in window;
+  if(isTouch){
+    const footer=document.querySelector('footer');
+    mobCur.addEventListener('click',()=>window.open('https://www.instagram.com/_passionlab/','_blank','noopener,noreferrer'));
+    function updateMobile(){const wr=wrap.getBoundingClientRect(),fr=footer.getBoundingClientRect(),show=wr.top<window.innerHeight*.85&&fr.top>window.innerHeight;mobCur.classList.toggle('show',show);mobFinger.classList.toggle('show',show);}
+    window.addEventListener('scroll',updateMobile,{passive:true});updateMobile();
+    (function animMob(){if(instaSpan){const lr=instaSpan.getBoundingClientRect(),fr=mobFinger.getBoundingClientRect(),tx=lr.left+lr.width/2,ty=lr.top+lr.height/2,fx=fr.left+fr.width/2,fy=fr.top+fr.height/2,angle=Math.atan2(ty-fy,tx-fx);mobFinger.style.transform=`rotate(${angle*180/Math.PI+90}deg)`;}requestAnimationFrame(animMob);})();
     return;
   }
-
-  /* ── DESKTOP ── */
   let curX=0,curY=0,smoothX=0,smoothY=0,inside=false;
-
-  wrap.addEventListener('mouseenter',()=>{
-    inside=true;
-    instaCur.classList.add('visible');
-    cur.style.opacity='0';
-  });
-  wrap.addEventListener('mouseleave',()=>{
-    inside=false;
-    instaCur.classList.remove('visible');
-    finger.style.display='none';
-    cur.style.opacity='1';
-  });
-  wrap.addEventListener('mousemove',e=>{ curX=e.clientX; curY=e.clientY; });
-
-  (function animCur(){
-    smoothX += (curX-smoothX)*0.12;
-    smoothY += (curY-smoothY)*0.12;
-    instaCur.style.left = smoothX+'px';
-    instaCur.style.top  = smoothY+'px';
-    requestAnimationFrame(animCur);
-  })();
-
-  (function animFinger(){
-    if (!inside) { requestAnimationFrame(animFinger); return; }
-    finger.style.display='block';
-    const target = instaSpan || wrap.querySelector('.insta-text');
-    if (target) {
-      const lr = target.getBoundingClientRect();
-      const tx = lr.left + lr.width  / 2;
-      const ty = lr.top  + lr.height / 2;
-      const dx = tx - smoothX, dy = ty - smoothY;
-      const angle = Math.atan2(dy, dx);
-      const fx = smoothX + Math.cos(angle) * ORBIT_R;
-      const fy = smoothY + Math.sin(angle) * ORBIT_R;
-      const wr = wrap.getBoundingClientRect();
-      finger.style.left      = (fx - wr.left - 36)+'px';
-      finger.style.top       = (fy - wr.top  - 36)+'px';
-      finger.style.transform = `rotate(${angle*180/Math.PI+90}deg)`;
-    }
-    requestAnimationFrame(animFinger);
-  })();
+  wrap.addEventListener('mouseenter',()=>{inside=true;instaCur.classList.add('visible');cur.style.opacity='0';});
+  wrap.addEventListener('mouseleave',()=>{inside=false;instaCur.classList.remove('visible');finger.style.display='none';cur.style.opacity='1';});
+  wrap.addEventListener('mousemove',e=>{curX=e.clientX;curY=e.clientY;});
+  (function animCur(){smoothX+=(curX-smoothX)*.12;smoothY+=(curY-smoothY)*.12;instaCur.style.left=smoothX+'px';instaCur.style.top=smoothY+'px';requestAnimationFrame(animCur);})();
+  (function animFinger(){if(!inside){requestAnimationFrame(animFinger);return;}finger.style.display='block';const target=instaSpan||wrap.querySelector('.insta-text');if(target){const lr=target.getBoundingClientRect(),tx=lr.left+lr.width/2,ty=lr.top+lr.height/2,dx=tx-smoothX,dy=ty-smoothY,angle=Math.atan2(dy,dx),fx=smoothX+Math.cos(angle)*100,fy=smoothY+Math.sin(angle)*100,wr=wrap.getBoundingClientRect();finger.style.left=(fx-wr.left-36)+'px';finger.style.top=(fy-wr.top-36)+'px';finger.style.transform=`rotate(${angle*180/Math.PI+90}deg)`;}requestAnimationFrame(animFinger);})();
 })();
 
-/* ─── CASE CAROUSEL ─── */
+/* ─── CASE SNURRA ─── */
 (function(){
-  const viewport=document.getElementById('caseViewport');
-  const track=document.getElementById('caseTrack');
-  const prevBtn=document.getElementById('case-prev');
-  const nextBtn=document.getElementById('case-next');
-  const GAP=16;
-  const origCards=Array.from(track.querySelectorAll('.case-card'));
-  const N=origCards.length;
-  [...origCards].reverse().forEach(c=>{const cl=c.cloneNode(true);track.prepend(cl);});
-  origCards.forEach(c=>{const cl=c.cloneNode(true);track.append(cl);});
-  const all=Array.from(track.querySelectorAll('.case-card'));
-  let active=N,posX=0,targetX=0,velX=0;
-  let isDragging=false,dragStartX=0,dragStartPos=0,lastDX=0,lastDT=0;
-  let isHovered=false;
-  const DRIFT=0.45;
-  function cw(){return all[0].offsetWidth+GAP;}
-  function offsetFor(i){const vw=viewport.offsetWidth,w=all[0].offsetWidth;return -(i*cw()-(vw-w)/2);}
-  function nearest(x){const c=-x+viewport.offsetWidth/2;let b=active,bd=Infinity;all.forEach((_,i)=>{const d=Math.abs(i*cw()+all[0].offsetWidth/2-c);if(d<bd){bd=d;b=i;}});return b;}
-  function teleport(){if(active<N){active+=N;posX-=N*cw();targetX-=N*cw();}else if(active>=N*2){active-=N;posX+=N*cw();targetX+=N*cw();}}
-  function style(){
-    all.forEach((card,i)=>{
-      const dist=Math.abs(i-active);
-      if(dist===0){card.style.transform='scale(1)';card.style.opacity='1';card.style.boxShadow='0 32px 80px rgba(0,0,0,.75)';}
-      else if(dist===1){card.style.transform='scale(0.92)';card.style.opacity='0.55';card.style.boxShadow='none';}
-      else{card.style.transform='scale(0.86)';card.style.opacity='0.3';card.style.boxShadow='none';}
-      const fc=(-posX+i*cw()+all[0].offsetWidth/2)-viewport.offsetWidth/2;
-      const img=card.querySelector('img');
-      if(img)img.style.setProperty('--px',Math.max(-14,Math.min(14,fc*0.04)));
+  const cases = [
+    { img: 'TELIA_SHL_KN 22-23_COVER.jpg', title: 'Telia × SHL', concept: 'Brand Emotion i hockeyvärlden', desc: 'Telia ville bli en naturlig del av hockeyupplevelsen. Vi byggde ett sponsringsramverk som kopplade varumärket till fan-känslan — säsong efter säsong.', url: 'case.html' },
+    { img: 'Unibet_NHL_COVER.jpg', title: 'Unibet × NHL', concept: 'Global liga, lokal känsla', desc: 'Att aktivera en global ligarättighet kräver lokal förankring. Vi tog Unibets NHL-partnerskap från logga till levande berättelse för svenska fans.', url: 'case.html' },
+    { img: 'LYKO_ELLE 23_COVER.jpg', title: 'Lyko × ELLE', concept: 'Skönhet möter livsstil', desc: 'En kampanj i skärningspunkten mellan skönhet och livsstil. Lyko och ELLE — tillsammans skapade vi innehåll som engagerade och konverterade.', url: 'case.html' },
+    { img: 'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg', title: 'Lyko × Ski Team', concept: 'Rutin på pisten', desc: 'Skidåkning möter skönhetsrutin. Vi producerade content och event runt det svenska skidlandslaget som visade Lykos produkter i sitt naturliga element.', url: 'case.html' },
+    { img: 'Ajabajacancer_staende.jpg', title: 'Ajabaja Cancer', concept: 'Kommunikation som träffar', desc: 'En kampanj som vände cancersnacket upp och ner. Ajabaja ville nå yngre — vi skapade kommunikation som träffade utan att vara tung.', url: 'case.html' },
+    { img: 'SEF_cover_4x5.png', title: 'SEF', concept: 'En liga, ett varumärke', desc: 'Svenska Elitfotboll och ett uppdrag att lyfta hela ligans varumärke. Vi skapade ett strategiskt ramverk som samlade klubbar och partners.', url: 'case.html' },
+    { img: 'Matchkorv_presskonf.png', title: 'Matchkorv', concept: 'Planerat kaos', desc: 'En presskonferens ingen glömmer. Matchkorven blev ett viralt ögonblick — planerat kaos som visade vad ett djärvt eventbegrepp kan åstadkomma.', url: 'case.html' }
+  ];
+
+  const track = document.getElementById('caseTrack');
+  const vp = document.getElementById('caseViewport');
+  if (!track || !vp) return;
+
+  const CARD_W = 290, GAP = 14, STEP = CARD_W + GAP;
+  const CRUISE = 0.22, EASE_ACCEL = 0.055, EASE_DECEL = 0.08, CLICK_THRESHOLD = 6;
+  let flippedCard = null, hovering = false, currentSpeed = 0, targetSpeed = CRUISE;
+  let isDragging = false, dragStartX = 0, dragTotalX = 0, lastDragX = 0, dragVel = 0, lastDragT = 0, wasDrag = false;
+
+  function makeCard(c) {
+    const el = document.createElement('div');
+    el.className = 'case-card';
+    el.innerHTML = `
+      <div class="case-card-inner">
+        <div class="case-front">
+          <img src="${c.img}" alt="${c.title}" draggable="false">
+          <div class="case-front-overlay"></div>
+          <div class="case-front-info">
+            <h3>${c.title}</h3>
+            <span class="case-concept">${c.concept}</span>
+          </div>
+        </div>
+        <div class="case-back">
+          <h3>${c.title}</h3>
+          <p>${c.desc}</p>
+          <button class="case-back-btn" data-url="${c.url}">Läs mer →</button>
+        </div>
+      </div>`;
+    el.querySelector('.case-back-btn').addEventListener('click', e => { e.stopPropagation(); window.location.href = c.url; });
+    return el;
+  }
+
+  [0,1,2].forEach(() => cases.forEach(c => track.appendChild(makeCard(c))));
+  const setW = cases.length * STEP;
+  let x = -setW;
+  track.style.transform = `translateX(${x}px)`;
+
+  vp.addEventListener('mouseenter', () => { if(isDragging)return; hovering=true; targetSpeed=0; });
+  vp.addEventListener('mouseleave', () => {
+    hovering=false;
+    if(!flippedCard&&!isDragging) targetSpeed=CRUISE;
+    if(flippedCard){flippedCard.classList.remove('flipped');flippedCard=null;}
+    track.querySelectorAll('.case-card').forEach(c=>c.classList.remove('hovered'));
+  });
+  track.addEventListener('mouseover', e => { const card=e.target.closest('.case-card'); if(!card||isDragging)return; track.querySelectorAll('.case-card').forEach(c=>c.classList.remove('hovered')); if(!card.classList.contains('flipped'))card.classList.add('hovered'); });
+  track.addEventListener('mouseout', e => { const card=e.target.closest('.case-card'); if(card)card.classList.remove('hovered'); });
+
+  function getClientX(e){return e.touches?e.touches[0].clientX:e.clientX;}
+
+  function onDown(e){
+    if(e.button!==undefined&&e.button!==0)return;
+    isDragging=true;wasDrag=false;dragStartX=getClientX(e);dragTotalX=0;lastDragX=dragStartX;dragVel=0;lastDragT=performance.now();targetSpeed=0;currentSpeed=0;vp.classList.add('dragging');
+  }
+  function onMove(e){
+    if(!isDragging)return;
+    const cx=getClientX(e),dx=cx-lastDragX,now=performance.now(),dt=Math.max(now-lastDragT,1);
+    dragVel=dx/dt*16;dragTotalX+=Math.abs(cx-lastDragX);
+    x+=dx;
+    if(x<=-(setW*2))x+=setW; if(x>-setW)x-=setW;
+    track.style.transform=`translateX(${x}px)`;
+    lastDragX=cx;lastDragT=now;
+    if(dragTotalX>CLICK_THRESHOLD)wasDrag=true;
+    if(e.cancelable)e.preventDefault();
+  }
+  function onUp(e){
+    if(!isDragging)return;
+    isDragging=false;vp.classList.remove('dragging');
+    if(wasDrag){
+      currentSpeed=-dragVel;targetSpeed=CRUISE;
+    } else {
+      const card=e.target.closest('.case-card');
+      if(card&&!e.target.closest('.case-back-btn')){
+        if(card.classList.contains('flipped')){card.classList.remove('flipped');flippedCard=null;targetSpeed=hovering?0:CRUISE;}
+        else{if(flippedCard&&flippedCard!==card)flippedCard.classList.remove('flipped');card.classList.add('flipped');card.classList.remove('hovered');flippedCard=card;targetSpeed=0;}
+      } else if(!card){if(!hovering)targetSpeed=CRUISE;}
+    }
+  }
+
+  vp.addEventListener('mousedown',onDown);
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('mouseup',onUp);
+  vp.addEventListener('touchstart',onDown,{passive:true});
+  vp.addEventListener('touchmove',onMove,{passive:false});
+  vp.addEventListener('touchend',onUp);
+
+  function updateArcs(){
+    const vcx=vp.offsetWidth/2;
+    track.querySelectorAll('.case-card').forEach((card,i)=>{
+      if(card.classList.contains('flipped'))return;
+      const cardX=x+i*STEP+CARD_W/2,dist=(cardX-vcx)/vp.offsetWidth;
+      card.querySelector('.case-card-inner').style.transform=`rotateY(${dist*26}deg) translateY(${Math.abs(dist)*20}px) scale(${1-Math.abs(dist)*0.055})`;
     });
   }
-  (function loop(){
+
+  function loop(){
     if(!isDragging){
-      if(!isHovered){posX-=DRIFT;targetX=posX;active=nearest(posX);teleport();}
-      else{const d=targetX-posX;posX+=d*0.1+velX;velX*=0.82;if(Math.abs(d)<0.3&&Math.abs(velX)<0.1){posX=targetX;velX=0;}}
+      const ease=currentSpeed<targetSpeed?EASE_ACCEL:EASE_DECEL;
+      if(wasDrag&&Math.abs(currentSpeed-CRUISE)>0.01){currentSpeed+=(CRUISE-currentSpeed)*0.04;if(Math.abs(currentSpeed)>8)currentSpeed*=0.88;}
+      else{currentSpeed+=(targetSpeed-currentSpeed)*ease;}
+      x-=currentSpeed;
+      if(x<=-(setW*2))x+=setW; if(x>-setW)x-=setW;
+      track.style.transform=`translateX(${x}px)`;
     }
-    track.style.transform=`translateX(${posX}px)`;style();requestAnimationFrame(loop);
-  })();
-  function goTo(i){isHovered=true;active=i;targetX=offsetFor(i);velX=0;setTimeout(teleport,620);}
-  viewport.addEventListener('mousemove',e=>{
-    if(isDragging)return;isHovered=true;
-    const vr=viewport.getBoundingClientRect(),mouseX=e.clientX-vr.left-posX;
-    let hit=active;
-    all.forEach((card,i)=>{const l=i*cw(),r=l+all[0].offsetWidth;if(mouseX>=l&&mouseX<=r)hit=i;});
-    active=hit;targetX=posX;
-  });
-  viewport.addEventListener('mouseleave',()=>{isHovered=false;targetX=posX;});
-  prevBtn.addEventListener('click',()=>goTo(active-1));
-  nextBtn.addEventListener('click',()=>goTo(active+1));
-  let touchStartX=0,touchStartY=0,isHorizDrag=false;
-  function pDown(e){isDragging=true;isHovered=true;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;dragStartX=cx;dragStartPos=posX;lastDX=cx;lastDT=performance.now();velX=0;touchStartX=cx;touchStartY=cy;isHorizDrag=false;if(!e.touches)e.preventDefault();}
-  function pMove(e){if(!isDragging)return;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;if(!isHorizDrag&&e.touches){const dx=Math.abs(cx-touchStartX),dy=Math.abs(cy-touchStartY);if(dy>dx+4)return;if(dx>4)isHorizDrag=true;else return;}if(e.touches&&e.cancelable)e.preventDefault();velX=(cx-lastDX)/Math.max(performance.now()-lastDT,1)*16;lastDX=cx;lastDT=performance.now();posX=dragStartPos+cx-dragStartX;}
-  function pUp(){if(!isDragging)return;isDragging=false;active=velX>4?nearest(posX)-1:velX<-4?nearest(posX)+1:nearest(posX);targetX=offsetFor(active);setTimeout(()=>{velX=0;},300);setTimeout(teleport,620);}
-  track.addEventListener('mousedown',pDown,{passive:false});
-  window.addEventListener('mousemove',pMove);
-  window.addEventListener('mouseup',pUp);
-  track.addEventListener('touchstart',pDown,{passive:true});
-  track.addEventListener('touchmove',pMove,{passive:false});
-  track.addEventListener('touchend',pUp);
-  viewport.addEventListener('wheel',e=>{},{passive:true});
-  posX=targetX=offsetFor(N);
-  track.style.transform=`translateX(${posX}px)`;style();
+    updateArcs();
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 </script>
 </body>
