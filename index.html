@@ -496,13 +496,13 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
   const dotsEl  = document.getElementById('offerDots');
   const labelEl = document.getElementById('offerLabel');
   const N       = offers.length;
-  const VH_PER  = 0.9;
+  const STEP    = 120; // vh% per card, in px will be window.innerHeight * (STEP/100)
 
-  function totalH(){ return window.innerHeight * (N * VH_PER + 0.6); }
+  function totalH(){ return window.innerHeight * (N + 1); }
   outer.style.height = totalH() + 'px';
 
-  /* Build cards — insert before dots so dots stay on top */
-  const cards = offers.map(o => {
+  /* Build cards */
+  const cards = offers.map((o, i) => {
     const el = document.createElement('div');
     el.className = 'offer-card';
     el.innerHTML = `
@@ -517,7 +517,7 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
   });
 
   /* Build dots */
-  const dots = offers.map((_,i) => {
+  const dots = offers.map(() => {
     const d = document.createElement('div');
     d.className = 'offer-dot';
     dotsEl.appendChild(d);
@@ -526,58 +526,48 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
 
   function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
 
+  let lastActive = -1;
+
   function update(){
-    const rect    = outer.getBoundingClientRect();
+    const rect     = outer.getBoundingClientRect();
     const scrolled = clamp(-rect.top, 0, totalH() - window.innerHeight);
-    const stepSize = window.innerHeight * VH_PER;
-    const activeF  = clamp(scrolled / stepSize, 0, N - 1);
-    const activeI  = Math.round(activeF);
+    const progress = scrolled / window.innerHeight; // 0 → N
+    const activeI  = clamp(Math.floor(progress), 0, N - 1);
+    const frac     = progress - activeI; // 0→1 within this step
 
-    /* Show label once we've entered the section */
-    labelEl.classList.toggle('visible', scrolled > 0);
+    labelEl.classList.toggle('visible', scrolled > 20);
 
-    dots.forEach((d,i) => d.classList.toggle('active', i === activeI));
+    if(activeI !== lastActive){
+      dots.forEach((d,i) => d.classList.toggle('active', i === activeI));
+      lastActive = activeI;
+    }
 
     cards.forEach((card, i) => {
-      const local = activeF - i; // negative = future, 0 = active, positive = past
-      let ty, scale, opacity, blur, zIdx;
-
-      if (local <= 0) {
-        /* Future / active — peek below, stacked */
-        const d = -local;
-        ty      = clamp(d * 20, 0, 64);
-        scale   = clamp(1 - d * 0.045, 0.84, 1);
-        opacity = clamp(1 - d * 0.2, 0.25, 1);
-        blur    = 0;
-        zIdx    = N + i; /* first card has highest z */
-      } else if (local <= 1) {
-        /* Leaving — fly up and fade */
-        ty      = -80 * local;
-        scale   = 1 - 0.06 * local;
-        opacity = 1 - local;
-        blur    = 4 * local;
-        zIdx    = N - i;
+      if(i < activeI){
+        /* Past: gone upward, hidden */
+        card.style.cssText = 'opacity:0;transform:translateY(-60px) scale(0.95);z-index:0;filter:none;transition:none';
+      } else if(i === activeI){
+        /* Active: leaving — slides up as frac goes 0→1 */
+        const ty      = -(frac * 70);
+        const op      = 1 - frac;
+        const sc      = 1 - frac * 0.04;
+        card.style.cssText = `opacity:${op.toFixed(3)};transform:translateY(${ty.toFixed(1)}px) scale(${sc.toFixed(3)});z-index:${N+2};filter:none;transition:none`;
+      } else if(i === activeI + 1){
+        /* Next: coming in from below — scales up and fades in as frac goes 0→1 */
+        const fromBelow = 30 - frac * 30; // starts 30px below, ends at 0
+        const sc        = 0.95 + frac * 0.05;
+        const op        = 0.4 + frac * 0.6;
+        card.style.cssText = `opacity:${op.toFixed(3)};transform:translateY(${fromBelow.toFixed(1)}px) scale(${sc.toFixed(3)});z-index:${N+1};filter:none;transition:none`;
       } else {
-        /* Past — hidden */
-        ty = -80; scale = 0.94; opacity = 0; blur = 4; zIdx = 0;
+        /* Future stack: peeking below */
+        const depth = i - activeI;
+        const ty    = clamp(depth * 14, 0, 42);
+        const sc    = clamp(1 - depth * 0.04, 0.88, 1);
+        const op    = clamp(1 - depth * 0.25, 0.15, 1);
+        card.style.cssText = `opacity:${op.toFixed(3)};transform:translateY(${ty.toFixed(1)}px) scale(${sc.toFixed(3)});z-index:${N - depth};filter:none;transition:none`;
       }
-
-      card.style.transform = `translateY(${ty.toFixed(1)}px) scale(${scale.toFixed(3)})`;
-      card.style.opacity   = opacity.toFixed(3);
-      card.style.filter    = blur > 0.05 ? `blur(${blur.toFixed(1)}px)` : 'none';
-      card.style.zIndex    = zIdx;
     });
   }
-
-  /* Set initial state immediately — before first paint */
-  cards.forEach((card, i) => {
-    const d = i;
-    card.style.opacity   = i === 0 ? '1' : String(Math.max(0.25, 1 - d * 0.2));
-    card.style.transform = `translateY(${Math.min(d * 20, 64)}px) scale(${Math.max(0.84, 1 - d * 0.045)})`;
-    card.style.zIndex    = String(N + i);
-    card.style.filter    = 'none';
-  });
-  dots[0].classList.add('active');
 
   window.addEventListener('scroll', update, {passive:true});
   window.addEventListener('resize', ()=>{ outer.style.height = totalH()+'px'; update(); });
