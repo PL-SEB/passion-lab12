@@ -532,52 +532,48 @@ document.querySelectorAll('.news-tag').forEach(tag=>{
 
   function update() {
     const rect = outer.getBoundingClientRect();
-    // progress 0→1 over the full sticky scroll
-    const scrolled = -rect.top;
-    const maxScroll = totalScroll - window.innerHeight;
-    const progress = clamp(scrolled / maxScroll, 0, 1);
-
-    // Which card is "active" (0-based)
-    const activeF = progress * (N - 1);
+    const scrolled = clamp(-rect.top, 0, totalScroll - window.innerHeight);
+    const stepSize = window.innerHeight * VH_PER_STEP;
+    // activeF: 0 = first card active, 1 = second card active, etc.
+    const activeF = clamp(scrolled / stepSize, 0, N - 1);
     const active = Math.round(activeF);
 
     dots.forEach((d,i) => d.classList.toggle('active', i === active));
 
     cards.forEach((card, i) => {
-      // local progress for this card: 0 = entering, 1 = active, transitions to 2 = past
-      const local = activeF - i; // negative = future, 0 = active, positive = past
+      const local = activeF - i; // <0=future, 0=active, >0=past
+      let ty, scale, opacity, blur, zIndex;
 
-      let translateY, scale, opacity, zIndex, blur;
-
-      if (local < 0) {
-        // FUTURE: peeking from below, stacked
-        const d = -local; // distance ahead (0 = next, 1 = two ahead…)
-        translateY = clamp(d * 22, 0, 80);   // offset downward in stack
-        scale      = clamp(1 - d * 0.04, 0.84, 1);
-        opacity    = clamp(1 - d * 0.22, 0.2, 1);
-        blur       = clamp(d * 2, 0, 8);
-        zIndex     = 10 + i;
+      if (local <= 0) {
+        // FUTURE (and active when local===0)
+        const d = -local; // 0 = this card is active, 1 = one card away, etc.
+        // Stack peeking below: offset by 18px per step, shrink slightly
+        ty      = clamp(d * 18, 0, 60);
+        scale   = clamp(1 - d * 0.05, 0.85, 1);
+        opacity = clamp(1 - d * 0.18, 0.3, 1);
+        blur    = 0; // no blur on future/active cards
+        zIndex  = N + i; // higher index = on top (first card on top)
       } else if (local <= 1) {
-        // ACTIVE → transitioning out
-        const t = local; // 0=fully active, 1=fully gone
-        translateY = lerp(0, -60, t);
-        scale      = lerp(1, 0.92, t);
-        opacity    = lerp(1, 0, t);
-        blur       = lerp(0, 4, t);
-        zIndex     = 10 + i;
+        // LEAVING: animate upward and fade
+        const t = local; // 0→1
+        ty      = lerp(0, -80, t);
+        scale   = lerp(1, 0.94, t);
+        opacity = lerp(1, 0, t);
+        blur    = lerp(0, 3, t);
+        zIndex  = N - i;
       } else {
-        // PAST: gone
-        translateY = -60;
-        scale      = 0.92;
-        opacity    = 0;
-        blur       = 4;
-        zIndex     = 5 + i;
+        // PAST: hidden above
+        ty      = -80;
+        scale   = 0.94;
+        opacity = 0;
+        blur    = 3;
+        zIndex  = 0;
       }
 
-      card.style.transform   = `translateY(${translateY}px) scale(${scale})`;
-      card.style.opacity     = opacity;
-      card.style.filter      = blur > 0 ? `blur(${blur.toFixed(1)}px)` : 'none';
-      card.style.zIndex      = zIndex;
+      card.style.transform = `translateY(${ty.toFixed(1)}px) scale(${scale.toFixed(3)})`;
+      card.style.opacity   = opacity.toFixed(3);
+      card.style.filter    = blur > 0.05 ? `blur(${blur.toFixed(1)}px)` : 'none';
+      card.style.zIndex    = zIndex;
     });
   }
 
