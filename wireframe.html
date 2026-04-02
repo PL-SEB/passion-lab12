@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passion Lab – Wireframe</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f0ece4; font-family: 'Courier New', monospace; color: #1a1a1a; }
+
+  .wf-nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: #f0ece4; border-bottom: 2px dashed #bbb; position: sticky; top: 0; z-index: 100; gap: 12px; flex-wrap: wrap; }
+  .wf-nav-logo { font-size: 11px; font-weight: bold; border: 2px solid #aaa; padding: 4px 10px; color: #555; background: #e4e0d8; }
+  .wf-nav-pages { display: flex; gap: 6px; flex-wrap: wrap; }
+  .page-tab { font-size: 10px; padding: 5px 12px; border: 2px solid #bbb; background: #e4e0d8; cursor: pointer; color: #444; transition: all .15s; }
+  .page-tab:hover, .page-tab.active { background: #1a1a1a; color: #f0ece4; border-color: #1a1a1a; }
+
+  .page { display: none; padding: 24px; max-width: 860px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* blocks */
+  .wf-block { border: 2px dashed #bbb; background: #e8e4dc; margin-bottom: 10px; position: relative; }
+  .wf-block-title { font-size: 8px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; position: absolute; top: 6px; left: 8px; color: #aaa; }
+  .wf-block-inner { padding: 28px 16px 16px; }
+
+  /* typography */
+  .wf-section-name { font-size: 11px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-bottom: 8px; }
+  .wf-heading { font-size: 20px; font-weight: bold; color: #ccc; letter-spacing: -1px; line-height: 1.1; margin-bottom: 8px; }
+  .wf-desc { font-size: 10px; color: #aaa; line-height: 1.5; max-width: 360px; }
+
+  /* placeholders */
+  .wf-img { background: #d4d0c8; border: 1.5px dashed #bbb; display: flex; align-items: center; justify-content: center; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; }
+  .wf-btn { display: inline-block; border: 2px solid #999; padding: 5px 16px; font-size: 9px; font-weight: bold; color: #666; margin-top: 10px; margin-right: 6px; background: #ddd9d0; letter-spacing: 1px; }
+  .wf-btn.fill { background: #1a1a1a; color: #f0ece4; border-color: #1a1a1a; }
+  .wf-tag { display: inline-block; font-size: 8px; border: 1.5px dashed #bbb; padding: 2px 8px; color: #aaa; margin-right: 4px; letter-spacing: 1px; text-transform: uppercase; }
+  .wf-pill { display: inline-block; border: 1.5px dashed #bbb; border-radius: 20px; padding: 3px 12px; font-size: 9px; color: #aaa; margin-right: 6px; }
+  .wf-pill.active { background: #1a1a1a; color: #f0ece4; border-color: #1a1a1a; }
+
+  /* layout helpers */
+  .wf-grid { display: grid; gap: 10px; }
+  .wf-grid-2 { grid-template-columns: 1fr 1fr; }
+  .wf-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .wf-grid-4 { grid-template-columns: repeat(4,1fr); }
+
+  /* nav bar */
+  .wf-navbar { display: flex; align-items: center; justify-content: space-between; border: 2px dashed #bbb; padding: 8px 14px; background: #e4e0d8; margin-bottom: 10px; gap: 12px; }
+  .wf-navbar-logo { font-size: 8px; color: #bbb; border: 1px dashed #ccc; padding: 3px 10px; background: #d4d0c8; letter-spacing: 1px; text-transform: uppercase; }
+  .wf-navbar-links { display: flex; gap: 12px; font-size: 9px; color: #bbb; letter-spacing: 1px; text-transform: uppercase; }
+  .wf-navbar-cta { font-size: 8px; border: 1.5px solid #999; padding: 3px 12px; color: #666; background: #d4d0c8; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* footer */
+  .wf-footer { border: 2px dashed #bbb; background: #ddd9d0; padding: 16px; margin-top: 10px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 16px; }
+  .wf-footer-col { font-size: 8px; color: #bbb; line-height: 2.2; letter-spacing: .5px; text-transform: uppercase; }
+  .wf-footer-col strong { color: #999; display: block; margin-bottom: 4px; }
+
+  /* form field */
+  .wf-field { background: #d4d0c8; border: 1.5px dashed #bbb; height: 34px; display: flex; align-items: center; padding: 0 12px; font-size: 8px; color: #bbb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .wf-textarea { height: 90px; align-items: flex-start; padding: 10px 12px; }
+
+  /* card inner */
+  .wf-card { border: 2px dashed #bbb; background: #e0dcd4; padding: 12px; }
+
+  /* stat box */
+  .wf-stat { background: #d4d0c8; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80px; }
+  .wf-stat-num { font-size: 22px; font-weight: bold; color: #aaa; letter-spacing: -1px; }
+  .wf-stat-label { font-size: 7px; color: #bbb; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+
+  @media (max-width: 600px) {
+    .wf-grid-3, .wf-grid-4 { grid-template-columns: 1fr 1fr; }
+    .wf-grid-2 { grid-template-columns: 1fr; }
+    .wf-footer { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wf-nav">
+  <div class="wf-nav-logo">Wireframe</div>
+  <div class="wf-nav-pages">
+    <div class="page-tab active" onclick="show('home',this)">Landningssida</div>
+    <div class="page-tab" onclick="show('om-oss',this)">Om oss</div>
+    <div class="page-tab" onclick="show('erbjudande',this)">Erbjudande</div>
+    <div class="page-tab" onclick="show('artiklar',this)">Artiklar</div>
+    <div class="page-tab" onclick="show('kontakt',this)">Kontakt</div>
+  </div>
+</div>
+
+<!-- ===== LANDNINGSSIDA ===== -->
+<div class="page active" id="page-home">
+
+  <div class="wf-navbar">
+    <div class="wf-navbar-logo">Logotyp</div>
+    <div class="wf-navbar-links"><span>Om oss</span><span>Erbjudande</span><span>Case</span><span>Artiklar</span></div>
+    <div class="wf-navbar-cta">Kontakt</div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Hero</div>
+    <div class="wf-block-inner">
+      <div class="wf-img" style="height:260px;flex-direction:column;gap:16px;">
+        <span>Bakgrundsvideo (fullskärm)</span>
+        <div class="wf-heading" style="font-size:36px;text-align:center;">Stor rubrik</div>
+        <div style="display:flex;gap:8px;">
+          <div class="wf-btn fill">Primär CTA</div>
+          <div class="wf-btn">Sekundär CTA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Beskrivning</div>
+    <div class="wf-block-inner" style="padding: 28px 24px 24px;">
+      <div class="wf-heading" style="font-size:24px;color:#bbb;max-width:600px;">Beskrivande citat eller payoff-text i stor typografi</div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Case</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name" style="margin-bottom:12px;">Utvalda case</div>
+      <div class="wf-grid wf-grid-3" style="margin-bottom:10px;">
+        <div class="wf-img" style="height:160px;flex-direction:column;gap:6px;">
+          <span>Bild 3:4</span>
+          <div class="wf-tag">Kategori</div>
+          <div style="font-size:9px;color:#bbb;">Titel</div>
+        </div>
+        <div class="wf-img" style="height:160px;flex-direction:column;gap:6px;">
+          <span>Bild 3:4</span>
+          <div class="wf-tag">Kategori</div>
+          <div style="font-size:9px;color:#bbb;">Titel</div>
+        </div>
+        <div class="wf-img" style="height:160px;flex-direction:column;gap:6px;opacity:.4;">
+          <span>Bild 3:4</span>
+          <div class="wf-tag">Kategori</div>
+          <div style="font-size:9px;color:#bbb;">Titel</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="wf-desc">Horisontell karusell — drag/swipe/piltangenter</div>
+        <div style="display:flex;gap:6px;">
+          <div class="wf-btn" style="margin-top:0;padding:4px 10px;">←</div>
+          <div class="wf-btn" style="margin-top:0;padding:4px 10px;">→</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Erbjudande</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name" style="margin-bottom:12px;">Vad vi erbjuder</div>
+      <div style="border-top:1.5px dashed #bbb;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #ccc;">
+          <span style="font-size:13px;color:#aaa;font-weight:bold;">Tjänst</span><span style="color:#ccc;">+</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #ccc;background:#e0dcd4;padding-left:8px;padding-right:8px;">
+          <span style="font-size:13px;color:#aaa;font-weight:bold;">Tjänst (expanderad)</span><span style="color:#ccc;">×</span>
+        </div>
+        <div style="font-size:9px;color:#bbb;padding:8px 8px 12px;border-bottom:1px dashed #ccc;">Kort beskrivning av tjänsten</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #ccc;">
+          <span style="font-size:13px;color:#aaa;font-weight:bold;">Tjänst</span><span style="color:#ccc;">+</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">
+          <span style="font-size:13px;color:#aaa;font-weight:bold;">Tjänst</span><span style="color:#ccc;">+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Artiklar</div>
+    <div class="wf-block-inner" style="background:#eeebe3;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;">
+        <div>
+          <div class="wf-section-name">Artiklar & nyheter</div>
+          <div class="wf-heading">Sektionsrubrik</div>
+        </div>
+        <div class="wf-btn fill" style="margin-top:0;">Alla artiklar</div>
+      </div>
+      <div class="wf-grid wf-grid-3">
+        <div class="wf-card">
+          <div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div>
+          <div style="font-size:9px;font-weight:bold;color:#888;margin-bottom:4px;">Artikelrubrik</div>
+          <div style="font-size:8px;color:#bbb;">Ingress</div>
+          <div style="font-size:8px;color:#aaa;margin-top:6px;">Läs mer →</div>
+        </div>
+        <div class="wf-card">
+          <div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div>
+          <div style="font-size:9px;font-weight:bold;color:#888;margin-bottom:4px;">Artikelrubrik</div>
+          <div style="font-size:8px;color:#bbb;">Ingress</div>
+          <div style="font-size:8px;color:#aaa;margin-top:6px;">Läs mer →</div>
+        </div>
+        <div class="wf-card">
+          <div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div>
+          <div style="font-size:9px;font-weight:bold;color:#888;margin-bottom:4px;">Artikelrubrik</div>
+          <div style="font-size:8px;color:#bbb;">Ingress</div>
+          <div style="font-size:8px;color:#aaa;margin-top:6px;">Läs mer →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Kunder</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name" style="margin-bottom:12px;">Kunder</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div class="wf-img" style="width:90px;height:36px;">Logotyp</div>
+        <div class="wf-img" style="width:90px;height:36px;">Logotyp</div>
+        <div class="wf-img" style="width:90px;height:36px;">Logotyp</div>
+        <div class="wf-img" style="width:90px;height:36px;">Logotyp</div>
+        <div class="wf-img" style="width:90px;height:36px;">Logotyp</div>
+        <div class="wf-img" style="width:90px;height:36px;">Logotyp</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Instagram</div>
+    <div class="wf-block-inner" style="background:#f0d8ff;border:2px dashed #d4a8f0;">
+      <div class="wf-section-name" style="margin-bottom:10px;">Följ oss</div>
+      <div class="wf-heading" style="font-size:28px;color:#c8a8d8;">Stor Instagram-CTA<br>klickbar hel sektion</div>
+    </div>
+  </div>
+
+  <div class="wf-footer">
+    <div class="wf-footer-col"><strong>Logotyp</strong>Tagline</div>
+    <div class="wf-footer-col"><strong>Tjänster</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Företaget</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Kontakt</strong>E-post<br>Adress</div>
+  </div>
+</div>
+
+<!-- ===== OM OSS ===== -->
+<div class="page" id="page-om-oss">
+  <div class="wf-navbar">
+    <div class="wf-navbar-logo">Logotyp</div>
+    <div class="wf-navbar-links"><span style="color:#555;font-weight:bold;">Om oss</span><span>Erbjudande</span><span>Case</span><span>Artiklar</span></div>
+    <div class="wf-navbar-cta">Kontakt</div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Page Hero</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name">Om oss</div>
+      <div class="wf-heading" style="font-size:36px;">Stor rubrik</div>
+      <div class="wf-desc">Kort intro-text</div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Historia + Siffror</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-2" style="gap:20px;align-items:center;">
+        <div>
+          <div class="wf-section-name">Vår historia</div>
+          <div class="wf-heading">Rubrik</div>
+          <div class="wf-desc">Brödtext om byråns bakgrund och filosofi</div>
+        </div>
+        <div class="wf-grid wf-grid-2" style="gap:2px;">
+          <div class="wf-stat"><div class="wf-stat-num">00</div><div class="wf-stat-label">Etikett</div></div>
+          <div class="wf-stat"><div class="wf-stat-num">00</div><div class="wf-stat-label">Etikett</div></div>
+          <div class="wf-stat"><div class="wf-stat-num">00</div><div class="wf-stat-label">Etikett</div></div>
+          <div class="wf-stat"><div class="wf-stat-num">00</div><div class="wf-stat-label">Etikett</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Awards</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name" style="margin-bottom:12px;">Priser & erkännanden</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div class="wf-img" style="width:120px;height:90px;flex-direction:column;gap:6px;"><span>Ikon</span><span>Pris / år</span></div>
+        <div class="wf-img" style="width:120px;height:90px;flex-direction:column;gap:6px;"><span>Ikon</span><span>Pris / år</span></div>
+        <div class="wf-img" style="width:120px;height:90px;flex-direction:column;gap:6px;"><span>Ikon</span><span>Pris / år</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Grundarna</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name" style="margin-bottom:12px;">Grundarna</div>
+      <div class="wf-grid wf-grid-2" style="gap:10px;">
+        <div class="wf-card">
+          <div class="wf-img" style="height:220px;margin-bottom:10px;">Porträttfoto</div>
+          <div style="font-size:10px;font-weight:bold;color:#888;">Namn</div>
+          <div style="font-size:8px;color:#aaa;margin-bottom:6px;">Roll / titel</div>
+          <div class="wf-desc">Bio</div>
+          <div style="font-size:8px;color:#bbb;margin-top:8px;">Telefon<br>E-post</div>
+        </div>
+        <div class="wf-card">
+          <div class="wf-img" style="height:220px;margin-bottom:10px;">Porträttfoto</div>
+          <div style="font-size:10px;font-weight:bold;color:#888;">Namn</div>
+          <div style="font-size:8px;color:#aaa;margin-bottom:6px;">Roll / titel</div>
+          <div class="wf-desc">Bio</div>
+          <div style="font-size:8px;color:#bbb;margin-top:8px;">Telefon<br>E-post</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Teamet</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name" style="margin-bottom:12px;">Teamet</div>
+      <div class="wf-grid wf-grid-4" style="gap:6px;">
+        <div><div class="wf-img" style="height:100px;">Foto</div><div style="font-size:8px;color:#888;margin-top:4px;">Namn</div><div style="font-size:7px;color:#bbb;">Roll</div></div>
+        <div><div class="wf-img" style="height:100px;">Foto</div><div style="font-size:8px;color:#888;margin-top:4px;">Namn</div><div style="font-size:7px;color:#bbb;">Roll</div></div>
+        <div><div class="wf-img" style="height:100px;">Foto</div><div style="font-size:8px;color:#888;margin-top:4px;">Namn</div><div style="font-size:7px;color:#bbb;">Roll</div></div>
+        <div><div class="wf-img" style="height:100px;">Foto</div><div style="font-size:8px;color:#888;margin-top:4px;">Namn</div><div style="font-size:7px;color:#bbb;">Roll</div></div>
+        <div><div class="wf-img" style="height:100px;">Foto</div><div style="font-size:8px;color:#888;margin-top:4px;">Namn</div><div style="font-size:7px;color:#bbb;">Roll</div></div>
+        <div><div class="wf-img" style="height:100px;">Foto</div><div style="font-size:8px;color:#888;margin-top:4px;">Namn</div><div style="font-size:7px;color:#bbb;">Roll</div></div>
+        <div><div class="wf-img" style="height:100px;">Foto</div><div style="font-size:8px;color:#888;margin-top:4px;">Namn</div><div style="font-size:7px;color:#bbb;">Roll</div></div>
+        <div><div class="wf-img" style="height:100px;opacity:.4;">+fler</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-footer">
+    <div class="wf-footer-col"><strong>Logotyp</strong>Tagline</div>
+    <div class="wf-footer-col"><strong>Tjänster</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Företaget</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Kontakt</strong>E-post<br>Adress</div>
+  </div>
+</div>
+
+<!-- ===== ERBJUDANDE ===== -->
+<div class="page" id="page-erbjudande">
+  <div class="wf-navbar">
+    <div class="wf-navbar-logo">Logotyp</div>
+    <div class="wf-navbar-links"><span>Om oss</span><span style="color:#555;font-weight:bold;">Erbjudande</span><span>Case</span><span>Artiklar</span></div>
+    <div class="wf-navbar-cta">Kontakt</div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Page Hero</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name">Erbjudande</div>
+      <div class="wf-heading" style="font-size:36px;">Stor rubrik</div>
+      <div class="wf-desc">Intro-text om helheten</div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Tjänste-overview</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-4" style="gap:8px;">
+        <div class="wf-card" style="border-color:#c8a090;">
+          <div style="font-size:20px;margin-bottom:8px;">—</div>
+          <div style="font-size:9px;font-weight:bold;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Sponsring</div>
+          <div style="font-size:8px;color:#bbb;">Kort beskrivning</div>
+        </div>
+        <div class="wf-card">
+          <div style="font-size:20px;margin-bottom:8px;">—</div>
+          <div style="font-size:9px;font-weight:bold;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Event</div>
+          <div style="font-size:8px;color:#bbb;">Kort beskrivning</div>
+        </div>
+        <div class="wf-card">
+          <div style="font-size:20px;margin-bottom:8px;">—</div>
+          <div style="font-size:9px;font-weight:bold;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Reklam</div>
+          <div style="font-size:8px;color:#bbb;">Kort beskrivning</div>
+        </div>
+        <div class="wf-card">
+          <div style="font-size:20px;margin-bottom:8px;">—</div>
+          <div style="font-size:9px;font-weight:bold;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">Sociala medier</div>
+          <div style="font-size:8px;color:#bbb;">Kort beskrivning</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Sponsring — djupdykning</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-2" style="gap:20px;align-items:center;">
+        <div>
+          <div class="wf-section-name">Sponsring</div>
+          <div class="wf-heading">Rubrik</div>
+          <div class="wf-desc">Brödtext</div>
+          <div class="wf-btn fill">Se case</div>
+        </div>
+        <div class="wf-img" style="height:180px;">Bild / visual</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Event — djupdykning</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-2" style="gap:20px;align-items:center;">
+        <div class="wf-img" style="height:180px;">Bild / visual</div>
+        <div>
+          <div class="wf-section-name">Event</div>
+          <div class="wf-heading">Rubrik</div>
+          <div class="wf-desc">Brödtext</div>
+          <div class="wf-btn fill">Se case</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Reklam — djupdykning</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-2" style="gap:20px;align-items:center;">
+        <div>
+          <div class="wf-section-name">Reklam</div>
+          <div class="wf-heading">Rubrik</div>
+          <div class="wf-desc">Brödtext</div>
+          <div class="wf-btn fill">Se case</div>
+        </div>
+        <div class="wf-img" style="height:180px;">Bild / visual</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Sociala medier — djupdykning</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-2" style="gap:20px;align-items:center;">
+        <div class="wf-img" style="height:180px;">Bild / visual</div>
+        <div>
+          <div class="wf-section-name">Sociala medier</div>
+          <div class="wf-heading">Rubrik</div>
+          <div class="wf-desc">Brödtext</div>
+          <div class="wf-btn fill">Se case</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">CTA</div>
+    <div class="wf-block-inner" style="text-align:center;padding:36px 16px;">
+      <div class="wf-heading">Kontakta oss-rubrik</div>
+      <div class="wf-desc" style="margin: 0 auto 12px;">Kort inbjudande text</div>
+      <div class="wf-btn fill">Kontakt →</div>
+    </div>
+  </div>
+
+  <div class="wf-footer">
+    <div class="wf-footer-col"><strong>Logotyp</strong>Tagline</div>
+    <div class="wf-footer-col"><strong>Tjänster</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Företaget</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Kontakt</strong>E-post<br>Adress</div>
+  </div>
+</div>
+
+<!-- ===== ARTIKLAR ===== -->
+<div class="page" id="page-artiklar">
+  <div class="wf-navbar">
+    <div class="wf-navbar-logo">Logotyp</div>
+    <div class="wf-navbar-links"><span>Om oss</span><span>Erbjudande</span><span>Case</span><span style="color:#555;font-weight:bold;">Artiklar</span></div>
+    <div class="wf-navbar-cta">Kontakt</div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Page Hero</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name">Artiklar</div>
+      <div class="wf-heading" style="font-size:36px;">Stor rubrik</div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Kategorier / Filter</div>
+    <div class="wf-block-inner">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div class="wf-pill active">Alla</div>
+        <div class="wf-pill">Kategori</div>
+        <div class="wf-pill">Kategori</div>
+        <div class="wf-pill">Kategori</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Featured artikel</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-2" style="gap:16px;align-items:center;">
+        <div class="wf-img" style="height:200px;">Hero-bild</div>
+        <div>
+          <div class="wf-tag">Kategori</div>
+          <div style="font-size:13px;font-weight:bold;color:#888;margin:8px 0;">Artikelrubrik — stor och framträdande</div>
+          <div class="wf-desc">Längre ingress</div>
+          <div class="wf-btn fill" style="margin-top:12px;">Läs artikel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Artikelgrid</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-3" style="gap:8px;margin-bottom:14px;">
+        <div class="wf-card"><div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div><div class="wf-tag">Kategori</div><div style="font-size:9px;font-weight:bold;color:#888;margin:6px 0 4px;">Artikelrubrik</div><div style="font-size:8px;color:#bbb;">Ingress</div><div style="font-size:8px;color:#aaa;margin-top:6px;">Läs mer →</div></div>
+        <div class="wf-card"><div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div><div class="wf-tag">Kategori</div><div style="font-size:9px;font-weight:bold;color:#888;margin:6px 0 4px;">Artikelrubrik</div><div style="font-size:8px;color:#bbb;">Ingress</div><div style="font-size:8px;color:#aaa;margin-top:6px;">Läs mer →</div></div>
+        <div class="wf-card"><div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div><div class="wf-tag">Kategori</div><div style="font-size:9px;font-weight:bold;color:#888;margin:6px 0 4px;">Artikelrubrik</div><div style="font-size:8px;color:#bbb;">Ingress</div><div style="font-size:8px;color:#aaa;margin-top:6px;">Läs mer →</div></div>
+        <div class="wf-card" style="opacity:.5;"><div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div><div class="wf-tag">Kategori</div><div style="font-size:9px;font-weight:bold;color:#888;margin:6px 0 4px;">Artikelrubrik</div><div style="font-size:8px;color:#bbb;">Ingress</div></div>
+        <div class="wf-card" style="opacity:.5;"><div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div><div class="wf-tag">Kategori</div><div style="font-size:9px;font-weight:bold;color:#888;margin:6px 0 4px;">Artikelrubrik</div><div style="font-size:8px;color:#bbb;">Ingress</div></div>
+        <div class="wf-card" style="opacity:.5;"><div class="wf-img" style="height:80px;margin-bottom:8px;">Thumbnail</div><div class="wf-tag">Kategori</div><div style="font-size:9px;font-weight:bold;color:#888;margin:6px 0 4px;">Artikelrubrik</div><div style="font-size:8px;color:#bbb;">Ingress</div></div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:6px;">
+        <div class="wf-btn fill" style="margin-top:0;">1</div>
+        <div class="wf-btn" style="margin-top:0;">2</div>
+        <div class="wf-btn" style="margin-top:0;">3</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-footer">
+    <div class="wf-footer-col"><strong>Logotyp</strong>Tagline</div>
+    <div class="wf-footer-col"><strong>Tjänster</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Företaget</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Kontakt</strong>E-post<br>Adress</div>
+  </div>
+</div>
+
+<!-- ===== KONTAKT ===== -->
+<div class="page" id="page-kontakt">
+  <div class="wf-navbar">
+    <div class="wf-navbar-logo">Logotyp</div>
+    <div class="wf-navbar-links"><span>Om oss</span><span>Erbjudande</span><span>Case</span><span>Artiklar</span></div>
+    <div class="wf-navbar-cta" style="background:#1a1a1a;color:#f0ece4;border-color:#1a1a1a;">Kontakt</div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Page Hero</div>
+    <div class="wf-block-inner">
+      <div class="wf-section-name">Kontakt</div>
+      <div class="wf-heading" style="font-size:36px;">Stor rubrik</div>
+      <div class="wf-desc">Inbjudande intro-text</div>
+    </div>
+  </div>
+
+  <div class="wf-block">
+    <div class="wf-block-title">Formulär + Kontaktpersoner</div>
+    <div class="wf-block-inner">
+      <div class="wf-grid wf-grid-2" style="gap:24px;">
+        <div>
+          <div class="wf-section-name" style="margin-bottom:12px;">Skicka meddelande</div>
+          <div class="wf-field">Namn</div>
+          <div class="wf-field">Företag</div>
+          <div class="wf-field">E-post</div>
+          <div class="wf-field">Telefon</div>
+          <div class="wf-field wf-textarea">Meddelande</div>
+          <div class="wf-btn fill">Skicka</div>
+        </div>
+        <div>
+          <div class="wf-section-name" style="margin-bottom:12px;">Kontakta direkt</div>
+          <div class="wf-card" style="margin-bottom:8px;display:flex;gap:12px;align-items:center;">
+            <div class="wf-img" style="width:60px;height:60px;border-radius:50%;flex-shrink:0;">Foto</div>
+            <div>
+              <div style="font-size:9px;font-weight:bold;color:#888;">Namn</div>
+              <div style="font-size:8px;color:#aaa;">Roll</div>
+              <div style="font-size:8px;color:#bbb;margin-top:4px;">Telefon<br>E-post</div>
+            </div>
+          </div>
+          <div class="wf-card" style="display:flex;gap:12px;align-items:center;">
+            <div class="wf-img" style="width:60px;height:60px;border-radius:50%;flex-shrink:0;">Foto</div>
+            <div>
+              <div style="font-size:9px;font-weight:bold;color:#888;">Namn</div>
+              <div style="font-size:8px;color:#aaa;">Roll</div>
+              <div style="font-size:8px;color:#bbb;margin-top:4px;">Telefon<br>E-post</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-footer">
+    <div class="wf-footer-col"><strong>Logotyp</strong>Tagline</div>
+    <div class="wf-footer-col"><strong>Tjänster</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Företaget</strong>Länk<br>Länk<br>Länk</div>
+    <div class="wf-footer-col"><strong>Kontakt</strong>E-post<br>Adress</div>
+  </div>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
