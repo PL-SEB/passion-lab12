@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Passion Lab – Älska sånt folk älskar</title>
+<link rel="icon" type="image/png" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://use.typekit.net/prr7bwp.css">
 <style>
-:root{--black:#000;--white:#faf5eb;--orange:#f05528;--pink:#fab3ff;--font:'Inter Tight',sans-serif;--fd:'ivypresto-display',serif;}
+:root{--black:#000;--white:#faf5eb;--orange:#f05528;--pink:#fab3ff;--cream:#f0ece4;--font:'Inter Tight',sans-serif;--fd:'ivypresto-display',serif;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--black);color:var(--white);font-family:var(--font);font-weight:400;overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none;}
@@ -23,8 +24,8 @@ h1,h2,h3,h4{font-weight:500;}
 #cursor-glow{width:36px;height:36px;border:1px solid rgba(250,179,255,.3);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 48px;transition:padding .4s cubic-bezier(.16,1,.3,1),background .4s;}
-nav.scrolled{background:rgba(0,0,0,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);padding:14px 48px;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 56px;transition:padding .4s cubic-bezier(.16,1,.3,1),background .4s;}
+nav.scrolled{background:rgba(0,0,0,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);padding:14px 56px;}
 .nav-links{display:flex;gap:32px;align-items:center;}
 .nav-link-wrap{position:relative;overflow:hidden;}
 .nav-links a{font-size:13px;font-weight:500;color:#666;transition:color .25s;display:block;}
@@ -40,16 +41,21 @@ nav.scrolled{background:rgba(0,0,0,.9);backdrop-filter:blur(20px);border-bottom:
 .mobile-menu a{font-size:28px;font-weight:800;letter-spacing:-1px;}
 .mobile-close{position:absolute;top:26px;right:32px;font-size:28px;background:none;border:none;font-family:var(--font);color:var(--white);}
 
-/* ── FADE-IN REVEAL ── */
+/* ── REVEAL ── */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
 .rd1{transition-delay:.08s}.rd2{transition-delay:.16s}.rd3{transition-delay:.24s}.rd4{transition-delay:.32s}
 
+/* ── SECTION STRUCTURE ── */
+.container{max-width:1280px;margin:0 auto;padding:0 56px;}
+.section-label{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:20px;display:block;}
+.section-kicker{font-size:14px;color:rgba(250,245,235,.5);margin-top:8px;font-weight:400;}
+
 /* ── HERO ── */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 24px 80px;position:relative;overflow:hidden;}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 24px 100px;position:relative;overflow:hidden;}
 .hero-video{position:absolute;inset:0;z-index:0;pointer-events:none;}
 .hero-video video{width:100%;height:100%;object-fit:cover;display:block;}
-.hero-video::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.6);}
+.hero-video::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.62);}
 .hero-orb{position:absolute;border-radius:50%;filter:blur(90px);z-index:1;pointer-events:none;}
 .orb1{width:650px;height:650px;background:rgba(240,85,40,.08);top:-120px;left:50%;transform:translateX(-50%);animation:orbFloat 9s ease-in-out infinite;}
 .orb2{width:420px;height:420px;background:rgba(250,179,255,.04);bottom:-80px;right:-120px;animation:orbFloat 13s ease-in-out infinite reverse;}
@@ -61,131 +67,155 @@ nav.scrolled{background:rgba(0,0,0,.9);backdrop-filter:blur(20px);border-bottom:
 .hline1 span{animation-delay:.4s;}.hline2 span{animation-delay:.55s;}
 @keyframes wordUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-sub{position:relative;z-index:1;max-width:580px;font-size:clamp(15px,1.5vw,18px);line-height:1.6;color:rgba(250,245,235,.78);margin-top:36px;opacity:0;animation:fadeUp 1s cubic-bezier(.16,1,.3,1) .9s both;}
 
-/* ── QUOTE ── */
-.quote-wrap{padding:120px 48px;}
-.quote-inner{max-width:1000px;margin:0 auto;}
-.quote-text{font-size:clamp(32px,4.5vw,58px);font-weight:500;letter-spacing:-1px;line-height:1.08;}
-.quote-text em{font-style:italic;color:var(--pink);}
-
-/* ── CASE ── */
-.case-wrap{padding:80px 0;}
-.case-header{padding:0 48px;margin-bottom:56px;text-align:center;}
-.case-heading{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(72px,11vw,148px);line-height:.92;letter-spacing:-3px;}
+/* ── CASE SECTION ── */
+.case-wrap{padding:140px 0 120px;}
+.case-header{padding:0 56px;margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
+.case-title{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(56px,8vw,112px);line-height:.95;letter-spacing:-2px;}
+.case-sub{font-size:14px;color:rgba(250,245,235,.5);margin-top:12px;max-width:360px;line-height:1.5;}
+.case-nav{display:flex;gap:10px;}
+.case-nav button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:var(--white);font-size:18px;cursor:none;transition:background .25s,border-color .25s;display:flex;align-items:center;justify-content:center;}
+.case-nav button:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3);}
 .case-viewport{overflow:hidden;width:100%;touch-action:pan-y;}
-.case-track{display:flex;gap:14px;align-items:center;padding:40px 0 60px;will-change:transform;user-select:none;}
-.case-card{flex:0 0 auto;width:290px;height:410px;border-radius:20px;position:relative;perspective:1200px;-webkit-tap-highlight-color:transparent;}
-.case-card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.16,1,.3,1);border-radius:20px;}
-.case-card.flipped .case-card-inner{transform:rotateY(180deg) !important;}
-.case-front{position:absolute;inset:0;border-radius:20px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#0a0a0a;border:1px solid rgba(255,255,255,.06);}
-.case-front img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);pointer-events:none;}
-.case-card.hovered .case-front img{transform:scale(1.05);}
-.case-front-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.08) 45%,transparent 70%);}
-.case-front-info{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 26px;}
-.case-front-info h3{font-family:var(--fd);font-style:italic;font-weight:300;font-size:22px;color:var(--white);line-height:1.15;margin-bottom:6px;}
-.case-concept{font-size:11px;color:rgba(250,245,235,.38);}
-.case-card.hovered .case-front{box-shadow:0 24px 60px rgba(0,0,0,.85),0 0 0 1.5px rgba(250,179,255,.28);}
-.case-back{position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:36px 30px;background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,rgba(200,180,255,.25) 20%,rgba(150,220,255,.22) 40%,rgba(255,180,220,.22) 60%,rgba(180,255,220,.2) 80%,rgba(255,220,150,.16) 100%);background-color:#c8b8ff;border:1px solid rgba(255,255,255,.4);overflow:hidden;}
-.case-back::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.25) 40%,rgba(200,180,255,.3) 50%,rgba(255,255,255,.2) 60%,transparent 80%);animation:holoShimmer 3s ease-in-out infinite;pointer-events:none;}
-@keyframes holoShimmer{0%,100%{transform:translateX(-60%) skewX(-15deg);opacity:.6}50%{transform:translateX(160%) skewX(-15deg);opacity:1}}
-.case-back h3{font-family:var(--fd);font-style:italic;font-weight:300;font-size:26px;color:#1a0a2e;margin-bottom:14px;position:relative;z-index:1;}
-.case-back p{font-size:13px;color:rgba(20,0,50,.65);line-height:1.75;margin-bottom:28px;position:relative;z-index:1;}
-.case-back-btn{display:inline-block;background:rgba(20,0,50,.85);color:#e8d5ff;font-size:12px;font-weight:700;padding:11px 22px;border-radius:100px;border:1px solid rgba(255,255,255,.2);font-family:var(--font);position:relative;z-index:2;cursor:pointer;}
+.case-track{display:flex;gap:16px;align-items:center;padding:32px 0 40px;will-change:transform;user-select:none;}
+.case-card{flex:0 0 auto;width:clamp(280px,36vw,420px);border-radius:20px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.06);background:#0a0a0a;user-select:none;transform-origin:center;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s,box-shadow .5s;cursor:none;}
+.case-card-img{height:clamp(360px,48vw,540px);position:relative;overflow:hidden;}
+.case-card-img img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transform:scale(1.08) translateX(calc(var(--px,0) * 1px));transition:transform .6s cubic-bezier(.16,1,.3,1);will-change:transform;}
+.case-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 40%,transparent 70%);}
+.case-overlay{position:absolute;bottom:0;left:0;right:0;padding:28px 28px 32px;}
+.case-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(240,85,40,.2);color:var(--orange);margin-bottom:10px;}
+.case-overlay h3{font-size:clamp(18px,2.2vw,24px);font-weight:500;letter-spacing:-.4px;color:var(--white);line-height:1.2;}
 
-/* ── OFFER LIST ── */
-.offer-wrap{padding:80px 48px 100px;}
-.offer-inner{max-width:1100px;margin:0 auto;}
-.offer-section-label{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:48px;display:block;}
-.offer-list{border-top:1px solid rgba(255,255,255,.07);}
-.offer-item{border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden;}
-.offer-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;padding:28px 0;background:none;border:none;color:var(--white);text-align:left;cursor:none;}
-.offer-trigger-title{font-size:clamp(36px,5vw,72px);font-weight:500;letter-spacing:-2px;line-height:1;transition:color .25s;}
-.offer-trigger:hover .offer-trigger-title{color:var(--orange);}
-.offer-icon{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .4s cubic-bezier(.16,1,.3,1),border-color .25s;font-size:18px;color:#555;margin-left:24px;}
-.offer-item.open .offer-icon{transform:rotate(45deg);border-color:var(--orange);color:var(--orange);}
-.offer-body{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1);}
-.offer-body-inner{padding:0 0 36px;max-width:640px;}
-.offer-body-inner p{font-size:17px;color:#555;line-height:1.75;}
+/* ── TJÄNSTER (3-col grid) ── */
+.services-wrap{padding:120px 0;border-top:1px solid rgba(255,255,255,.05);}
+.services-header{margin-bottom:72px;max-width:720px;}
+.services-title{font-size:clamp(40px,5.5vw,72px);font-weight:500;letter-spacing:-1.5px;line-height:1;}
+.services-title em{font-style:italic;color:var(--pink);}
+.services-sub{font-size:clamp(15px,1.5vw,17px);color:rgba(250,245,235,.55);line-height:1.65;margin-top:24px;max-width:560px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.service-card{position:relative;background:#0a0a0a;border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:40px 36px 44px;transition:background .35s,border-color .35s,transform .5s cubic-bezier(.16,1,.3,1);overflow:hidden;cursor:none;display:flex;flex-direction:column;min-height:340px;}
+.service-card::before{content:'';position:absolute;inset:0;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(240,85,40,.08),transparent 40%);opacity:0;transition:opacity .4s;pointer-events:none;}
+.service-card:hover{background:#0f0f0f;border-color:rgba(240,85,40,.25);transform:translateY(-4px);}
+.service-card:hover::before{opacity:1;}
+.service-num{font-family:var(--fd);font-style:italic;font-weight:300;font-size:56px;color:var(--orange);line-height:1;margin-bottom:auto;padding-bottom:28px;}
+.service-card h3{font-size:28px;font-weight:500;letter-spacing:-.6px;margin-bottom:14px;}
+.service-card p{font-size:14.5px;color:rgba(250,245,235,.6);line-height:1.65;margin-bottom:28px;flex:1;}
+.service-link{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--white);display:inline-flex;align-items:center;gap:8px;transition:gap .3s cubic-bezier(.34,1.2,.64,1),color .25s;align-self:flex-start;}
+.service-link:hover{color:var(--pink);gap:14px;}
+.service-link .arrow{display:inline-block;transition:transform .3s;}
 
-/* ── CONTENT FEED ── */
-.feed-wrap{padding:120px 48px;background:var(--white);}
-.feed-inner{max-width:1200px;margin:0 auto;}
+/* ── KÄNSLOFLÖDE (bento grid) ── */
+.feed-wrap{padding:120px 0;background:var(--cream);color:var(--black);}
 .feed-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:24px;}
-.feed-label{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:14px;}
-.feed-title{font-size:clamp(40px,5.5vw,68px);font-weight:500;letter-spacing:-1.5px;line-height:1;color:#111;}
+.feed-label{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:16px;}
+.feed-title{font-size:clamp(40px,5.5vw,72px);font-weight:500;letter-spacing:-1.5px;line-height:1;color:var(--black);}
 .feed-title em{font-style:italic;}
-.btn-dark{background:var(--black);color:var(--white);padding:12px 28px;border-radius:100px;font-size:13px;font-weight:700;display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;white-space:nowrap;}
+.btn-dark{background:var(--black);color:var(--white);padding:13px 28px;border-radius:100px;font-size:13px;font-weight:700;display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;white-space:nowrap;}
 .btn-dark:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 12px 32px rgba(0,0,0,.3);}
+.feed-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(220px,auto);gap:16px;}
 
-.feed-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;}
-.feed-card{background:#f5f0e8;border-radius:16px;overflow:hidden;cursor:pointer;transition:background .3s;display:flex;flex-direction:column;}
-.feed-card:hover{background:#ece7de;}
-.feed-card.hero{grid-row:1/3;}
-.feed-img{overflow:hidden;background:#ddd;border-radius:12px;margin:12px 12px 0;}
-.feed-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .65s cubic-bezier(.16,1,.3,1);border-radius:12px;}
-.feed-card:hover .feed-img img{transform:scale(1.04);}
-.feed-card.hero .feed-img{height:380px;}
-.feed-card.sm .feed-img{height:200px;}
-.feed-body{padding:22px 24px 28px;flex:1;display:flex;flex-direction:column;}
-.feed-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:block;}
-.feed-card.hero .feed-body h3{font-size:clamp(18px,2vw,26px);font-weight:500;letter-spacing:-.4px;line-height:1.2;color:#111;margin-bottom:10px;}
-.feed-card.sm .feed-body h3{font-size:15px;font-weight:500;line-height:1.3;color:#111;margin-bottom:8px;}
-.feed-body p{font-size:13px;color:#888;line-height:1.65;flex:1;}
-.feed-link{font-size:12px;font-weight:700;color:var(--orange);display:inline-flex;align-items:center;gap:5px;margin-top:16px;transition:gap .25s;}
-.feed-card:hover .feed-link{gap:10px;}
+.feed-card{border-radius:20px;overflow:hidden;position:relative;cursor:none;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .4s;display:flex;flex-direction:column;}
+.feed-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.12);}
+
+/* Feed variants */
+.feed-hero{grid-column:span 2;grid-row:span 2;background:#1a1a1a;color:var(--white);min-height:480px;}
+.feed-hero .feed-img{position:absolute;inset:0;}
+.feed-hero .feed-img img{width:100%;height:100%;object-fit:cover;}
+.feed-hero .feed-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.3) 50%,rgba(0,0,0,.1) 100%);}
+.feed-hero .feed-body{position:relative;z-index:2;margin-top:auto;padding:36px;}
+.feed-hero .feed-tag{background:rgba(240,85,40,.85);color:var(--white);}
+.feed-hero h3{font-size:clamp(22px,2.5vw,32px);font-weight:500;letter-spacing:-.6px;line-height:1.15;color:var(--white);margin-bottom:12px;}
+.feed-hero p{color:rgba(255,255,255,.78);font-size:14px;line-height:1.6;}
+
+.feed-quote{grid-column:span 2;grid-row:span 1;background:var(--pink);padding:40px 44px;display:flex;flex-direction:column;justify-content:center;}
+.feed-quote-text{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(22px,2.3vw,30px);line-height:1.18;color:var(--black);letter-spacing:-.3px;}
+.feed-quote-author{font-size:12px;font-weight:600;color:rgba(0,0,0,.55);margin-top:18px;letter-spacing:.5px;}
+
+.feed-card-sm{grid-column:span 1;grid-row:span 1;background:var(--white);border:1px solid rgba(0,0,0,.06);padding:0;overflow:hidden;}
+.feed-card-sm .feed-img{width:100%;aspect-ratio:4/3;overflow:hidden;background:#ddd;}
+.feed-card-sm .feed-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.feed-card-sm:hover .feed-img img{transform:scale(1.05);}
+.feed-card-sm .feed-body{padding:18px 20px 22px;display:flex;flex-direction:column;flex:1;}
+.feed-tag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(240,85,40,.14);color:var(--orange);margin-bottom:10px;align-self:flex-start;}
+.feed-card-sm h3{font-size:15px;font-weight:500;letter-spacing:-.2px;line-height:1.25;color:var(--black);}
+.feed-card-sm p{font-size:12.5px;color:#666;line-height:1.55;margin-top:8px;}
+
+.feed-vlogg{grid-column:span 2;grid-row:span 1;background:var(--black);color:var(--white);position:relative;overflow:hidden;display:flex;align-items:stretch;}
+.feed-vlogg-img{width:45%;position:relative;overflow:hidden;flex-shrink:0;}
+.feed-vlogg-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s;}
+.feed-vlogg:hover .feed-vlogg-img img{transform:scale(1.05);}
+.feed-vlogg-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(250,179,255,.95);display:flex;align-items:center;justify-content:center;color:var(--black);font-size:16px;}
+.feed-vlogg-body{flex:1;padding:28px 32px;display:flex;flex-direction:column;justify-content:center;}
+.feed-vlogg-body h3{font-size:20px;font-weight:500;letter-spacing:-.4px;line-height:1.2;margin-bottom:10px;}
+.feed-vlogg-body p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.55;}
 
 /* ── INSTAGRAM ── */
-.insta-wrap{background:var(--pink);padding:220px 48px;position:relative;overflow:hidden;cursor:none;display:block;text-decoration:none;transition:filter .3s;}
+.insta-wrap{background:var(--pink);padding:200px 56px;position:relative;overflow:hidden;cursor:none;display:block;text-decoration:none;transition:filter .3s;}
 .insta-wrap:hover{filter:brightness(1.03);}
 .insta-inner{max-width:1000px;margin:0 auto;position:relative;z-index:2;pointer-events:none;}
 .insta-label{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(0,0,0,.4);margin-bottom:24px;}
-.insta-text{font-size:clamp(48px,7.5vw,96px);font-weight:500;letter-spacing:-2px;line-height:1;color:var(--black);}
+.insta-text{font-size:clamp(44px,7vw,92px);font-weight:500;letter-spacing:-2px;line-height:1;color:var(--black);}
 .insta-italic{font-family:var(--fd);font-weight:300;font-style:italic;}
-#insta-finger{position:absolute;pointer-events:none;z-index:10;transform-origin:center;font-size:56px;line-height:1;display:none;}
-#insta-cursor{width:120px;height:120px;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;overflow:hidden;}
+.insta-sub{font-size:14px;color:rgba(0,0,0,.55);margin-top:28px;font-weight:400;}
+#insta-finger{position:absolute;pointer-events:none;z-index:10;transform-origin:center;font-size:56px;line-height:1;display:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2));}
+#insta-cursor{width:120px;height:120px;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.25);}
 #insta-cursor img{width:100%;height:100%;object-fit:cover;display:block;}
 #insta-cursor.visible{opacity:1;}
-#insta-cursor-mobile{width:90px;height:90px;border-radius:50%;position:fixed;right:20px;bottom:36px;pointer-events:auto;z-index:9997;overflow:hidden;opacity:0;transition:opacity .35s;}
+#insta-cursor-mobile{width:90px;height:90px;border-radius:50%;position:fixed;right:20px;bottom:36px;pointer-events:auto;z-index:9997;overflow:hidden;opacity:0;transition:opacity .35s;box-shadow:0 4px 20px rgba(0,0,0,.25);}
 #insta-cursor-mobile img{width:100%;height:100%;object-fit:cover;display:block;}
 #insta-cursor-mobile.show{opacity:1;}
-#insta-finger-mobile{position:fixed;right:120px;bottom:52px;font-size:44px;line-height:1;pointer-events:none;z-index:9998;opacity:0;transition:opacity .35s;transform-origin:center;}
+#insta-finger-mobile{position:fixed;right:120px;bottom:52px;font-size:44px;line-height:1;pointer-events:none;z-index:9998;opacity:0;transition:opacity .35s;transform-origin:center;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2));}
 #insta-finger-mobile.show{opacity:1;}
 
 /* ── FOOTER ── */
-footer{padding:56px 48px 40px;border-top:1px solid rgba(255,255,255,.04);}
-.footer-inner{max-width:1200px;margin:0 auto;}
-.footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:48px;margin-bottom:56px;}
-.footer-brand{max-width:280px;}
-.footer-tagline{font-size:13px;color:var(--white);opacity:.55;line-height:1.65;}
-.footer-links h4{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white);opacity:.35;margin-bottom:18px;}
+footer{padding:64px 56px 40px;border-top:1px solid rgba(255,255,255,.05);}
+.footer-inner{max-width:1280px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:48px;margin-bottom:56px;}
+.footer-brand{max-width:300px;}
+.footer-tagline{font-size:13px;color:rgba(250,245,235,.55);line-height:1.65;}
+.footer-links h4{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(250,245,235,.35);margin-bottom:18px;}
 .footer-links ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.footer-links ul li a{font-size:14px;font-weight:500;color:rgba(250,245,235,.55);transition:color .25s;}
-.footer-links ul li a:hover{color:var(--pink);}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-top:28px;border-top:1px solid rgba(255,255,255,.04);}
+.footer-links ul li a{font-size:14px;font-weight:500;color:rgba(250,245,235,.55);display:inline-flex;align-items:center;gap:0;transition:color .25s,gap .3s;}
+.footer-links ul li a:hover{color:var(--pink);gap:6px;}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-top:28px;border-top:1px solid rgba(255,255,255,.05);}
 .footer-copy{font-size:12px;color:rgba(250,245,235,.35);}
 .footer-social{display:flex;gap:16px;}
 .footer-social a{font-size:12px;font-weight:600;color:rgba(250,245,235,.45);transition:color .25s,transform .3s;display:inline-block;}
 .footer-social a:hover{color:var(--pink);transform:translateY(-2px);}
 
-/* ── MOBILE ── */
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .services-grid{grid-template-columns:1fr;gap:14px;}
+  .service-card{min-height:auto;padding:32px 28px;}
+  .feed-grid{grid-template-columns:repeat(2,1fr);}
+  .feed-hero{grid-column:span 2;min-height:420px;}
+  .feed-quote{grid-column:span 2;}
+  .feed-vlogg{grid-column:span 2;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
 @media(max-width:768px){
-  nav{padding:18px 24px;}.nav-links{display:none;}.hamburger{display:flex;}
-  .quote-wrap,.offer-wrap,.feed-wrap,.insta-wrap{padding-left:24px;padding-right:24px;}
-  .case-header{padding:0 24px;}
-  .case-heading{font-size:clamp(52px,13vw,100px);}
-  .case-card{width:74vw;max-width:290px;height:103vw;max-height:410px;}
-  .offer-trigger-title{font-size:clamp(28px,8vw,52px);}
+  nav{padding:18px 24px;}
+  nav.scrolled{padding:12px 24px;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .container,.case-header{padding-left:24px;padding-right:24px;}
+  .services-wrap,.feed-wrap{padding:80px 0;}
+  .case-wrap{padding:80px 0;}
+  .case-card{width:82vw;max-width:400px;}
+  .case-card-img{height:108vw;max-height:500px;}
   .feed-grid{grid-template-columns:1fr;}
-  .feed-card.hero{grid-row:auto;}
-  .feed-card.hero .feed-img{height:240px;}
-  .insta-wrap{padding:100px 24px;}
-  #insta-cursor{display:none!important;}
-  #insta-finger{display:none!important;}
-  footer{padding:48px 24px;}
-  .footer-top{flex-direction:column;}
+  .feed-hero,.feed-quote,.feed-vlogg,.feed-card-sm{grid-column:span 1;}
+  .feed-hero{min-height:400px;}
+  .feed-vlogg{flex-direction:column;}
+  .feed-vlogg-img{width:100%;aspect-ratio:16/9;}
+  .insta-wrap{padding:100px 24px;cursor:pointer !important;}
+  #insta-cursor,#insta-finger{display:none !important;}
+  footer{padding:56px 24px 40px;}
+  .footer-top{grid-template-columns:1fr;gap:40px;}
   #cursor,#cursor-glow{display:none;}
   body{cursor:auto;}
-  *{cursor:auto!important;}
+  *{cursor:auto !important;}
 }
 </style>
 </head>
@@ -201,11 +231,9 @@ footer{padding:56px 48px 40px;border-top:1px solid rgba(255,255,255,.04);}
   <a class="nav-logo" href="index.html"><img src="logo.png" alt="Passion Lab" style="height:28px;display:block"></a>
   <div class="nav-links">
     <span class="nav-link-wrap"><a href="om-oss.html">Om oss</a></span>
+    <span class="nav-link-wrap"><a href="#tjanster">Tjänster</a></span>
     <span class="nav-link-wrap"><a href="case.html">Case</a></span>
-    <span class="nav-link-wrap"><a href="reklam.html">Reklam</a></span>
-    <span class="nav-link-wrap"><a href="sponsring.html">Sponsring</a></span>
-    <span class="nav-link-wrap"><a href="event.html">Event</a></span>
-    <span class="nav-link-wrap"><a href="artiklar.html">Artiklar</a></span>
+    <span class="nav-link-wrap"><a href="#kanslofloden">Känsloflöde</a></span>
     <a href="kontakt.html" class="nav-cta mag">Kontakt</a>
   </div>
   <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Meny">
@@ -215,15 +243,14 @@ footer{padding:56px 48px 40px;border-top:1px solid rgba(255,255,255,.04);}
 
 <div class="mobile-menu">
   <button class="mobile-close" onclick="document.querySelector('.mobile-menu').classList.remove('open')">✕</button>
-  <a href="om-oss.html"    onclick="document.querySelector('.mobile-menu').classList.remove('open')">Om oss</a>
-  <a href="case.html"      onclick="document.querySelector('.mobile-menu').classList.remove('open')">Case</a>
-  <a href="reklam.html"    onclick="document.querySelector('.mobile-menu').classList.remove('open')">Reklam</a>
-  <a href="sponsring.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Sponsring</a>
-  <a href="event.html"     onclick="document.querySelector('.mobile-menu').classList.remove('open')">Event</a>
-  <a href="artiklar.html"  onclick="document.querySelector('.mobile-menu').classList.remove('open')">Artiklar</a>
-  <a href="kontakt.html"   onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
+  <a href="om-oss.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Om oss</a>
+  <a href="#tjanster" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Tjänster</a>
+  <a href="case.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Case</a>
+  <a href="#kanslofloden" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Känsloflöde</a>
+  <a href="kontakt.html" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Kontakt</a>
 </div>
 
+<!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-video">
     <video autoplay muted loop playsinline>
@@ -236,88 +263,151 @@ footer{padding:56px 48px 40px;border-top:1px solid rgba(255,255,255,.04);}
     <span class="hline hline1"><span><span class="word-italic">Älska&nbsp;</span><span style="font-weight:500">sånt</span></span></span>
     <span class="hline hline2"><span><span style="font-weight:500">folk&nbsp;</span><span class="word-italic">älskar.</span></span></span>
   </h1>
+  <p class="hero-sub">Passion Lab är Sveriges ledande sponsrings- och eventbyrå. Vi ger varumärken känslor genom att koppla ihop dem med sånt människor bryr sig om: sport, kultur och samhällsfrågor.</p>
 </section>
 
-<div class="quote-wrap reveal">
-  <div class="quote-inner">
-    <p class="quote-text">Vi hjälper Sveriges ledande varumärken att engagera sig i <em>sånt som människor bryr sig om</em> — och visa det. Det är det vi kallar brand emotion.</p>
-  </div>
-</div>
-
+<!-- ── CASE ── -->
 <div class="case-wrap reveal">
   <div class="case-header">
-    <p class="case-heading">Se några av våra<br>fina <em>case.</em></p>
+    <div>
+      <span class="section-label">Case</span>
+      <h2 class="case-title">Några av våra<br><em>passion projects.</em></h2>
+    </div>
+    <div class="case-nav">
+      <button id="case-prev" aria-label="Föregående">←</button>
+      <button id="case-next" aria-label="Nästa">→</button>
+    </div>
   </div>
   <div class="case-viewport" id="caseViewport">
-    <div class="case-track" id="caseTrack"></div>
+    <div class="case-track" id="caseTrack">
+      <div class="case-card"><div class="case-card-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Telia × SHL</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>Unibet × NHL</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Lyko × ELLE</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Lyko × Ski Team</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja" draggable="false"></div><div class="case-overlay"><span class="case-tag">Reklam</span><h3>Ajabaja Cancer</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div><div class="case-overlay"><span class="case-tag">Sponsring</span><h3>SEF</h3></div></div>
+      <div class="case-card"><div class="case-card-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div><div class="case-overlay"><span class="case-tag">Event</span><h3>Matchkorv</h3></div></div>
+    </div>
   </div>
 </div>
 
-<div class="offer-wrap reveal">
-  <div class="offer-inner">
-    <span class="offer-section-label">Vad vi erbjuder</span>
-    <div class="offer-list" id="offerList"></div>
-  </div>
-</div>
+<!-- ── TJÄNSTER ── -->
+<section class="services-wrap" id="tjanster">
+  <div class="container">
+    <div class="services-header reveal">
+      <span class="section-label">Tjänster</span>
+      <h2 class="services-title">Sponsrings-, event-<br>och <em>reklambyrå.</em></h2>
+      <p class="services-sub">Tre discipliner, ett mål: att få folk att känna något för ditt varumärke. Vi kallar det brand emotion.</p>
+    </div>
 
-<div class="feed-wrap">
-  <div class="feed-inner">
+    <div class="services-grid">
+      <a href="sponsring.html" class="service-card reveal rd1">
+        <div class="service-num">01</div>
+        <h3>Sponsring</h3>
+        <p>Vi hjälper Sveriges största varumärken att samarbeta och dra nytta av varandra — genom sammanhang som betyder något för målgruppen.</p>
+        <span class="service-link">Läs mer <span class="arrow">→</span></span>
+      </a>
+
+      <a href="event.html" class="service-card reveal rd2">
+        <div class="service-num">02</div>
+        <h3>Event</h3>
+        <p>Vi skapar meningsfulla möten mellan ditt varumärke och din målgrupp — från stora aktiveringar till intima upplevelser.</p>
+        <span class="service-link">Läs mer <span class="arrow">→</span></span>
+      </a>
+
+      <a href="reklam.html" class="service-card reveal rd3">
+        <div class="service-num">03</div>
+        <h3>Reklam</h3>
+        <p>Vi hjälper dig visa varför ditt varumärke förtjänar målgruppens känslor — med kommunikation som känns äkta och faktiskt säljer.</p>
+        <span class="service-link">Läs mer <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── KÄNSLOFLÖDE ── -->
+<section class="feed-wrap" id="kanslofloden">
+  <div class="container">
     <div class="feed-header reveal">
       <div>
-        <p class="feed-label">Insikter &amp; case</p>
-        <h2 class="feed-title">Tankar från<br><em>Passion Lab.</em></h2>
+        <p class="feed-label">Artiklar och nyheter</p>
+        <h2 class="feed-title">Vårt<br><em>känsloflöde.</em></h2>
       </div>
       <a href="artiklar.html" class="btn-dark mag">Allt innehåll →</a>
     </div>
+
     <div class="feed-grid">
-      <div class="feed-card hero reveal" onclick="location='artiklar.html'">
+      <!-- Hero feature: Volvo Cars -->
+      <a href="artiklar.html" class="feed-card feed-hero reveal">
+        <div class="feed-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt=""></div>
+        <div class="feed-body">
+          <span class="feed-tag">Nytt uppdrag</span>
+          <h3>Passion Lab &lt;3 Volvo Cars</h3>
+          <p>Passion Lab hjälper Volvo Cars aktivera sponsorskapet av Ocean Race 2028.</p>
+        </div>
+      </a>
+
+      <!-- Quote card -->
+      <div class="feed-card feed-quote reveal rd1">
+        <p class="feed-quote-text">"Sponsring handlar inte om rätten att synas. Det handlar om rätten att göra något bra."</p>
+        <p class="feed-quote-author">— Niklas Turner Olovzon, Creative Director</p>
+      </div>
+
+      <!-- Small card: Strategi -->
+      <a href="artiklar.html" class="feed-card feed-card-sm reveal rd2">
         <div class="feed-img"><img src="SEF_cover_4x5.png" alt=""></div>
         <div class="feed-body">
-          <span class="feed-tag">Sponsring · Analys</span>
-          <h3>Varför sponsring slår traditionell reklam — varje gång</h3>
-          <p>Konsumenter söker autenticitet och ignorerar banners. Sponsring skapar den emotionella koppling som bygger långsiktig lojalitet.</p>
-          <a href="artiklar.html" class="feed-link">Läs artikeln →</a>
+          <span class="feed-tag">Strategi</span>
+          <h3>Läs vår Strategy Directors senaste tankar</h3>
         </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:16px;">
-        <div class="feed-card sm reveal rd1" onclick="location='case.html'">
-          <div class="feed-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt=""></div>
-          <div class="feed-body">
-            <span class="feed-tag">Case</span>
-            <h3>Telia × SHL — fan-känsla som affärsnytta</h3>
-            <a href="case.html" class="feed-link">Se caset →</a>
-          </div>
+      </a>
+
+      <!-- Small card: Läsdag -->
+      <a href="artiklar.html" class="feed-card feed-card-sm reveal rd3">
+        <div class="feed-img"><img src="Matchkorv_presskonf.png" alt=""></div>
+        <div class="feed-body">
+          <span class="feed-tag">Kultur</span>
+          <h3>Läsdag på Passion Lab</h3>
+          <p>Sveriges första arbetsplats med läsning på betald arbetstid?</p>
         </div>
-        <div class="feed-card sm reveal rd2" onclick="location='artiklar.html'">
-          <div class="feed-img"><img src="Matchkorv_presskonf.png" alt=""></div>
-          <div class="feed-body">
-            <span class="feed-tag">Strategi</span>
-            <h3>Så optimerar du din sponsringsrättighet</h3>
-            <a href="artiklar.html" class="feed-link">Läs mer →</a>
-          </div>
+      </a>
+
+      <!-- Vlogg card -->
+      <a href="https://www.instagram.com/_passionlab/" target="_blank" rel="noopener" class="feed-card feed-vlogg reveal rd4">
+        <div class="feed-vlogg-img">
+          <img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="">
+          <div class="feed-vlogg-play">▶</div>
         </div>
-      </div>
+        <div class="feed-vlogg-body">
+          <span class="feed-tag" style="background:rgba(250,179,255,.18);color:var(--pink);">Vlogg</span>
+          <h3>Kul och bra vlogg</h3>
+          <p>Se vår kreatör Johans senaste videodagbok på vår Instagram.</p>
+        </div>
+      </a>
     </div>
   </div>
-</div>
+</section>
 
-<a href="https://www.instagram.com/_passionlab/" target="_blank" rel="noopener noreferrer" class="insta-wrap reveal" id="instaWrap">
+<!-- ── INSTAGRAM ── -->
+<a href="https://www.instagram.com/_passionlab/" target="_blank" rel="noopener noreferrer" class="insta-wrap" id="instaWrap" aria-label="Följ Passion Lab på Instagram">
   <div id="insta-finger">👆</div>
   <div class="insta-inner">
-    <p class="insta-label">Följ oss</p>
-    <p class="insta-text">Spana in vår <span class="insta-italic" id="instaSpan">Instagram</span> —<br>vi delar det vi älskar.</p>
+    <p class="insta-label">Följ oss på Instagram</p>
+    <p class="insta-text">Addera vårt innehåll till din<br><span class="insta-italic" id="instaSpan">dopaminmaskin.</span></p>
+    <p class="insta-sub">— Amanda Bladh, SoMe-manager</p>
   </div>
 </a>
 
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
         <a href="index.html" style="display:block;margin-bottom:16px"><img src="logo.png" alt="Passion Lab" style="height:22px;display:block;opacity:.7"></a>
-        <p class="footer-tagline">Älska sånt folk älskar. Sveriges ledande byrå inom sponsring och event.</p>
+        <p class="footer-tagline">Sveriges ledande byrå inom sponsring och event. Älska sånt folk älskar.</p>
       </div>
       <div class="footer-links"><h4>Vad vi gör</h4><ul><li><a href="sponsring.html">Sponsring</a></li><li><a href="event.html">Event</a></li><li><a href="reklam.html">Reklam</a></li></ul></div>
-      <div class="footer-links"><h4>Företaget</h4><ul><li><a href="om-oss.html">Om oss</a></li><li><a href="artiklar.html">Artiklar</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
+      <div class="footer-links"><h4>Företaget</h4><ul><li><a href="om-oss.html">Om oss</a></li><li><a href="case.html">Case</a></li><li><a href="artiklar.html">Artiklar</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
       <div class="footer-links"><h4>Kontakt</h4><ul><li><a href="mailto:hello@passionlab.se">hello@passionlab.se</a></li><li><a href="#">Stockholm, Sverige</a></li></ul></div>
     </div>
     <div class="footer-bottom">
@@ -333,12 +423,12 @@ const cur=document.getElementById('cursor'),glow=document.getElementById('cursor
 let mx=0,my=0,gx=0,gy=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function loop(){cur.style.left=mx+'px';cur.style.top=my+'px';gx+=(mx-gx)*.1;gy+=(my-gy)*.1;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(loop);})();
-document.querySelectorAll('a,button,.feed-card').forEach(el=>{
+document.querySelectorAll('a,button,.case-card,.service-card,.feed-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('big'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
 });
 const fw=document.querySelector('.feed-wrap');
-if(fw)new IntersectionObserver(e=>{e.forEach(x=>cur.classList.toggle('on-light',x.isIntersecting));},{threshold:.1}).observe(fw);
+if(fw)new IntersectionObserver(e=>{e.forEach(x=>cur.classList.toggle('on-light',x.isIntersecting));},{threshold:.3}).observe(fw);
 
 /* ── MAGNETIC ── */
 document.querySelectorAll('.mag').forEach(btn=>{
@@ -346,38 +436,23 @@ document.querySelectorAll('.mag').forEach(btn=>{
   btn.addEventListener('mouseleave',()=>{btn.style.transition='transform .5s cubic-bezier(.34,1.56,.64,1)';btn.style.transform='';setTimeout(()=>btn.style.transition='',500);});
 });
 
-/* ── REVEAL (IntersectionObserver) ── */
+/* ── SERVICE CARD SPOTLIGHT ── */
+document.querySelectorAll('.service-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    card.style.setProperty('--my',(e.clientY-r.top)+'px');
+  });
+});
+
+/* ── REVEAL ── */
 const revObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
 
 /* ── NAVBAR ── */
 window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>50));
 
-/* ── OFFER LIST ── */
-(function(){
-  const items=[
-    {title:'Sponsring',      desc:'Vi hittar rätt sammanhang för ditt varumärke — och bygger samarbeten inom sport, kultur och underhållning som skapar verklig känslomässig koppling till din målgrupp.'},
-    {title:'Event',          desc:'Från stora publika aktiveringar till intima B2B-möten. Vi producerar event som börjar i varumärket och slutar i minnet.'},
-    {title:'Reklam',         desc:'Vi gör inte reklam för reklamens skull. Vi börjar i målgruppens värld och bygger kommunikation som känns relevant — och säljer.'},
-    {title:'Strategi',       desc:'Vi hittar de sammanhang där ditt varumärke faktiskt hör hemma — och gör det trovärdigt för en målgrupp som bryr sig.'},
-    {title:'Sociala Medier', desc:'Vi skapar innehåll och strategier för sociala medier som känns äkta, engagerar rätt målgrupp och förstärker varumärkets känslomässiga position.'}
-  ];
-  const list=document.getElementById('offerList');
-  items.forEach((o,i)=>{
-    const item=document.createElement('div');
-    item.className='offer-item reveal';
-    item.innerHTML=`<button class="offer-trigger"><span class="offer-trigger-title">${o.title}</span><span class="offer-icon">+</span></button><div class="offer-body"><div class="offer-body-inner"><p>${o.desc}</p></div></div>`;
-    item.querySelector('.offer-trigger').addEventListener('click',()=>{
-      const open=item.classList.contains('open');
-      list.querySelectorAll('.offer-item.open').forEach(el=>{el.classList.remove('open');el.querySelector('.offer-body').style.maxHeight='0';});
-      if(!open){item.classList.add('open');item.querySelector('.offer-body').style.maxHeight=item.querySelector('.offer-body').scrollHeight+'px';}
-    });
-    list.appendChild(item);
-    revObs.observe(item);
-  });
-})();
-
-/* ── INSTAGRAM ── */
+/* ── INSTAGRAM CURSOR ── */
 (function(){
   const wrap=document.getElementById('instaWrap'),instaCur=document.getElementById('insta-cursor'),finger=document.getElementById('insta-finger'),instaSpan=document.getElementById('instaSpan'),mobCur=document.getElementById('insta-cursor-mobile'),mobFinger=document.getElementById('insta-finger-mobile');
   if(!wrap)return;
@@ -386,6 +461,7 @@ window.addEventListener('scroll',()=>document.getElementById('navbar').classList
     mobCur.addEventListener('click',()=>window.open('https://www.instagram.com/_passionlab/','_blank','noopener,noreferrer'));
     function upd(){const wr=wrap.getBoundingClientRect(),fr=footer.getBoundingClientRect(),s=wr.top<window.innerHeight*.85&&fr.top>window.innerHeight;mobCur.classList.toggle('show',s);mobFinger.classList.toggle('show',s);}
     window.addEventListener('scroll',upd,{passive:true});upd();
+    (function animMob(){if(instaSpan){const lr=instaSpan.getBoundingClientRect(),fr=mobFinger.getBoundingClientRect(),tx=lr.left+lr.width/2,ty=lr.top+lr.height/2,fx=fr.left+fr.width/2,fy=fr.top+fr.height/2,ang=Math.atan2(ty-fy,tx-fx);mobFinger.style.transform=`rotate(${ang*180/Math.PI+90}deg)`;}requestAnimationFrame(animMob);})();
     return;
   }
   let cx=0,cy=0,sx=0,sy=0,inside=false;
@@ -393,199 +469,49 @@ window.addEventListener('scroll',()=>document.getElementById('navbar').classList
   wrap.addEventListener('mouseleave',()=>{inside=false;instaCur.classList.remove('visible');finger.style.display='none';cur.style.opacity='1';});
   wrap.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;});
   (function ac(){sx+=(cx-sx)*.12;sy+=(cy-sy)*.12;instaCur.style.left=sx+'px';instaCur.style.top=sy+'px';requestAnimationFrame(ac);})();
-  (function af(){if(!inside){requestAnimationFrame(af);return;}finger.style.display='block';if(instaSpan){const lr=instaSpan.getBoundingClientRect(),tx=lr.left+lr.width/2,ty=lr.top+lr.height/2,ang=Math.atan2(ty-sy,tx-sx),fx=sx+Math.cos(ang)*100,fy=sy+Math.sin(ang)*100,wr=wrap.getBoundingClientRect();finger.style.left=(fx-wr.left-36)+'px';finger.style.top=(fy-wr.top-36)+'px';finger.style.transform=`rotate(${ang*180/Math.PI+90}deg)`;}requestAnimationFrame(af);})();
+  (function af(){if(!inside){requestAnimationFrame(af);return;}finger.style.display='block';const target=instaSpan||wrap.querySelector('.insta-text');if(target){const lr=target.getBoundingClientRect(),tx=lr.left+lr.width/2,ty=lr.top+lr.height/2,dx=tx-sx,dy=ty-sy,ang=Math.atan2(dy,dx),fx=sx+Math.cos(ang)*100,fy=sy+Math.sin(ang)*100,wr=wrap.getBoundingClientRect();finger.style.left=(fx-wr.left-36)+'px';finger.style.top=(fy-wr.top-36)+'px';finger.style.transform=`rotate(${ang*180/Math.PI+90}deg)`;}requestAnimationFrame(af);})();
 })();
 
-/* ── CASE CAROUSEL ── */
+/* ── CASE CAROUSEL (drift + drag + snap) ── */
 (function(){
-  const cases=[
-    {img:'TELIA_SHL_KN 22-23_COVER.jpg',title:'Telia × SHL',concept:'Brand Emotion i hockeyvärlden',desc:'Telia ville bli en naturlig del av hockeyupplevelsen. Vi byggde ett sponsringsramverk som kopplade varumärket till fan-känslan — säsong efter säsong.',url:'case.html'},
-    {img:'Unibet_NHL_COVER.jpg',title:'Unibet × NHL',concept:'Global liga, lokal känsla',desc:'Att aktivera en global ligarättighet kräver lokal förankring. Vi tog Unibets NHL-partnerskap från logga till levande berättelse för svenska fans.',url:'case.html'},
-    {img:'LYKO_ELLE 23_COVER.jpg',title:'Lyko × ELLE',concept:'Skönhet möter livsstil',desc:'En kampanj i skärningspunkten mellan skönhet och livsstil. Lyko och ELLE — tillsammans skapade vi innehåll som engagerade och konverterade.',url:'case.html'},
-    {img:'LYKO_SKI TEAM_MIN RUTIN_COVER.jpg',title:'Lyko × Ski Team',concept:'Rutin på pisten',desc:'Skidåkning möter skönhetsrutin. Vi producerade content och event runt det svenska skidlandslaget som visade Lykos produkter i sitt naturliga element.',url:'case.html'},
-    {img:'Ajabajacancer_staende.jpg',title:'Ajabaja Cancer',concept:'Kommunikation som träffar',desc:'En kampanj som vände cancersnacket upp och ner. Ajabaja ville nå yngre — vi skapade kommunikation som träffade utan att vara tung.',url:'case.html'},
-    {img:'SEF_cover_4x5.png',title:'SEF',concept:'En liga, ett varumärke',desc:'Svenska Elitfotboll och ett uppdrag att lyfta hela ligans varumärke. Vi skapade ett strategiskt ramverk som samlade klubbar och partners.',url:'case.html'},
-    {img:'Matchkorv_presskonf.png',title:'Matchkorv',concept:'Planerat kaos',desc:'En presskonferens ingen glömmer. Matchkorven blev ett viralt ögonblick — planerat kaos som visade vad ett djärvt eventbegrepp kan åstadkomma.',url:'case.html'}
-  ];
-
+  const viewport=document.getElementById('caseViewport');
   const track=document.getElementById('caseTrack');
-  const vp=document.getElementById('caseViewport');
-  if(!track||!vp)return;
-
-  const CARD_W=290,GAP=14,STEP=CARD_W+GAP;
-  const CRUISE=0.22,EASE_A=0.055,EASE_D=0.08;
-  let speed=0,target=CRUISE,x=0;
-  let flipped=null,hovering=false;
-
-  /* drag / touch state */
-  let drag=false,startX=0,startY=0,lastX=0,vel=0,lastT=0,moved=0,isHoriz=null,wasDrag=false;
-
-  function makeCard(c){
-    const el=document.createElement('div');
-    el.className='case-card';
-    el.innerHTML=`<div class="case-card-inner">
-      <div class="case-front">
-        <img src="${c.img}" alt="${c.title}" draggable="false">
-        <div class="case-front-overlay"></div>
-        <div class="case-front-info"><h3>${c.title}</h3><span class="case-concept">${c.concept}</span></div>
-      </div>
-      <div class="case-back">
-        <h3>${c.title}</h3><p>${c.desc}</p>
-        <button class="case-back-btn">Läs mer →</button>
-      </div>
-    </div>`;
-    el.querySelector('.case-back-btn').addEventListener('click',e=>{e.stopPropagation();location.href=c.url;});
-    return el;
-  }
-
-  [0,1,2].forEach(()=>cases.forEach(c=>track.appendChild(makeCard(c))));
-  const setW=cases.length*STEP;
-  x=-setW;
-  track.style.transform=`translateX(${x}px)`;
-
-  function wrap(){if(x<=-(setW*2))x+=setW;if(x>-setW)x-=setW;}
-
-  function flipCard(card){
-    if(!card)return;
-    if(card.classList.contains('flipped')){
-      card.classList.remove('flipped');flipped=null;
-      if(!hovering)target=CRUISE;
-    } else {
-      if(flipped&&flipped!==card)flipped.classList.remove('flipped');
-      card.classList.add('flipped');card.classList.remove('hovered');
-      flipped=card;target=0;
-    }
-  }
-
-  /* ── DESKTOP MOUSE ── */
-  vp.addEventListener('mouseenter',()=>{hovering=true;target=0;});
-  vp.addEventListener('mouseleave',()=>{
-    hovering=false;
-    if(!flipped&&!drag)target=CRUISE;
-    if(flipped){flipped.classList.remove('flipped');flipped=null;}
-    track.querySelectorAll('.case-card').forEach(c=>c.classList.remove('hovered'));
-  });
-  track.addEventListener('mouseover',e=>{
-    const c=e.target.closest('.case-card');
-    if(!c||drag)return;
-    track.querySelectorAll('.case-card').forEach(d=>d.classList.remove('hovered'));
-    if(!c.classList.contains('flipped'))c.classList.add('hovered');
-  });
-  track.addEventListener('mouseout',e=>{const c=e.target.closest('.case-card');if(c)c.classList.remove('hovered');});
-  track.addEventListener('click',e=>{
-    if(wasDrag)return;
-    if(e.target.closest('.case-back-btn'))return;
-    flipCard(e.target.closest('.case-card'));
-  });
-
-  /* ── MOUSE DRAG ── */
-  track.addEventListener('mousedown',e=>{
-    if(e.button!==0)return;
-    drag=true;wasDrag=false;moved=0;startX=lastX=e.clientX;vel=0;lastT=performance.now();target=0;speed=0;
-  });
-  window.addEventListener('mousemove',e=>{
-    if(!drag)return;
-    const dx=e.clientX-lastX,now=performance.now(),dt=Math.max(now-lastT,1);
-    vel=dx/dt*16;moved+=Math.abs(dx);x+=dx;wrap();
-    track.style.transform=`translateX(${x}px)`;
-    lastX=e.clientX;lastT=now;
-    if(moved>6)wasDrag=true;
-  });
-  window.addEventListener('mouseup',()=>{
-    if(!drag)return;
-    drag=false;
-    if(wasDrag){speed=-vel;target=CRUISE;}
-    else if(!hovering)target=CRUISE;
-    setTimeout(()=>{wasDrag=false;},50);
-  });
-
-  /* ── TOUCH ──
-     Key fix: we track each touch by its identifier so we never lose it.
-     We only commit to horizontal drag once dx > dy, and only fire flip
-     if total movement was tiny (< 8px). */
-  let touchId=null;
-
-  vp.addEventListener('touchstart',e=>{
-    if(touchId!==null)return; /* already tracking */
-    const t=e.changedTouches[0];
-    touchId=t.identifier;
-    drag=true;wasDrag=false;moved=0;isHoriz=null;
-    startX=lastX=t.clientX;startY=t.clientY;
-    vel=0;lastT=performance.now();target=0;speed=0;
-  },{passive:true});
-
-  vp.addEventListener('touchmove',e=>{
-    if(!drag)return;
-    let t=null;
-    for(let i=0;i<e.changedTouches.length;i++){if(e.changedTouches[i].identifier===touchId){t=e.changedTouches[i];break;}}
-    if(!t)return;
-
-    const dx=t.clientX-startX,dy=t.clientY-startY;
-
-    /* Determine direction on first significant move */
-    if(isHoriz===null){
-      if(Math.abs(dx)>6||Math.abs(dy)>6){
-        isHoriz=Math.abs(dx)>=Math.abs(dy);
-      }
-      return; /* wait until direction is clear */
-    }
-
-    if(!isHoriz)return; /* vertical — let page scroll */
-
-    /* Horizontal drag committed */
-    if(e.cancelable)e.preventDefault();
-    const mdx=t.clientX-lastX,now=performance.now(),dt=Math.max(now-lastT,1);
-    vel=mdx/dt*16;moved+=Math.abs(mdx);x+=mdx;wrap();
-    track.style.transform=`translateX(${x}px)`;
-    lastX=t.clientX;lastT=now;
-    if(moved>8)wasDrag=true;
-  },{passive:false});
-
-  vp.addEventListener('touchend',e=>{
-    let t=null;
-    for(let i=0;i<e.changedTouches.length;i++){if(e.changedTouches[i].identifier===touchId){t=e.changedTouches[i];break;}}
-    if(!t)return;
-    touchId=null;
-
-    if(!drag)return;
-    drag=false;
-
-    if(wasDrag){
-      /* Fling */
-      speed=-vel;target=CRUISE;
-    } else {
-      /* TAP — flip the card under the finger */
-      const card=document.elementFromPoint(t.clientX,t.clientY)?.closest('.case-card');
-      if(card)flipCard(card);
-      target=CRUISE;
-    }
-    isHoriz=null;
-    setTimeout(()=>{wasDrag=false;},50);
-  },{passive:true});
-
-  /* cancel if multi-touch */
-  vp.addEventListener('touchcancel',()=>{drag=false;touchId=null;isHoriz=null;target=CRUISE;},{passive:true});
-
-  /* ── ARC EFFECT ── */
-  function arcs(){
-    const vcx=vp.offsetWidth/2;
-    track.querySelectorAll('.case-card').forEach((card,i)=>{
-      if(card.classList.contains('flipped'))return;
-      const cardCx=x+i*STEP+CARD_W/2,d=(cardCx-vcx)/vp.offsetWidth;
-      card.querySelector('.case-card-inner').style.transform=`rotateY(${d*18}deg) translateY(${d*d*60}px) scale(${1-Math.abs(d)*.04})`;
-    });
-  }
-
-  /* ── RENDER LOOP ── */
-  (function loop(){
-    if(!drag){
-      speed+=(target-speed)*(speed<target?EASE_A:EASE_D);
-      x-=speed;wrap();
-      track.style.transform=`translateX(${x}px)`;
-    }
-    arcs();
-    requestAnimationFrame(loop);
-  })();
+  const prevBtn=document.getElementById('case-prev');
+  const nextBtn=document.getElementById('case-next');
+  if(!viewport||!track)return;
+  const GAP=16;
+  const origCards=Array.from(track.querySelectorAll('.case-card'));
+  const N=origCards.length;
+  [...origCards].reverse().forEach(c=>{const cl=c.cloneNode(true);track.prepend(cl);});
+  origCards.forEach(c=>{const cl=c.cloneNode(true);track.append(cl);});
+  const all=Array.from(track.querySelectorAll('.case-card'));
+  let active=N,posX=0,targetX=0,velX=0;
+  let isDragging=false,dragStartX=0,dragStartPos=0,lastDX=0,lastDT=0;
+  let isHovered=false;
+  const DRIFT=.45;
+  function cw(){return all[0].offsetWidth+GAP;}
+  function offsetFor(i){const vw=viewport.offsetWidth,w=all[0].offsetWidth;return-(i*cw()-(vw-w)/2);}
+  function nearest(x){const c=-x+viewport.offsetWidth/2;let b=active,bd=Infinity;all.forEach((_,i)=>{const d=Math.abs(i*cw()+all[0].offsetWidth/2-c);if(d<bd){bd=d;b=i;}});return b;}
+  function teleport(){if(active<N){active+=N;posX-=N*cw();targetX-=N*cw();}else if(active>=N*2){active-=N;posX+=N*cw();targetX+=N*cw();}}
+  function style(){all.forEach((card,i)=>{const dist=Math.abs(i-active);if(dist===0){card.style.transform='scale(1)';card.style.opacity='1';card.style.boxShadow='0 32px 80px rgba(0,0,0,.75)';}else if(dist===1){card.style.transform='scale(0.92)';card.style.opacity='0.55';card.style.boxShadow='none';}else{card.style.transform='scale(0.86)';card.style.opacity='0.3';card.style.boxShadow='none';}const fc=(-posX+i*cw()+all[0].offsetWidth/2)-viewport.offsetWidth/2;const img=card.querySelector('img');if(img)img.style.setProperty('--px',Math.max(-14,Math.min(14,fc*.04)));});}
+  (function loop(){if(!isDragging){if(!isHovered){posX-=DRIFT;targetX=posX;active=nearest(posX);teleport();}else{const d=targetX-posX;posX+=d*.1+velX;velX*=.82;if(Math.abs(d)<.3&&Math.abs(velX)<.1){posX=targetX;velX=0;}}}track.style.transform=`translateX(${posX}px)`;style();requestAnimationFrame(loop);})();
+  function goTo(i){isHovered=true;active=i;targetX=offsetFor(i);velX=0;setTimeout(teleport,620);}
+  viewport.addEventListener('mousemove',e=>{if(isDragging)return;isHovered=true;const vr=viewport.getBoundingClientRect(),mouseX=e.clientX-vr.left-posX;let hit=active;all.forEach((card,i)=>{const l=i*cw(),r=l+all[0].offsetWidth;if(mouseX>=l&&mouseX<=r)hit=i;});active=hit;targetX=posX;});
+  viewport.addEventListener('mouseleave',()=>{isHovered=false;targetX=posX;});
+  prevBtn.addEventListener('click',()=>goTo(active-1));
+  nextBtn.addEventListener('click',()=>goTo(active+1));
+  let touchStartX=0,touchStartY=0,isHorizDrag=false;
+  function pDown(e){isDragging=true;isHovered=true;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;dragStartX=cx;dragStartPos=posX;lastDX=cx;lastDT=performance.now();velX=0;touchStartX=cx;touchStartY=cy;isHorizDrag=false;if(!e.touches)e.preventDefault();}
+  function pMove(e){if(!isDragging)return;const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;if(!isHorizDrag&&e.touches){const dx=Math.abs(cx-touchStartX),dy=Math.abs(cy-touchStartY);if(dy>dx+4)return;if(dx>4)isHorizDrag=true;else return;}if(e.touches&&e.cancelable)e.preventDefault();velX=(cx-lastDX)/Math.max(performance.now()-lastDT,1)*16;lastDX=cx;lastDT=performance.now();posX=dragStartPos+cx-dragStartX;}
+  function pUp(){if(!isDragging)return;isDragging=false;active=velX>4?nearest(posX)-1:velX<-4?nearest(posX)+1:nearest(posX);targetX=offsetFor(active);setTimeout(()=>{velX=0;},300);setTimeout(teleport,620);}
+  track.addEventListener('mousedown',pDown,{passive:false});
+  window.addEventListener('mousemove',pMove);
+  window.addEventListener('mouseup',pUp);
+  track.addEventListener('touchstart',pDown,{passive:true});
+  track.addEventListener('touchmove',pMove,{passive:false});
+  track.addEventListener('touchend',pUp);
+  posX=targetX=offsetFor(N);
+  track.style.transform=`translateX(${posX}px)`;style();
 })();
 </script>
 </body>
