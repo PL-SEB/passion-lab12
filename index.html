@@ -77,24 +77,35 @@ nav.on-pink .nav-cta:hover{background:var(--white);color:var(--black) !important
 .intro-text{font-size:clamp(26px,3.2vw,42px);font-weight:400;line-height:1.2;letter-spacing:-.8px;color:var(--cream);}
 .intro-text .italic{font-family:var(--fd);font-style:italic;font-weight:300;color:var(--pink);}
 
-/* CASE */
-.case-wrap{padding:80px 0 140px;background:var(--black);}
-.case-header{max-width:1400px;margin:0 auto 48px;padding:0 40px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;}
+/* CASE — 3D coverflow */
+.case-wrap{padding:80px 0 160px;background:var(--black);overflow:hidden;}
+.case-header{max-width:1400px;margin:0 auto 32px;padding:0 40px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;}
 .case-eyebrow{font-family:var(--fd);font-style:italic;font-weight:300;font-size:20px;color:var(--orange);margin-bottom:20px;letter-spacing:.3px;}
 .case-title{font-size:clamp(48px,6vw,84px);line-height:.95;letter-spacing:-2px;color:var(--cream);max-width:900px;}
 .case-title .italic{font-family:var(--fd);font-style:italic;font-weight:300;}
 .case-nav{display:flex;gap:8px;}
 .case-nav button{width:48px;height:48px;border-radius:50%;border:1px solid rgba(250,245,235,.14);background:transparent;color:var(--cream);font-size:16px;cursor:pointer;transition:background .2s,border-color .2s;display:flex;align-items:center;justify-content:center;}
 .case-nav button:hover{background:rgba(250,245,235,.06);border-color:rgba(250,245,235,.3);}
-.case-viewport{overflow:hidden;width:100%;touch-action:pan-y;}
-.case-track{display:flex;gap:18px;padding:24px 0 0;will-change:transform;user-select:none;}
-.case-card{flex:0 0 auto;width:clamp(280px,32vw,400px);cursor:pointer;}
-.case-img{width:100%;aspect-ratio:4/5;border-radius:4px;overflow:hidden;background:#111;position:relative;}
-.case-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
-.case-card:hover .case-img img{transform:scale(1.03);}
-.case-meta{padding:16px 2px 0;display:flex;justify-content:space-between;align-items:baseline;gap:16px;}
-.case-client{font-size:15px;font-weight:500;color:var(--cream);}
-.case-tag{font-size:11px;color:rgba(250,245,235,.5);letter-spacing:.5px;}
+
+/* Coverflow stage */
+.case-stage{position:relative;width:100%;height:640px;perspective:1800px;perspective-origin:50% 50%;user-select:none;touch-action:pan-y;}
+.case-track{position:absolute;inset:0;transform-style:preserve-3d;}
+.case-card{position:absolute;top:50%;left:50%;width:min(380px,30vw);height:min(475px,37.5vw);margin-left:min(-190px,-15vw);margin-top:min(-237px,-18.75vw);transform-style:preserve-3d;will-change:transform,opacity;transition:transform .9s cubic-bezier(.22,.61,.36,1),opacity .9s cubic-bezier(.22,.61,.36,1),filter .9s cubic-bezier(.22,.61,.36,1);cursor:pointer;}
+.case-img{width:100%;height:100%;border-radius:8px;overflow:hidden;background:#111;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);transition:box-shadow .9s ease;}
+.case-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.35) 100%);pointer-events:none;}
+.case-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.case-card.is-center .case-img{box-shadow:0 40px 120px rgba(0,0,0,.85),0 0 0 1px rgba(250,179,255,.08);}
+
+/* Meta below center card */
+.case-meta{position:absolute;left:50%;bottom:-72px;transform:translateX(-50%);text-align:center;width:min(380px,30vw);opacity:0;transition:opacity .5s ease .2s;pointer-events:none;}
+.case-card.is-center .case-meta{opacity:1;}
+.case-client{font-size:16px;font-weight:500;color:var(--cream);display:block;margin-bottom:4px;}
+.case-tag{font-size:11px;color:rgba(250,245,235,.5);letter-spacing:.8px;text-transform:uppercase;}
+
+/* Progress indicator */
+.case-progress{display:flex;justify-content:center;gap:8px;margin-top:140px;}
+.case-dot{width:24px;height:2px;background:rgba(250,245,235,.15);transition:background .3s;cursor:pointer;border:none;padding:0;}
+.case-dot.active{background:var(--pink);}
 
 /* TJÄNSTER */
 .services{padding:160px 40px 200px;background:var(--cream);color:var(--black);}
@@ -208,6 +219,9 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
   .feed-quote,.feed-image,.feed-video{grid-column:span 12;}
   .feed-article,.feed-reading{grid-column:span 6;}
   .footer-top{grid-template-columns:1fr 1fr;gap:40px;}
+  .case-stage{height:520px;perspective:1400px;}
+  .case-card{width:min(300px,42vw);height:min(375px,52.5vw);margin-left:min(-150px,-21vw);margin-top:min(-187px,-26.25vw);}
+  .case-meta{width:min(300px,42vw);bottom:-64px;}
 }
 @media(max-width:640px){
   nav{padding:18px 24px;}
@@ -219,7 +233,10 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
   .intro,.services,.feed-wrap,.insta-wrap{padding:80px 24px;}
   .case-wrap{padding:60px 0 100px;}
   .case-header{display:flex;flex-direction:column;align-items:flex-start;gap:28px;margin-bottom:32px;}
-  .case-card{width:76vw;max-width:360px;}
+  .case-stage{height:460px;perspective:1100px;}
+  .case-card{width:min(240px,62vw);height:min(300px,77.5vw);margin-left:min(-120px,-31vw);margin-top:min(-150px,-38.75vw);}
+  .case-meta{width:min(240px,62vw);bottom:-60px;}
+  .case-progress{margin-top:120px;}
   .service-row{padding:28px 0;grid-template-columns:32px 1fr;}
   .service-row:hover{padding-left:8px;padding-right:8px;}
   .service-desc,.service-arrow{display:none;}
@@ -295,17 +312,24 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
       <button id="case-next" aria-label="Nästa">→</button>
     </div>
   </div>
-  <div class="case-viewport" id="caseViewport">
+
+  <div class="case-stage" id="caseStage">
     <div class="case-track" id="caseTrack">
-      <div class="case-card"><div class="case-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div><div class="case-meta"><span class="case-client">Telia × SHL</span><span class="case-tag">Sponsring · 2023</span></div></div>
-      <div class="case-card"><div class="case-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div><div class="case-meta"><span class="case-client">Unibet × NHL</span><span class="case-tag">Sponsring · 2023</span></div></div>
-      <div class="case-card"><div class="case-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div><div class="case-meta"><span class="case-client">Lyko × ELLE</span><span class="case-tag">Reklam · 2023</span></div></div>
-      <div class="case-card"><div class="case-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div><div class="case-meta"><span class="case-client">Lyko × Ski Team</span><span class="case-tag">Event · 2024</span></div></div>
-      <div class="case-card"><div class="case-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja" draggable="false"></div><div class="case-meta"><span class="case-client">Ajabaja Cancer</span><span class="case-tag">Reklam · 2024</span></div></div>
-      <div class="case-card"><div class="case-img"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div><div class="case-meta"><span class="case-client">SEF</span><span class="case-tag">Sponsring · 2024</span></div></div>
-      <div class="case-card"><div class="case-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div><div class="case-meta"><span class="case-client">Matchkorv</span><span class="case-tag">Event · 2025</span></div></div>
+      <div class="case-card" data-client="Telia × SHL" data-tag="Sponsring · 2023"><div class="case-img"><img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Telia SHL" draggable="false"></div></div>
+      <div class="case-card" data-client="Unibet × NHL" data-tag="Sponsring · 2023"><div class="case-img"><img src="Unibet_NHL_COVER.jpg" alt="Unibet NHL" draggable="false"></div></div>
+      <div class="case-card" data-client="Lyko × ELLE" data-tag="Reklam · 2023"><div class="case-img"><img src="LYKO_ELLE 23_COVER.jpg" alt="Lyko Elle" draggable="false"></div></div>
+      <div class="case-card" data-client="Lyko × Ski Team" data-tag="Event · 2024"><div class="case-img"><img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Lyko Ski" draggable="false"></div></div>
+      <div class="case-card" data-client="Ajabaja Cancer" data-tag="Reklam · 2024"><div class="case-img"><img src="Ajabajacancer_staende.jpg" alt="Ajabaja" draggable="false"></div></div>
+      <div class="case-card" data-client="SEF" data-tag="Sponsring · 2024"><div class="case-img"><img src="SEF_cover_4x5.png" alt="SEF" draggable="false"></div></div>
+      <div class="case-card" data-client="Matchkorv" data-tag="Event · 2025"><div class="case-img"><img src="Matchkorv_presskonf.png" alt="Matchkorv" draggable="false"></div></div>
+    </div>
+    <div class="case-meta" id="caseMeta">
+      <span class="case-client" id="caseClient">Telia × SHL</span>
+      <span class="case-tag" id="caseTag">Sponsring · 2023</span>
     </div>
   </div>
+
+  <div class="case-progress" id="caseProgress"></div>
 </div>
 
 <section class="services" id="tjanster">
@@ -523,115 +547,250 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
   })();
 })();
 
-/* CASE CAROUSEL — stripped down: gentle drift, clean drag, no scale/opacity tricks */
+/* CASE COVERFLOW — 3D carousel with slow rotation, hero center, layered depth */
 (function(){
-  const viewport = document.getElementById('caseViewport');
+  const stage = document.getElementById('caseStage');
   const track = document.getElementById('caseTrack');
   const prevBtn = document.getElementById('case-prev');
   const nextBtn = document.getElementById('case-next');
-  if (!viewport || !track) return;
+  const clientEl = document.getElementById('caseClient');
+  const tagEl = document.getElementById('caseTag');
+  const progressEl = document.getElementById('caseProgress');
+  if (!stage || !track) return;
 
-  const GAP = 18;
-  const origCards = Array.from(track.querySelectorAll('.case-card'));
-  const N = origCards.length;
+  const cards = Array.from(track.querySelectorAll('.case-card'));
+  const N = cards.length;
 
-  [...origCards].reverse().forEach(c => track.prepend(c.cloneNode(true)));
-  origCards.forEach(c => track.append(c.cloneNode(true)));
-  const all = Array.from(track.querySelectorAll('.case-card'));
+  /* ── Build progress dots ── */
+  cards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'case-dot';
+    dot.setAttribute('aria-label', `Gå till case ${i+1}`);
+    dot.addEventListener('click', () => { setIndex(i, true); });
+    progressEl.appendChild(dot);
+  });
+  const dots = Array.from(progressEl.children);
 
-  let posX = 0, targetX = 0, velX = 0;
-  let isDragging = false, isHovered = false;
-  let dragStartX = 0, dragStartPos = 0, lastDX = 0, lastDT = 0;
-  let touchStartX = 0, touchStartY = 0, isHorizDrag = false;
-  const DRIFT = .35;
+  /* ── State ──
+     position = continuous float, one unit = one card slot. We use modular
+     arithmetic against N so the carousel loops infinitely in both directions. */
+  let position = 0;          // target position (float, for smoothness)
+  let displayPos = 0;        // eased current position (what we render)
+  let isDragging = false;
+  let dragStartX = 0, dragStartPos = 0, lastDX = 0, lastDT = 0, velocity = 0;
+  let touchStartY = 0, isHorizDrag = null;
+  let userInteracted = false;
+  let lastUserInteraction = 0;
+  let snapTimer = null;
 
-  function cw(){ return all[0].offsetWidth + GAP; }
-  function offsetFor(i){ return -(i * cw() - (viewport.offsetWidth - all[0].offsetWidth) / 2); }
-  function nearest(x){
-    const c = -x + viewport.offsetWidth/2;
-    let b = 0, bd = Infinity;
-    all.forEach((_, i) => {
-      const d = Math.abs(i*cw() + all[0].offsetWidth/2 - c);
-      if (d < bd) { bd = d; b = i; }
+  /* Shortest-path modular difference between two float positions */
+  function shortestDiff(a, b){
+    let d = (a - b) % N;
+    if (d > N/2) d -= N;
+    if (d < -N/2) d += N;
+    return d;
+  }
+
+  /* ── Per-card layout ──
+     For each card, compute signed distance from the current displayPos,
+     then map that to a 3D transform along a shallow arc. */
+  function layout(){
+    cards.forEach((card, i) => {
+      const dist = shortestDiff(i, displayPos);   // -N/2 .. N/2
+      const abs = Math.abs(dist);
+
+      /* Medium-intensity coverflow tuning:
+         - 20deg per-step rotation (clamped)
+         - horizontal crowding so cards stack behind the hero
+         - subtle arc: cards further out sit slightly higher (bowing effect) */
+      const rotY = Math.max(-32, Math.min(32, -dist * 20));
+      const tx = dist * 220;                       // crowd toward center
+      const tz = -Math.min(abs * 200, 600);        // push back in depth
+      const ty = abs * abs * 6;                    // tiny arc bow
+      const scale = abs === 0 ? 1 : Math.max(0.55, 1 - abs * 0.18);
+      const opacity = abs === 0 ? 1 : Math.max(0.15, 1 - abs * 0.32);
+      const blur = abs > 2 ? Math.min((abs - 2) * 2, 6) : 0;
+      const zIndex = 100 - Math.round(abs * 10);
+
+      card.style.transform = `translate3d(${tx}px, ${ty}px, ${tz}px) rotateY(${rotY}deg) scale(${scale})`;
+      card.style.opacity = opacity;
+      card.style.filter = blur > 0 ? `blur(${blur}px)` : '';
+      card.style.zIndex = zIndex;
+
+      const isCenter = abs < 0.5;
+      card.classList.toggle('is-center', isCenter);
     });
-    return b;
-  }
-  function teleport(){
-    const active = nearest(posX);
-    if (active < N) { posX -= N * cw(); targetX -= N * cw(); }
-    else if (active >= N*2) { posX += N * cw(); targetX += N * cw(); }
   }
 
-  (function loop(){
-    if (!isDragging) {
-      if (!isHovered) {
-        posX -= DRIFT;
-        targetX = posX;
-        teleport();
-      } else {
-        const d = targetX - posX;
-        posX += d * .1 + velX;
-        velX *= .82;
-        if (Math.abs(d) < .3 && Math.abs(velX) < .1) { posX = targetX; velX = 0; }
-      }
+  /* Update meta text + active dot based on currently-centered card */
+  function updateMeta(){
+    const idx = ((Math.round(displayPos) % N) + N) % N;
+    const card = cards[idx];
+    if (card && clientEl && tagEl) {
+      const c = card.dataset.client, t = card.dataset.tag;
+      if (clientEl.textContent !== c) clientEl.textContent = c;
+      if (tagEl.textContent !== t) tagEl.textContent = t;
     }
-    track.style.transform = `translateX(${posX}px)`;
-    requestAnimationFrame(loop);
-  })();
-
-  function goTo(i){
-    isHovered = true;
-    targetX = offsetFor(i);
-    velX = 0;
-    setTimeout(teleport, 620);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
   }
 
-  viewport.addEventListener('mouseenter', () => { isHovered = true; targetX = posX; });
-  viewport.addEventListener('mouseleave', () => { isHovered = false; targetX = posX; });
-  prevBtn.addEventListener('click', () => goTo(nearest(posX) - 1));
-  nextBtn.addEventListener('click', () => goTo(nearest(posX) + 1));
+  /* ── Snap to nearest integer position after interaction ── */
+  function snap(){
+    position = Math.round(position);
+  }
+
+  function setIndex(i, immediate){
+    /* Choose shortest path to target i from current position */
+    const current = position;
+    let target = i;
+    const diff = shortestDiff(target, current);
+    position = current + diff;
+    if (immediate) displayPos = position;
+    userInteracted = true;
+    lastUserInteraction = performance.now();
+  }
+
+  /* ── Render loop ──
+     - If user not interacting for 3s, drift slowly.
+     - Otherwise, ease displayPos toward position. */
+  const DRIFT_SPEED = 0.0018;     // units per ms (slow rotation — user asked for this)
+  const IDLE_THRESHOLD = 3000;    // ms of no interaction before drift resumes
+  let lastFrame = performance.now();
+
+  function frame(now){
+    const dt = Math.min(now - lastFrame, 50);
+    lastFrame = now;
+
+    const idle = !isDragging && (now - lastUserInteraction) > IDLE_THRESHOLD;
+
+    if (idle) {
+      /* Slow cinematic drift forward */
+      position += DRIFT_SPEED * dt;
+      displayPos = position;
+    } else if (!isDragging) {
+      /* Ease toward target position */
+      const diff = position - displayPos;
+      if (Math.abs(diff) > 0.0005) {
+        displayPos += diff * 0.09;
+      } else {
+        displayPos = position;
+      }
+    } else {
+      /* Dragging — displayPos follows position 1:1 */
+      displayPos = position;
+    }
+
+    layout();
+    updateMeta();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ── Navigation controls ── */
+  prevBtn.addEventListener('click', () => { setIndex(Math.round(position) - 1); });
+  nextBtn.addEventListener('click', () => { setIndex(Math.round(position) + 1); });
+
+  /* ── Click a side card → make it center ── */
+  cards.forEach((card, i) => {
+    card.addEventListener('click', e => {
+      if (Math.abs(parseFloat(card.dataset.dragMoved || 0)) > 6) return; /* ignore if it was a drag */
+      const centerIdx = ((Math.round(position) % N) + N) % N;
+      if (i !== centerIdx) setIndex(i);
+    });
+  });
+
+  /* ── Drag / swipe ──
+     We convert horizontal pixel drag into position units based on card slot width. */
+  function slotPx(){
+    /* Approximate horizontal distance between adjacent card centers on screen.
+       Matches the 220px translateX from layout() — feels right for dragging. */
+    return 240;
+  }
 
   function pDown(e){
-    isDragging = true; isHovered = true;
+    isDragging = true;
+    userInteracted = true;
+    lastUserInteraction = performance.now();
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const cy = e.touches ? e.touches[0].clientY : e.clientY;
-    dragStartX = cx; dragStartPos = posX; lastDX = cx; lastDT = performance.now();
-    velX = 0; touchStartX = cx; touchStartY = cy; isHorizDrag = false;
+    dragStartX = lastDX = cx;
+    touchStartY = cy;
+    dragStartPos = position;
+    lastDT = performance.now();
+    velocity = 0;
+    isHorizDrag = e.touches ? null : true;   /* for mouse, always horizontal */
+    cards.forEach(c => c.dataset.dragMoved = '0');
     if (!e.touches) e.preventDefault();
   }
+
   function pMove(e){
     if (!isDragging) return;
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const cy = e.touches ? e.touches[0].clientY : e.clientY;
-    if (!isHorizDrag && e.touches) {
-      const dx = Math.abs(cx - touchStartX), dy = Math.abs(cy - touchStartY);
-      if (dy > dx + 4) return;
+
+    if (isHorizDrag === null) {
+      /* Touch: decide direction once enough movement has happened */
+      const dx = Math.abs(cx - dragStartX);
+      const dy = Math.abs(cy - touchStartY);
+      if (dy > dx + 4) { isDragging = false; return; }  /* vertical scroll wins */
       if (dx > 4) isHorizDrag = true;
       else return;
     }
+
     if (e.touches && e.cancelable) e.preventDefault();
-    velX = (cx - lastDX) / Math.max(performance.now() - lastDT, 1) * 16;
-    lastDX = cx; lastDT = performance.now();
-    posX = dragStartPos + cx - dragStartX;
+
+    const now = performance.now();
+    const dxStep = cx - lastDX;
+    const dt = Math.max(now - lastDT, 1);
+    velocity = (dxStep / dt);   /* px per ms */
+    lastDX = cx;
+    lastDT = now;
+
+    /* Total drag translates to position units */
+    const totalDx = cx - dragStartX;
+    position = dragStartPos - totalDx / slotPx();
+
+    /* Remember drag magnitude for click-vs-drag detection */
+    cards.forEach(c => c.dataset.dragMoved = String(Math.abs(totalDx)));
   }
+
   function pUp(){
     if (!isDragging) return;
     isDragging = false;
-    const active = velX > 4 ? nearest(posX) - 1 : velX < -4 ? nearest(posX) + 1 : nearest(posX);
-    targetX = offsetFor(active);
-    setTimeout(() => { velX = 0; }, 300);
-    setTimeout(teleport, 620);
+    lastUserInteraction = performance.now();
+
+    /* Fling: add velocity-based offset before snapping */
+    const fling = -velocity * 0.28;  /* tuned: feels natural */
+    position += fling;
+
+    /* Snap to nearest integer */
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(() => { snap(); }, 50);
+
+    isHorizDrag = null;
   }
 
-  track.addEventListener('mousedown', pDown, { passive: false });
+  stage.addEventListener('mousedown', pDown, { passive: false });
   window.addEventListener('mousemove', pMove);
   window.addEventListener('mouseup', pUp);
-  track.addEventListener('touchstart', pDown, { passive: true });
-  track.addEventListener('touchmove', pMove, { passive: false });
-  track.addEventListener('touchend', pUp);
+  stage.addEventListener('touchstart', pDown, { passive: true });
+  stage.addEventListener('touchmove', pMove, { passive: false });
+  stage.addEventListener('touchend', pUp);
+  stage.addEventListener('touchcancel', pUp);
 
-  posX = targetX = offsetFor(N);
-  track.style.transform = `translateX(${posX}px)`;
+  /* ── Pause drift on hover / resume when cursor leaves ── */
+  stage.addEventListener('mouseenter', () => { userInteracted = true; lastUserInteraction = performance.now(); });
+  stage.addEventListener('mousemove', () => { if (!isDragging) { userInteracted = true; lastUserInteraction = performance.now(); } });
+
+  /* ── Keyboard nav ── */
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') setIndex(Math.round(position) - 1);
+    if (e.key === 'ArrowRight') setIndex(Math.round(position) + 1);
+  });
+
+  /* Initial render */
+  layout();
+  updateMeta();
 })();
 </script>
 </body>
