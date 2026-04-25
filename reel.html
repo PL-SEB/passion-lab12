@@ -355,7 +355,7 @@ const players = [];
 
 /* ── Fetch Showcase videos from Vimeo API ──────────────── */
 async function fetchShowcase() {
-  const url = `https://api.vimeo.com/albums/${SHOWCASE_ID}/videos?per_page=50&fields=uri,name,privacy,embed`;
+  const url = `https://api.vimeo.com/albums/${SHOWCASE_ID}/videos?per_page=50&fields=uri,name,privacy,embed&t=${Date.now()}`;
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${TOKEN}` }
   });
