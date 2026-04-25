@@ -4,87 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Passion Lab — Reel</title>
+<link rel="icon" type="image/png" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/prr7bwp.css">
 <script src="https://player.vimeo.com/api/player.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black:     #080808;
-  --white:     #f5f0eb;
-  --pink:      #fab3ff;
-  --pink-dim:  rgba(250,179,255,.18);
-  --ui-fade:   rgba(245,240,235,.5);
-  --font-sans: 'DM Sans', sans-serif;
-  --font-serif:'DM Serif Display', serif;
-  --safe-b:    env(safe-area-inset-bottom, 0px);
+  --black:    #080808;
+  --white:    #f5f0eb;
+  --pink:     #fab3ff;
+  --pink-dim: rgba(250,179,255,.18);
+  --ui-fade:  rgba(245,240,235,.5);
+  --safe-b:   env(safe-area-inset-bottom, 0px);
+  --font:     'Inter Tight', sans-serif;
+  --fd:       'ivypresto-display', serif;
 }
 
 html, body {
   height: 100%; width: 100%;
   overflow: hidden;
   background: var(--black);
-  font-family: var(--font-sans);
+  font-family: var(--font);
   -webkit-font-smoothing: antialiased;
   color: var(--white);
-  cursor: none;
   user-select: none;
   -webkit-user-select: none;
 }
 a { color: inherit; text-decoration: none; }
-
-/* ── CURSOR ────────────────────────────────────── */
-#cursor {
-  width: 8px; height: 8px;
-  background: var(--pink);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: width .3s cubic-bezier(.34,1.56,.64,1),
-              height .3s cubic-bezier(.34,1.56,.64,1);
-  mix-blend-mode: difference;
-}
-#cursor.big { width: 42px; height: 42px; }
-@media (pointer: coarse) {
-  #cursor { display: none; }
-  body { cursor: auto; }
-  * { cursor: auto !important; }
-}
-
-/* ── LOADER ────────────────────────────────────── */
-#loader {
-  position: fixed; inset: 0;
-  background: var(--black);
-  z-index: 400;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 22px;
-  transition: opacity .9s ease, visibility .9s;
-}
-#loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-logo {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 24px;
-  color: var(--white);
-  opacity: .45;
-  letter-spacing: .3px;
-}
-.loader-track {
-  width: 110px; height: 1px;
-  background: rgba(245,240,235,.08);
-  border-radius: 1px;
-  overflow: hidden;
-}
-.loader-fill {
-  height: 100%; width: 0%;
-  background: var(--pink);
-  box-shadow: 0 0 6px var(--pink);
-  transition: width .35s ease;
-}
 
 /* ── SIDE PANELS ───────────────────────────────── */
 #side-l, #side-r {
@@ -117,10 +67,10 @@ a { color: inherit; text-decoration: none; }
   position: absolute; inset: 0; z-index: 10;
   pointer-events: none;
   background: linear-gradient(to bottom,
-    rgba(8,8,8,.70) 0%,
-    transparent 22%,
-    transparent 60%,
-    rgba(8,8,8,.85) 100%);
+    rgba(8,8,8,.65) 0%,
+    transparent 20%,
+    transparent 62%,
+    rgba(8,8,8,.88) 100%);
 }
 
 /* ── SLOTS ─────────────────────────────────────── */
@@ -159,89 +109,71 @@ a { color: inherit; text-decoration: none; }
 /* Logo */
 #logo {
   position: absolute;
-  top: 26px; left: 24px;
-  display: flex; align-items: center; gap: 9px;
+  top: 24px; left: 24px;
   pointer-events: auto;
+  display: block;
+  line-height: 0;
 }
-.logo-mark svg { width: 20px; height: 20px; display: block; }
-.logo-word {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 2.8px; text-transform: uppercase;
-  color: rgba(245,240,235,.75);
+#logo img {
+  height: 26px;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: .85;
 }
-
-/* Counter */
-#counter {
-  position: absolute;
-  top: 28px; right: 24px;
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 1.5px;
-  color: var(--ui-fade);
-  font-variant-numeric: tabular-nums;
-}
-#counter em { font-style: normal; color: var(--white); font-weight: 500; }
-
-/* Dot stack */
-#dots {
-  position: absolute;
-  top: 50%; right: 16px;
-  transform: translateY(-50%);
-  display: flex; flex-direction: column;
-  align-items: center; gap: 5px;
-}
-.dot {
-  width: 3px; height: 8px;
-  border-radius: 2px;
-  background: rgba(245,240,235,.18);
-  transition: height .35s cubic-bezier(.16,1,.3,1), background .35s;
-}
-.dot.is-done   { background: rgba(245,240,235,.45); }
-.dot.is-active { height: 28px; background: var(--white); }
 
 /* Caption */
 #caption {
   position: absolute;
-  bottom: calc(54px + var(--safe-b));
-  left: 24px; right: 72px;
+  bottom: calc(60px + var(--safe-b));
+  left: 24px; right: 24px;
   transform: translateY(10px);
   opacity: 0;
   transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s;
 }
 #caption.show { transform: none; opacity: 1; }
+
 #cap-client {
-  font-family: var(--font-serif);
+  font-family: var(--fd);
   font-style: italic;
-  font-size: clamp(20px, 5.5vw, 30px);
-  font-weight: 400;
-  line-height: 1.1;
+  font-weight: 300;
+  font-size: clamp(22px, 5.5vw, 32px);
+  line-height: 1.08;
   color: var(--white);
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   letter-spacing: -.2px;
 }
 #cap-type {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 2.2px;
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   color: var(--pink);
 }
 
-/* Mute */
+/* Mute button */
 #mute {
   position: absolute;
-  bottom: calc(52px + var(--safe-b)); right: 20px;
-  width: 38px; height: 38px;
+  bottom: calc(58px + var(--safe-b));
+  right: 20px;
+  width: 40px; height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(245,240,235,.18);
-  background: rgba(8,8,8,.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245,240,235,.22);
+  background: rgba(8,8,8,.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex; align-items: center; justify-content: center;
-  cursor: none; pointer-events: auto;
-  transition: border-color .25s, background .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
+  cursor: pointer;
+  pointer-events: auto;
   color: var(--white);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color .25s, background .25s,
+              transform .3s cubic-bezier(.34,1.56,.64,1);
 }
-#mute:hover { border-color: var(--pink); background: var(--pink-dim); transform: scale(1.1); }
-#mute svg { width: 15px; height: 15px; }
+#mute:hover  { border-color: var(--pink); background: var(--pink-dim); transform: scale(1.08); }
+#mute:active { transform: scale(.94); }
+#mute svg   { width: 15px; height: 15px; pointer-events: none; display: block; }
 
 /* Progress bar */
 #pbar {
@@ -272,7 +204,7 @@ a { color: inherit; text-decoration: none; }
   opacity: 0;
 }
 #pause-ind.show { transform: translate(-50%,-50%) scale(1); opacity: 1; }
-#pause-ind svg { width: 26px; height: 26px; margin-left: 3px; }
+#pause-ind svg  { width: 26px; height: 26px; margin-left: 3px; }
 
 /* Swipe hint */
 #hint {
@@ -281,7 +213,7 @@ a { color: inherit; text-decoration: none; }
   transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   pointer-events: none; z-index: 22;
-  animation: hintAnim 4.2s ease 1.8s both;
+  animation: hintAnim 4.2s ease 2s both;
 }
 @keyframes hintAnim {
   0%   { opacity:0; transform:translateX(-50%) translateY(10px); }
@@ -292,8 +224,11 @@ a { color: inherit; text-decoration: none; }
 .hint-ch { animation: bounce 1.1s ease infinite; color: var(--ui-fade); }
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 .hint-lbl {
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 2.5px; text-transform: uppercase;
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
   color: var(--ui-fade);
 }
 
@@ -323,15 +258,17 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   color: var(--white); font-size: 15px;
   display: flex; align-items: center; justify-content: center;
-  cursor: none;
-  transition: background .25s, border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
+  cursor: pointer; outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .25s, border-color .25s,
+              transform .3s cubic-bezier(.34,1.56,.64,1);
 }
 .narr:hover { background: var(--pink-dim); border-color: var(--pink); transform: scale(1.1); }
 
-/* Grain */
+/* Grain overlay */
 #grain {
   position: fixed; inset: 0; pointer-events: none; z-index: 300;
-  opacity: .028;
+  opacity: .03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
@@ -340,12 +277,6 @@ a { color: inherit; text-decoration: none; }
 <body>
 
 <div id="grain"></div>
-<div id="cursor"></div>
-
-<div id="loader">
-  <div class="loader-logo">Passion Lab</div>
-  <div class="loader-track"><div class="loader-fill" id="ldr-fill"></div></div>
-</div>
 
 <div id="side-l"></div>
 <div id="side-r"></div>
@@ -358,38 +289,31 @@ a { color: inherit; text-decoration: none; }
 <div id="feed">
   <div id="stage">
 
-    <!-- slots injected by JS -->
+    <!-- Video slots injected by JS -->
 
     <div id="ui">
 
       <a id="logo" href="/">
-        <div class="logo-mark">
-          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2"  width="3" height="16" rx="1.5" fill="white"/>
-            <rect x="2" y="2"  width="10" height="3"  rx="1.5" fill="white"/>
-            <rect x="2" y="9"  width="8"  height="3"  rx="1.5" fill="white"/>
-            <rect x="13" y="11" width="3" height="7"  rx="1.5" fill="#fab3ff"/>
-            <rect x="13" y="15" width="5" height="3"  rx="1.5" fill="#fab3ff"/>
-          </svg>
-        </div>
-        <span class="logo-word">Passion Lab</span>
+        <img src="/logo.png" alt="Passion Lab">
       </a>
-
-      <div id="counter"><em id="cnt-cur">1</em> <span style="opacity:.3">/</span> <span id="cnt-tot">8</span></div>
-
-      <div id="dots"></div>
 
       <div id="caption">
         <div id="cap-client"></div>
         <div id="cap-type"></div>
       </div>
 
-      <button id="mute" aria-label="Ljud av/på">
-        <svg id="ico-m" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <button id="mute" type="button" aria-label="Ljud av/på">
+        <!-- Muted -->
+        <svg id="ico-m" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+          <line x1="23" y1="9"  x2="17" y2="15"/>
+          <line x1="17" y1="9"  x2="23" y2="15"/>
         </svg>
-        <svg id="ico-s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <!-- Sound on -->
+        <svg id="ico-s" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+             style="display:none">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
           <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
@@ -397,19 +321,25 @@ a { color: inherit; text-decoration: none; }
       </button>
 
       <div id="hint">
-        <svg class="hint-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+        <svg class="hint-ch" width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line x1="12" y1="19" x2="12" y2="5"/>
+          <polyline points="5 12 12 5 19 12"/>
         </svg>
         <span class="hint-lbl">Swipe to navigate</span>
       </div>
 
+      <!-- Tap zones live inside UI so they respect the faded state,
+           but they stay pointer-events:auto always -->
       <div id="tap-prev"></div>
       <div id="tap-next"></div>
 
     </div><!-- /ui -->
 
     <div id="pause-ind">
-      <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <svg viewBox="0 0 24 24" fill="white">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
     </div>
 
     <div id="pbar"><div id="pbar-fill"></div></div>
@@ -418,30 +348,27 @@ a { color: inherit; text-decoration: none; }
 </div>
 
 <script>
-/* ─── DATA ──────────────────────────────────────────────────
-   To add a video: add an entry to this array.
-   id   = Vimeo video ID (from the iframe src URL)
-   hash = the h= parameter (private video token)
-   ─────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   VIDEO DATA — edit this array to add/remove clips
+   id   = Vimeo video ID
+   hash = private link token (the h= parameter)
+   ═══════════════════════════════════════════════════════════ */
 const VIDEOS = [
-  { id:'1186559246', hash:'611177b8ad', client:'SOK',           type:'Den Olympiska Svensken' },
+  { id:'1186559246', hash:'611177b8ad', client:'SOK',            type:'Den Olympiska Svensken' },
   { id:'1186559297', hash:'c0bf74d34b', client:'ICA × Skiteam', type:'Borta bra men hemma smakar bäst' },
-  { id:'1186559150', hash:'5b53b2a8ee', client:'ICA Stammis',   type:'The Ark' },
-  { id:'1186559171', hash:'8fe2780ecd', client:'All Star',       type:'Reklamfilm med Foppa' },
+  { id:'1186559150', hash:'5b53b2a8ee', client:'ICA Stammis',    type:'The Ark' },
+  { id:'1186559171', hash:'8fe2780ecd', client:'All Star',        type:'Reklamfilm med Foppa' },
   { id:'1186559191', hash:'192a6c9d95', client:'ICA × Skiteam', type:'Snabba frågor med Skiteam' },
-  { id:'1186559224', hash:'d00528e653', client:'ICA',            type:'Boost your game — Fruit Reboot' },
-  { id:'1186559263', hash:'e3d81c3d46', client:'ICA',            type:'Fruit Reboot — Apple' },
-  { id:'1186559282', hash:'4c297d5751', client:'ICA Stammis',   type:'Darin' },
+  { id:'1186559224', hash:'d00528e653', client:'ICA',             type:'Boost your game — Fruit Reboot' },
+  { id:'1186559263', hash:'e3d81c3d46', client:'ICA',             type:'Fruit Reboot — Apple' },
+  { id:'1186559282', hash:'4c297d5751', client:'ICA Stammis',    type:'Darin' },
 ];
 
 const N = VIDEOS.length;
 
-/* ─── ELEMENTS ──────────────────────────────────────────── */
+/* ── DOM refs ──────────────────────────────────────────── */
 const stage    = document.getElementById('stage');
 const ui       = document.getElementById('ui');
-const dotsWrap = document.getElementById('dots');
-const cntCur   = document.getElementById('cnt-cur');
-const cntTot   = document.getElementById('cnt-tot');
 const caption  = document.getElementById('caption');
 const capCli   = document.getElementById('cap-client');
 const capTyp   = document.getElementById('cap-type');
@@ -450,55 +377,34 @@ const icoM     = document.getElementById('ico-m');
 const icoS     = document.getElementById('ico-s');
 const pbarFill = document.getElementById('pbar-fill');
 const pauseInd = document.getElementById('pause-ind');
-const loader   = document.getElementById('loader');
-const ldrFill  = document.getElementById('ldr-fill');
-const curEl    = document.getElementById('cursor');
 const btnUp    = document.getElementById('btn-up');
 const btnDn    = document.getElementById('btn-dn');
 const tapPrev  = document.getElementById('tap-prev');
 const tapNext  = document.getElementById('tap-next');
 
-/* ─── STATE ─────────────────────────────────────────────── */
+/* ── State ─────────────────────────────────────────────── */
 let current   = 0;
-let isMuted   = true;
+let isMuted   = true;   // autoplay requires muted start
 let isPaused  = false;
 let animating = false;
 let uiTimer   = null;
 let progTimer = null;
 
-/* ─── BUILD DOTS ─────────────────────────────────────────── */
-cntTot.textContent = N;
-const dots = VIDEOS.map(() => {
-  const d = document.createElement('div');
-  d.className = 'dot';
-  dotsWrap.appendChild(d);
-  return d;
-});
-
-/* ─── BUILD SLOTS + PLAYERS ─────────────────────────────── */
-/*
-  VIMEO EMBED PARAMETERS EXPLAINED:
-  - autoplay=1    → browser will attempt autoplay (works muted only)
-  - muted=1       → required for autoplay without user gesture
-  - controls=0    → hides Vimeo's own UI (we show ours)
-  - loop=0        → we handle looping/advancing ourselves via SDK
-  - autopause=0   → don't pause when another Vimeo video loads
-  - background=0  → keep full SDK control (background=1 disables it)
-  - playsinline=1 → prevent iOS fullscreen takeover
-*/
+/* ── Build Vimeo slots ─────────────────────────────────── */
 const slots   = [];
 const players = [];
 
 VIDEOS.forEach((v, i) => {
-  const slot = document.createElement('div');
+  const slot   = document.createElement('div');
   slot.className = 'slot is-hidden';
 
   const iframe = document.createElement('iframe');
   iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
   iframe.setAttribute('allowfullscreen', '');
   iframe.setAttribute('frameborder', '0');
+  iframe.setAttribute('title', `${v.client} — ${v.type}`);
 
-  const p = new URLSearchParams({
+  const q = new URLSearchParams({
     h:           v.hash,
     autoplay:    i === 0 ? '1' : '0',
     muted:       '1',
@@ -513,7 +419,7 @@ VIDEOS.forEach((v, i) => {
     badge:       '0',
     app_id:      '58479',
   });
-  iframe.src = `https://player.vimeo.com/video/${v.id}?${p}`;
+  iframe.src = `https://player.vimeo.com/video/${v.id}?${q}`;
 
   slot.appendChild(iframe);
   stage.insertBefore(slot, ui);
@@ -523,67 +429,60 @@ VIDEOS.forEach((v, i) => {
   players.push(player);
 });
 
-/* ─── VIMEO: auto-advance on end ────────────────────────── */
+/* Auto-advance when video ends */
 players.forEach((p, i) => {
   p.on('ended', () => { if (i === current) navigate('next'); });
 });
 
-/* ─── CURSOR ─────────────────────────────────────────────── */
-document.addEventListener('mousemove', e => {
-  curEl.style.left = e.clientX + 'px';
-  curEl.style.top  = e.clientY + 'px';
-});
-document.querySelectorAll('button, a').forEach(el => {
-  el.addEventListener('mouseenter', () => curEl.classList.add('big'));
-  el.addEventListener('mouseleave', () => curEl.classList.remove('big'));
-});
-
-/* ─── PROGRESS ───────────────────────────────────────────── */
+/* ── Progress bar ──────────────────────────────────────── */
 function startProgress() {
   stopProgress();
-  function tick() {
+  (function tick() {
     if (!players[current]) return;
-    players[current].getCurrentTime().then(t => {
-      players[current].getDuration().then(d => {
-        if (d > 0) pbarFill.style.width = (t / d * 100) + '%';
-        progTimer = setTimeout(tick, 250);
-      }).catch(() => {});
+    Promise.all([
+      players[current].getCurrentTime(),
+      players[current].getDuration(),
+    ]).then(([t, d]) => {
+      if (d > 0) pbarFill.style.width = (t / d * 100) + '%';
+      progTimer = setTimeout(tick, 250);
     }).catch(() => {});
-  }
-  tick();
+  })();
 }
 function stopProgress() { clearTimeout(progTimer); }
 
-/* ─── DOTS & CAPTION ─────────────────────────────────────── */
-function updateDots(idx) {
-  dots.forEach((d, i) => {
-    d.className = 'dot';
-    if (i < idx)   d.classList.add('is-done');
-    if (i === idx) d.classList.add('is-active');
-  });
-}
+/* ── Caption ───────────────────────────────────────────── */
 function updateCaption(idx) {
   caption.classList.remove('show');
   setTimeout(() => {
     capCli.textContent = VIDEOS[idx].client;
     capTyp.textContent = VIDEOS[idx].type;
     caption.classList.add('show');
-  }, 180);
+  }, 160);
 }
 
-/* ─── MUTE ───────────────────────────────────────────────── */
+/* ── Mute ──────────────────────────────────────────────── */
 function syncMuteUI() {
   icoM.style.display = isMuted ? '' : 'none';
   icoS.style.display = isMuted ? 'none' : '';
 }
-muteBtn.addEventListener('click', e => {
-  e.stopPropagation();
-  isMuted = !isMuted;
+
+function setMute(val) {
+  isMuted = val;
+  // setVolume is more reliable cross-browser than setMuted
   players[current].setVolume(isMuted ? 0 : 1).catch(() => {});
   syncMuteUI();
-});
+}
 
-/* ─── PLAY/PAUSE ─────────────────────────────────────────── */
+/* Use both click and touchend to handle all devices reliably */
+function onMuteTap(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  setMute(!isMuted);
+}
+muteBtn.addEventListener('click',    onMuteTap);
+muteBtn.addEventListener('touchend', onMuteTap);
+
+/* ── Play / Pause ──────────────────────────────────────── */
 let pauseHideT;
 function togglePause() {
   isPaused = !isPaused;
@@ -599,16 +498,17 @@ function togglePause() {
   }
 }
 
-/* ─── UI AUTO-HIDE ───────────────────────────────────────── */
+/* ── UI auto-hide ──────────────────────────────────────── */
 function nudgeUI() {
   ui.classList.remove('faded');
   clearTimeout(uiTimer);
+  // Keep mute button always reachable — only hide after inactivity
   if (!isPaused) uiTimer = setTimeout(() => ui.classList.add('faded'), 3500);
 }
-document.addEventListener('mousemove', nudgeUI);
+document.addEventListener('mousemove',  nudgeUI);
 document.addEventListener('touchstart', nudgeUI, { passive: true });
 
-/* ─── NAVIGATE ───────────────────────────────────────────── */
+/* ── Navigate ──────────────────────────────────────────── */
 function navigate(dir) {
   if (animating) return;
   animating = true;
@@ -620,64 +520,60 @@ function navigate(dir) {
     ? (current + 1) % N
     : (current - 1 + N) % N;
 
-  // Stop & reset previous
   players[prev].pause().catch(() => {});
   players[prev].setCurrentTime(0).catch(() => {});
 
-  // Animate previous out
   slots[prev].classList.remove('is-current');
   slots[prev].classList.add('is-behind', dir === 'next' ? 'anim-eu' : 'anim-ed');
 
-  // Animate next in
   slots[next].classList.remove('is-hidden', 'is-behind');
   slots[next].classList.add('is-current', dir === 'next' ? 'anim-su' : 'anim-sd');
 
   current = next;
-  cntCur.textContent = current + 1;
-  updateDots(current);
+  isPaused = false;
+  pauseInd.classList.remove('show');
   updateCaption(current);
 
-  // Play
   players[current].setVolume(isMuted ? 0 : 1).catch(() => {});
   players[current].play().catch(() => {});
   startProgress();
+  nudgeUI();
 
   setTimeout(() => {
     slots[prev].classList.remove('is-behind', 'anim-eu', 'anim-ed');
     slots[prev].classList.add('is-hidden');
     slots[next].classList.remove('anim-su', 'anim-sd');
     animating = false;
-
-    // Warm up upcoming
+    // Warm up the next-next video
     const upcoming = dir === 'next' ? (current + 1) % N : (current - 1 + N) % N;
     players[upcoming].getDuration().catch(() => {});
-  }, 600);
+  }, 640);
 }
 
-/* ─── TAP ZONES ─────────────────────────────────────────── */
+/* ── Tap zones ─────────────────────────────────────────── */
 tapPrev.addEventListener('click', () => navigate('prev'));
 tapNext.addEventListener('click', () => navigate('next'));
 
-/* Center tap = play/pause */
+/* Centre tap → play/pause */
 stage.addEventListener('click', e => {
   if (e.target.closest('button, a, #tap-prev, #tap-next')) return;
   const y = e.clientY / window.innerHeight;
   if (y >= 0.28 && y <= 0.68) togglePause();
 });
 
-/* ─── DESKTOP BUTTONS ────────────────────────────────────── */
+/* ── Desktop arrows ────────────────────────────────────── */
 btnUp && btnUp.addEventListener('click', () => navigate('prev'));
 btnDn && btnDn.addEventListener('click', () => navigate('next'));
 
-/* ─── KEYBOARD ───────────────────────────────────────────── */
+/* ── Keyboard ──────────────────────────────────────────── */
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight') navigate('next');
   if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  navigate('prev');
   if (e.key === ' ') { e.preventDefault(); togglePause(); }
-  if (e.key.toLowerCase() === 'm') muteBtn.click();
+  if (e.key.toLowerCase() === 'm') setMute(!isMuted);
 });
 
-/* ─── WHEEL ─────────────────────────────────────────────── */
+/* ── Scroll wheel ──────────────────────────────────────── */
 let wheelLock = false;
 window.addEventListener('wheel', e => {
   if (wheelLock) return;
@@ -686,7 +582,7 @@ window.addEventListener('wheel', e => {
   setTimeout(() => wheelLock = false, 750);
 }, { passive: true });
 
-/* ─── SWIPE ─────────────────────────────────────────────── */
+/* ── Touch swipe ───────────────────────────────────────── */
 let ty0 = 0, tx0 = 0, tt0 = 0;
 stage.addEventListener('touchstart', e => {
   ty0 = e.touches[0].clientY;
@@ -698,8 +594,8 @@ stage.addEventListener('touchend', e => {
   const dy = ty0 - e.changedTouches[0].clientY;
   const dx = Math.abs(tx0 - e.changedTouches[0].clientX);
   const dt = Date.now() - tt0;
-  if (dx > Math.abs(dy) * .9) return; // horizontal — ignore
-  if (dt < 220 && Math.abs(dy) < 12) {
+  if (dx > Math.abs(dy) * .9) return;           // horizontal — ignore
+  if (dt < 220 && Math.abs(dy) < 12) {           // quick tap
     const y = ty0 / window.innerHeight;
     if (y >= 0.28 && y <= 0.68) togglePause();
     return;
@@ -707,34 +603,15 @@ stage.addEventListener('touchend', e => {
   if (Math.abs(dy) > 35) navigate(dy > 0 ? 'next' : 'prev');
 }, { passive: true });
 
-/* ─── LOADER ─────────────────────────────────────────────── */
-let ldrPct = 0;
-const ldrInt = setInterval(() => {
-  ldrPct = Math.min(ldrPct + Math.random() * 20, 88);
-  ldrFill.style.width = ldrPct + '%';
-}, 160);
-
-/* ─── INIT ───────────────────────────────────────────────── */
-function init() {
+/* ── Init ──────────────────────────────────────────────── */
+setTimeout(() => {
   slots[0].classList.remove('is-hidden');
   slots[0].classList.add('is-current');
-  updateDots(0);
   updateCaption(0);
-
-  players[0].on('play', () => {
-    clearInterval(ldrInt);
-    ldrFill.style.width = '100%';
-    setTimeout(() => loader.classList.add('gone'), 450);
-    startProgress();
-  });
-
-  // Fallback loader hide
-  setTimeout(() => loader.classList.add('gone'), 6000);
+  startProgress();
   nudgeUI();
-}
-
-// Give Vimeo SDK a moment to attach
-setTimeout(init, 300);
+  if (players[1]) players[1].getDuration().catch(() => {}); // warm up slot 1
+}, 300);
 </script>
 </body>
 </html>
