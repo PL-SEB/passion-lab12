@@ -7,964 +7,734 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://player.vimeo.com/api/player.js"></script>
 <style>
-  /* ─── RESET & BASE ─────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --black: #080808;
-    --white: #f5f0eb;
-    --pink:  #fab3ff;
-    --pink-dim: rgba(250,179,255,.18);
-    --pink-glow: rgba(250,179,255,.08);
-    --ui-fade: rgba(245,240,235,.55);
-    --font-sans: 'DM Sans', sans-serif;
-    --font-serif: 'DM Serif Display', serif;
-    --progress-h: 2px;
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-  }
+:root {
+  --black:     #080808;
+  --white:     #f5f0eb;
+  --pink:      #fab3ff;
+  --pink-dim:  rgba(250,179,255,.18);
+  --ui-fade:   rgba(245,240,235,.5);
+  --font-sans: 'DM Sans', sans-serif;
+  --font-serif:'DM Serif Display', serif;
+  --safe-b:    env(safe-area-inset-bottom, 0px);
+}
 
-  html, body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    background: var(--black);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    color: var(--white);
-    cursor: none;
-    user-select: none;
-  }
+html, body {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  background: var(--black);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  color: var(--white);
+  cursor: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+a { color: inherit; text-decoration: none; }
 
-  /* ─── CUSTOM CURSOR (desktop only) ─────────────────── */
-  #cursor {
-    width: 8px; height: 8px;
-    background: var(--pink);
-    border-radius: 50%;
+/* ── CURSOR ────────────────────────────────────── */
+#cursor {
+  width: 8px; height: 8px;
+  background: var(--pink);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .3s cubic-bezier(.34,1.56,.64,1),
+              height .3s cubic-bezier(.34,1.56,.64,1);
+  mix-blend-mode: difference;
+}
+#cursor.big { width: 42px; height: 42px; }
+@media (pointer: coarse) {
+  #cursor { display: none; }
+  body { cursor: auto; }
+  * { cursor: auto !important; }
+}
+
+/* ── LOADER ────────────────────────────────────── */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--black);
+  z-index: 400;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 22px;
+  transition: opacity .9s ease, visibility .9s;
+}
+#loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-logo {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 24px;
+  color: var(--white);
+  opacity: .45;
+  letter-spacing: .3px;
+}
+.loader-track {
+  width: 110px; height: 1px;
+  background: rgba(245,240,235,.08);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.loader-fill {
+  height: 100%; width: 0%;
+  background: var(--pink);
+  box-shadow: 0 0 6px var(--pink);
+  transition: width .35s ease;
+}
+
+/* ── SIDE PANELS ───────────────────────────────── */
+#side-l, #side-r {
+  display: none;
+  position: fixed; top: 0; bottom: 0;
+  background: var(--black);
+  z-index: 50;
+}
+@media (min-width: 560px) {
+  #side-l { display: block; left: 0;  width: calc((100vw - min(100vw, calc(100vh * 9 / 16))) / 2); }
+  #side-r { display: block; right: 0; width: calc((100vw - min(100vw, calc(100vh * 9 / 16))) / 2); }
+}
+
+/* ── FEED / STAGE ──────────────────────────────── */
+#feed {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position: relative;
+  width: 100%; height: 100%;
+  max-width: min(100vw, calc(100vh * 9 / 16));
+  overflow: hidden;
+  background: var(--black);
+}
+
+/* Cinematic vignette */
+#stage::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgba(8,8,8,.70) 0%,
+    transparent 22%,
+    transparent 60%,
+    rgba(8,8,8,.85) 100%);
+}
+
+/* ── SLOTS ─────────────────────────────────────── */
+.slot {
+  position: absolute; inset: 0;
+  background: var(--black);
+  will-change: transform, opacity;
+}
+.slot iframe {
+  width: 100%; height: 100%;
+  border: none; display: block;
+  pointer-events: none;
+}
+.slot.is-current { opacity: 1; z-index: 3; }
+.slot.is-behind  { opacity: 0; z-index: 2; pointer-events: none; }
+.slot.is-hidden  { opacity: 0; z-index: 1; visibility: hidden; }
+
+@keyframes slideUp   { from{transform:translateY(5%);opacity:0} to{transform:none;opacity:1} }
+@keyframes slideDown { from{transform:translateY(-5%);opacity:0} to{transform:none;opacity:1} }
+@keyframes exitUp    { from{transform:none;opacity:1} to{transform:translateY(-4%);opacity:0} }
+@keyframes exitDown  { from{transform:none;opacity:1} to{transform:translateY(4%);opacity:0} }
+.anim-su { animation: slideUp   .55s cubic-bezier(.16,1,.3,1) both; }
+.anim-sd { animation: slideDown .55s cubic-bezier(.16,1,.3,1) both; }
+.anim-eu { animation: exitUp    .42s cubic-bezier(.4,0,1,1) both; }
+.anim-ed { animation: exitDown  .42s cubic-bezier(.4,0,1,1) both; }
+
+/* ── UI LAYER ──────────────────────────────────── */
+#ui {
+  position: absolute; inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+#ui.faded { opacity: 0; }
+
+/* Logo */
+#logo {
+  position: absolute;
+  top: 26px; left: 24px;
+  display: flex; align-items: center; gap: 9px;
+  pointer-events: auto;
+}
+.logo-mark svg { width: 20px; height: 20px; display: block; }
+.logo-word {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 2.8px; text-transform: uppercase;
+  color: rgba(245,240,235,.75);
+}
+
+/* Counter */
+#counter {
+  position: absolute;
+  top: 28px; right: 24px;
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 1.5px;
+  color: var(--ui-fade);
+  font-variant-numeric: tabular-nums;
+}
+#counter em { font-style: normal; color: var(--white); font-weight: 500; }
+
+/* Dot stack */
+#dots {
+  position: absolute;
+  top: 50%; right: 16px;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 5px;
+}
+.dot {
+  width: 3px; height: 8px;
+  border-radius: 2px;
+  background: rgba(245,240,235,.18);
+  transition: height .35s cubic-bezier(.16,1,.3,1), background .35s;
+}
+.dot.is-done   { background: rgba(245,240,235,.45); }
+.dot.is-active { height: 28px; background: var(--white); }
+
+/* Caption */
+#caption {
+  position: absolute;
+  bottom: calc(54px + var(--safe-b));
+  left: 24px; right: 72px;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s;
+}
+#caption.show { transform: none; opacity: 1; }
+#cap-client {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(20px, 5.5vw, 30px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 7px;
+  letter-spacing: -.2px;
+}
+#cap-type {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+
+/* Mute */
+#mute {
+  position: absolute;
+  bottom: calc(52px + var(--safe-b)); right: 20px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,240,235,.18);
+  background: rgba(8,8,8,.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  cursor: none; pointer-events: auto;
+  transition: border-color .25s, background .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
+  color: var(--white);
+}
+#mute:hover { border-color: var(--pink); background: var(--pink-dim); transform: scale(1.1); }
+#mute svg { width: 15px; height: 15px; }
+
+/* Progress bar */
+#pbar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: rgba(245,240,235,.08); z-index: 30;
+}
+#pbar-fill {
+  height: 100%; width: 0%;
+  background: var(--pink);
+  box-shadow: 0 0 8px var(--pink);
+  transition: width .28s linear;
+}
+
+/* Pause indicator */
+#pause-ind {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) scale(0);
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  background: rgba(8,8,8,.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(245,240,235,.18);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 22; pointer-events: none;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+  opacity: 0;
+}
+#pause-ind.show { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+#pause-ind svg { width: 26px; height: 26px; margin-left: 3px; }
+
+/* Swipe hint */
+#hint {
+  position: absolute;
+  bottom: calc(110px + var(--safe-b)); left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  pointer-events: none; z-index: 22;
+  animation: hintAnim 4.2s ease 1.8s both;
+}
+@keyframes hintAnim {
+  0%   { opacity:0; transform:translateX(-50%) translateY(10px); }
+  15%  { opacity:1; transform:translateX(-50%) translateY(0); }
+  75%  { opacity:1; transform:translateX(-50%) translateY(0); }
+  100% { opacity:0; transform:translateX(-50%) translateY(-10px); }
+}
+.hint-ch { animation: bounce 1.1s ease infinite; color: var(--ui-fade); }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+.hint-lbl {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--ui-fade);
+}
+
+/* Tap zones */
+#tap-prev, #tap-next {
+  position: absolute; left: 0; right: 0;
+  z-index: 15; pointer-events: auto;
+}
+#tap-prev { top: 0; height: 30%; }
+#tap-next { bottom: 0; height: 45%; }
+
+/* Desktop nav */
+#nav { display: none; }
+@media (pointer: fine) and (min-width: 560px) {
+  #nav {
+    display: flex; flex-direction: column; gap: 10px;
     position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: width .3s cubic-bezier(.34,1.56,.64,1),
-                height .3s cubic-bezier(.34,1.56,.64,1),
-                opacity .3s;
-    mix-blend-mode: difference;
+    right: calc((100vw - min(100vw, calc(100vh * 9/16))) / 2 + 18px);
+    top: 50%; transform: translateY(-50%);
+    z-index: 60; pointer-events: auto;
   }
-  #cursor.expand { width: 44px; height: 44px; }
-  @media (pointer: coarse) { #cursor { display: none; } body { cursor: auto; } }
+}
+.narr {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid rgba(245,240,235,.14);
+  background: rgba(8,8,8,.6);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: var(--white); font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: background .25s, border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.narr:hover { background: var(--pink-dim); border-color: var(--pink); transform: scale(1.1); }
 
-  /* ─── FEED CONTAINER ────────────────────────────────── */
-  #feed {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--black);
-  }
-
-  /* ─── VIDEO SLOT (9:16 centered) ────────────────────── */
-  #stage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  /* On desktop, enforce 9:16 max */
-  @media (min-width: 600px) {
-    #stage {
-      max-width: calc(100vh * 9/16);
-      margin: 0 auto;
-    }
-  }
-
-  /* ─── VIDEO ELEMENT ─────────────────────────────────── */
-  .reel-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background: var(--black);
-    will-change: transform, opacity;
-    pointer-events: none;
-  }
-
-  /* States */
-  .reel-video.state-current  { z-index: 2; opacity: 1; }
-  .reel-video.state-next     { z-index: 1; opacity: 0; }
-  .reel-video.state-prev     { z-index: 1; opacity: 0; }
-  .reel-video.state-hidden   { z-index: 0; opacity: 0; display: none; }
-
-  /* Transition in */
-  .reel-video.anim-in {
-    animation: slideIn .5s cubic-bezier(.16,1,.3,1) both;
-  }
-  .reel-video.anim-out-up {
-    animation: slideOutUp .45s cubic-bezier(.4,0,1,1) both;
-  }
-  .reel-video.anim-out-down {
-    animation: slideOutDown .45s cubic-bezier(.4,0,1,1) both;
-  }
-
-  @keyframes slideIn {
-    from { transform: translateY(6%); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
-  }
-  @keyframes slideInDown {
-    from { transform: translateY(-6%); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
-  }
-  @keyframes slideOutUp {
-    from { transform: translateY(0); opacity: 1; }
-    to   { transform: translateY(-5%); opacity: 0; }
-  }
-  @keyframes slideOutDown {
-    from { transform: translateY(0); opacity: 1; }
-    to   { transform: translateY(5%); opacity: 0; }
-  }
-
-  /* Subtle vignette on top of video */
-  #stage::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to bottom,
-        rgba(8,8,8,.55) 0%,
-        transparent 22%,
-        transparent 65%,
-        rgba(8,8,8,.72) 100%);
-    z-index: 10;
-    pointer-events: none;
-  }
-
-  /* Dark side bars on desktop */
-  #side-left, #side-right {
-    display: none;
-  }
-  @media (min-width: 600px) {
-    #side-left, #side-right {
-      display: block;
-      position: fixed;
-      top: 0; bottom: 0;
-      width: calc((100vw - 100vh * 9/16) / 2);
-      background: var(--black);
-      z-index: 50;
-    }
-    #side-left  { left: 0; }
-    #side-right { right: 0; }
-  }
-
-  /* ─── UI LAYER ───────────────────────────────────────── */
-  #ui {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    pointer-events: none;
-    transition: opacity .6s ease;
-  }
-  #ui.hidden { opacity: 0; }
-
-  /* LOGO — top left */
-  #logo {
-    position: absolute;
-    top: 28px;
-    left: 28px;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    pointer-events: auto;
-  }
-
-  /* Logo mark — P made of two rectangles */
-  .logo-mark {
-    width: 22px;
-    height: 22px;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .logo-mark svg { width: 100%; height: 100%; }
-
-  .logo-wordmark {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--white);
-    opacity: .8;
-  }
-
-  /* REEL COUNTER — top right */
-  #counter {
-    position: absolute;
-    top: 30px;
-    right: 28px;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 1.5px;
-    color: var(--ui-fade);
-    font-variant-numeric: tabular-nums;
-  }
-  #counter .cur-num {
-    color: var(--white);
-    font-weight: 500;
-  }
-
-  /* CAPTION — bottom left */
-  #caption {
-    position: absolute;
-    bottom: calc(56px + var(--safe-bottom));
-    left: 28px;
-    right: 80px;
-    transform: translateY(8px);
-    opacity: 0;
-    transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .5s;
-  }
-  #caption.visible {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  #caption-client {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: clamp(22px, 5vw, 28px);
-    font-weight: 400;
-    color: var(--white);
-    line-height: 1.1;
-    margin-bottom: 6px;
-    letter-spacing: -.2px;
-  }
-  #caption-type {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--pink);
-    opacity: .85;
-  }
-
-  /* PROGRESS BAR STACK — right side */
-  #progress-stack {
-    position: absolute;
-    top: 50%;
-    right: 18px;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: center;
-  }
-
-  .prog-dot {
-    width: 3px;
-    border-radius: 2px;
-    background: rgba(245,240,235,.2);
-    transition: height .3s cubic-bezier(.16,1,.3,1), background .3s;
-    flex-shrink: 0;
-  }
-  .prog-dot.active {
-    background: var(--white);
-    height: 28px !important;
-  }
-  .prog-dot.done {
-    background: rgba(245,240,235,.55);
-  }
-
-  /* VIDEO PROGRESS LINE — very bottom */
-  #video-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--progress-h);
-    background: rgba(245,240,235,.1);
-    z-index: 30;
-    overflow: hidden;
-  }
-  #video-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--pink);
-    transition: width .25s linear;
-    box-shadow: 0 0 8px var(--pink);
-  }
-
-  /* NAV ARROWS (desktop) */
-  #nav-arrows {
-    display: none;
-  }
-  @media (pointer: fine) and (min-width: 600px) {
-    #nav-arrows {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: fixed;
-      right: calc((100vw - 100vh * 9/16) / 2 + 20px);
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 60;
-      pointer-events: auto;
-    }
-    .nav-arrow {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      border: 1px solid rgba(245,240,235,.15);
-      background: rgba(8,8,8,.6);
-      backdrop-filter: blur(12px);
-      color: var(--white);
-      font-size: 16px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: none;
-      transition: background .25s, border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
-    }
-    .nav-arrow:hover {
-      background: var(--pink-dim);
-      border-color: var(--pink);
-      transform: scale(1.12);
-    }
-  }
-
-  /* MUTE BUTTON */
-  #mute-btn {
-    position: absolute;
-    bottom: calc(56px + var(--safe-bottom));
-    right: 22px;
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    border: 1px solid rgba(245,240,235,.2);
-    background: rgba(8,8,8,.45);
-    backdrop-filter: blur(10px);
-    display: flex; align-items: center; justify-content: center;
-    cursor: none;
-    pointer-events: auto;
-    transition: border-color .25s, background .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
-    color: var(--white);
-  }
-  #mute-btn:hover { border-color: var(--pink); background: var(--pink-dim); transform: scale(1.1); }
-  #mute-btn svg { width: 16px; height: 16px; }
-
-  /* PLAY ICON (shown on pause) */
-  #play-indicator {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%) scale(0);
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    background: rgba(8,8,8,.5);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(245,240,235,.2);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 25;
-    pointer-events: none;
-    transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s;
-    opacity: 0;
-  }
-  #play-indicator.show {
-    transform: translate(-50%,-50%) scale(1);
-    opacity: 1;
-  }
-  #play-indicator svg { width: 28px; height: 28px; margin-left: 4px; }
-
-  /* SWIPE HINT (first load) */
-  #swipe-hint {
-    position: absolute;
-    bottom: calc(100px + var(--safe-bottom));
-    left: 50%;
-    transform: translateX(-50%) translateY(0);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 25;
-    animation: hintFade 3.5s ease 1.2s both;
-  }
-  @keyframes hintFade {
-    0%   { opacity: 0; transform: translateX(-50%) translateY(8px); }
-    20%  { opacity: 1; transform: translateX(-50%) translateY(0); }
-    70%  { opacity: 1; transform: translateX(-50%) translateY(0); }
-    100% { opacity: 0; transform: translateX(-50%) translateY(-12px); }
-  }
-  .hint-arrow {
-    animation: hintBounce 1s ease infinite;
-  }
-  @keyframes hintBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-  .hint-text {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--ui-fade);
-    font-weight: 400;
-  }
-
-  /* BUFFERING SPINNER */
-  #buffer-ring {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    z-index: 26;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .4s;
-  }
-  #buffer-ring.show { opacity: 1; }
-  #buffer-ring svg {
-    width: 36px; height: 36px;
-    animation: spin 1s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* GRAIN overlay for cinematic texture */
-  #grain {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    pointer-events: none;
-    opacity: .028;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 200px 200px;
-  }
-
-  /* CLICK-ZONES for tap-to-navigate (mobile) */
-  #tap-prev {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 35%;
-    z-index: 15;
-    pointer-events: auto;
-  }
-  #tap-next {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 45%;
-    z-index: 15;
-    pointer-events: auto;
-  }
-
-  /* ─── LOADING SCREEN ─────────────────────────────────── */
-  #loader {
-    position: fixed;
-    inset: 0;
-    background: var(--black);
-    z-index: 300;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity .8s ease, visibility .8s;
-  }
-  #loader.gone { opacity: 0; visibility: hidden; }
-  .loader-wordmark {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 22px;
-    color: var(--white);
-    opacity: .4;
-    animation: loaderPulse 1.2s ease infinite alternate;
-    letter-spacing: .5px;
-  }
-  @keyframes loaderPulse { from { opacity: .25; } to { opacity: .65; } }
+/* Grain */
+#grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 300;
+  opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
 </style>
 </head>
 <body>
 
-<!-- Grain texture -->
 <div id="grain"></div>
-
-<!-- Custom cursor -->
 <div id="cursor"></div>
 
-<!-- Loading screen -->
-<div id="loader"><span class="loader-wordmark">Passion Lab</span></div>
-
-<!-- Desktop side panels -->
-<div id="side-left"></div>
-<div id="side-right"></div>
-
-<!-- Desktop nav arrows -->
-<div id="nav-arrows">
-  <button class="nav-arrow" id="btn-prev" aria-label="Föregående">↑</button>
-  <button class="nav-arrow" id="btn-next" aria-label="Nästa">↓</button>
+<div id="loader">
+  <div class="loader-logo">Passion Lab</div>
+  <div class="loader-track"><div class="loader-fill" id="ldr-fill"></div></div>
 </div>
 
-<!-- Main feed -->
+<div id="side-l"></div>
+<div id="side-r"></div>
+
+<div id="nav">
+  <button class="narr" id="btn-up" aria-label="Föregående">↑</button>
+  <button class="narr" id="btn-dn" aria-label="Nästa">↓</button>
+</div>
+
 <div id="feed">
   <div id="stage">
 
-    <!-- Videos injected by JS -->
+    <!-- slots injected by JS -->
 
-    <!-- UI layer -->
     <div id="ui">
 
-      <!-- Logo -->
-      <div id="logo">
+      <a id="logo" href="/">
         <div class="logo-mark">
-          <!-- Simple PL mark — two lines forming a minimal monogram -->
-          <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="3" width="3" height="16" rx="1.5" fill="white"/>
-            <rect x="3" y="3" width="11" height="3" rx="1.5" fill="white"/>
-            <rect x="3" y="10" width="9" height="3" rx="1.5" fill="white"/>
-            <rect x="14" y="12" width="3" height="7" rx="1.5" fill="#fab3ff"/>
-            <rect x="14" y="16" width="5" height="3" rx="1.5" fill="#fab3ff"/>
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2"  width="3" height="16" rx="1.5" fill="white"/>
+            <rect x="2" y="2"  width="10" height="3"  rx="1.5" fill="white"/>
+            <rect x="2" y="9"  width="8"  height="3"  rx="1.5" fill="white"/>
+            <rect x="13" y="11" width="3" height="7"  rx="1.5" fill="#fab3ff"/>
+            <rect x="13" y="15" width="5" height="3"  rx="1.5" fill="#fab3ff"/>
           </svg>
         </div>
-        <span class="logo-wordmark">Passion Lab</span>
-      </div>
+        <span class="logo-word">Passion Lab</span>
+      </a>
 
-      <!-- Counter -->
-      <div id="counter">
-        <span class="cur-num" id="cnt-cur">1</span>
-        <span style="opacity:.35"> / </span>
-        <span id="cnt-total">7</span>
-      </div>
+      <div id="counter"><em id="cnt-cur">1</em> <span style="opacity:.3">/</span> <span id="cnt-tot">8</span></div>
 
-      <!-- Progress dot stack -->
-      <div id="progress-stack"></div>
+      <div id="dots"></div>
 
-      <!-- Caption -->
       <div id="caption">
-        <div id="caption-client">–</div>
-        <div id="caption-type">–</div>
+        <div id="cap-client"></div>
+        <div id="cap-type"></div>
       </div>
 
-      <!-- Mute button -->
-      <button id="mute-btn" aria-label="Ljud">
-        <!-- Muted icon (default since autoplay requires mute) -->
-        <svg id="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <button id="mute" aria-label="Ljud av/på">
+        <svg id="ico-m" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
           <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
         </svg>
-        <svg id="icon-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <svg id="ico-s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
         </svg>
       </button>
 
-      <!-- Swipe hint -->
-      <div id="swipe-hint">
-        <svg class="hint-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(245,240,235,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-        <span class="hint-text">Swipe to navigate</span>
+      <div id="hint">
+        <svg class="hint-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+        </svg>
+        <span class="hint-lbl">Swipe to navigate</span>
       </div>
+
+      <div id="tap-prev"></div>
+      <div id="tap-next"></div>
 
     </div><!-- /ui -->
 
-    <!-- Play indicator -->
-    <div id="play-indicator">
+    <div id="pause-ind">
       <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
     </div>
 
-    <!-- Buffer ring -->
-    <div id="buffer-ring">
-      <svg viewBox="0 0 36 36" fill="none">
-        <circle cx="18" cy="18" r="15" stroke="rgba(245,240,235,.12)" stroke-width="2"/>
-        <path d="M18 3 A15 15 0 0 1 33 18" stroke="var(--pink)" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    </div>
-
-    <!-- Tap zones -->
-    <div id="tap-prev"></div>
-    <div id="tap-next"></div>
-
-    <!-- Progress bar -->
-    <div id="video-progress">
-      <div id="video-progress-fill"></div>
-    </div>
+    <div id="pbar"><div id="pbar-fill"></div></div>
 
   </div><!-- /stage -->
-</div><!-- /feed -->
+</div>
 
 <script>
-/* ============================================================
-   PASSION LAB — REEL FEED
-   ============================================================
+/* ─── DATA ──────────────────────────────────────────────────
+   To add a video: add an entry to this array.
+   id   = Vimeo video ID (from the iframe src URL)
+   hash = the h= parameter (private video token)
+   ─────────────────────────────────────────────────────────── */
+const VIDEOS = [
+  { id:'1186559246', hash:'611177b8ad', client:'SOK',           type:'Den Olympiska Svensken' },
+  { id:'1186559297', hash:'c0bf74d34b', client:'ICA × Skiteam', type:'Borta bra men hemma smakar bäst' },
+  { id:'1186559150', hash:'5b53b2a8ee', client:'ICA Stammis',   type:'The Ark' },
+  { id:'1186559171', hash:'8fe2780ecd', client:'All Star',       type:'Reklamfilm med Foppa' },
+  { id:'1186559191', hash:'192a6c9d95', client:'ICA × Skiteam', type:'Snabba frågor med Skiteam' },
+  { id:'1186559224', hash:'d00528e653', client:'ICA',            type:'Boost your game — Fruit Reboot' },
+  { id:'1186559263', hash:'e3d81c3d46', client:'ICA',            type:'Fruit Reboot — Apple' },
+  { id:'1186559282', hash:'4c297d5751', client:'ICA Stammis',   type:'Darin' },
+];
 
-   VIDEO SOURCE GUIDE
-   ──────────────────
-   Replace the `src` values below with your actual video URLs.
+const N = VIDEOS.length;
 
-   RECOMMENDED HOSTING OPTIONS (ranked):
-   ──────────────────────────────────────
-   1. VIMEO DIRECT (best for production)
-      - Upload via Vimeo, set video to "Unlisted"
-      - Get direct .mp4 link from Vimeo's API or inspect element
-      - Format: https://player.vimeo.com/progressive_redirect/...
-      - Pros: fast CDN, great quality, easy to swap
-      - Autoplay: works muted on all browsers
+/* ─── ELEMENTS ──────────────────────────────────────────── */
+const stage    = document.getElementById('stage');
+const ui       = document.getElementById('ui');
+const dotsWrap = document.getElementById('dots');
+const cntCur   = document.getElementById('cnt-cur');
+const cntTot   = document.getElementById('cnt-tot');
+const caption  = document.getElementById('caption');
+const capCli   = document.getElementById('cap-client');
+const capTyp   = document.getElementById('cap-type');
+const muteBtn  = document.getElementById('mute');
+const icoM     = document.getElementById('ico-m');
+const icoS     = document.getElementById('ico-s');
+const pbarFill = document.getElementById('pbar-fill');
+const pauseInd = document.getElementById('pause-ind');
+const loader   = document.getElementById('loader');
+const ldrFill  = document.getElementById('ldr-fill');
+const curEl    = document.getElementById('cursor');
+const btnUp    = document.getElementById('btn-up');
+const btnDn    = document.getElementById('btn-dn');
+const tapPrev  = document.getElementById('tap-prev');
+const tapNext  = document.getElementById('tap-next');
 
-   2. CLOUDFLARE STREAM (if you want free bandwidth)
-      - Free 1000 min/month, HLS streaming
-      - Good mobile support
+/* ─── STATE ─────────────────────────────────────────────── */
+let current   = 0;
+let isMuted   = true;
+let isPaused  = false;
+let animating = false;
+let uiTimer   = null;
+let progTimer = null;
 
-   3. GITHUB REPO / PUBLIC FOLDER (for testing only)
-      - Fine for <100MB per file during dev
-      - Not for production — slow, bandwidth limits
+/* ─── BUILD DOTS ─────────────────────────────────────────── */
+cntTot.textContent = N;
+const dots = VIDEOS.map(() => {
+  const d = document.createElement('div');
+  d.className = 'dot';
+  dotsWrap.appendChild(d);
+  return d;
+});
 
-   CURRENT SETUP: demo videos using free Vimeo direct links
-   (replace with your own below)
-   ============================================================ */
+/* ─── BUILD SLOTS + PLAYERS ─────────────────────────────── */
+/*
+  VIMEO EMBED PARAMETERS EXPLAINED:
+  - autoplay=1    → browser will attempt autoplay (works muted only)
+  - muted=1       → required for autoplay without user gesture
+  - controls=0    → hides Vimeo's own UI (we show ours)
+  - loop=0        → we handle looping/advancing ourselves via SDK
+  - autopause=0   → don't pause when another Vimeo video loads
+  - background=0  → keep full SDK control (background=1 disables it)
+  - playsinline=1 → prevent iOS fullscreen takeover
+*/
+const slots   = [];
+const players = [];
 
-  const VIDEOS = [
-    {
-      src: 'https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609',
-      client: 'Telia × SHL',
-      type: 'Sponsring',
-    },
-    {
-      // Vimeo free sample — replace with Unibet NHL
-      src: 'https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609',
-      client: 'Unibet × NHL',
-      type: 'Sponsring',
-    },
-    {
-      src: 'https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609',
-      client: 'Lyko × ELLE',
-      type: 'Reklam',
-    },
-    {
-      src: 'https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609',
-      client: 'Lyko × Ski Team',
-      type: 'Event',
-    },
-    {
-      src: 'https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609',
-      client: 'Ajabaja Cancer',
-      type: 'Reklam',
-    },
-  ];
+VIDEOS.forEach((v, i) => {
+  const slot = document.createElement('div');
+  slot.className = 'slot is-hidden';
 
-  /* ── STATE ─────────────────────────────────────────── */
-  let current   = 0;
-  let muted     = true;
-  let paused    = false;
-  let animating = false;
-  const N       = VIDEOS.length;
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('frameborder', '0');
 
-  /* ── ELEMENTS ──────────────────────────────────────── */
-  const stage    = document.getElementById('stage');
-  const ui       = document.getElementById('ui');
-  const counter  = document.getElementById('cnt-cur');
-  const total    = document.getElementById('cnt-total');
-  const capClient= document.getElementById('caption-client');
-  const capType  = document.getElementById('caption-type');
-  const caption  = document.getElementById('caption');
-  const fill     = document.getElementById('video-progress-fill');
-  const muteBtn  = document.getElementById('mute-btn');
-  const iconMuted= document.getElementById('icon-muted');
-  const iconSound= document.getElementById('icon-sound');
-  const playInd  = document.getElementById('play-indicator');
-  const bufRing  = document.getElementById('buffer-ring');
-  const progStack= document.getElementById('progress-stack');
-  const loader   = document.getElementById('loader');
-  const tapPrev  = document.getElementById('tap-prev');
-  const tapNext  = document.getElementById('tap-next');
-  const btnPrev  = document.getElementById('btn-prev');
-  const btnNext  = document.getElementById('btn-next');
-  const cur      = document.getElementById('cursor');
+  const p = new URLSearchParams({
+    h:           v.hash,
+    autoplay:    i === 0 ? '1' : '0',
+    muted:       '1',
+    controls:    '0',
+    loop:        '0',
+    autopause:   '0',
+    background:  '0',
+    playsinline: '1',
+    title:       '0',
+    byline:      '0',
+    portrait:    '0',
+    badge:       '0',
+    app_id:      '58479',
+  });
+  iframe.src = `https://player.vimeo.com/video/${v.id}?${p}`;
 
-  /* ── BUILD PROGRESS DOTS ───────────────────────────── */
-  total.textContent = N;
-  const dots = [];
-  VIDEOS.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'prog-dot';
-    d.style.height = '8px';
-    progStack.appendChild(d);
-    dots.push(d);
+  slot.appendChild(iframe);
+  stage.insertBefore(slot, ui);
+  slots.push(slot);
+
+  const player = new Vimeo.Player(iframe);
+  players.push(player);
+});
+
+/* ─── VIMEO: auto-advance on end ────────────────────────── */
+players.forEach((p, i) => {
+  p.on('ended', () => { if (i === current) navigate('next'); });
+});
+
+/* ─── CURSOR ─────────────────────────────────────────────── */
+document.addEventListener('mousemove', e => {
+  curEl.style.left = e.clientX + 'px';
+  curEl.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('button, a').forEach(el => {
+  el.addEventListener('mouseenter', () => curEl.classList.add('big'));
+  el.addEventListener('mouseleave', () => curEl.classList.remove('big'));
+});
+
+/* ─── PROGRESS ───────────────────────────────────────────── */
+function startProgress() {
+  stopProgress();
+  function tick() {
+    if (!players[current]) return;
+    players[current].getCurrentTime().then(t => {
+      players[current].getDuration().then(d => {
+        if (d > 0) pbarFill.style.width = (t / d * 100) + '%';
+        progTimer = setTimeout(tick, 250);
+      }).catch(() => {});
+    }).catch(() => {});
+  }
+  tick();
+}
+function stopProgress() { clearTimeout(progTimer); }
+
+/* ─── DOTS & CAPTION ─────────────────────────────────────── */
+function updateDots(idx) {
+  dots.forEach((d, i) => {
+    d.className = 'dot';
+    if (i < idx)   d.classList.add('is-done');
+    if (i === idx) d.classList.add('is-active');
+  });
+}
+function updateCaption(idx) {
+  caption.classList.remove('show');
+  setTimeout(() => {
+    capCli.textContent = VIDEOS[idx].client;
+    capTyp.textContent = VIDEOS[idx].type;
+    caption.classList.add('show');
+  }, 180);
+}
+
+/* ─── MUTE ───────────────────────────────────────────────── */
+function syncMuteUI() {
+  icoM.style.display = isMuted ? '' : 'none';
+  icoS.style.display = isMuted ? 'none' : '';
+}
+muteBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  isMuted = !isMuted;
+  players[current].setVolume(isMuted ? 0 : 1).catch(() => {});
+  syncMuteUI();
+});
+
+/* ─── PLAY/PAUSE ─────────────────────────────────────────── */
+let pauseHideT;
+function togglePause() {
+  isPaused = !isPaused;
+  if (isPaused) {
+    players[current].pause().catch(() => {});
+    stopProgress();
+    pauseInd.classList.add('show');
+  } else {
+    players[current].play().catch(() => {});
+    startProgress();
+    clearTimeout(pauseHideT);
+    pauseHideT = setTimeout(() => pauseInd.classList.remove('show'), 700);
+  }
+}
+
+/* ─── UI AUTO-HIDE ───────────────────────────────────────── */
+function nudgeUI() {
+  ui.classList.remove('faded');
+  clearTimeout(uiTimer);
+  if (!isPaused) uiTimer = setTimeout(() => ui.classList.add('faded'), 3500);
+}
+document.addEventListener('mousemove', nudgeUI);
+document.addEventListener('touchstart', nudgeUI, { passive: true });
+
+/* ─── NAVIGATE ───────────────────────────────────────────── */
+function navigate(dir) {
+  if (animating) return;
+  animating = true;
+  stopProgress();
+  pbarFill.style.width = '0%';
+
+  const prev = current;
+  const next = dir === 'next'
+    ? (current + 1) % N
+    : (current - 1 + N) % N;
+
+  // Stop & reset previous
+  players[prev].pause().catch(() => {});
+  players[prev].setCurrentTime(0).catch(() => {});
+
+  // Animate previous out
+  slots[prev].classList.remove('is-current');
+  slots[prev].classList.add('is-behind', dir === 'next' ? 'anim-eu' : 'anim-ed');
+
+  // Animate next in
+  slots[next].classList.remove('is-hidden', 'is-behind');
+  slots[next].classList.add('is-current', dir === 'next' ? 'anim-su' : 'anim-sd');
+
+  current = next;
+  cntCur.textContent = current + 1;
+  updateDots(current);
+  updateCaption(current);
+
+  // Play
+  players[current].setVolume(isMuted ? 0 : 1).catch(() => {});
+  players[current].play().catch(() => {});
+  startProgress();
+
+  setTimeout(() => {
+    slots[prev].classList.remove('is-behind', 'anim-eu', 'anim-ed');
+    slots[prev].classList.add('is-hidden');
+    slots[next].classList.remove('anim-su', 'anim-sd');
+    animating = false;
+
+    // Warm up upcoming
+    const upcoming = dir === 'next' ? (current + 1) % N : (current - 1 + N) % N;
+    players[upcoming].getDuration().catch(() => {});
+  }, 600);
+}
+
+/* ─── TAP ZONES ─────────────────────────────────────────── */
+tapPrev.addEventListener('click', () => navigate('prev'));
+tapNext.addEventListener('click', () => navigate('next'));
+
+/* Center tap = play/pause */
+stage.addEventListener('click', e => {
+  if (e.target.closest('button, a, #tap-prev, #tap-next')) return;
+  const y = e.clientY / window.innerHeight;
+  if (y >= 0.28 && y <= 0.68) togglePause();
+});
+
+/* ─── DESKTOP BUTTONS ────────────────────────────────────── */
+btnUp && btnUp.addEventListener('click', () => navigate('prev'));
+btnDn && btnDn.addEventListener('click', () => navigate('next'));
+
+/* ─── KEYBOARD ───────────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') navigate('next');
+  if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  navigate('prev');
+  if (e.key === ' ') { e.preventDefault(); togglePause(); }
+  if (e.key.toLowerCase() === 'm') muteBtn.click();
+});
+
+/* ─── WHEEL ─────────────────────────────────────────────── */
+let wheelLock = false;
+window.addEventListener('wheel', e => {
+  if (wheelLock) return;
+  wheelLock = true;
+  navigate(e.deltaY > 0 ? 'next' : 'prev');
+  setTimeout(() => wheelLock = false, 750);
+}, { passive: true });
+
+/* ─── SWIPE ─────────────────────────────────────────────── */
+let ty0 = 0, tx0 = 0, tt0 = 0;
+stage.addEventListener('touchstart', e => {
+  ty0 = e.touches[0].clientY;
+  tx0 = e.touches[0].clientX;
+  tt0 = Date.now();
+}, { passive: true });
+
+stage.addEventListener('touchend', e => {
+  const dy = ty0 - e.changedTouches[0].clientY;
+  const dx = Math.abs(tx0 - e.changedTouches[0].clientX);
+  const dt = Date.now() - tt0;
+  if (dx > Math.abs(dy) * .9) return; // horizontal — ignore
+  if (dt < 220 && Math.abs(dy) < 12) {
+    const y = ty0 / window.innerHeight;
+    if (y >= 0.28 && y <= 0.68) togglePause();
+    return;
+  }
+  if (Math.abs(dy) > 35) navigate(dy > 0 ? 'next' : 'prev');
+}, { passive: true });
+
+/* ─── LOADER ─────────────────────────────────────────────── */
+let ldrPct = 0;
+const ldrInt = setInterval(() => {
+  ldrPct = Math.min(ldrPct + Math.random() * 20, 88);
+  ldrFill.style.width = ldrPct + '%';
+}, 160);
+
+/* ─── INIT ───────────────────────────────────────────────── */
+function init() {
+  slots[0].classList.remove('is-hidden');
+  slots[0].classList.add('is-current');
+  updateDots(0);
+  updateCaption(0);
+
+  players[0].on('play', () => {
+    clearInterval(ldrInt);
+    ldrFill.style.width = '100%';
+    setTimeout(() => loader.classList.add('gone'), 450);
+    startProgress();
   });
 
-  /* ── CREATE VIDEO ELEMENTS ─────────────────────────── */
-  const videoEls = VIDEOS.map((v, i) => {
-    const el = document.createElement('video');
-    el.className   = 'reel-video state-hidden';
-    el.src         = v.src;
-    el.muted       = true;
-    el.loop        = false;
-    el.playsInline = true;
-    el.preload     = 'metadata';
-    el.setAttribute('playsinline', '');
-    el.setAttribute('webkit-playsinline', '');
-    stage.insertBefore(el, ui);
-    return el;
-  });
+  // Fallback loader hide
+  setTimeout(() => loader.classList.add('gone'), 6000);
+  nudgeUI();
+}
 
-  /* ── CUSTOM CURSOR ─────────────────────────────────── */
-  let cx=0, cy=0;
-  document.addEventListener('mousemove', e => {
-    cx = e.clientX; cy = e.clientY;
-    cur.style.left = cx + 'px';
-    cur.style.top  = cy + 'px';
-  });
-  document.querySelectorAll('button, #tap-prev, #tap-next').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('expand'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('expand'));
-  });
-
-  /* ── PROGRESS BAR ──────────────────────────────────── */
-  let rafProgress;
-  function updateProgress() {
-    const v = videoEls[current];
-    if (!v || !v.duration) { fill.style.width = '0%'; return; }
-    fill.style.width = (v.currentTime / v.duration * 100) + '%';
-    rafProgress = requestAnimationFrame(updateProgress);
-  }
-
-  /* ── UPDATE DOTS ───────────────────────────────────── */
-  function updateDots(idx) {
-    dots.forEach((d, i) => {
-      d.className = 'prog-dot';
-      if (i < idx)  d.classList.add('done');
-      if (i === idx) { d.classList.add('active'); d.style.height = '28px'; }
-      else d.style.height = '8px';
-    });
-  }
-
-  /* ── UPDATE CAPTION ────────────────────────────────── */
-  function updateCaption(idx) {
-    caption.classList.remove('visible');
-    setTimeout(() => {
-      capClient.textContent = VIDEOS[idx].client;
-      capType.textContent   = VIDEOS[idx].type;
-      caption.classList.add('visible');
-    }, 180);
-  }
-
-  /* ── SHOW / HIDE BUFFER ────────────────────────────── */
-  function setBuffer(show) { bufRing.classList.toggle('show', show); }
-
-  /* ── PLAY CURRENT VIDEO ────────────────────────────── */
-  function playVideo(idx) {
-    const v = videoEls[idx];
-    v.muted = muted;
-
-    const tryPlay = () => {
-      const p = v.play();
-      if (p) {
-        p.then(() => {
-          setBuffer(false);
-          loader.classList.add('gone');
-        }).catch(() => {
-          // Retry muted if browser blocked
-          v.muted = true;
-          muted = true;
-          syncMuteUI();
-          v.play().then(() => {
-            setBuffer(false);
-            loader.classList.add('gone');
-          });
-        });
-      }
-    };
-
-    if (v.readyState >= 3) {
-      tryPlay();
-    } else {
-      setBuffer(true);
-      v.addEventListener('canplay', () => { setBuffer(false); tryPlay(); }, { once: true });
-    }
-  }
-
-  /* ── NAVIGATE ──────────────────────────────────────── */
-  function goTo(nextIdx, dir = 'next') {
-    if (animating) return;
-    animating = true;
-    cancelAnimationFrame(rafProgress);
-
-    const prevEl = videoEls[current];
-    const nextEl = videoEls[nextIdx];
-
-    // Prepare next
-    nextEl.className = 'reel-video state-next';
-    nextEl.currentTime = 0;
-
-    // Preload
-    if (nextEl.readyState < 1) nextEl.load();
-
-    // Animate out
-    prevEl.classList.remove('state-current');
-    prevEl.classList.add(dir === 'next' ? 'anim-out-up' : 'anim-out-down');
-
-    // Animate in
-    nextEl.style.opacity = '1';
-    nextEl.style.animation = 'none';
-    nextEl.className = 'reel-video state-current';
-    nextEl.style.animation = dir === 'next'
-      ? 'slideIn .5s cubic-bezier(.16,1,.3,1) both'
-      : 'slideInDown .5s cubic-bezier(.16,1,.3,1) both';
-
-    current = nextIdx;
-    counter.textContent = current + 1;
-    updateDots(current);
-    updateCaption(current);
-    playVideo(current);
-    updateProgress();
-
-    setTimeout(() => {
-      prevEl.pause();
-      prevEl.currentTime = 0;
-      prevEl.className = 'reel-video state-hidden';
-      animating = false;
-
-      // Preload next-next silently
-      const preloadIdx = (current + 1) % N;
-      if (videoEls[preloadIdx].readyState < 1) videoEls[preloadIdx].load();
-    }, 520);
-  }
-
-  function next() { goTo((current + 1) % N, 'next'); }
-  function prev() { goTo((current - 1 + N) % N, 'prev'); }
-
-  /* ── AUTO-ADVANCE ON END ───────────────────────────── */
-  videoEls.forEach((v, i) => {
-    v.addEventListener('ended', () => {
-      if (i === current) next();
-    });
-    v.addEventListener('waiting', () => { if (i === current) setBuffer(true); });
-    v.addEventListener('playing', () => { if (i === current) setBuffer(false); });
-  });
-
-  /* ── MUTE TOGGLE ───────────────────────────────────── */
-  function syncMuteUI() {
-    iconMuted.style.display = muted ? '' : 'none';
-    iconSound.style.display = muted ? 'none' : '';
-  }
-  muteBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    muted = !muted;
-    videoEls[current].muted = muted;
-    syncMuteUI();
-  });
-
-  /* ── PLAY / PAUSE on tap (center zone) ─────────────── */
-  let tapTimer;
-  function handleCenterTap() {
-    paused = !paused;
-    if (paused) {
-      videoEls[current].pause();
-      cancelAnimationFrame(rafProgress);
-      playInd.classList.add('show');
-    } else {
-      videoEls[current].play();
-      updateProgress();
-      playInd.classList.remove('show');
-    }
-    // Auto-hide indicator
-    clearTimeout(tapTimer);
-    if (!paused) {
-      tapTimer = setTimeout(() => playInd.classList.remove('show'), 1000);
-    }
-  }
-
-  /* ── TAP ZONES ─────────────────────────────────────── */
-  tapPrev.addEventListener('click', prev);
-  tapNext.addEventListener('click', next);
-
-  // Click center of stage = play/pause
-  stage.addEventListener('click', e => {
-    const y = e.clientY / window.innerHeight;
-    if (y > 0.2 && y < 0.65) handleCenterTap();
-  });
-
-  /* ── KEYBOARD ──────────────────────────────────────── */
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  prev();
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next();
-    if (e.key === ' ') { e.preventDefault(); handleCenterTap(); }
-    if (e.key === 'm' || e.key === 'M') muteBtn.click();
-  });
-
-  /* ── DESKTOP NAV BUTTONS ────────────────────────────── */
-  btnPrev && btnPrev.addEventListener('click', prev);
-  btnNext && btnNext.addEventListener('click', next);
-
-  /* ── MOUSE WHEEL ────────────────────────────────────── */
-  let wheelCooldown = false;
-  window.addEventListener('wheel', e => {
-    if (wheelCooldown) return;
-    wheelCooldown = true;
-    if (e.deltaY > 0) next(); else prev();
-    setTimeout(() => wheelCooldown = false, 700);
-  }, { passive: true });
-
-  /* ── TOUCH / SWIPE ──────────────────────────────────── */
-  let touchStartY = 0, touchStartX = 0, touchStartTime = 0;
-  let lastTouchEnd = 0;
-
-  stage.addEventListener('touchstart', e => {
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-    touchStartTime = Date.now();
-  }, { passive: true });
-
-  stage.addEventListener('touchend', e => {
-    const now = Date.now();
-    const dt = now - touchStartTime;
-    const dy = touchStartY - e.changedTouches[0].clientY;
-    const dx = Math.abs(touchStartX - e.changedTouches[0].clientX);
-
-    // Ignore horizontal swipes
-    if (dx > Math.abs(dy) * 0.8) return;
-
-    // Quick tap (< 200ms, < 15px) = play/pause
-    if (dt < 220 && Math.abs(dy) < 15) {
-      // prevent double-fire with tap zones
-      if (now - lastTouchEnd < 400) return;
-      lastTouchEnd = now;
-      // Check it's center zone
-      const y = touchStartY / window.innerHeight;
-      if (y > 0.2 && y < 0.65) handleCenterTap();
-      return;
-    }
-
-    // Swipe
-    if (Math.abs(dy) > 40) {
-      if (dy > 0) next(); else prev();
-    }
-  }, { passive: true });
-
-  /* ── UI AUTO-HIDE ────────────────────────────────────── */
-  let uiTimer;
-  function showUI() {
-    ui.classList.remove('hidden');
-    clearTimeout(uiTimer);
-    uiTimer = setTimeout(() => {
-      if (!paused) ui.classList.add('hidden');
-    }, 3500);
-  }
-  document.addEventListener('mousemove', showUI);
-  document.addEventListener('touchstart', showUI, { passive: true });
-  stage.addEventListener('click', showUI);
-
-  /* ── INIT ─────────────────────────────────────────────── */
-  function init() {
-    // Show first video
-    const first = videoEls[0];
-    first.className = 'reel-video state-current';
-    first.style.animation = 'none';
-    updateDots(0);
-    updateCaption(0);
-    playVideo(0);
-    updateProgress();
-    showUI();
-
-    // Preload second
-    if (videoEls[1]) videoEls[1].load();
-  }
-
-  // Start once DOM is ready
-  if (document.readyState === 'complete') init();
-  else window.addEventListener('load', init);
-
-  // Fallback: hide loader after 3s regardless
-  setTimeout(() => loader.classList.add('gone'), 3000);
+// Give Vimeo SDK a moment to attach
+setTimeout(init, 300);
 </script>
 </body>
 </html>
