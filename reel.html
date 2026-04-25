@@ -115,7 +115,10 @@ a { color: inherit; text-decoration: none; }
   line-height: 0;
   filter: drop-shadow(0 1px 10px rgba(0,0,0,.9));
 }
-#logo-svg { display: block; }
+#logo-word, #logo-form {
+  transition: opacity .4s ease;
+}
+#logo-form { opacity: .88; }
 
 /* Caption */
 #caption {
@@ -150,7 +153,7 @@ a { color: inherit; text-decoration: none; }
   text-shadow: 0 1px 8px rgba(0,0,0,.4);
 }
 
-/* Mute button — sits above iframes, always clickable */
+/* Mute button — inside UI layer, fades with rest of UI */
 #mute {
   position: absolute;
   bottom: calc(28px + var(--safe-b));
@@ -158,7 +161,7 @@ a { color: inherit; text-decoration: none; }
   width: 40px; height: 40px;
   border-radius: 50%;
   border: 1px solid rgba(245,240,235,.22);
-  background: rgba(8,8,8,.7);
+  background: rgba(8,8,8,.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex; align-items: center; justify-content: center;
@@ -167,7 +170,6 @@ a { color: inherit; text-decoration: none; }
   color: #ffffff;
   outline: none;
   -webkit-tap-highlight-color: transparent;
-  z-index: 40; /* above iframes (z-index 3) and UI (z-index 20) */
   transition: border-color .25s, background .25s,
               transform .3s cubic-bezier(.34,1.56,.64,1);
 }
@@ -206,33 +208,7 @@ a { color: inherit; text-decoration: none; }
 #pause-ind.show { transform: translate(-50%,-50%) scale(1); opacity: 1; }
 #pause-ind svg  { width: 26px; height: 26px; margin-left: 3px; }
 
-/* Swipe hint */
-#hint {
-  position: absolute;
-  bottom: calc(110px + var(--safe-b)); left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  pointer-events: none; z-index: 22;
-  animation: hintAnim 4.2s ease 2s both;
-}
-@keyframes hintAnim {
-  0%   { opacity:0; transform:translateX(-50%) translateY(10px); }
-  15%  { opacity:1; transform:translateX(-50%) translateY(0); }
-  75%  { opacity:1; transform:translateX(-50%) translateY(0); }
-  100% { opacity:0; transform:translateX(-50%) translateY(-10px); }
-}
-.hint-ch { animation: bounce 1.1s ease infinite; color: var(--ui-fade); }
-@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-.hint-lbl {
-  font-family: var(--font);
-  font-weight: 500;
-  font-size: 9px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--ui-fade);
-}
-
-/* Tap zones — only at very top and very bottom edges */
+/* Grain overlay */ — only at very top and very bottom edges */
 #tap-prev, #tap-next {
   position: absolute; left: 0; right: 0;
   z-index: 15; pointer-events: auto;
@@ -284,20 +260,37 @@ a { color: inherit; text-decoration: none; }
 
     <div id="ui">
 
-      <!-- Logo as inline SVG text — never breaks regardless of hosting -->
+      <!-- Logo: two states. State A = wordmark (first video). State B = form mark (after first swipe) -->
       <a id="logo" href="/">
-        <svg id="logo-svg" viewBox="0 0 160 22" fill="none" xmlns="http://www.w3.org/2000/svg" height="22">
-          <!-- P -->
+
+        <!-- State A: full wordmark, shown on first video -->
+        <svg id="logo-word" viewBox="0 0 160 22" fill="none" xmlns="http://www.w3.org/2000/svg" height="22" style="display:block">
+          <!-- P mark -->
           <rect x="0" y="0" width="3.5" height="20" rx="1.5" fill="white"/>
           <rect x="0" y="0" width="12" height="3.5" rx="1.5" fill="white"/>
           <rect x="0" y="8.5" width="10" height="3.5" rx="1.5" fill="white"/>
           <rect x="8.5" y="0" width="3.5" height="12" rx="1.5" fill="white"/>
-          <!-- L -->
+          <!-- L mark -->
           <rect x="16" y="0" width="3.5" height="20" rx="1.5" fill="white"/>
           <rect x="16" y="16.5" width="11" height="3.5" rx="1.5" fill="white"/>
-          <!-- wordmark -->
-          <text x="32" y="16" font-family="'Inter Tight', 'Inter', sans-serif" font-size="13" font-weight="500" letter-spacing="1.5" fill="white" opacity="0.85">PASSION LAB</text>
+          <!-- wordmark text -->
+          <text x="32" y="16" font-family="'Inter Tight','Inter',sans-serif" font-size="13" font-weight="500" letter-spacing="1.5" fill="white" opacity="0.85">PASSION LAB</text>
         </svg>
+
+        <!-- State B: compact form mark only, shown after first swipe -->
+        <!-- PassionLab 2024 form: stylised PL monogram block -->
+        <svg id="logo-form" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" height="28" style="display:none">
+          <!-- Outer rounded square -->
+          <rect x="0" y="0" width="28" height="28" rx="6" fill="white" opacity="0.92"/>
+          <!-- P letterform inside, black -->
+          <rect x="6" y="6" width="3" height="16" rx="1.2" fill="#080808"/>
+          <rect x="6" y="6" width="10" height="3" rx="1.2" fill="#080808"/>
+          <rect x="6" y="12.5" width="8" height="3" rx="1.2" fill="#080808"/>
+          <rect x="13" y="6" width="3" height="9.5" rx="1.2" fill="#080808"/>
+          <!-- Accent dot bottom-right in pink -->
+          <circle cx="21" cy="21" r="2.5" fill="#fab3ff"/>
+        </svg>
+
       </a>
 
       <div id="caption">
@@ -305,35 +298,26 @@ a { color: inherit; text-decoration: none; }
         <div id="cap-type"></div>
       </div>
 
-      <div id="hint">
-        <svg class="hint-ch" width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <line x1="12" y1="19" x2="12" y2="5"/>
-          <polyline points="5 12 12 5 19 12"/>
+      <!-- Mute inside UI so it fades with everything else -->
+      <button id="mute" type="button" aria-label="Ljud av/på">
+        <svg id="ico-m" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9"  x2="17" y2="15"/>
+          <line x1="17" y1="9"  x2="23" y2="15"/>
         </svg>
-        <span class="hint-lbl">Swipe to navigate</span>
-      </div>
+        <svg id="ico-s" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+             style="display:none">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+      </button>
 
-      <!-- Tap zones live OUTSIDE ui so they never fade -->
     </div><!-- /ui -->
 
-    <!-- Mute button: outside UI layer, high z-index so iframe can't steal clicks -->
-    <button id="mute" type="button" aria-label="Ljud av/på">
-      <svg id="ico-m" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <line x1="23" y1="9"  x2="17" y2="15"/>
-        <line x1="17" y1="9"  x2="23" y2="15"/>
-      </svg>
-      <svg id="ico-s" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-           style="display:none">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-      </svg>
-    </button>
-
+    <!-- Mute button moved inside UI — remove the old standalone one below -->
     <!-- Tap zones always active, outside fading UI -->
     <div id="tap-prev"></div>
     <div id="tap-next"></div>
@@ -510,6 +494,26 @@ function nudgeUI() {
 document.addEventListener('mousemove',  nudgeUI);
 document.addEventListener('touchstart', nudgeUI, { passive: true });
 
+/* ── Logo state ────────────────────────────────────────── */
+const logoWord = document.getElementById('logo-word');
+const logoForm = document.getElementById('logo-form');
+let hasNavigated = false;
+
+function switchToFormLogo() {
+  if (hasNavigated) return;
+  hasNavigated = true;
+  // Crossfade: fade out wordmark, fade in form mark
+  logoWord.style.opacity = '0';
+  setTimeout(() => {
+    logoWord.style.display = 'none';
+    logoForm.style.display = 'block';
+    logoForm.style.opacity = '0';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { logoForm.style.opacity = '0.88'; });
+    });
+  }, 400);
+}
+
 /* ── Navigate ──────────────────────────────────────────── */
 function navigate(dir) {
   if (animating) return;
@@ -534,6 +538,7 @@ function navigate(dir) {
   current = next;
   isPaused = false;
   pauseInd.classList.remove('show');
+  switchToFormLogo();
   updateCaption(current);
 
   players[current].setVolume(isMuted ? 0 : 1).catch(() => {});
