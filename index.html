@@ -231,9 +231,12 @@ nav{
 #insta-cursor img{width:100%;height:100%;object-fit:cover;}
 #insta-cursor.visible{opacity:1;}
 #insta-finger{position:absolute;pointer-events:none;z-index:10;transform-origin:center;font-size:52px;line-height:1;display:none;}
-#insta-cursor-mobile{width:80px;height:80px;border-radius:50%;position:fixed;right:20px;bottom:36px;pointer-events:auto;z-index:9997;overflow:hidden;opacity:0;transition:opacity .35s;}
+#insta-cursor-mobile{width:80px;height:80px;border-radius:50%;position:fixed;right:20px;bottom:36px;pointer-events:auto;z-index:500;overflow:hidden;opacity:0;transition:opacity .35s;}
 #insta-cursor-mobile img{width:100%;height:100%;object-fit:cover;}
 #insta-cursor-mobile.show{opacity:1;}
+/* Hide instagram mobile cursor when reel is open */
+#reel-overlay.open ~ * #insta-cursor-mobile,
+body.reel-open #insta-cursor-mobile{ opacity:0 !important; pointer-events:none !important; }
 #insta-finger-mobile{position:fixed;right:114px;bottom:56px;font-size:40px;line-height:1;pointer-events:none;z-index:9998;opacity:0;transition:opacity .35s;transform-origin:center;}
 #insta-finger-mobile.show{opacity:1;}
 
@@ -527,6 +530,7 @@ function openReel(){
   savedScroll = window.scrollY;
   document.body.style.overflow = 'hidden';
   document.documentElement.style.overflow = 'hidden';
+  document.body.classList.add('reel-open');
   overlay.classList.add('open');
   closeBtn.classList.add('show');
   muteBtnOuter.classList.add('show');
@@ -538,6 +542,7 @@ function closeReel(){
   muteBtnOuter.classList.remove('show');
   document.body.style.overflow = '';
   document.documentElement.style.overflow = '';
+  document.body.classList.remove('reel-open');
   window.scrollTo(0, savedScroll);
   try { reelFrame.contentWindow.postMessage({type:'pause'}, '*'); } catch(e){}
 }
