@@ -152,8 +152,8 @@ nav{
 /* TJÄNSTER */
 .services{padding:120px 40px 0;background:var(--black);color:var(--white);}
 .services-inner{max-width:1400px;margin:0 auto;}
-.services-list{border-top:1px solid rgba(250,245,235,.1);}
-.service-row{display:grid;grid-template-columns:1fr 2fr auto;gap:40px;padding:44px 0;border-bottom:1px solid rgba(250,245,235,.1);align-items:center;transition:opacity .25s;position:relative;}
+.services-list{border-top:none;}
+.service-row{display:grid;grid-template-columns:1fr 2fr auto;gap:40px;padding:44px 0;border-top:1px solid rgba(250,245,235,.1);align-items:center;transition:opacity .25s;position:relative;}
 .service-row:hover{opacity:.6;}
 .service-name{font-size:clamp(48px,6vw,80px);font-weight:300;font-style:italic;letter-spacing:-.5px;line-height:1;color:var(--white);font-family:var(--fd);}
 .service-desc{font-size:16px;line-height:1.65;color:rgba(250,245,235,.55);max-width:440px;}
@@ -163,7 +163,7 @@ nav{
 /* Banderoll */
 .services-banderoll{
   overflow:hidden;
-  padding:32px 0 80px;
+  padding:32px 0 120px;
   border-top:1px solid rgba(250,245,235,.07);
   margin-top:0;
   white-space:nowrap;
@@ -194,8 +194,18 @@ nav{
 
 /* FEED */
 .feed-wrap{padding:80px 40px 100px;background:#faf5eb;}
-.feed-inner{max-width:480px;margin:0 auto;}
+.feed-inner{max-width:1100px;margin:0 auto;}
 .feed-title{font-size:clamp(28px,3.5vw,36px);font-weight:300;font-style:italic;letter-spacing:-.4px;color:#0a0a0a;margin-bottom:28px;line-height:1;font-family:var(--fd),Georgia,serif;}
+
+/* Desktop: 2-col grid — left col posts, right col big featured image */
+.feed-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.feed-posts{display:flex;flex-direction:column;}
+.feed-featured{position:sticky;top:40px;}
+.feed-featured-img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;display:block;background:#e4dfd7;transition:opacity .2s ease;}
+.feed-featured-cap{margin-top:14px;display:flex;justify-content:space-between;align-items:center;}
+.feed-featured-tag{font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--orange);}
+.feed-featured-title{font-size:13px;font-weight:500;color:#0a0a0a;margin-top:6px;line-height:1.35;}
+
 .feed-post{padding:20px 0;border-bottom:0.5px solid rgba(10,10,10,.1);cursor:pointer;transition:opacity .2s;display:block;text-decoration:none;color:inherit;}
 .feed-post:first-of-type{border-top:0.5px solid rgba(10,10,10,.1);}
 .feed-post:hover{opacity:.6;}
@@ -217,7 +227,7 @@ nav{
   display:block;text-decoration:none;cursor:none;
 }
 .insta-inner{max-width:1400px;margin:0 auto;position:relative;z-index:2;pointer-events:none;}
-.insta-text{font-size:clamp(44px,7.5vw,120px);font-weight:500;letter-spacing:-2px;line-height:1.0;color:var(--black);}
+.insta-text{font-size:clamp(36px,6vw,96px);font-weight:500;letter-spacing:-2px;line-height:1.0;color:var(--black);}
 .insta-text .italic{font-family:var(--fd);font-style:italic;font-weight:300;letter-spacing:-2px;}
 /* cursor — no border ring */
 #insta-cursor{width:120px;height:120px;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;overflow:hidden;}
@@ -278,6 +288,8 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
   .service-desc{font-size:14px;color:rgba(250,245,235,.45);text-align:center;max-width:260px;margin:0 auto;}
   .services-banderoll{margin-bottom:0;}
   .feed-wrap{padding:100px 24px 100px;}
+  .feed-layout{grid-template-columns:1fr;}
+  .feed-featured{display:none;}
   .insta-wrap{padding:100px 24px;cursor:pointer;}
   #insta-cursor,#insta-finger{display:none !important;}
   .b-article{grid-column:span 12;}
@@ -396,67 +408,75 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
 <section class="feed-wrap" id="kanslofloden">
   <div class="feed-inner">
     <h2 class="feed-title reveal">Vårt känsloflöde.</h2>
+    <div class="feed-layout">
 
-    <a class="feed-post reveal" href="#">
-      <div class="feed-post-top">
-        <span class="feed-post-tag">Strategi</span>
-        <span class="feed-post-read">5 min läsning</span>
+      <!-- Left: scrollable posts -->
+      <div class="feed-posts">
+        <a class="feed-post reveal" href="#">
+          <div class="feed-post-top">
+            <span class="feed-post-tag">Strategi</span>
+            <span class="feed-post-read">5 min läsning</span>
+          </div>
+          <p class="feed-post-title">Varför sponsring fungerar.</p>
+          <img class="feed-post-img" src="SEF_cover_4x5.png" alt="">
+        </a>
+        <a class="feed-post reveal rd1" href="#">
+          <div class="feed-post-top">
+            <span class="feed-post-tag">Vlogg</span>
+            <span class="feed-post-read">4 min</span>
+          </div>
+          <p class="feed-post-title">Följ med Johan en dag på inspelning.</p>
+          <img class="feed-post-img" src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="">
+        </a>
+        <a class="feed-post reveal rd2" href="#">
+          <div class="feed-post-top">
+            <span class="feed-post-tag">Case</span>
+            <span class="feed-post-read">6 min läsning</span>
+          </div>
+          <p class="feed-post-title">Så här sticker ditt företag ut på Way Out West.</p>
+          <img class="feed-post-img" src="Matchkorv_presskonf.png" alt="">
+        </a>
+        <a class="feed-post reveal rd3" href="#">
+          <div class="feed-post-top">
+            <span class="feed-post-tag">Från kontoret</span>
+            <span class="feed-post-read">2 min läsning</span>
+          </div>
+          <p class="feed-post-title">Passion Lab instiftar läsdag.</p>
+          <img class="feed-post-img" src="LYKO_ELLE 23_COVER.jpg" alt="">
+        </a>
+        <a class="feed-post hidden" id="fp1" href="#">
+          <div class="feed-post-top">
+            <span class="feed-post-tag">Krönika</span>
+            <span class="feed-post-read">5 min läsning</span>
+          </div>
+          <p class="feed-post-title">Varför känslor slår räckvidd varje gång.</p>
+          <img class="feed-post-img" src="Ajabajacancer_staende.jpg" alt="">
+        </a>
+        <a class="feed-post hidden" id="fp2" href="#">
+          <div class="feed-post-top">
+            <span class="feed-post-tag">Debatt</span>
+            <span class="feed-post-read">4 min läsning</span>
+          </div>
+          <p class="feed-post-title">Sponsring handlar inte om rätten att synas — utan om rätten att göra något bra.</p>
+          <img class="feed-post-img" src="TELIA_SHL_KN 22-23_COVER.jpg" alt="">
+        </a>
+        <button class="feed-more" onclick="
+          document.getElementById('fp1').classList.remove('hidden');
+          document.getElementById('fp2').classList.remove('hidden');
+          this.style.display='none';
+        ">Visa fler →</button>
       </div>
-      <p class="feed-post-title">Varför sponsring fungerar.</p>
-      <img class="feed-post-img" src="SEF_cover_4x5.png" alt="Varför sponsring fungerar">
-    </a>
 
-    <a class="feed-post reveal rd1" href="#">
-      <div class="feed-post-top">
-        <span class="feed-post-tag">Vlogg</span>
-        <span class="feed-post-read">4 min</span>
+      <!-- Right: sticky featured (desktop only) -->
+      <div class="feed-featured">
+        <img class="feed-featured-img" src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Passion Lab" id="featuredImg">
+        <div class="feed-featured-cap">
+          <span class="feed-featured-tag" id="featuredTag">Senaste</span>
+        </div>
+        <p class="feed-featured-title" id="featuredTitle">Varför sponsring fungerar.</p>
       </div>
-      <p class="feed-post-title">Följ med Johan en dag på inspelning.</p>
-      <img class="feed-post-img" src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Följ med Johan">
-    </a>
 
-    <a class="feed-post reveal rd2" href="#">
-      <div class="feed-post-top">
-        <span class="feed-post-tag">Case</span>
-        <span class="feed-post-read">6 min läsning</span>
-      </div>
-      <p class="feed-post-title">Så här sticker ditt företag ut på Way Out West.</p>
-      <img class="feed-post-img" src="Matchkorv_presskonf.png" alt="Way Out West">
-    </a>
-
-    <a class="feed-post reveal rd3" href="#">
-      <div class="feed-post-top">
-        <span class="feed-post-tag">Från kontoret</span>
-        <span class="feed-post-read">2 min läsning</span>
-      </div>
-      <p class="feed-post-title">Passion Lab instiftar läsdag.</p>
-      <img class="feed-post-img" src="LYKO_ELLE 23_COVER.jpg" alt="Läsdag">
-    </a>
-
-    <a class="feed-post hidden" id="fp1" href="#">
-      <div class="feed-post-top">
-        <span class="feed-post-tag">Krönika</span>
-        <span class="feed-post-read">5 min läsning</span>
-      </div>
-      <p class="feed-post-title">Varför känslor slår räckvidd varje gång.</p>
-      <img class="feed-post-img" src="Ajabajacancer_staende.jpg" alt="Krönika">
-    </a>
-
-    <a class="feed-post hidden" id="fp2" href="#">
-      <div class="feed-post-top">
-        <span class="feed-post-tag">Debatt</span>
-        <span class="feed-post-read">4 min läsning</span>
-      </div>
-      <p class="feed-post-title">Sponsring handlar inte om rätten att synas — utan om rätten att göra något bra.</p>
-      <img class="feed-post-img" src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Debatt">
-    </a>
-
-    <button class="feed-more" id="feedMore" onclick="
-      document.getElementById('fp1').classList.remove('hidden');
-      document.getElementById('fp2').classList.remove('hidden');
-      this.style.display='none';
-    ">Visa fler →</button>
-
+    </div>
   </div>
 </section>
 
@@ -542,10 +562,24 @@ window.addEventListener('load', () => {
   reelFrame.src = 'reel.html';
 });
 
-closeBtn.addEventListener('click', closeReel);
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && overlay.classList.contains('open')) closeReel();
-});
+/* Featured image updates on hover */
+(function(){
+  const posts = document.querySelectorAll('.feed-post');
+  const featImg = document.getElementById('featuredImg');
+  const featTag = document.getElementById('featuredTag');
+  const featTitle = document.getElementById('featuredTitle');
+  if (!featImg) return;
+  posts.forEach(post => {
+    post.addEventListener('mouseenter', () => {
+      const img = post.querySelector('.feed-post-img');
+      const tag = post.querySelector('.feed-post-tag');
+      const title = post.querySelector('.feed-post-title');
+      if (img) { featImg.src = img.src; }
+      if (tag) { featTag.textContent = tag.textContent; }
+      if (title) { featTitle.textContent = title.textContent; }
+    });
+  });
+})();
 </script>
 </body>
 </html>
