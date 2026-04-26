@@ -526,9 +526,6 @@ let savedScroll = 0;
 function openReel(){
   savedScroll = window.scrollY;
   document.body.style.overflow = 'hidden';
-  if (!reelFrame.src || reelFrame.src === window.location.href) {
-    reelFrame.src = 'reel.html';
-  }
   overlay.classList.add('open');
   closeBtn.classList.add('show');
 }
@@ -538,8 +535,14 @@ function closeReel(){
   closeBtn.classList.remove('show');
   document.body.style.overflow = '';
   window.scrollTo(0, savedScroll);
-  reelFrame.src = '';
+  // Återställ utan att tömma src — videon är kvar och redo nästa gång
+  try { reelFrame.contentWindow.postMessage('pause', '*'); } catch(e){}
 }
+
+// Preloada iframen direkt när sidan laddats — dold men redo
+window.addEventListener('load', () => {
+  reelFrame.src = 'reel.html';
+});
 
 closeBtn.addEventListener('click', closeReel);
 document.addEventListener('keydown', e => {
