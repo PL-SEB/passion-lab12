@@ -36,7 +36,7 @@ img{display:block;max-width:100%;}
 
 /* NAV — not fixed, stays at top */
 nav{
-  position:relative;
+  position:absolute;
   top:0; left:0; right:0;
   z-index:100;
   display:flex;
@@ -44,7 +44,7 @@ nav{
   justify-content:space-between;
   padding:22px 40px;
   color:var(--cream);
-  background:var(--black);
+  background:transparent;
 }
 .nav-logo img{height:26px;}
 .nav-links{display:flex;gap:28px;align-items:center;}
@@ -59,7 +59,7 @@ nav{
 .mobile-menu a{font-family:var(--fd);font-style:italic;font-weight:300;font-size:48px;letter-spacing:-1.5px;color:var(--cream);}
 .mobile-close{position:absolute;top:22px;right:32px;font-size:24px;background:none;border:none;font-family:var(--font);color:var(--cream);cursor:pointer;}
 
-/* HERO — centered */
+/* HERO — centered, contains nav */
 .hero{
   min-height:100vh;
   display:flex;
@@ -150,20 +150,47 @@ nav{
 #reel-close.show{opacity:1;visibility:visible;}
 
 /* TJÄNSTER */
-.services{padding:120px 40px 100px;background:var(--black);color:var(--white);}
+.services{padding:120px 40px 0;background:var(--black);color:var(--white);}
 .services-inner{max-width:1400px;margin:0 auto;}
 .services-list{border-top:1px solid rgba(250,245,235,.1);}
-.service-row{display:grid;grid-template-columns:1fr 2fr auto;gap:40px;padding:36px 0;border-bottom:1px solid rgba(250,245,235,.1);align-items:baseline;transition:opacity .25s;position:relative;}
-.service-row:hover{opacity:.65;}
-.service-name{font-size:clamp(32px,4vw,56px);font-weight:300;font-style:italic;letter-spacing:-.5px;line-height:1;color:var(--white);font-family:var(--fd);}
-.service-desc{font-size:15px;line-height:1.6;color:rgba(250,245,235,.55);max-width:440px;}
-.service-arrow{font-size:20px;color:rgba(250,245,235,.3);transition:opacity .3s,transform .3s;}
+.service-row{display:grid;grid-template-columns:1fr 2fr auto;gap:40px;padding:44px 0;border-bottom:1px solid rgba(250,245,235,.1);align-items:center;transition:opacity .25s;position:relative;}
+.service-row:hover{opacity:.6;}
+.service-name{font-size:clamp(48px,6vw,80px);font-weight:300;font-style:italic;letter-spacing:-.5px;line-height:1;color:var(--white);font-family:var(--fd);}
+.service-desc{font-size:16px;line-height:1.65;color:rgba(250,245,235,.55);max-width:440px;}
+.service-arrow{font-size:22px;color:rgba(250,245,235,.3);transition:opacity .3s,transform .3s;justify-self:end;}
 .service-row:hover .service-arrow{opacity:1;transform:translateX(6px);color:var(--white);}
-/* Overflow tag strip */
-.services-overflow{margin-top:56px;padding-top:32px;border-top:1px solid rgba(250,245,235,.07);}
-.services-overflow-label{font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:rgba(250,245,235,.25);margin-bottom:16px;}
-.services-overflow-tags{display:flex;flex-wrap:wrap;gap:8px;}
-.services-overflow-tag{font-size:11px;font-weight:400;color:rgba(250,245,235,.25);padding:5px 14px;border:0.5px solid rgba(250,245,235,.12);border-radius:100px;letter-spacing:.3px;}
+
+/* Banderoll */
+.services-banderoll{
+  overflow:hidden;
+  padding:32px 0;
+  border-top:1px solid rgba(250,245,235,.07);
+  margin-top:0;
+  white-space:nowrap;
+}
+.banderoll-track{
+  display:inline-flex;
+  gap:0;
+  animation:marquee 28s linear infinite;
+}
+.banderoll-track:hover{ animation-play-state:paused; }
+@keyframes marquee{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+.banderoll-item{
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:rgba(250,245,235,.22);
+  padding:0 32px;
+  display:inline-block;
+}
+.banderoll-dot{
+  color:rgba(250,245,235,.12);
+  display:inline-block;
+}
 
 /* FEED */
 .feed-wrap{padding:80px 40px 100px;background:#faf5eb;}
@@ -224,10 +251,10 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
 @media(max-width:1024px){
   nav,footer{padding-left:24px;padding-right:24px;}
   .hero,.case-wrap,.services,.feed-wrap,.insta-wrap{padding-left:24px;padding-right:24px;}
-  .services{padding:80px 24px 80px;}
-  .service-row{grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:8px 16px;}
-  .service-desc{grid-column:1/2;grid-row:2;font-size:13px;color:rgba(250,245,235,.45);}
-  .service-arrow{grid-row:1;}
+  .services{padding:80px 24px 0;}
+  .service-row{grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:8px 16px;text-align:left;}
+  .service-desc{grid-column:1/2;grid-row:2;font-size:14px;color:rgba(250,245,235,.45);}
+  .service-arrow{grid-row:1;align-self:center;}
   .b-quote,.b-image{grid-column:span 12;}
   .b-article{grid-column:span 6;}  .footer-top{grid-template-columns:1fr 1fr;gap:40px;}
 }
@@ -258,32 +285,21 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
 </div>
 <button id="reel-close" aria-label="Stäng reel">✕</button>
 
-<!-- NAV -->
-<nav id="navbar">
-  <a class="nav-logo" href="index.html"><img src="logo.png" alt="Passion Lab"></a>
-  <div class="nav-links">
-    <a href="om-oss.html">Om oss</a>
-    <a href="#tjanster">Tjänster</a>
-    <a href="#" onclick="openReel();return false;">Case</a>
-    <a href="#kanslofloden">Känsloflöde</a>
-    <a href="kontakt.html" class="nav-cta">Kontakt</a>
-  </div>
-  <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Meny">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<div class="mobile-menu">
-  <button class="mobile-close" onclick="document.querySelector('.mobile-menu').classList.remove('open')">✕</button>
-  <a href="om-oss.html">Om oss</a>
-  <a href="#tjanster">Tjänster</a>
-  <a href="#" onclick="openReel();document.querySelector('.mobile-menu').classList.remove('open');return false;">Case</a>
-  <a href="#kanslofloden">Känsloflöde</a>
-  <a href="kontakt.html">Kontakt</a>
-</div>
-
-<!-- HERO -->
+<!-- HERO — nav sits inside so it overlays the video -->
 <section class="hero">
+  <nav id="navbar">
+    <a class="nav-logo" href="index.html"><img src="logo.png" alt="Passion Lab"></a>
+    <div class="nav-links">
+      <a href="om-oss.html">Om oss</a>
+      <a href="#tjanster">Tjänster</a>
+      <a href="#" onclick="openReel();return false;">Case</a>
+      <a href="#kanslofloden">Känsloflöde</a>
+      <a href="kontakt.html" class="nav-cta">Kontakt</a>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Meny">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
   <div class="hero-video">
     <video autoplay muted loop playsinline>
       <source src="https://player.vimeo.com/progressive_redirect/playback/919056605/rendition/1080p/file.mp4?loc=external&log_user=0&signature=cdfc714bc4af590c704f84ac125a9ce98e7d2280f11ada00e439c59474976609" type="video/mp4">
@@ -338,18 +354,26 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
         <span class="service-arrow">→</span>
       </a>
     </div>
-    <div class="services-overflow reveal">
-      <p class="services-overflow-label">Vi jobbar även med</p>
-      <div class="services-overflow-tags">
-        <span class="services-overflow-tag">Strategi</span>
-        <span class="services-overflow-tag">Branding</span>
-        <span class="services-overflow-tag">Design</span>
-        <span class="services-overflow-tag">Content</span>
-        <span class="services-overflow-tag">Sociala medier</span>
-        <span class="services-overflow-tag">UX/UI</span>
-        <span class="services-overflow-tag">Data & analys</span>
-        <span class="services-overflow-tag">PR & kommunikation</span>
-        <span class="services-overflow-tag">Influencer marketing</span>
+    <div class="services-banderoll">
+      <div class="banderoll-track">
+        <span class="banderoll-item">Strategi</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Branding</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Design</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Content</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Sociala medier</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">UX/UI</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Data & analys</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">PR & kommunikation</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Influencer marketing</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Strategi</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Branding</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Design</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Content</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Sociala medier</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">UX/UI</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Data & analys</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">PR & kommunikation</span><span class="banderoll-dot">·</span>
+        <span class="banderoll-item">Influencer marketing</span><span class="banderoll-dot">·</span>
       </div>
     </div>
   </div>
