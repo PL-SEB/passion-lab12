@@ -217,8 +217,8 @@ nav{
   display:block;text-decoration:none;cursor:none;
 }
 .insta-inner{max-width:1400px;margin:0 auto;position:relative;z-index:2;pointer-events:none;}
-.insta-text{font-size:clamp(48px,8vw,124px);font-weight:500;letter-spacing:-3px;line-height:.95;color:var(--black);}
-.insta-text .italic{font-family:var(--fd);font-style:italic;font-weight:300;}
+.insta-text{font-size:clamp(44px,7.5vw,120px);font-weight:500;letter-spacing:-2px;line-height:1.0;color:var(--black);}
+.insta-text .italic{font-family:var(--fd);font-style:italic;font-weight:300;letter-spacing:-2px;}
 /* cursor — no border ring */
 #insta-cursor{width:120px;height:120px;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;overflow:hidden;}
 #insta-cursor img{width:100%;height:100%;object-fit:cover;}
@@ -263,7 +263,16 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
   .nav-links{display:none;}
   .hamburger{display:flex;}
   .hero{padding:60px 24px;}
-  .services{padding:80px 24px 120px;}
+  .services{padding:80px 24px 140px;}
+  .service-row{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto;
+    gap:10px;
+    text-align:center;
+    align-items:center;
+  }
+  .service-arrow{display:none;}
+  .service-desc{font-size:14px;color:rgba(250,245,235,.45);text-align:center;}
   .feed-wrap{padding:80px 24px 100px;}
   .insta-wrap{padding:100px 24px;cursor:pointer;}
   #insta-cursor,#insta-finger{display:none !important;}
@@ -340,17 +349,17 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
     <div class="services-list">
       <a href="sponsring.html" class="service-row reveal">
         <span class="service-name">Sponsring</span>
-        <span class="service-desc">Vi hjälper Sveriges ledande varumärken att hitta rätt sammanhang — och göra det till något folk faktiskt minns.</span>
+        <span class="service-desc">Vi hjälper Sveriges största varumärken att samarbeta och dra nytta av varandra.</span>
         <span class="service-arrow">→</span>
       </a>
       <a href="event.html" class="service-row reveal rd1">
         <span class="service-name">Event</span>
-        <span class="service-desc">Vi skapar meningsfulla möten mellan ditt varumärke och din målgrupp — från stora aktiveringar till intima upplevelser.</span>
+        <span class="service-desc">Vi skapar meningsfulla möten mellan ditt varumärke och din målgrupp.</span>
         <span class="service-arrow">→</span>
       </a>
       <a href="reklam.html" class="service-row reveal rd2">
         <span class="service-name">Reklam</span>
-        <span class="service-desc">Vi hjälper dig visa varför ditt varumärke förtjänar målgruppens känslor — med kommunikation som känns äkta och faktiskt säljer.</span>
+        <span class="service-desc">Vi hjälper dig visa varför ditt varumärke förtjänar målgruppens känslor.</span>
         <span class="service-arrow">→</span>
       </a>
     </div>
