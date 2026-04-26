@@ -194,27 +194,18 @@ nav{
 
 /* FEED */
 .feed-wrap{padding:80px 40px 100px;background:#faf5eb;}
-.feed-inner{max-width:1100px;margin:0 auto;}
-.feed-title{font-size:clamp(28px,3.5vw,36px);font-weight:300;font-style:italic;letter-spacing:-.4px;color:#0a0a0a;margin-bottom:28px;line-height:1;font-family:var(--fd),Georgia,serif;}
-
-/* Desktop: 2-col grid — left col posts, right col big featured image */
-.feed-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
-.feed-posts{display:flex;flex-direction:column;}
-.feed-featured{position:sticky;top:40px;}
-.feed-featured-img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;display:block;background:#e4dfd7;transition:opacity .2s ease;}
-.feed-featured-cap{margin-top:14px;display:flex;justify-content:space-between;align-items:center;}
-.feed-featured-tag{font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--orange);}
-.feed-featured-title{font-size:13px;font-weight:500;color:#0a0a0a;margin-top:6px;line-height:1.35;}
-
-.feed-post{padding:20px 0;border-bottom:0.5px solid rgba(10,10,10,.1);cursor:pointer;transition:opacity .2s;display:block;text-decoration:none;color:inherit;}
-.feed-post:first-of-type{border-top:0.5px solid rgba(10,10,10,.1);}
-.feed-post:hover{opacity:.6;}
-.feed-post-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.feed-post-tag{font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--orange);font-family:var(--font);}
-.feed-post-read{font-size:10px;color:rgba(10,10,10,.38);font-family:var(--font);}
-.feed-post-title{font-size:15px;font-weight:500;line-height:1.32;letter-spacing:-.15px;color:#0a0a0a;margin:0 0 14px;font-family:var(--font);}
-.feed-post-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block;background:#e4dfd7;}
-.feed-post.hidden{display:none;}
+.feed-inner{max-width:1200px;margin:0 auto;}
+.feed-title{font-size:clamp(28px,3.5vw,36px);font-weight:300;font-style:italic;letter-spacing:-.4px;color:#0a0a0a;margin-bottom:32px;line-height:1;font-family:var(--fd),Georgia,serif;}
+.feed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.feed-card{background:#fff;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;border:0.5px solid rgba(10,10,10,.08);transition:opacity .2s;text-decoration:none;color:inherit;cursor:pointer;}
+.feed-card:hover{opacity:.75;}
+.feed-card-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#e4dfd7;}
+.feed-card-body{padding:14px 16px 18px;flex:1;display:flex;flex-direction:column;gap:6px;}
+.feed-card-top{display:flex;align-items:center;justify-content:space-between;}
+.feed-card-tag{font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--orange);}
+.feed-card-read{font-size:10px;color:rgba(10,10,10,.35);}
+.feed-card-title{font-size:14px;font-weight:500;line-height:1.35;letter-spacing:-.1px;color:#0a0a0a;flex:1;}
+.feed-card.hidden{display:none;}
 .feed-more{margin-top:20px;background:none;border:none;padding:0;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(10,10,10,.4);cursor:pointer;font-family:var(--font);transition:color .2s;}
 .feed-more:hover{color:#0a0a0a;}
 
@@ -282,13 +273,15 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
     text-align:center;
     align-items:center;
     padding:48px 0;
+    border-top:none;
+    border-bottom:1px solid rgba(250,245,235,.1);
   }
   .service-name{font-size:clamp(64px,18vw,88px);}
   .service-arrow{display:none;}
   .service-desc{font-size:14px;color:rgba(250,245,235,.45);text-align:center;max-width:260px;margin:0 auto;}
   .services-banderoll{margin-bottom:0;}
   .feed-wrap{padding:100px 24px 100px;}
-  .feed-layout{grid-template-columns:1fr;}
+  .feed-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
   .feed-featured{display:none;}
   .insta-wrap{padding:100px 24px;cursor:pointer;}
   #insta-cursor,#insta-finger{display:none !important;}
@@ -408,75 +401,63 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
 <section class="feed-wrap" id="kanslofloden">
   <div class="feed-inner">
     <h2 class="feed-title reveal">Vårt känsloflöde.</h2>
-    <div class="feed-layout">
+    <div class="feed-grid">
 
-      <!-- Left: scrollable posts -->
-      <div class="feed-posts">
-        <a class="feed-post reveal" href="#">
-          <div class="feed-post-top">
-            <span class="feed-post-tag">Strategi</span>
-            <span class="feed-post-read">5 min läsning</span>
-          </div>
-          <p class="feed-post-title">Varför sponsring fungerar.</p>
-          <img class="feed-post-img" src="SEF_cover_4x5.png" alt="">
-        </a>
-        <a class="feed-post reveal rd1" href="#">
-          <div class="feed-post-top">
-            <span class="feed-post-tag">Vlogg</span>
-            <span class="feed-post-read">4 min</span>
-          </div>
-          <p class="feed-post-title">Följ med Johan en dag på inspelning.</p>
-          <img class="feed-post-img" src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="">
-        </a>
-        <a class="feed-post reveal rd2" href="#">
-          <div class="feed-post-top">
-            <span class="feed-post-tag">Case</span>
-            <span class="feed-post-read">6 min läsning</span>
-          </div>
-          <p class="feed-post-title">Så här sticker ditt företag ut på Way Out West.</p>
-          <img class="feed-post-img" src="Matchkorv_presskonf.png" alt="">
-        </a>
-        <a class="feed-post reveal rd3" href="#">
-          <div class="feed-post-top">
-            <span class="feed-post-tag">Från kontoret</span>
-            <span class="feed-post-read">2 min läsning</span>
-          </div>
-          <p class="feed-post-title">Passion Lab instiftar läsdag.</p>
-          <img class="feed-post-img" src="LYKO_ELLE 23_COVER.jpg" alt="">
-        </a>
-        <a class="feed-post hidden" id="fp1" href="#">
-          <div class="feed-post-top">
-            <span class="feed-post-tag">Krönika</span>
-            <span class="feed-post-read">5 min läsning</span>
-          </div>
-          <p class="feed-post-title">Varför känslor slår räckvidd varje gång.</p>
-          <img class="feed-post-img" src="Ajabajacancer_staende.jpg" alt="">
-        </a>
-        <a class="feed-post hidden" id="fp2" href="#">
-          <div class="feed-post-top">
-            <span class="feed-post-tag">Debatt</span>
-            <span class="feed-post-read">4 min läsning</span>
-          </div>
-          <p class="feed-post-title">Sponsring handlar inte om rätten att synas — utan om rätten att göra något bra.</p>
-          <img class="feed-post-img" src="TELIA_SHL_KN 22-23_COVER.jpg" alt="">
-        </a>
-        <button class="feed-more" onclick="
-          document.getElementById('fp1').classList.remove('hidden');
-          document.getElementById('fp2').classList.remove('hidden');
-          this.style.display='none';
-        ">Visa fler →</button>
-      </div>
-
-      <!-- Right: sticky featured (desktop only) -->
-      <div class="feed-featured">
-        <img class="feed-featured-img" src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Passion Lab" id="featuredImg">
-        <div class="feed-featured-cap">
-          <span class="feed-featured-tag" id="featuredTag">Senaste</span>
+      <a class="feed-card reveal" href="#">
+        <img class="feed-card-img" src="SEF_cover_4x5.png" alt="">
+        <div class="feed-card-body">
+          <div class="feed-card-top"><span class="feed-card-tag">Strategi</span><span class="feed-card-read">5 min</span></div>
+          <p class="feed-card-title">Varför sponsring fungerar.</p>
         </div>
-        <p class="feed-featured-title" id="featuredTitle">Varför sponsring fungerar.</p>
-      </div>
+      </a>
+
+      <a class="feed-card reveal rd1" href="#">
+        <img class="feed-card-img" src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="">
+        <div class="feed-card-body">
+          <div class="feed-card-top"><span class="feed-card-tag">Vlogg</span><span class="feed-card-read">4 min</span></div>
+          <p class="feed-card-title">Följ med Johan en dag på inspelning.</p>
+        </div>
+      </a>
+
+      <a class="feed-card reveal rd2" href="#">
+        <img class="feed-card-img" src="Matchkorv_presskonf.png" alt="">
+        <div class="feed-card-body">
+          <div class="feed-card-top"><span class="feed-card-tag">Case</span><span class="feed-card-read">6 min</span></div>
+          <p class="feed-card-title">Så här sticker ditt företag ut på Way Out West.</p>
+        </div>
+      </a>
+
+      <a class="feed-card hidden" id="fp1" href="#">
+        <img class="feed-card-img" src="LYKO_ELLE 23_COVER.jpg" alt="">
+        <div class="feed-card-body">
+          <div class="feed-card-top"><span class="feed-card-tag">Från kontoret</span><span class="feed-card-read">2 min</span></div>
+          <p class="feed-card-title">Passion Lab instiftar läsdag.</p>
+        </div>
+      </a>
+
+      <a class="feed-card hidden" id="fp2" href="#">
+        <img class="feed-card-img" src="Ajabajacancer_staende.jpg" alt="">
+        <div class="feed-card-body">
+          <div class="feed-card-top"><span class="feed-card-tag">Krönika</span><span class="feed-card-read">5 min</span></div>
+          <p class="feed-card-title">Varför känslor slår räckvidd varje gång.</p>
+        </div>
+      </a>
+
+      <a class="feed-card hidden" id="fp3" href="#">
+        <img class="feed-card-img" src="TELIA_SHL_KN 22-23_COVER.jpg" alt="">
+        <div class="feed-card-body">
+          <div class="feed-card-top"><span class="feed-card-tag">Debatt</span><span class="feed-card-read">4 min</span></div>
+          <p class="feed-card-title">Sponsring handlar inte om rätten att synas.</p>
+        </div>
+      </a>
 
     </div>
+    <button class="feed-more" onclick="
+      document.getElementById('fp1').classList.remove('hidden');
+      document.getElementById('fp2').classList.remove('hidden');
+      document.getElementById('fp3').classList.remove('hidden');
+      this.style.display='none';
+    ">Visa fler →</button>
   </div>
 </section>
 
