@@ -163,52 +163,21 @@ nav{
 .service-arrow{font-size:24px;color:var(--black);opacity:.3;transition:opacity .3s,transform .3s;}
 .service-row:hover .service-arrow{opacity:1;transform:translateX(6px);}
 
-/* BENTO FEED */
-.feed-wrap{padding:120px 40px 140px;background:var(--black);color:var(--cream);}
-.feed-inner{max-width:1400px;margin:0 auto;}
-.feed-header{margin-bottom:64px;}
-.feed-title{font-size:clamp(44px,5.5vw,80px);line-height:.95;letter-spacing:-2px;color:var(--cream);}
-.feed-title .italic{font-family:var(--fd);font-style:italic;font-weight:300;}
-
-/* Bento grid — clean, ref Basic.com style */
-.bento-grid{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  grid-template-rows:auto;
-  gap:8px;
-}
-.bento-cell{
-  border-radius:12px;
-  overflow:hidden;
-  background:#111;
-  position:relative;
-}
-
-/* Cell sizes */
-.b-quote   { grid-column:span 7; min-height:360px; background:#111; padding:48px 44px; display:flex; flex-direction:column; justify-content:space-between; }
-.b-image   { grid-column:span 5; min-height:360px; position:relative; overflow:hidden; }
-.b-article { grid-column:span 3; background:var(--cream); color:var(--black); display:flex; flex-direction:column; overflow:hidden; transition:opacity .3s; }
-.b-article:hover{ opacity:.9; }
-
-.b-quote-text{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(22px,2.2vw,32px);line-height:1.18;letter-spacing:-.5px;color:var(--cream);}
-.b-quote-meta{display:flex;justify-content:space-between;align-items:flex-end;margin-top:32px;font-size:12px;color:rgba(250,245,235,.4);letter-spacing:.2px;}
-.b-quote-meta span:last-child{color:rgba(250,245,235,.55);}
-
-.b-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;}
-.b-image:hover img{transform:scale(1.03);}
-.b-image-cap{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(to top,rgba(0,0,0,.65),transparent);color:#fff;display:flex;justify-content:space-between;align-items:flex-end;}
-.b-image-cap .title{font-family:var(--fd);font-style:italic;font-weight:300;font-size:18px;}
-.b-image-cap .tag{font-size:10px;opacity:.6;letter-spacing:.5px;}
-
-/* Article card — structured */
-.b-article-img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
-.b-article-body{ padding:18px 20px 22px; flex:1; display:flex; flex-direction:column; gap:8px; }
-.b-article-meta-top{ display:flex; justify-content:space-between; align-items:center; }
-.b-article-tag{ font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--orange); }
-.b-article-read{ font-size:10px; color:rgba(10,10,10,.38); letter-spacing:.2px; }
-.b-article-title{ font-size:15px; font-weight:500; line-height:1.32; letter-spacing:-.2px; color:var(--black); flex:1; margin-top:4px; }
-.b-article-title .italic{ font-family:var(--fd); font-style:italic; font-weight:300; }
-.b-article-date{ font-size:11px; color:rgba(10,10,10,.32); margin-top:4px; }
+/* FEED */
+.feed-wrap{padding:80px 40px 100px;background:#faf5eb;}
+.feed-inner{max-width:480px;margin:0 auto;}
+.feed-title{font-size:clamp(28px,3.5vw,36px);font-weight:300;font-style:italic;letter-spacing:-.4px;color:#0a0a0a;margin-bottom:28px;line-height:1;font-family:var(--fd),Georgia,serif;}
+.feed-post{padding:20px 0;border-bottom:0.5px solid rgba(10,10,10,.1);cursor:pointer;transition:opacity .2s;display:block;text-decoration:none;color:inherit;}
+.feed-post:first-of-type{border-top:0.5px solid rgba(10,10,10,.1);}
+.feed-post:hover{opacity:.6;}
+.feed-post-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.feed-post-tag{font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--orange);font-family:var(--font);}
+.feed-post-read{font-size:10px;color:rgba(10,10,10,.38);font-family:var(--font);}
+.feed-post-title{font-size:15px;font-weight:500;line-height:1.32;letter-spacing:-.15px;color:#0a0a0a;margin:0 0 14px;font-family:var(--font);}
+.feed-post-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block;background:#e4dfd7;}
+.feed-post.hidden{display:none;}
+.feed-more{margin-top:20px;background:none;border:none;padding:0;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(10,10,10,.4);cursor:pointer;font-family:var(--font);transition:color .2s;}
+.feed-more:hover{color:#0a0a0a;}
 
 /* INSTAGRAM */
 .insta-wrap{
@@ -256,8 +225,7 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
   .service-row{grid-template-columns:1fr auto;gap:20px;}
   .service-desc{display:none;}
   .b-quote,.b-image{grid-column:span 12;}
-  .b-article{grid-column:span 6;}
-  .footer-top{grid-template-columns:1fr 1fr;gap:40px;}
+  .b-article{grid-column:span 6;}  .footer-top{grid-template-columns:1fr 1fr;gap:40px;}
 }
 @media(max-width:640px){
   nav{padding:18px 24px;}
@@ -372,93 +340,71 @@ footer{padding:80px 40px 40px;border-top:1px solid rgba(250,245,235,.06);backgro
   </div>
 </section>
 
-<!-- BENTO FEED -->
+<!-- FEED -->
 <section class="feed-wrap" id="kanslofloden">
   <div class="feed-inner">
-    <div class="feed-header reveal">
-      <h2 class="feed-title">Vårt <span class="italic">känsloflöde.</span></h2>
-    </div>
-    <div class="bento-grid">
+    <h2 class="feed-title reveal">Vårt känsloflöde.</h2>
 
-      <!-- Large feature: quote -->
-      <div class="bento-cell b-quote reveal">
-        <p class="b-quote-text">"Sponsring handlar inte om rätten att synas. Det handlar om rätten att göra något bra."</p>
-        <div class="b-quote-meta">
-          <span>Niklas Turner Olovzon · Creative Director</span>
-          <span>Läs essän →</span>
-        </div>
+    <a class="feed-post reveal" href="#">
+      <div class="feed-post-top">
+        <span class="feed-post-tag">Strategi</span>
+        <span class="feed-post-read">5 min läsning</span>
       </div>
+      <p class="feed-post-title">Varför sponsring fungerar.</p>
+      <img class="feed-post-img" src="SEF_cover_4x5.png" alt="Varför sponsring fungerar">
+    </a>
 
-      <!-- Image -->
-      <div class="bento-cell b-image reveal rd1">
-        <img src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Passion Lab × Volvo Cars">
-        <div class="b-image-cap">
-          <span class="title">Passion Lab ♥ Volvo Cars</span>
-          <span class="tag">Nytt uppdrag</span>
-        </div>
+    <a class="feed-post reveal rd1" href="#">
+      <div class="feed-post-top">
+        <span class="feed-post-tag">Vlogg</span>
+        <span class="feed-post-read">4 min</span>
       </div>
+      <p class="feed-post-title">Följ med Johan en dag på inspelning.</p>
+      <img class="feed-post-img" src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="Följ med Johan">
+    </a>
 
-      <!-- Article card 1 -->
-      <div class="bento-cell b-article reveal rd1">
-        <div>
-          <img src="SEF_cover_4x5.png" alt="" class="b-article-img">
-          <div class="b-article-body">
-            <div class="b-article-meta-top">
-              <span class="b-article-tag">Strategi</span>
-              <span class="b-article-read">6 min läsning</span>
-            </div>
-            <h3 class="b-article-title">Strategy Directors <span class="italic">senaste tankar</span> om sponsringsekosystemet 2026.</h3>
-            <span class="b-article-date">April 2026</span>
-          </div>
-        </div>
+    <a class="feed-post reveal rd2" href="#">
+      <div class="feed-post-top">
+        <span class="feed-post-tag">Case</span>
+        <span class="feed-post-read">6 min läsning</span>
       </div>
+      <p class="feed-post-title">Så här sticker ditt företag ut på Way Out West.</p>
+      <img class="feed-post-img" src="Matchkorv_presskonf.png" alt="Way Out West">
+    </a>
 
-      <!-- Article card 2 -->
-      <div class="bento-cell b-article reveal rd2">
-        <div>
-          <img src="LYKO_SKI TEAM_MIN RUTIN_COVER.jpg" alt="" class="b-article-img">
-          <div class="b-article-body">
-            <div class="b-article-meta-top">
-              <span class="b-article-tag">Vlogg</span>
-              <span class="b-article-read">3 min</span>
-            </div>
-            <h3 class="b-article-title">Från kontoret till pisten — <span class="italic">Johans videodagbok.</span></h3>
-            <span class="b-article-date">Mars 2026</span>
-          </div>
-        </div>
+    <a class="feed-post reveal rd3" href="#">
+      <div class="feed-post-top">
+        <span class="feed-post-tag">Från kontoret</span>
+        <span class="feed-post-read">2 min läsning</span>
       </div>
+      <p class="feed-post-title">Passion Lab instiftar läsdag.</p>
+      <img class="feed-post-img" src="LYKO_ELLE 23_COVER.jpg" alt="Läsdag">
+    </a>
 
-      <!-- Article card 3 -->
-      <div class="bento-cell b-article reveal rd3">
-        <div>
-          <img src="Matchkorv_presskonf.png" alt="" class="b-article-img">
-          <div class="b-article-body">
-            <div class="b-article-meta-top">
-              <span class="b-article-tag">Från kontoret</span>
-              <span class="b-article-read">2 min läsning</span>
-            </div>
-            <h3 class="b-article-title">Läsdag på Passion Lab — <span class="italic">hur gick det?</span></h3>
-            <span class="b-article-date">Februari 2026</span>
-          </div>
-        </div>
+    <a class="feed-post hidden" id="fp1" href="#">
+      <div class="feed-post-top">
+        <span class="feed-post-tag">Krönika</span>
+        <span class="feed-post-read">5 min läsning</span>
       </div>
+      <p class="feed-post-title">Varför känslor slår räckvidd varje gång.</p>
+      <img class="feed-post-img" src="Ajabajacancer_staende.jpg" alt="Krönika">
+    </a>
 
-      <!-- Article card 4 -->
-      <div class="bento-cell b-article reveal rd4">
-        <div>
-          <img src="Ajabajacancer_staende.jpg" alt="" class="b-article-img">
-          <div class="b-article-body">
-            <div class="b-article-meta-top">
-              <span class="b-article-tag">Krönika</span>
-              <span class="b-article-read">5 min läsning</span>
-            </div>
-            <h3 class="b-article-title">Varför känslor <span class="italic">slår räckvidd</span> varje gång.</h3>
-            <span class="b-article-date">Januari 2026</span>
-          </div>
-        </div>
+    <a class="feed-post hidden" id="fp2" href="#">
+      <div class="feed-post-top">
+        <span class="feed-post-tag">Debatt</span>
+        <span class="feed-post-read">4 min läsning</span>
       </div>
+      <p class="feed-post-title">Sponsring handlar inte om rätten att synas — utan om rätten att göra något bra.</p>
+      <img class="feed-post-img" src="TELIA_SHL_KN 22-23_COVER.jpg" alt="Debatt">
+    </a>
 
-    </div>
+    <button class="feed-more" id="feedMore" onclick="
+      document.getElementById('fp1').classList.remove('hidden');
+      document.getElementById('fp2').classList.remove('hidden');
+      this.style.display='none';
+    ">Visa fler →</button>
+
   </div>
 </section>
 
