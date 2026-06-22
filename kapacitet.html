@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kapacitet</title>
+<title>xW – Expected Workload</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
@@ -12,91 +12,104 @@
 html,body{background:#0e0e0e;min-height:100vh;font-family:'Inter Tight',sans-serif;font-weight:400;color:#FFFAF1}
 .app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
 
-/* TOPBAR */
-.topbar{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid #1e1e1e;position:sticky;top:0;background:#0e0e0e;z-index:10}
-.logo{font-size:15px;font-weight:500;display:flex;align-items:center;gap:7px;color:#FFFAF1}
-.logo-dot{width:7px;height:7px;border-radius:50%;background:#F4B3FF;flex-shrink:0}
-.nav{display:flex;background:#1a1a1a;border-radius:20px;padding:3px;gap:0}
-.nav-btn{padding:6px 16px;font-size:12px;border:none;background:transparent;color:#555;cursor:pointer;border-radius:16px;font-family:'Inter Tight',sans-serif;font-weight:400}
+.topbar{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid #2a2a2a;position:sticky;top:0;background:#0e0e0e;z-index:10}
+.logo{font-size:15px;font-weight:500;display:flex;align-items:center;gap:8px;color:#FFFAF1}
+.logo-badge{background:#F4B3FF;color:#000;font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;letter-spacing:0.3px}
+.nav{display:flex;background:#1a1a1a;border-radius:20px;padding:3px}
+.nav-btn{padding:6px 16px;font-size:12px;border:none;background:transparent;color:#777;cursor:pointer;border-radius:16px;font-family:'Inter Tight',sans-serif;font-weight:400}
 .nav-btn.active{background:#2a2a2a;color:#FFFAF1;font-weight:500}
 
-/* BODY */
 .body{padding:22px 20px;flex:1}
 .page-title{font-size:22px;font-weight:500;color:#FFFAF1;margin-bottom:3px}
-.page-sub{font-size:12px;color:#444;margin-bottom:22px}
+.page-sub{font-size:13px;color:#888;margin-bottom:22px}
 
-/* FORM */
+.info-card{background:#141414;border:0.5px solid #2a2a2a;border-radius:12px;padding:14px 16px;margin-bottom:20px}
+.info-card-title{font-size:11px;font-weight:500;color:#F4B3FF;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px}
+.info-card-text{font-size:13px;color:#aaa;line-height:1.6}
+.info-card-text strong{color:#FFFAF1;font-weight:500}
+
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.field label{font-size:10px;color:#555;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.7px;font-weight:400}
+.field label{font-size:11px;color:#aaa;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.7px;font-weight:400}
 .field input,.field select{
-  width:100%;background:#161616;border:0.5px solid #252525;
+  width:100%;background:#161616;border:0.5px solid #2a2a2a;
   border-radius:10px;padding:11px 13px;font-size:14px;color:#FFFAF1;
   outline:none;font-family:'Inter Tight',sans-serif;font-weight:400;
   -webkit-appearance:none;appearance:none
 }
-.field input::placeholder{color:#333}
+.field input::placeholder{color:#555}
 .field input:focus,.field select:focus{border-color:#F4B3FF}
-.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:32px}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:32px}
 .field select option{background:#161616;color:#FFFAF1}
 
-.divider{height:0.5px;background:#1e1e1e;margin:18px 0}
+.divider{height:0.5px;background:#2a2a2a;margin:18px 0}
+.section-label{font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:12px}
 
-/* WEEK BLOCKS */
-.week-block{margin-bottom:6px;background:#141414;border:0.5px solid #202020;border-radius:12px;padding:14px}
+.week-block{margin-bottom:6px;background:#141414;border:0.5px solid #2a2a2a;border-radius:12px;padding:14px}
 .week-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .week-lbl{font-size:14px;color:#FFFAF1;font-weight:500;min-width:32px}
-.bel-wrap{display:flex;align-items:center;gap:10px;flex:1}
-.bel-wrap input[type=range]{flex:1;accent-color:#F4B3FF;height:4px;cursor:pointer}
-.bel-val{font-size:14px;font-weight:500;color:#F4B3FF;min-width:18px;text-align:right}
-.status-toggle{display:flex;gap:5px;flex-wrap:nowrap}
-.st{
+.xw-wrap{display:flex;align-items:center;gap:10px;flex:1}
+.xw-label{font-size:11px;color:#aaa;white-space:nowrap}
+.xw-wrap input[type=range]{flex:1;accent-color:#F4B3FF;cursor:pointer}
+.xw-val{font-size:14px;font-weight:500;color:#F4B3FF;min-width:18px;text-align:right}
+
+.prob-label{font-size:11px;color:#aaa;margin-bottom:7px}
+.prob-toggle{display:flex;gap:4px}
+.pb{
   flex:1;padding:7px 4px;font-size:11px;border-radius:7px;
-  border:0.5px solid #252525;background:transparent;color:#444;
+  border:0.5px solid #2a2a2a;background:transparent;color:#aaa;
   cursor:pointer;font-family:'Inter Tight',sans-serif;font-weight:400;
-  text-align:center;white-space:nowrap
+  text-align:center;white-space:nowrap;line-height:1.3
 }
-.st.selected{background:#F4B3FF;border-color:#F4B3FF;color:#000;font-weight:500}
+.pb:hover{color:#FFFAF1;border-color:#666}
+.pb.selected{background:#F4B3FF;border-color:#F4B3FF;color:#000;font-weight:500}
+.pb-sub{font-size:9px;display:block;opacity:0.75;margin-top:1px}
 
-/* ADD BUTTON */
-.btn-add{
-  width:100%;background:#F4B3FF;border:none;border-radius:10px;
-  padding:14px;font-size:14px;font-weight:500;color:#000;
-  cursor:pointer;margin-top:16px;font-family:'Inter Tight',sans-serif
-}
+.xw-score-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:0.5px solid #2a2a2a}
+.xw-score-label{font-size:11px;color:#aaa}
+.xw-score-val{font-size:13px;font-weight:500;color:#F4B3FF}
 
-/* ENTRY CHIPS */
+.btn-add{width:100%;background:#F4B3FF;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:500;color:#000;cursor:pointer;margin-top:16px;font-family:'Inter Tight',sans-serif}
+.btn-add:hover{background:#e8a0f0}
+
 .entries-added{margin-top:14px;display:flex;flex-direction:column;gap:6px}
-.entry-chip{background:#141414;border:0.5px solid #202020;border-radius:10px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.entry-chip{background:#141414;border:0.5px solid #2a2a2a;border-radius:10px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .entry-left{font-size:13px;color:#FFFAF1}
-.entry-sub{font-size:11px;color:#444;margin-top:3px;line-height:1.4}
-.btn-del{background:none;border:none;color:#333;cursor:pointer;font-size:20px;padding:0 2px;line-height:1;font-family:'Inter Tight',sans-serif}
+.entry-sub{font-size:12px;color:#888;margin-top:3px;line-height:1.5}
+.btn-del{background:none;border:none;color:#555;cursor:pointer;font-size:20px;padding:0 2px;line-height:1}
+.btn-del:hover{color:#F4B3FF}
 
-/* HEATMAP */
 .heatmap-section{display:none}
+.hm-meta{font-size:12px;color:#aaa;margin-bottom:20px;line-height:1.6}
 .hm-person{margin-bottom:18px}
 .hm-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .hm-avatar{width:34px;height:34px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#FFFAF1;flex-shrink:0}
 .hm-name{font-size:14px;color:#FFFAF1;font-weight:500;flex:1}
-.hm-pl{font-size:10px;color:#444;background:#161616;border:0.5px solid #222;border-radius:4px;padding:3px 8px}
+.hm-pl{font-size:11px;color:#aaa;background:#161616;border:0.5px solid #2a2a2a;border-radius:4px;padding:3px 8px}
 .hm-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .hm-bar-wrap{display:flex;flex-direction:column;gap:4px}
-.hm-bar-lbl{font-size:10px;color:#444;text-align:center}
-.hm-bar-outer{height:64px;background:#161616;border-radius:6px;overflow:hidden;display:flex;align-items:flex-end}
-.hm-bar-inner{width:100%;border-radius:6px;transition:height 0.4s ease}
+.hm-bar-lbl{font-size:11px;color:#888;text-align:center}
+.hm-bar-outer{height:72px;background:#161616;border-radius:6px;overflow:hidden;display:flex;align-items:flex-end;position:relative}
+.hm-bar-inner{width:100%;border-radius:6px;transition:height 0.4s ease;position:relative;z-index:1}
+.hm-bar-ghost{position:absolute;bottom:0;width:100%;border-radius:6px;opacity:0.2}
 .hm-bar-val{font-size:11px;text-align:center;margin-top:3px;font-weight:500}
-.sep{height:0.5px;background:#1e1e1e;margin:16px 0}
-.empty{text-align:center;padding:40px 20px;color:#2a2a2a;font-size:13px}
+.hm-bar-raw{font-size:10px;text-align:center;color:#555;margin-top:1px}
+.sep{height:0.5px;background:#2a2a2a;margin:16px 0}
+.empty{text-align:center;padding:40px 20px;color:#444;font-size:13px}
 
-/* LEGEND */
-.legend{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:5px;font-size:10px;color:#444}
-.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.legend-block{margin-top:24px;background:#141414;border:0.5px solid #2a2a2a;border-radius:12px;padding:14px}
+.legend-title{font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px}
+.legend-row{display:flex;border-radius:6px;overflow:hidden;height:8px;margin-bottom:8px}
+.legend-seg{flex:1}
+.legend-labels{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:14px}
+.prob-legend{display:flex;flex-direction:column;gap:7px}
+.prob-leg-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#aaa}
+.prob-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="logo"><span class="logo-dot"></span>Kapacitet</div>
+    <div class="logo"><span class="logo-badge">xW</span> Expected Workload</div>
     <div class="nav">
       <button class="nav-btn active" id="nav-form" onclick="toggleView('form')">Estimera</button>
       <button class="nav-btn" id="nav-heat" onclick="toggleView('heatmap')">Heatmap</button>
@@ -104,9 +117,19 @@ html,body{background:#0e0e0e;min-height:100vh;font-family:'Inter Tight',sans-ser
   </div>
 
   <div class="body">
+
     <div id="form-section">
       <div class="page-title">Estimera</div>
       <div class="page-sub" id="page-sub">Fredag · v25</div>
+
+      <div class="info-card">
+        <div class="info-card-title">Hur fungerar det?</div>
+        <div class="info-card-text">
+          Sätt <strong>xW (1–5)</strong> för hur tungt ett projekt förväntas landa om det blir av.
+          Välj <strong>Sannolikhet</strong> för hur troligt det är att det faktiskt händer.
+          Tillsammans ger de en viktad prognos per person och vecka.
+        </div>
+      </div>
 
       <div class="form-grid">
         <div class="field">
@@ -127,18 +150,38 @@ html,body{background:#0e0e0e;min-height:100vh;font-family:'Inter Tight',sans-ser
       </div>
 
       <div class="divider"></div>
+      <div class="section-label">Estimat per vecka</div>
       <div id="week-blocks"></div>
-      <button class="btn-add" onclick="addEntry()">+ Lägg till</button>
+      <button class="btn-add" onclick="addEntry()">+ Lägg till estimat</button>
       <div class="entries-added" id="entries-list"></div>
     </div>
 
     <div class="heatmap-section" id="heatmap-section">
       <div class="page-title">Heatmap</div>
-      <div class="page-sub">Förväntad belastning · v25–28</div>
-      <div style="margin-top:20px" id="heatmap-container">
-        <div class="empty">Inga estimat inlagda än</div>
+      <div class="page-sub">xW · Sannolikhet · v25–28</div>
+      <div class="hm-meta">
+        Staplarna visar <strong style="color:#FFFAF1">viktad xW</strong> – sannolikhetsjusterad belastning.
+        Den svaga bakgrundsstapeln visar <strong style="color:#FFFAF1">full xW</strong> om projektet bekräftas.
+      </div>
+      <div id="heatmap-container"><div class="empty">Inga estimat inlagda än</div></div>
+      <div class="legend-block" id="legend-block" style="display:none">
+        <div class="legend-title">Belastningsskala</div>
+        <div class="legend-row">
+          <div class="legend-seg" style="background:#2a1a2e"></div>
+          <div class="legend-seg" style="background:#4a1f44"></div>
+          <div class="legend-seg" style="background:#7a2800"></div>
+          <div class="legend-seg" style="background:#c03000"></div>
+        </div>
+        <div class="legend-labels"><span>Låg</span><span>Medel</span><span>Hög</span><span>Kritisk</span></div>
+        <div class="prob-legend">
+          <div class="prob-leg-row"><span class="prob-leg-dot" style="background:#F4B3FF"></span>Bekräftat – 100% räknas in</div>
+          <div class="prob-leg-row"><span class="prob-leg-dot" style="background:#aaa"></span>Troligt – 60% räknas in</div>
+          <div class="prob-leg-row"><span class="prob-leg-dot" style="background:#666"></span>Osäkert – 30% räknas in</div>
+          <div class="prob-leg-row"><span class="prob-leg-dot" style="background:#333"></span>På vent – 10% räknas in</div>
+        </div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -146,17 +189,20 @@ html,body{background:#0e0e0e;min-height:100vh;font-family:'Inter Tight',sans-ser
 const WEEKS = [25, 26, 27, 28];
 const PERSONS = ['Anton', 'Amanda', 'Patrik', 'Sebastian', 'Peter Kaller'];
 const INITIALS = n => n.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-const SW = { confirm: 5, likely: 3, unclear: 2, vent: 1 };
-const SL = { confirm: 'Bekräftat', likely: 'Troligt', unclear: 'Osäkert', vent: 'På vent' };
+const PROB = { confirm: 1.0, likely: 0.6, unclear: 0.3, vent: 0.1 };
+const PROB_LABEL = { confirm: 'Bekräftat', likely: 'Troligt', unclear: 'Osäkert', vent: 'På vent' };
+
 let entries = [];
 let ws = {};
 WEEKS.forEach(w => { ws[w] = 'unclear'; });
 
-// Set current week in subtitle
 const now = new Date();
-const startOfYear = new Date(now.getFullYear(), 0, 1);
-const weekNum = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
-document.getElementById('page-sub').textContent = `Fredag · v${weekNum}`;
+const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+const dayNum = d.getUTCDay() || 7;
+d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+document.getElementById('page-sub').textContent = `Fredag · v${weekNo}`;
 
 function toggleView(v) {
   document.getElementById('form-section').style.display = v === 'form' ? 'block' : 'none';
@@ -166,12 +212,21 @@ function toggleView(v) {
   if (v === 'heatmap') renderHeatmap();
 }
 
-function setStatus(w, s) {
+function setProb(w, s) {
   ws[w] = s;
   ['confirm', 'likely', 'unclear', 'vent'].forEach(k => {
-    const el = document.getElementById('st-' + w + '-' + k);
-    if (el) { el.className = 'st'; if (k === s) el.classList.add('selected'); }
+    const el = document.getElementById('pb-' + w + '-' + k);
+    if (el) { el.className = 'pb'; if (k === s) el.classList.add('selected'); }
   });
+  updateScore(w);
+}
+
+function updateScore(w) {
+  const xw = parseInt(document.getElementById('sl-' + w).value) || 0;
+  const prob = PROB[ws[w]];
+  const score = Math.round(xw * prob * 10) / 10;
+  const el = document.getElementById('score-' + w);
+  if (el) el.textContent = 'xW ' + xw + ' × ' + Math.round(prob * 100) + '% = ' + score;
 }
 
 function buildWeekBlocks() {
@@ -180,17 +235,23 @@ function buildWeekBlocks() {
     <div class="week-block">
       <div class="week-top">
         <div class="week-lbl">v${w}</div>
-        <div class="bel-wrap">
+        <div class="xw-wrap">
+          <span class="xw-label">xW</span>
           <input type="range" min="0" max="5" step="1" value="0" id="sl-${w}"
-            oninput="document.getElementById('sv-${w}').textContent=this.value">
-          <span class="bel-val" id="sv-${w}">0</span>
+            oninput="document.getElementById('xv-${w}').textContent=this.value;updateScore(${w})">
+          <span class="xw-val" id="xv-${w}">0</span>
         </div>
       </div>
-      <div class="status-toggle">
-        <button class="st" id="st-${w}-confirm" onclick="setStatus(${w},'confirm')">Bekräftat</button>
-        <button class="st" id="st-${w}-likely" onclick="setStatus(${w},'likely')">Troligt</button>
-        <button class="st selected" id="st-${w}-unclear" onclick="setStatus(${w},'unclear')">Osäkert</button>
-        <button class="st" id="st-${w}-vent" onclick="setStatus(${w},'vent')">På vent</button>
+      <div class="prob-label">Sannolikhet</div>
+      <div class="prob-toggle">
+        <button class="pb" id="pb-${w}-confirm" onclick="setProb(${w},'confirm')">Bekräftat<span class="pb-sub">100%</span></button>
+        <button class="pb" id="pb-${w}-likely" onclick="setProb(${w},'likely')">Troligt<span class="pb-sub">60%</span></button>
+        <button class="pb selected" id="pb-${w}-unclear" onclick="setProb(${w},'unclear')">Osäkert<span class="pb-sub">30%</span></button>
+        <button class="pb" id="pb-${w}-vent" onclick="setProb(${w},'vent')">På vent<span class="pb-sub">10%</span></button>
+      </div>
+      <div class="xw-score-row">
+        <span class="xw-score-label">Förväntad belastning</span>
+        <span class="xw-score-val" id="score-${w}">xW 0 × 30% = 0</span>
       </div>
     </div>`).join('');
 }
@@ -201,7 +262,8 @@ function addEntry() {
   if (!person) return;
   const weeks = {};
   WEEKS.forEach(w => {
-    weeks[w] = { b: parseInt(document.getElementById('sl-' + w).value) || 0, status: ws[w] };
+    const xw = parseInt(document.getElementById('sl-' + w).value) || 0;
+    weeks[w] = { xw, prob: ws[w] };
   });
   entries.push({ pl, person, weeks });
   renderEntries();
@@ -216,33 +278,48 @@ function renderEntries() {
     <div class="entry-chip">
       <div>
         <div class="entry-left"><span style="color:#F4B3FF">${e.person}</span>${e.pl ? ' · ' + e.pl : ''}</div>
-        <div class="entry-sub">${WEEKS.filter(w => e.weeks[w].b > 0).map(w => 'v' + w + ' ' + SL[e.weeks[w].status]).join(' · ') || 'inga veckor estimerade'}</div>
+        <div class="entry-sub">${WEEKS.filter(w => e.weeks[w].xw > 0)
+          .map(w => 'v' + w + ' xW' + e.weeks[w].xw + ' · ' + PROB_LABEL[e.weeks[w].prob])
+          .join(' &nbsp;·&nbsp; ') || 'inga veckor estimerade'}</div>
       </div>
       <button class="btn-del" onclick="deleteEntry(${i})">×</button>
     </div>`).join('');
 }
 
 function heatBg(pct) {
-  if (pct === 0)   return { bg: '#161616', tc: '#333' };
-  if (pct < 0.2)   return { bg: '#2a1a2e', tc: '#F4B3FF' };
-  if (pct < 0.45)  return { bg: '#4a1f44', tc: '#F4B3FF' };
-  if (pct < 0.7)   return { bg: '#7a2800', tc: '#ffb080' };
-  return                  { bg: '#c03000', tc: '#fff' };
+  if (pct === 0)  return { bg: '#161616', tc: '#555' };
+  if (pct < 0.2)  return { bg: '#2a1a2e', tc: '#F4B3FF' };
+  if (pct < 0.45) return { bg: '#4a1f44', tc: '#F4B3FF' };
+  if (pct < 0.7)  return { bg: '#7a2800', tc: '#ffb080' };
+  return                 { bg: '#c03000', tc: '#fff' };
 }
 
 function renderHeatmap() {
   const c = document.getElementById('heatmap-container');
-  const scores = {}; const pls = {};
-  PERSONS.forEach(p => { scores[p] = {}; pls[p] = new Set(); WEEKS.forEach(w => { scores[p][w] = 0; }); });
+  const weighted = {}; const raw = {}; const pls = {};
+  PERSONS.forEach(p => {
+    weighted[p] = {}; raw[p] = {}; pls[p] = new Set();
+    WEEKS.forEach(w => { weighted[p][w] = 0; raw[p][w] = 0; });
+  });
   entries.forEach(e => {
-    if (scores[e.person]) {
-      WEEKS.forEach(w => { scores[e.person][w] += e.weeks[w].b * SW[e.weeks[w].status] / 5; });
+    if (weighted[e.person]) {
+      WEEKS.forEach(w => {
+        weighted[e.person][w] += e.weeks[w].xw * PROB[e.weeks[w].prob];
+        raw[e.person][w] += e.weeks[w].xw;
+      });
       if (e.pl) pls[e.person].add(e.pl);
     }
   });
-  const active = PERSONS.filter(p => Object.values(scores[p]).some(v => v > 0));
-  if (!active.length) { c.innerHTML = '<div class="empty">Inga estimat inlagda än</div>'; return; }
-  const maxScore = Math.max(...active.flatMap(p => WEEKS.map(w => scores[p][w])), 1);
+  const active = PERSONS.filter(p => Object.values(weighted[p]).some(v => v > 0));
+  if (!active.length) {
+    c.innerHTML = '<div class="empty">Inga estimat inlagda än</div>';
+    document.getElementById('legend-block').style.display = 'none';
+    return;
+  }
+  document.getElementById('legend-block').style.display = 'block';
+  const maxW = Math.max(...active.flatMap(p => WEEKS.map(w => weighted[p][w])), 1);
+  const maxR = Math.max(...active.flatMap(p => WEEKS.map(w => raw[p][w])), 1);
+
   c.innerHTML = active.map((p, pi) => `
     ${pi > 0 ? '<div class="sep"></div>' : ''}
     <div class="hm-person">
@@ -253,25 +330,25 @@ function renderHeatmap() {
       </div>
       <div class="hm-bars">
         ${WEEKS.map(w => {
-          const s = Math.round(scores[p][w] * 10) / 10;
-          const pct = s / maxScore;
-          const barH = s > 0 ? Math.max(Math.round(pct * 100), 8) : 0;
-          const { bg, tc } = heatBg(pct);
+          const ws2 = Math.round(weighted[p][w] * 10) / 10;
+          const rs = Math.round(raw[p][w] * 10) / 10;
+          const wPct = ws2 / maxW;
+          const rPct = rs / maxR;
+          const barH = ws2 > 0 ? Math.max(Math.round(wPct * 100), 8) : 0;
+          const ghostH = rs > 0 ? Math.max(Math.round(rPct * 100), 8) : 0;
+          const { bg, tc } = heatBg(wPct);
           return `<div class="hm-bar-wrap">
             <div class="hm-bar-lbl">v${w}</div>
-            <div class="hm-bar-outer"><div class="hm-bar-inner" style="height:${barH}%;background:${bg}"></div></div>
-            <div class="hm-bar-val" style="color:${tc}">${s > 0 ? s : ''}</div>
+            <div class="hm-bar-outer">
+              ${rs > 0 ? `<div class="hm-bar-ghost" style="height:${ghostH}%;background:${bg}"></div>` : ''}
+              <div class="hm-bar-inner" style="height:${barH}%;background:${bg}"></div>
+            </div>
+            <div class="hm-bar-val" style="color:${tc}">${ws2 > 0 ? ws2 : ''}</div>
+            ${rs > ws2 ? `<div class="hm-bar-raw">max ${rs}</div>` : ''}
           </div>`;
         }).join('')}
       </div>
     </div>`).join('');
-  c.innerHTML += `
-    <div class="legend">
-      <span class="leg"><span class="leg-dot" style="background:#2a1a2e"></span>Låg</span>
-      <span class="leg"><span class="leg-dot" style="background:#4a1f44"></span>Medel</span>
-      <span class="leg"><span class="leg-dot" style="background:#7a2800"></span>Hög</span>
-      <span class="leg"><span class="leg-dot" style="background:#c03000"></span>Kritisk</span>
-    </div>`;
 }
 
 buildWeekBlocks();
