@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kapacitet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:#0e0e0e;min-height:100vh;font-family:'Inter Tight',sans-serif;font-weight:400;color:#FFFAF1}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+/* TOPBAR */
+.topbar{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid #1e1e1e;position:sticky;top:0;background:#0e0e0e;z-index:10}
+.logo{font-size:15px;font-weight:500;display:flex;align-items:center;gap:7px;color:#FFFAF1}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:#F4B3FF;flex-shrink:0}
+.nav{display:flex;background:#1a1a1a;border-radius:20px;padding:3px;gap:0}
+.nav-btn{padding:6px 16px;font-size:12px;border:none;background:transparent;color:#555;cursor:pointer;border-radius:16px;font-family:'Inter Tight',sans-serif;font-weight:400}
+.nav-btn.active{background:#2a2a2a;color:#FFFAF1;font-weight:500}
+
+/* BODY */
+.body{padding:22px 20px;flex:1}
+.page-title{font-size:22px;font-weight:500;color:#FFFAF1;margin-bottom:3px}
+.page-sub{font-size:12px;color:#444;margin-bottom:22px}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.field label{font-size:10px;color:#555;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.7px;font-weight:400}
+.field input,.field select{
+  width:100%;background:#161616;border:0.5px solid #252525;
+  border-radius:10px;padding:11px 13px;font-size:14px;color:#FFFAF1;
+  outline:none;font-family:'Inter Tight',sans-serif;font-weight:400;
+  -webkit-appearance:none;appearance:none
+}
+.field input::placeholder{color:#333}
+.field input:focus,.field select:focus{border-color:#F4B3FF}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:32px}
+.field select option{background:#161616;color:#FFFAF1}
+
+.divider{height:0.5px;background:#1e1e1e;margin:18px 0}
+
+/* WEEK BLOCKS */
+.week-block{margin-bottom:6px;background:#141414;border:0.5px solid #202020;border-radius:12px;padding:14px}
+.week-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.week-lbl{font-size:14px;color:#FFFAF1;font-weight:500;min-width:32px}
+.bel-wrap{display:flex;align-items:center;gap:10px;flex:1}
+.bel-wrap input[type=range]{flex:1;accent-color:#F4B3FF;height:4px;cursor:pointer}
+.bel-val{font-size:14px;font-weight:500;color:#F4B3FF;min-width:18px;text-align:right}
+.status-toggle{display:flex;gap:5px;flex-wrap:nowrap}
+.st{
+  flex:1;padding:7px 4px;font-size:11px;border-radius:7px;
+  border:0.5px solid #252525;background:transparent;color:#444;
+  cursor:pointer;font-family:'Inter Tight',sans-serif;font-weight:400;
+  text-align:center;white-space:nowrap
+}
+.st.selected{background:#F4B3FF;border-color:#F4B3FF;color:#000;font-weight:500}
+
+/* ADD BUTTON */
+.btn-add{
+  width:100%;background:#F4B3FF;border:none;border-radius:10px;
+  padding:14px;font-size:14px;font-weight:500;color:#000;
+  cursor:pointer;margin-top:16px;font-family:'Inter Tight',sans-serif
+}
+
+/* ENTRY CHIPS */
+.entries-added{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.entry-chip{background:#141414;border:0.5px solid #202020;border-radius:10px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.entry-left{font-size:13px;color:#FFFAF1}
+.entry-sub{font-size:11px;color:#444;margin-top:3px;line-height:1.4}
+.btn-del{background:none;border:none;color:#333;cursor:pointer;font-size:20px;padding:0 2px;line-height:1;font-family:'Inter Tight',sans-serif}
+
+/* HEATMAP */
+.heatmap-section{display:none}
+.hm-person{margin-bottom:18px}
+.hm-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.hm-avatar{width:34px;height:34px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#FFFAF1;flex-shrink:0}
+.hm-name{font-size:14px;color:#FFFAF1;font-weight:500;flex:1}
+.hm-pl{font-size:10px;color:#444;background:#161616;border:0.5px solid #222;border-radius:4px;padding:3px 8px}
+.hm-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.hm-bar-wrap{display:flex;flex-direction:column;gap:4px}
+.hm-bar-lbl{font-size:10px;color:#444;text-align:center}
+.hm-bar-outer{height:64px;background:#161616;border-radius:6px;overflow:hidden;display:flex;align-items:flex-end}
+.hm-bar-inner{width:100%;border-radius:6px;transition:height 0.4s ease}
+.hm-bar-val{font-size:11px;text-align:center;margin-top:3px;font-weight:500}
+.sep{height:0.5px;background:#1e1e1e;margin:16px 0}
+.empty{text-align:center;padding:40px 20px;color:#2a2a2a;font-size:13px}
+
+/* LEGEND */
+.legend{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:10px;color:#444}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="logo"><span class="logo-dot"></span>Kapacitet</div>
+    <div class="nav">
+      <button class="nav-btn active" id="nav-form" onclick="toggleView('form')">Estimera</button>
+      <button class="nav-btn" id="nav-heat" onclick="toggleView('heatmap')">Heatmap</button>
+    </div>
+  </div>
+
+  <div class="body">
+    <div id="form-section">
+      <div class="page-title">Estimera</div>
+      <div class="page-sub" id="page-sub">Fredag · v25</div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Ditt namn (PL)</label>
+          <input id="f-pl" type="text" placeholder="ex. Johan" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>Person</label>
+          <select id="f-person">
+            <option value="">Välj...</option>
+            <option>Anton</option>
+            <option>Amanda</option>
+            <option>Patrik</option>
+            <option>Sebastian</option>
+            <option>Peter Kaller</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div id="week-blocks"></div>
+      <button class="btn-add" onclick="addEntry()">+ Lägg till</button>
+      <div class="entries-added" id="entries-list"></div>
+    </div>
+
+    <div class="heatmap-section" id="heatmap-section">
+      <div class="page-title">Heatmap</div>
+      <div class="page-sub">Förväntad belastning · v25–28</div>
+      <div style="margin-top:20px" id="heatmap-container">
+        <div class="empty">Inga estimat inlagda än</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const WEEKS = [25, 26, 27, 28];
+const PERSONS = ['Anton', 'Amanda', 'Patrik', 'Sebastian', 'Peter Kaller'];
+const INITIALS = n => n.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+const SW = { confirm: 5, likely: 3, unclear: 2, vent: 1 };
+const SL = { confirm: 'Bekräftat', likely: 'Troligt', unclear: 'Osäkert', vent: 'På vent' };
+let entries = [];
+let ws = {};
+WEEKS.forEach(w => { ws[w] = 'unclear'; });
+
+// Set current week in subtitle
+const now = new Date();
+const startOfYear = new Date(now.getFullYear(), 0, 1);
+const weekNum = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+document.getElementById('page-sub').textContent = `Fredag · v${weekNum}`;
+
+function toggleView(v) {
+  document.getElementById('form-section').style.display = v === 'form' ? 'block' : 'none';
+  document.getElementById('heatmap-section').style.display = v === 'heatmap' ? 'block' : 'none';
+  document.getElementById('nav-form').classList.toggle('active', v === 'form');
+  document.getElementById('nav-heat').classList.toggle('active', v === 'heatmap');
+  if (v === 'heatmap') renderHeatmap();
+}
+
+function setStatus(w, s) {
+  ws[w] = s;
+  ['confirm', 'likely', 'unclear', 'vent'].forEach(k => {
+    const el = document.getElementById('st-' + w + '-' + k);
+    if (el) { el.className = 'st'; if (k === s) el.classList.add('selected'); }
+  });
+}
+
+function buildWeekBlocks() {
+  WEEKS.forEach(w => { ws[w] = 'unclear'; });
+  document.getElementById('week-blocks').innerHTML = WEEKS.map(w => `
+    <div class="week-block">
+      <div class="week-top">
+        <div class="week-lbl">v${w}</div>
+        <div class="bel-wrap">
+          <input type="range" min="0" max="5" step="1" value="0" id="sl-${w}"
+            oninput="document.getElementById('sv-${w}').textContent=this.value">
+          <span class="bel-val" id="sv-${w}">0</span>
+        </div>
+      </div>
+      <div class="status-toggle">
+        <button class="st" id="st-${w}-confirm" onclick="setStatus(${w},'confirm')">Bekräftat</button>
+        <button class="st" id="st-${w}-likely" onclick="setStatus(${w},'likely')">Troligt</button>
+        <button class="st selected" id="st-${w}-unclear" onclick="setStatus(${w},'unclear')">Osäkert</button>
+        <button class="st" id="st-${w}-vent" onclick="setStatus(${w},'vent')">På vent</button>
+      </div>
+    </div>`).join('');
+}
+
+function addEntry() {
+  const pl = document.getElementById('f-pl').value.trim();
+  const person = document.getElementById('f-person').value;
+  if (!person) return;
+  const weeks = {};
+  WEEKS.forEach(w => {
+    weeks[w] = { b: parseInt(document.getElementById('sl-' + w).value) || 0, status: ws[w] };
+  });
+  entries.push({ pl, person, weeks });
+  renderEntries();
+  document.getElementById('f-person').value = '';
+  buildWeekBlocks();
+}
+
+function deleteEntry(i) { entries.splice(i, 1); renderEntries(); }
+
+function renderEntries() {
+  document.getElementById('entries-list').innerHTML = entries.map((e, i) => `
+    <div class="entry-chip">
+      <div>
+        <div class="entry-left"><span style="color:#F4B3FF">${e.person}</span>${e.pl ? ' · ' + e.pl : ''}</div>
+        <div class="entry-sub">${WEEKS.filter(w => e.weeks[w].b > 0).map(w => 'v' + w + ' ' + SL[e.weeks[w].status]).join(' · ') || 'inga veckor estimerade'}</div>
+      </div>
+      <button class="btn-del" onclick="deleteEntry(${i})">×</button>
+    </div>`).join('');
+}
+
+function heatBg(pct) {
+  if (pct === 0)   return { bg: '#161616', tc: '#333' };
+  if (pct < 0.2)   return { bg: '#2a1a2e', tc: '#F4B3FF' };
+  if (pct < 0.45)  return { bg: '#4a1f44', tc: '#F4B3FF' };
+  if (pct < 0.7)   return { bg: '#7a2800', tc: '#ffb080' };
+  return                  { bg: '#c03000', tc: '#fff' };
+}
+
+function renderHeatmap() {
+  const c = document.getElementById('heatmap-container');
+  const scores = {}; const pls = {};
+  PERSONS.forEach(p => { scores[p] = {}; pls[p] = new Set(); WEEKS.forEach(w => { scores[p][w] = 0; }); });
+  entries.forEach(e => {
+    if (scores[e.person]) {
+      WEEKS.forEach(w => { scores[e.person][w] += e.weeks[w].b * SW[e.weeks[w].status] / 5; });
+      if (e.pl) pls[e.person].add(e.pl);
+    }
+  });
+  const active = PERSONS.filter(p => Object.values(scores[p]).some(v => v > 0));
+  if (!active.length) { c.innerHTML = '<div class="empty">Inga estimat inlagda än</div>'; return; }
+  const maxScore = Math.max(...active.flatMap(p => WEEKS.map(w => scores[p][w])), 1);
+  c.innerHTML = active.map((p, pi) => `
+    ${pi > 0 ? '<div class="sep"></div>' : ''}
+    <div class="hm-person">
+      <div class="hm-header">
+        <div class="hm-avatar">${INITIALS(p)}</div>
+        <div class="hm-name">${p}</div>
+        ${[...pls[p]].length ? `<div class="hm-pl">${[...pls[p]].join(', ')}</div>` : ''}
+      </div>
+      <div class="hm-bars">
+        ${WEEKS.map(w => {
+          const s = Math.round(scores[p][w] * 10) / 10;
+          const pct = s / maxScore;
+          const barH = s > 0 ? Math.max(Math.round(pct * 100), 8) : 0;
+          const { bg, tc } = heatBg(pct);
+          return `<div class="hm-bar-wrap">
+            <div class="hm-bar-lbl">v${w}</div>
+            <div class="hm-bar-outer"><div class="hm-bar-inner" style="height:${barH}%;background:${bg}"></div></div>
+            <div class="hm-bar-val" style="color:${tc}">${s > 0 ? s : ''}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+  c.innerHTML += `
+    <div class="legend">
+      <span class="leg"><span class="leg-dot" style="background:#2a1a2e"></span>Låg</span>
+      <span class="leg"><span class="leg-dot" style="background:#4a1f44"></span>Medel</span>
+      <span class="leg"><span class="leg-dot" style="background:#7a2800"></span>Hög</span>
+      <span class="leg"><span class="leg-dot" style="background:#c03000"></span>Kritisk</span>
+    </div>`;
+}
+
+buildWeekBlocks();
+</script>
+</body>
+</html>
